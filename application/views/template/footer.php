@@ -23,6 +23,10 @@
     <!-- End custom js for this page -->
 
     <script type="text/javascript">
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        } );
+
         $(document).ready(function() {
             $('#example').DataTable( {
                 serverSide: true,
@@ -51,5 +55,7 @@
             } );
         } );
     </script>
+
+
   </body>
 </html>
