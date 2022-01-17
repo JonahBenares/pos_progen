@@ -50,6 +50,32 @@
 /*-------------------------------------------------------------------*/
 /* === SCSS Compass Functions === */
 
+::-webkit-scrollbar {
+      width: 7px;
+  }
+  ::-moz-scrollbar {
+      width: 7px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+      background: #fff0; 
+  }
+  ::-moz-scrollbar-track {
+      background: #fff0; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+      border-radius: 50px 50px 50px 50px;
+      background: #888;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+      background: #198ae3; 
+  }
+
 @-webkit-keyframes flash {
   0% {
     opacity: 1; }
@@ -5666,6 +5692,7 @@ input[type="button"].btn-block {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  box-shadow: 0px 0px 9px 4px #dcd9f382;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
@@ -12906,6 +12933,7 @@ dl {
     -ms-transition: width 0.25s ease;
     color: #9c9fa6;
     padding-left: 24px;
+    box-shadow: 11px 0px 9px 4px #dcd9f382;
     padding-right: 24px;
     width: calc(100% - 260px);
     height: 70px; }
@@ -13242,6 +13270,7 @@ dl {
   padding: 0;
   width: 260px;
   z-index: 11;
+  box-shadow: 1px 2px 9px 4px #dcd9f382;
   transition: width 0.25s ease, background 0.25s ease;
   -webkit-transition: width 0.25s ease, background 0.25s ease;
   -moz-transition: width 0.25s ease, background 0.25s ease;
