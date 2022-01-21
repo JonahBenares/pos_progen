@@ -6,6 +6,16 @@
                   <i class="mdi mdi-home"></i>
                 </span> Item List
             </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <!-- <li class="breadcrumb-item active" aria-current="page">
+                        <span></span>Items &nbsp;
+                        <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                    </li> -->
+                    <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>items/item_list">Items</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Add New Item</li>
+                </ol>
+            </nav>
             <!-- <nav aria-label="breadcrumb">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item" aria-current="page">

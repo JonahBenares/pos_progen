@@ -7,29 +7,31 @@
                 </span> Item List
             </h3>
             <nav aria-label="breadcrumb">
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">
-                        <a href="<?php echo base_url(); ?>items/add_item" type="button" class="btn btn-gradient-primary btn-sm">
-                            <b><span class="mdi mdi-plus"></span> Add</b>
-                        </a>
-                    </li>
+                <ol class="breadcrumb">
                     <li class="breadcrumb-item active" aria-current="page">
-                        <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterBuyer">
-                            <b><span class="mdi mdi-filter"></span> Filter</b>
-                        </button>
+                        <span></span>Items &nbsp;
+                        <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        <button type="button" class="btn btn-gradient-warning btn-sm" data-toggle="modal" data-target="#updateBuyer">
-                            <b><span class="mdi mdi-export"></span> Export</b>
-                        </button>
-                    </li>
-                </ul>
+                    <!--  <li class="breadcrumb-item"><a href="#">Editors</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Buyer List</li> -->
+                </ol>
             </nav>
         </div>
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        <div class="main-button-center">
+                            <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterBuyer">
+                                <b><span class="mdi mdi-filter"></span> Filter</b>
+                            </button>
+                            <a href="<?php echo base_url(); ?>items/add_item" type="button" class="btn btn-gradient-primary btn-md">
+                                <b><span class="mdi mdi-plus"></span> Add</b>
+                            </a>
+                            <button type="button" class="btn btn-gradient-warning btn-sm" data-toggle="modal" data-target="#updateBuyer">
+                                <b><span class="mdi mdi-export"></span> Export</b>
+                            </button>
+                        </div>
                         <table class="table table-bordered table-hover" id="myTable">
                             <thead>
                                 <tr>
@@ -53,10 +55,10 @@
                                     <td>Rack 1</td>
                                     <td>P 4414</td>
                                     <td>
-                                        <a href="" class="btn btn-xs btn-gradient-info" data-toggle="modal" data-target="#updateEmployee"><span class="mdi mdi-pencil"></span></a>
+                                        <a href="<?php echo base_url(); ?>items/update_item" class="btn btn-xs btn-gradient-info" ><span class="mdi mdi-pencil"></span></a>
                                         <a href="" class="btn btn-xs btn-gradient-danger" data-toggle="modal" data-target="#deleteEmployee"><span class="mdi mdi-delete"></span></a>
                                     </td>
-                                </tr>
+                                </tr> 
                             </tbody>                        
                         </table>
                     </div>

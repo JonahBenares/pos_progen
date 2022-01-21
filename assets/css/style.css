@@ -5917,7 +5917,7 @@ input[type="button"].btn-block {
       display: inline-block;
       padding-right: 0.5rem;
       color: #6c757d;
-      /*content: "/";*/ }
+      content: "/"; }
   .breadcrumb-item + .breadcrumb-item:hover::before {
     text-decoration: underline; }
   .breadcrumb-item + .breadcrumb-item:hover::before {
@@ -11870,6 +11870,15 @@ code {
     color: #ffffff; }
     .btn-gradient-dark:not(.btn-gradient-light):hover, .btn-gradient-dark:not(.btn-gradient-light):focus, .btn-gradient-dark:not(.btn-gradient-light):active {
       color: #ffffff; }
+
+.main-button{
+  margin-bottom: 30px;
+  float: right;
+}
+.main-button-center{
+  margin-bottom: 30px;
+  text-align: center;
+}
 
 /* Breadcrumbs */
 .breadcrumb {

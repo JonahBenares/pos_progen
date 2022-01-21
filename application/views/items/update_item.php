@@ -6,6 +6,16 @@
                   <i class="mdi mdi-home"></i>
                 </span> Item List
             </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <!-- <li class="breadcrumb-item active" aria-current="page">
+                        <span></span>Items &nbsp;
+                        <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                    </li> -->
+                    <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>items/item_list">Items</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Update Item</li>
+                </ol>
+            </nav>
             <!-- <nav aria-label="breadcrumb">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item" aria-current="page">
@@ -30,9 +40,9 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Add New Item</h4>
+                        <h4 class="card-title">Update Item</h4>
                         <form class="form-sample">
-                            <p class="card-description"> Fill in the following fields </p>
+                            <p class="card-description"> Update the following fields </p>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group row">
@@ -178,7 +188,7 @@
                                         <div class="col-sm-9">
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                  <span class="input-group-text bg-gradient-primary text-white">₱</span>
+                                                  <span class="input-group-text bg-gradient-info text-white">₱</span>
                                                 </div>
                                                 <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                                                 <div class="input-group-append">
@@ -195,7 +205,7 @@
                                 <div class="col-lg-4">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                          <span class="input-group-text bg-gradient-primary text-white"><i class="mdi mdi-image"></i></span>
+                                          <span class="input-group-text bg-gradient-info text-white"><i class="mdi mdi-image"></i></span>
                                         </div>
                                         <input class="form-control" type="file" name="pic3" id="img3">
                                     </div>
@@ -206,7 +216,7 @@
                                 <div class="col-lg-4">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                          <span class="input-group-text bg-gradient-primary text-white"><i class="mdi mdi-image"></i></span>
+                                          <span class="input-group-text bg-gradient-info text-white"><i class="mdi mdi-image"></i></span>
                                         </div>
                                         <input class="form-control" type="file" name="pic3" id="img3">
                                     </div>
@@ -217,7 +227,7 @@
                                 <div class="col-lg-4">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                          <span class="input-group-text bg-gradient-primary text-white"><i class="mdi mdi-image"></i></span>
+                                          <span class="input-group-text bg-gradient-info text-white"><i class="mdi mdi-image"></i></span>
                                         </div>
                                         <input class="form-control" type="file" name="pic3" id="img3">
                                     </div>
@@ -230,7 +240,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <center>
-                                        <input style="width:100%" type="button" class="btn btn-gradient-primary pull right" value="Save Item">
+                                        <input style="width:100%" type="button" class="btn btn-gradient-info pull right" value="Save Item">
                                     </center>
                                 </div>
                             </div>
