@@ -4408,6 +4408,12 @@ fieldset:disabled a.btn {
   line-height: 1.5;
   border-radius: 0.1875rem; }
 
+/*.btn-xs, .btn-group-xs > .btn {
+  padding: 0.4rem 0.5rem;
+  line-height: 1.5;
+  border-radius: 0.1875rem; }*/
+
+
 .btn-block {
   display: block;
   width: 100%; }
@@ -11212,8 +11218,7 @@ code {
   .btn.btn-lg, .btn-group-lg > .btn {
     font-size: 0.875rem; }
   .btn.btn-xs {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.625rem; }
+    padding: 0.4rem 0.5rem;}
   .btn.btn-icon {
     width: 42px;
     height: 42px;
@@ -12774,6 +12779,9 @@ dl {
 /* Tables */
 .table {
   margin-bottom: 0; }
+  .table thead{
+    background: #ede5ff73;
+  }
   .table thead th {
     border-top: 0;
     border-bottom-width: 1px;
@@ -13631,4 +13639,9 @@ dl {
 .primary-modalhead{
     background-color: #b66dff;
     color: aliceblue;
+}
+
+.addImage{
+  width: 100%;
+  box-shadow: 0px 0px 10px 1px #ebebeb;
 }
