@@ -171,17 +171,42 @@
                     </a>
                     <div class="collapse" id="ui-basic">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/buyer_list">Buyer</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/department_list">Department</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/employee_list">Employees</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/group_list">Group</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/location_list">Location</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/enduse_list">Enduse</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/purpose_list">Purpose</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/rack_list">Rack</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/supplier_list">Supplier</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/uom_list">UOM</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/warehouse_list">Warehouse</a></li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/buyer_list">Buyer</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/department_list">Department</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/employee_list">Employees</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/group_list">Group</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/item_category_list">Item Category</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/location_list">Location</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/enduse_list">Enduse</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/purpose_list">Purpose</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/rack_list">Rack</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/supplier_list">Supplier</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/uom_list">UOM</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/warehouse_list">Warehouse</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -192,9 +217,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="pages/charts/chartjs.html">
-                        <span class="menu-title">Charts</span>
-                        <i class="mdi mdi-chart-bar menu-icon"></i>
+                    <a class="nav-link" href="<?php echo base_url(); ?>receive/receive_list">
+                        <span class="menu-title">Receive</span>
+                        <i class="mdi mdi mdi-import menu-icon"></i>
                     </a>
                 </li>
                 <li class="nav-item">

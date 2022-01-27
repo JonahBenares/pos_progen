@@ -73,6 +73,14 @@ class Masterfile extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function item_category_list()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('masterfile/item_category_list');
+        $this->load->view('template/footer');
+    }
+
     public function location_list()
     {
         $this->load->view('template/header');
