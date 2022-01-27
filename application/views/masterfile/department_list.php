@@ -1,3 +1,4 @@
+<script src="<?php echo base_url(); ?>assets/js/masterfile.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -18,14 +19,25 @@
                             <b><span class="mdi mdi-filter"></span> Filter</b>
                         </button>
                     </li>
+                    <?php if(!empty($filt)){ ?>
                     <li class="breadcrumb-item active" aria-current="page">
-                        <button type="button" class="btn btn-gradient-warning btn-sm">
+                        <a type="button" class="btn btn-gradient-warning btn-sm" href="<?php echo base_url(); ?>index.php/Masterfile/export_department_list/<?php echo $department_name;?>" >
                             <b><span class="mdi mdi-export"></span> Export</b>
-                        </button>
+                        </a>
                     </li>
+                    <?php } else { ?>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <a type="button" class="btn btn-gradient-warning btn-sm" href="<?php echo base_url(); ?>index.php/masterfile/export_department_list">
+                            <b><span class="mdi mdi-export"></span> Export</b>
+                        </a>
+                    </li> 
+                    <?php } ?>
                 </ul>
             </nav>
         </div>
+         <?php if(!empty($filt)){ ?>     
+        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href='<?php echo base_url(); ?>index.php/masterfile/department_list/' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>
+        <?php } ?> 
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
@@ -38,11 +50,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <td></td>
-                                <td>
-                                    <a href="" class="btn btn-sm btn-gradient-info" data-toggle="modal" data-target="#updateDepartment"><span class="mdi mdi-pencil"></span></a>
-                                    <a href="" class="btn btn-sm btn-gradient-danger" data-toggle="modal" data-target="#deleteDepartment"><span class="mdi mdi-delete"></span></a>
-                                </td>
+                                <?php 
+                                if(!empty($department)){
+                                foreach($department AS $dept){ ?>
+                                    <tr>
+                                        <td><?php echo $dept->department_name;?></td>
+                                        <td width="1%">
+                                         <center>
+                                             <a onclick="updateDepartment('<?php echo base_url(); ?>','<?php echo $dept->department_id; ?>')" class="btn btn-custon-three btn-info btn-xs"><span class="fa fa-pencil"></span></a>
+                                             <a href = "<?php echo base_url(); ?>index.php/masterfile/delete_department/<?php echo $dept->department_id;?>" onclick="confirmationDelete(this);return false;" class = "btn btn-danger btn-sm" title="DELETE"><span class="fa fa-trash"></span></a>
+                                         </center>
+                                        </td>
+                                    </tr>
+                                    <?php } } else { ?>
+                                <tr>
+                                    <td align="center" colspan='9'><center>No Data Available.</center></td>
+                                </tr>
+                                <?php } ?>
                             </tbody>                            
                         </table>
                     </div>
@@ -61,17 +85,17 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form class="forms-sample">
+                         <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/add_department">
                             <div class="form-group">
-                                <label for="exampleInputUsername1">Department</label>
-                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Department">
+                                <label>Department</label>
+                                <input type="text" class="form-control" name="department_name" placeholder="Department">
                             </div>
-                        </form>
                     </div>
                     <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Add</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -87,22 +111,22 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form class="forms-sample">
+                         <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/search_department">
                             <div class="form-group">
-                                <label for="exampleInputUsername1">Department</label>
-                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Department">
+                                <label>Department</label>
+                                <input type="text" class="form-control" name="department_name" placeholder="Department">
                             </div>
-                        </form>
                     </div>
                     <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Filter</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success">Filter</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
 
-        <!-- //Update Department// -->
+        <!-- //Update Department// 
         <div class="modal fade" id="updateDepartment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -126,7 +150,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
 
         <!-- //Delete Department// -->
         <div class="modal fade" id="deleteDepartment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

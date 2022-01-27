@@ -1,3 +1,4 @@
+<script src="<?php echo base_url(); ?>assets/js/masterfile.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -18,14 +19,25 @@
                             <b><span class="mdi mdi-filter"></span> Filter</b>
                         </button>
                     </li>
+                    <?php if(!empty($filt)){ ?>
                     <li class="breadcrumb-item active" aria-current="page">
-                        <button type="button" class="btn btn-gradient-warning btn-sm">
+                        <a type="button" class="btn btn-gradient-warning btn-sm" href="<?php echo base_url(); ?>index.php/Masterfile/export_employee_list/<?php echo $employee_name;?>/<?php echo $position;?>/<?php echo $department;?>/<?php echo $contact_no;?>/<?php echo $email;?>" >
                             <b><span class="mdi mdi-export"></span> Export</b>
-                        </button>
+                        </a>
                     </li>
+                    <?php } else { ?>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <a type="button" class="btn btn-gradient-warning btn-sm" href="<?php echo base_url(); ?>index.php/masterfile/export_employee_list">
+                            <b><span class="mdi mdi-export"></span> Export</b>
+                        </a>
+                    </li> 
+                    <?php } ?>
                 </ul>
             </nav>
         </div>
+        <?php if(!empty($filt)){ ?>     
+        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href='<?php echo base_url(); ?>index.php/masterfile/employee_list/' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>
+        <?php } ?> 
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
@@ -42,15 +54,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <a href="" class="btn btn-sm btn-gradient-info" data-toggle="modal" data-target="#updateEmployee"><span class="mdi mdi-pencil"></span></a>
-                                    <a href="" class="btn btn-sm btn-gradient-danger" data-toggle="modal" data-target="#deleteEmployee"><span class="mdi mdi-delete"></span></a>
-                                </td>
+                                <?php 
+                                    if(!empty($employees)){
+                                        foreach($employees AS $emp){ ?>
+                                <td><?php echo $emp->employee_name;?></td>
+                                <td><?php echo $emp->position;?></td>
+                                <td><?php echo $emp->department;?></td>
+                                <td><?php echo $emp->contact_no;?></td>
+                                <td><?php echo $emp->email;?></td>
+                                <td width="1%">
+                                         <center>
+                                             <a onclick="updateEmployee('<?php echo base_url(); ?>','<?php echo $emp->employee_id; ?>')" class="btn btn-custon-three btn-info btn-xs"><span class="fa fa-pencil"></span></a>
+                                             <a href = "<?php echo base_url(); ?>index.php/masterfile/delete_employee/<?php echo $emp->employee_id;?>" onclick="confirmationDelete(this);return false;" class = "btn btn-danger btn-sm" title="DELETE"><span class="fa fa-trash"></span></a>
+                                         </center>
+                                        </td>
+                                    </tr>
+                                    <?php } } else { ?>
+                                <tr>
+                                    <td align="center" colspan='9'><center>No Data Available.</center></td>
+                                </tr>
+                                <?php } ?>
                             </tbody>                            
                         </table>
                     </div>
@@ -69,33 +92,33 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form class="forms-sample">
+                        <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/add_employee">
                             <div class="form-group">
-                                <label for="exampleInputUsername1">Employee Name</label>
-                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Employee Name">
+                                <label>Employee Name</label>
+                                <input type="text" class="form-control" name="employee_name" placeholder="Employee Name">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Position</label>
-                                <input type="Text" class="form-control" id="exampleInputEmail1" placeholder="Position">
+                                <label>Position</label>
+                                <input type="text" class="form-control" name="position" placeholder="Position">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Department</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <label>Department</label>
+                                <input type="text" class="form-control" name="department" placeholder="Department">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputConfirmPassword1">Contact Number</label>
-                                <input type="password" class="form-control" id="exampleInputConfirmPassword1" placeholder="Password">
+                                <label>Contact Number</label>
+                                <input type="text" class="form-control" name="contact_no" placeholder="Contact Number">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputConfirmPassword1">Email Address</label>
-                                <input type="password" class="form-control" id="exampleInputConfirmPassword1" placeholder="Password">
+                                <label>Email Address</label>
+                                <input type="text" class="form-control" name="email" placeholder="Email Address">
                             </div>
-                        </form>
                     </div>
                     <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Add</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -111,38 +134,38 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form class="forms-sample">
+                        <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/search_employee">
                             <div class="form-group">
-                                <label for="exampleInputUsername1">Employee Name</label>
-                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Employee Name">
+                                <label>Employee Name</label>
+                                <input type="text" class="form-control" name="employee_name" placeholder="Employee Name">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Position</label>
-                                <input type="Text" class="form-control" id="exampleInputEmail1" placeholder="Position">
+                                <label>Position</label>
+                                <input type="text" class="form-control" name="position" placeholder="Position">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Department</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <label>Department</label>
+                                <input type="text" class="form-control" name="department" placeholder="Department">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputConfirmPassword1">Contact Number</label>
-                                <input type="password" class="form-control" id="exampleInputConfirmPassword1" placeholder="Password">
+                                <label>Contact Number</label>
+                                <input type="text" class="form-control" name="contact_no" placeholder="Contact Number">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputConfirmPassword1">Email Address</label>
-                                <input type="password" class="form-control" id="exampleInputConfirmPassword1" placeholder="Password">
+                                <label>Email Address</label>
+                                <input type="text" class="form-control" name="email" placeholder="Email Address">
                             </div>
-                        </form>
                     </div>
                     <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Filter</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success">Filter</button>
                     </div>
+                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- //Update Employee Name// -->
+        <!-- //Update Employee Name// 
         <div class="modal fade" id="updateEmployee" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -182,7 +205,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
 
         <!-- //Delete Employee Name// -->
         <div class="modal fade" id="deleteEmployee" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

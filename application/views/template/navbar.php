@@ -175,6 +175,7 @@
                             <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/department_list">Department</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/employee_list">Employees</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/group_list">Group</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/category_list">Item Category</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/location_list">Location</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/enduse_list">Enduse</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?php echo base_url(); ?>masterfile/purpose_list">Purpose</a></li>
