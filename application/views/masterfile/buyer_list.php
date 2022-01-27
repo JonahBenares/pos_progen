@@ -18,22 +18,19 @@
                 </ol>
             </nav>
         </div>
-        <?php if(!empty($filt)){ ?>     
+        <!-- <?php if(!empty($filt)){ ?>     
         <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href='<?php echo base_url(); ?>index.php/masterfile/buyer_list/' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>
-        <?php } ?> 
+        <?php } ?>  -->
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                         <table class="table table-bordered table-hover" id="myTable">
                         <div class="main-button-center">
-                            <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterBuyer">
-                                <b><span class="mdi mdi-filter"></span> Filter</b>
-                            </button>
                             <button type="button" class="btn btn-gradient-primary btn-md" data-toggle="modal" data-target="#addBuyer">
                                 <b><span class="mdi mdi-plus"></span> Add </b>
                             </button>
-                             <?php if(!empty($filt)){ ?>
+                            <?php if(!empty($filt)){ ?>
                                 <a type="button" class="btn btn-gradient-warning btn-sm" href="<?php echo base_url(); ?>index.php/Masterfile/export_buyer_list/<?php echo $buyer_name;?>/<?php echo $address;?>/<?php echo $contact_person;?>/<?php echo $contact_no;?>" >
                                     <b><span class="mdi mdi-export"></span> Export</b>
                                 </a>
@@ -43,7 +40,7 @@
                                 </a>
                             <?php } ?>
                         </div>                                
-                        <table class="table table-bordered table-hover" id="example">
+                        <table class="table table-bordered table-hover" id="mytable">
                             <thead>
                                 <tr>
                                     <th width="40%"> Buyer </th>
@@ -54,24 +51,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                    <?php 
-                                        if(!empty($buyer)){
-                                        foreach($buyer AS $buy){ ?>
-                                    <tr>
-                                        <td><?php echo $buy->buyer_name;?></td>
-                                        <td><?php echo $buy->address;?></td>
-                                        <td><?php echo $buy->contact_person;?></td>
-                                        <td><?php echo $buy->contact_no;?></td>
-                                        <td width="1%">
-                                         <center>
-                                             <a onclick="updateBuyer('<?php echo base_url(); ?>','<?php echo $buy->buyer_id; ?>')" class="btn btn-custon-three btn-info btn-xs"><span class="fa fa-pencil"></span></a>
-                                             <a href = "<?php echo base_url(); ?>index.php/masterfile/delete_buyer/<?php echo $buy->buyer_id;?>" onclick="confirmationDelete(this);return false;" class = "btn btn-danger btn-sm" title="DELETE"><span class="fa fa-trash"></span></a>
-                                         </center>
-                                        </td>
-                                    </tr>
-                                    <?php } } else { ?>
+                                <?php 
+                                    if(!empty($buyer)){
+                                    foreach($buyer AS $buy){ ?>
                                 <tr>
-                                    <td align="center" colspan='9'><center>No Data Available.</center></td>
+                                    <td><?php echo $buy->buyer_name;?></td>
+                                    <td><?php echo $buy->address;?></td>
+                                    <td><?php echo $buy->contact_person;?></td>
+                                    <td><?php echo $buy->contact_no;?></td>
+                                    <td width="1%">
+                                     <center>
+                                         <a onclick="updateBuyer('<?php echo base_url(); ?>','<?php echo $buy->buyer_id; ?>')" class="btn btn-custon-three btn-info btn-xs"><span class="fa fa-pencil"></span></a>
+                                         <a href = "<?php echo base_url(); ?>index.php/masterfile/delete_buyer/<?php echo $buy->buyer_id;?>" onclick="confirmationDelete(this);return false;" class = "btn btn-danger btn-sm" title="DELETE"><span class="fa fa-trash"></span></a>
+                                     </center>
+                                    </td>
+                                </tr>
+                                <?php } } else { ?>
+                                <tr>
+                                    <td align="center" colspan='5'><center>No Data Available.</center></td>
                                 </tr>
                                 <?php } ?>
                             </tbody>                            

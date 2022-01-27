@@ -5,7 +5,7 @@
             <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-info text-white mr-2">
                   <i class="mdi mdi-home"></i>
-                </span> Department List
+                </span> Category List
             </h3>
             <nav aria-label="breadcrumb">
                 <ul class="breadcrumb">
@@ -19,7 +19,7 @@
                             <b><span class="mdi mdi-plus"></span> Add</b>
                         </button>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">
+                    <!-- <li class="breadcrumb-item active" aria-current="page">
                         <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterCategory">
                             <b><span class="mdi mdi-filter"></span> Filter</b>
                         </button>
@@ -36,13 +36,13 @@
                             <b><span class="mdi mdi-export"></span> Export</b>
                         </a>
                     </li> 
-                    <?php } ?>
+                    <?php } ?> -->
                 </ul>
             </nav>
         </div>
-         <?php if(!empty($filt)){ ?>     
+         <!-- <?php if(!empty($filt)){ ?>     
         <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href='<?php echo base_url(); ?>index.php/masterfile/department_list/' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>
-        <?php } ?> 
+        <?php } ?> --> 
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">

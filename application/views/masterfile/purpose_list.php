@@ -23,14 +23,14 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="main-button-center">
-                            <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterPurpose">
+                            <!-- <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterPurpose">
                                 <b><span class="mdi mdi-filter"></span> Filter</b>
-                            </button>
-                            <button type="button" class="btn btn-gradient-primary btn-md" data-toggle="modal" data-target="#addPurpose">
-                                <b><span class="mdi mdi-plus"></span> Add</b>
                             </button>
                             <button type="button" class="btn btn-gradient-warning btn-sm">
                                 <b><span class="mdi mdi-export"></span> Export</b>
+                            </button> -->
+                            <button type="button" class="btn btn-gradient-primary btn-md" data-toggle="modal" data-target="#addPurpose">
+                                <b><span class="mdi mdi-plus"></span> Add</b>
                             </button>
                         </div>
                         <table class="table table-bordered table-hover" id="myTable">
