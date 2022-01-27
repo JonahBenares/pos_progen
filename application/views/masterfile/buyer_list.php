@@ -14,7 +14,7 @@
                             <b><span class="mdi mdi-plus"></span> Add</b>
                         </button>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">
+                    <!-- <li class="breadcrumb-item active" aria-current="page">
                         <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterBuyer">
                             <b><span class="mdi mdi-filter"></span> Filter</b>
                         </button>
@@ -31,7 +31,7 @@
                             <b><span class="mdi mdi-export"></span> Export</b>
                         </a>
                     </li> 
-                    <?php } ?>
+                    <?php } ?> -->
                 </ul>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active" aria-current="page">
@@ -43,28 +43,26 @@
                 </ol>
             </nav>
         </div>
-        <?php if(!empty($filt)){ ?>     
+        <!-- <?php if(!empty($filt)){ ?>     
         <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href='<?php echo base_url(); ?>index.php/masterfile/buyer_list/' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>
-        <?php } ?> 
+        <?php } ?>  -->
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-<<<<<<< HEAD
                         <table class="table table-bordered table-hover" id="myTable">
                         <div class="main-button-center">
-                            <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterBuyer">
-                                <b><span class="mdi mdi-filter"></span> Filter</b>
-                            </button>
                             <button type="button" class="btn btn-gradient-primary btn-md" data-toggle="modal" data-target="#addBuyer">
                                 <b><span class="mdi mdi-plus"></span> Add </b>
                             </button>
+                            <!-- <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterBuyer">
+                                <b><span class="mdi mdi-filter"></span> Filter</b>
+                            </button>
                             <button type="button" class="btn btn-gradient-warning btn-sm" data-toggle="modal" data-target="#updateBuyer">
                                 <b><span class="mdi mdi-export"></span> Export</b>
-                            </button>
+                            </button> -->
                         </div>                                
                         <table class="table table-bordered table-hover" id="example">
->>>>>>> 4ae5b099e484ecd97e452d084f062c95418ca78b
                             <thead>
                                 <tr>
                                     <th width="40%"> Buyer </th>
