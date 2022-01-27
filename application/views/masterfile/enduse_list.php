@@ -1,3 +1,4 @@
+<script src="<?php echo base_url(); ?>assets/js/masterfile.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -41,12 +42,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <a href="" class="btn btn-sm btn-gradient-info" data-toggle="modal" data-target="#updateEnduse"><span class="mdi mdi-pencil"></span></a>
-                                    <a href="" class="btn btn-sm btn-gradient-danger" data-toggle="modal" data-target="#deleteEnduse"><span class="mdi mdi-delete"></span></a>
-                                </td>
+                                <?php 
+                                if(!empty($enduse)){
+                                foreach($enduse AS $end){ ?>
+                                    <tr>
+                                        <td><?php echo $end->enduse_code; ?></td>
+                                        <td><?php echo $end->enduse_name; ?></td>
+                                        <td width="1%">
+                                         <center>
+                                             <a onclick="updateEnduse('<?php echo base_url(); ?>','<?php echo $end->enduse_id; ?>')" class="btn btn-custon-three btn-info btn-xs"><span class="fa fa-pencil"></span></a>
+                                             <a href = "<?php echo base_url(); ?>index.php/masterfile/delete_enduse/<?php echo $end->enduse_id;?>" onclick="confirmationDelete(this);return false;" class = "btn btn-danger btn-sm" title="DELETE"><span class="fa fa-trash"></span></a>
+                                         </center>
+                                        </td>
+                                    </tr>
+                                    <?php } } else { ?>
+                                <tr>
+                                    <td align="center" colspan='9'><center>No Data Available.</center></td>
+                                </tr>
+                                <?php } ?>
                             </tbody>                            
                         </table>
                     </div>
@@ -65,21 +78,21 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form class="forms-sample">
+                       <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/add_enduse">
                             <div class="form-group">
                                 <label for="exampleInputUsername1">Enduse Code</label>
-                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Enduse Code">
+                                <input type="text" class="form-control" name = "end_code" placeholder="Enduse Code">
                             </div>  
                             <div class="form-group">
                                 <label for="exampleInputUsername1">Enduse Name</label>
-                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Enduse Name">
+                                <input type="text" class="form-control" name = "end_name" placeholder="Enduse Name">
                             </div>
-                        </form>
                     </div>
                     <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>

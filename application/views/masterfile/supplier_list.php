@@ -1,3 +1,4 @@
+<script src="<?php echo base_url(); ?>assets/js/masterfile.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -44,18 +45,34 @@
                                     <th width="10%" align="center"> <span class="mdi mdi-menu"></span> </th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <a href="" class="btn btn-sm btn-gradient-info" data-toggle="modal" data-target="#updateSupplier"><span class="mdi mdi-pencil"></span></a>
-                                    <a href="" class="btn btn-sm btn-gradient-danger" data-toggle="modal" data-target="#deleteSupplier"><span class="mdi mdi-delete"></span></a>
-                                </td>
-                            </tbody>                            
+                           <tbody>
+                                <?php 
+                                if(!empty($supplier)){
+                                foreach($supplier AS $sup){ ?>
+                                    <tr>
+                                        <td><?php echo $sup->supplier_code;?></td>
+                                        <td><?php echo $sup->supplier_name;?></td>
+                                        <td><?php echo $sup->address;?></td>
+                                        <td><?php echo $sup->contact_number;?></td>
+                                        <td><?php echo $sup->terms;?></td>
+                                        <?php if($sup->active == '1') { ?>
+                                        <td><?php echo '<span class = "label label-success label-xs">Active</span>'; ?></td>
+                                        <?php } else { ?>
+                                        <td><?php echo '<span class = "label label-danger label-xs">Inactive</span>'; ?></td>
+                                        <?php } ?>
+                                        <td width="1%">
+                                         <center>
+                                             <a onclick="updateSupplier('<?php echo base_url(); ?>','<?php echo $sup->supplier_id; ?>')" class="btn btn-custon-three btn-info btn-xs"><span class="fa fa-pencil"></span></a>
+                                             <a href = "<?php echo base_url(); ?>index.php/masterfile/delete_supplier/<?php echo $sup->supplier_id;?>" onclick="confirmationDelete(this);return false;" class = "btn btn-danger btn-sm" title="DELETE"><span class="fa fa-trash"></span></a>
+                                         </center>
+                                        </td>
+                                    </tr>
+                                    <?php } } else { ?>
+                                <tr>
+                                    <td align="center" colspan='9'><center>No Data Available.</center></td>
+                                </tr>
+                                <?php } ?>
+                            </tbody>                               
                         </table>
                     </div>
                 </div>
@@ -73,40 +90,40 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form class="forms-sample">
+                        <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/add_supplier">
                             <div class="form-group">
-                                <label for="exampleInputUsername1">Supplier Code</label>
-                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Supplier Name">
+                                <label>Supplier Code</label>
+                                <input type="text" class="form-control" name="supplier_code" placeholder="Supplier Code">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Supplier Name</label>
-                                <input type="Text" class="form-control" id="exampleInputEmail1" placeholder="Supplier Name">
+                                <label>Supplier Name</label>
+                                <input type="Text" class="form-control" name="supplier_name" placeholder="Supplier Name">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Address</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Address">
+                                <label>Address</label>
+                                <input type="text" class="form-control" name="address" placeholder="Address">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputConfirmPassword1">Contact Number</label>
-                                <input type="text" class="form-control" id="exampleInputConfirmPassword1" placeholder="Contact Number">
+                                <label>Contact Number</label>
+                                <input type="text" class="form-control" name="contact_number" placeholder="Contact Number">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputConfirmPassword1">Term</label>
-                                <textarea class="form-control"></textarea>
+                                <label>Term</label>
+                                <textarea class="form-control" name="terms" placeholder="Terms"></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputConfirmPassword1">Status</label>
-                                <select class="form-control">
-                                    <option>Status 1</option>
-                                    <option>Status 1</option>
+                                <label>Status</label>
+                                <select class="form-control" type="text" name="active">
+                                    <option value='1'>Active</option>
+                                    <option value='0'>Inactive</option>
                                 </select>
                             </div>
-                        </form>
                     </div>
                     <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Add</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>

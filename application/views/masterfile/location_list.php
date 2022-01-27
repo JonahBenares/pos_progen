@@ -1,3 +1,4 @@
+<script src="<?php echo base_url(); ?>assets/js/masterfile.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -35,16 +36,28 @@
                         <table class="table table-bordered table-hover" id="myTable">
                             <thead>
                                 <tr>
-                                    <th width="90%"> Location </th>
+                                    <th width="90%"> Location Name </th>
                                     <th width="10%" align="center"> <span class="mdi mdi-menu"></span> </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <td></td>
-                                <td>
-                                    <a href="" class="btn btn-sm btn-gradient-info" data-toggle="modal" data-target="#updateLocation"><span class="mdi mdi-pencil"></span></a>
-                                    <a href="" class="btn btn-sm btn-gradient-danger" data-toggle="modal" data-target="#deleteLocation"><span class="mdi mdi-delete"></span></a>
-                                </td>
+                                <?php 
+                                if(!empty($location)){
+                                foreach($location AS $loc){ ?>
+                                    <tr>
+                                        <td><?php echo $loc->location_name;?></td>
+                                        <td width="1%">
+                                         <center>
+                                             <a onclick="updateLocation('<?php echo base_url(); ?>','<?php echo $loc->location_id; ?>')" class="btn btn-custon-three btn-info btn-xs"><span class="fa fa-pencil"></span></a>
+                                             <a href = "<?php echo base_url(); ?>index.php/masterfile/delete_location/<?php echo $loc->location_id;?>" onclick="confirmationDelete(this);return false;" class = "btn btn-danger btn-sm" title="DELETE"><span class="fa fa-trash"></span></a>
+                                         </center>
+                                        </td>
+                                    </tr>
+                                    <?php } } else { ?>
+                                <tr>
+                                    <td align="center" colspan='9'><center>No Data Available.</center></td>
+                                </tr>
+                                <?php } ?>
                             </tbody>                            
                         </table>
                     </div>
@@ -63,17 +76,17 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form class="forms-sample">
+                         <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/add_location">
                             <div class="form-group">
-                                <label for="exampleInputUsername1">Location</label>
-                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Location">
+                                <label>Location</label>
+                                <input type="text" class="form-control" name="location_name" placeholder="Location">
                             </div>
-                        </form>
                     </div>
                     <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Add</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -104,7 +117,7 @@
             </div>
         </div>
 
-        <!-- //Update Location// -->
+        <!-- //Update Location// 
         <div class="modal fade" id="updateLocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -128,7 +141,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
 
         <!-- //Delete Location// -->
         <div class="modal fade" id="deleteLocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -184,7 +184,7 @@
                                 <a class="nav-link" href="<?php echo base_url(); ?>masterfile/group_list">Group</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/item_category_list">Item Category</a>
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/category_list">Item Category</a>
                             </li>
                             <li class="nav-item"> 
                                 <a class="nav-link" href="<?php echo base_url(); ?>masterfile/location_list">Location</a>
