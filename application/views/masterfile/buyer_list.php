@@ -62,7 +62,7 @@
                                 <b><span class="mdi mdi-export"></span> Export</b>
                             </button> -->
                         </div>                                
-                        <table class="table table-bordered table-hover" id="example">
+                        <table class="table table-bordered table-hover>
                             <thead>
                                 <tr>
                                     <th width="40%"> Buyer </th>
