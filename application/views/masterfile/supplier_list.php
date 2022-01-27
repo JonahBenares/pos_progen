@@ -8,29 +8,31 @@
                 </span> Supplier List
             </h3>
             <nav aria-label="breadcrumb">
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">
-                        <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal" data-target="#addSupplier">
-                            <b><span class="mdi mdi-plus"></span> Add</b>
-                        </button>
-                    </li>
+                <ol class="breadcrumb">
                     <li class="breadcrumb-item active" aria-current="page">
-                        <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterSupplier">
-                            <b><span class="mdi mdi-filter"></span> Filter</b>
-                        </button>
+                        <span></span>Supplier &nbsp;
+                        <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        <button type="button" class="btn btn-gradient-warning btn-sm">
-                            <b><span class="mdi mdi-export"></span> Export</b>
-                        </button>
-                    </li>
-                </ul>
+                    <!--  <li class="breadcrumb-item"><a href="#">Editors</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Buyer List</li> -->
+                </ol>
             </nav>
         </div>
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        <div class="main-button-center">
+                            <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterSupplier">
+                                <b><span class="mdi mdi-filter"></span> Filter</b>
+                            </button>
+                            <button type="button" class="btn btn-gradient-primary btn-md" data-toggle="modal" data-target="#addSupplier">
+                                <b><span class="mdi mdi-plus"></span> Add</b>
+                            </button>
+                            <button type="button" class="btn btn-gradient-warning btn-sm">
+                                <b><span class="mdi mdi-export"></span> Export</b>
+                            </button>
+                        </div>
                         <table class="table table-bordered table-hover" id="myTable">
                             <thead>
                                 <tr>

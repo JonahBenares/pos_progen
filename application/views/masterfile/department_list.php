@@ -33,6 +33,14 @@
                     </li> 
                     <?php } ?>
                 </ul>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <span></span>Departments &nbsp;
+                        <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                    </li>
+                    <!--  <li class="breadcrumb-item"><a href="#">Editors</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Buyer List</li> -->
+                </ol>
             </nav>
         </div>
          <?php if(!empty($filt)){ ?>     
@@ -42,6 +50,17 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        <div class="main-button-center">                            
+                            <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterDepartment">
+                                <b><span class="mdi mdi-filter"></span> Filter</b>
+                            </button>
+                            <button type="button" class="btn btn-gradient-primary btn-md" data-toggle="modal" data-target="#addDepartment">
+                                <b><span class="mdi mdi-plus"></span> Add</b>
+                            </button>
+                            <button type="button" class="btn btn-gradient-warning btn-sm">
+                                <b><span class="mdi mdi-export"></span> Export</b>
+                            </button>
+                        </div>
                         <table class="table table-bordered table-hover" id="myTable">
                             <thead>
                                 <tr>
