@@ -3,13 +3,13 @@
         <div class="page-header">
             <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-info text-white mr-2">
-                  <i class="mdi mdi-home"></i>
-                </span> Receive List
+                  <i class="mdi mdi-import"></i>
+                </span> Receive
             </h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active" aria-current="page">
-                        <span></span>Receive &nbsp;
+                        <span></span>Receive List &nbsp;
                         <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                     </li>
                     <!--  <li class="breadcrumb-item"><a href="#">Editors</a></li>

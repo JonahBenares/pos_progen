@@ -83,7 +83,7 @@
                                     </tr>
                                     <?php } } else { ?>
                                 <tr>
-                                    <td align="center" colspan='9'><center>No Data Available.</center></td>
+                                    <td align="center" colspan='2'><center>No Data Available.</center></td>
                                 </tr>
                                 <?php } ?>
                             </tbody>                            
