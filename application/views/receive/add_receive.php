@@ -14,10 +14,10 @@
             </nav>
         </div>
         <div class="row">
-            <div class="col-12">
+            <div class="col-4">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Add New Item</h4>
+                        <h4 class="card-title">Add New Receive</h4>
                         <form class="form-sample">
                             <p class="card-description"> Fill in the following fields </p>
                             <div class="row">
