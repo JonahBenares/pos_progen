@@ -13732,3 +13732,18 @@ dl {
 .p-0{
   padding: 0px;
 }
+
+.item-block{
+  width: 100%!important;
+}
+
+table#table-alt{
+    width: 100%;
+    font-size: 13px;
+}
+table#table-alt tr td{
+    padding: 5px;
+}
+td.td-head{
+    background-color: #f6eeff;
+}

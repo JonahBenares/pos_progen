@@ -5,41 +5,14 @@
             <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-info text-white mr-2">
                   <i class="mdi mdi-home"></i>
-                </span> Department List
+                </span> Department
             </h3>
             <nav aria-label="breadcrumb">
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">
-                        <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal" data-target="#addDepartment">
-                            <b><span class="mdi mdi-plus"></span> Add</b>
-                        </button>
-                    </li>
-                    <!-- <li class="breadcrumb-item active" aria-current="page">
-                        <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterDepartment">
-                            <b><span class="mdi mdi-filter"></span> Filter</b>
-                        </button>
-                    </li>
-                    <?php if(!empty($filt)){ ?>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        <a type="button" class="btn btn-gradient-warning btn-sm" href="<?php echo base_url(); ?>index.php/Masterfile/export_department_list/<?php echo $department_name;?>" >
-                            <b><span class="mdi mdi-export"></span> Export</b>
-                        </a>
-                    </li>
-                    <?php } else { ?>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        <a type="button" class="btn btn-gradient-warning btn-sm" href="<?php echo base_url(); ?>index.php/masterfile/export_department_list">
-                            <b><span class="mdi mdi-export"></span> Export</b>
-                        </a>
-                    </li> 
-                    <?php } ?> -->
-                </ul>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active" aria-current="page">
-                        <span></span>Departments &nbsp;
+                        <span></span>Departments List &nbsp;
                         <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                     </li>
-                    <!--  <li class="breadcrumb-item"><a href="#">Editors</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Buyer List</li> -->
                 </ol>
             </nav>
         </div>
@@ -49,18 +22,33 @@
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="main-button-center">                            
-                            <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterDepartment">
-                                <b><span class="mdi mdi-filter"></span> Filter</b>
-                            </button>
-                            <button type="button" class="btn btn-gradient-primary btn-md" data-toggle="modal" data-target="#addDepartment">
-                                <b><span class="mdi mdi-plus"></span> Add</b>
-                            </button>
-                            <button type="button" class="btn btn-gradient-warning btn-sm">
-                                <b><span class="mdi mdi-export"></span> Export</b>
-                            </button>
-                        </div>
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h4 class="m-0">Department List</h4>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="pull-right">                            
+                                    <!-- <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterDepartment">
+                                        <b><span class="mdi mdi-filter"></span> Filter</b>
+                                    </button> -->
+                                    <button type="button" class="btn btn-gradient-primary btn-rounded btn-sm" data-toggle="modal" data-target="#addDepartment">
+                                        <b><span class="mdi mdi-plus"></span> Add</b>
+                                    </button>                                    
+                                    <!-- <?php if(!empty($filt)){ ?>
+                                        <a type="button" class="btn btn-gradient-warning btn-sm" href="<?php echo base_url(); ?>index.php/Masterfile/export_department_list/<?php echo $department_name;?>" >
+                                            <b><span class="mdi mdi-export"></span> Export</b>
+                                        </a>
+                                    <?php } else { ?>
+                                        <a type="button" class="btn btn-gradient-warning btn-sm" href="<?php echo base_url(); ?>index.php/masterfile/export_department_list">
+                                            <b><span class="mdi mdi-export"></span> Export</b>
+                                        </a>
+                                    <?php } ?> -->
+                                </div>
+                            </div>
+                        </div>   
+                    </div>
+                    <div class="card-body">                        
                         <table class="table table-bordered table-hover" id="myTable">
                             <thead>
                                 <tr>

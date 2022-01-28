@@ -56,5 +56,17 @@
             } );
         </script>
 
+        <script>
+            $(document).ready(function () {
+                $("#sidebar").hover(
+                    function () {
+                        $("body").removeClass("sidebar-icon-only");
+                    },
+                    function () {
+                        $("body").addClass("sidebar-icon-only");
+                    }
+                );
+            });
+        </script>
     </body>
 </html>

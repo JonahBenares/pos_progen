@@ -29,27 +29,27 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="exampleInputName1">Date</label>
-                                    <input type="date" class="form-control" placeholder="Date">
+                                    <input type="date" class="form-control" placeholder="Date" value="2022-06-06">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail3">PO No.</label>
-                                    <input type="text" class="form-control" placeholder="PO No">
+                                    <input type="text" class="form-control" placeholder="PO No" value="sample123-cnpr">
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="exampleInputEmail3">DR No.</label>
-                                    <input type="text" class="form-control" placeholder="DR No">
+                                    <input type="text" class="form-control" placeholder="DR No" value="sample123-cnpr">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail3">SI/OR</label>
-                                    <input type="text" class="form-control" placeholder="SI/OR">
+                                    <input type="text" class="form-control" placeholder="SI/OR" value="sample123-cnpr">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="exampleTextarea1">Overall Remarks</label>
-                                    <textarea class="form-control" id="exampleTextarea1" rows="2" placeholder="Overall Remarks"></textarea>
+                                    <textarea class="form-control" id="exampleTextarea1" rows="2" placeholder="Overall Remarks">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</textarea>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -84,7 +84,8 @@
                         <div class="row">
                             <div class="col-lg-1">
                                 <h3 class="page-title">
-                                    <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                                    <br>
+                                    <span class="page-title-icon bg-gradient-primary text-white mr-2 item-block" >
                                         <span ><b><h4 class="m-0" style="padding-top:6px">01</h4></b></span>
                                     </span>
                                 </h3>
@@ -132,63 +133,65 @@
                                 </div>
                             </div>                                
                         </div>
-                        <div class="row">                                
-                            <div class="col-lg-11">
-                                <div style="width:100%;overflow-x: scroll;">
-                                    <table class="table table-bordered" style="width: 300%;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button class="btn btn-gradient-primary btn-xs pull-right " onclick="add_receive_items('<?php echo base_url(); ?>')" name="">
+                                    <span class="mdi mdi-plus"></span> Add Item
+                                </button>  
+                            </div>      
+                            <br>
+                            <br>             
+                            <div class="col-lg-12">
+                                <div > <!-- style="width:100%;overflow-x: scroll;" -->
+                                    <table id="table-alt" class="table-bordered">
                                         <tr>
-                                            <td width="15%">Item Description</td>
-                                            <td width="15%">Supplier</td>
-                                            <td width="15%">Brand</td>
-                                            <td width="15%">Serial No.</td>
-                                            <td width="15%">Net Cost</td>
-                                            <td width="15%">Catalog No</td>
-                                            <td width="15%">SEMT No</td>
-                                            <td width="15%">NKK No</td>
-                                            <td width="15%">Expected Qty</td>
-                                            <td width="15%">Delivered/Received</td>
-                                            <td width="15%">Shipping/U & other related cost</td>
-                                            <td width="15%">Currency</td>
-                                            <td width="15%">Local/Manila</td>
+                                            <td class="td-head" width="">Item Description</td>
+                                            <td class="td-head" width="">Supplier</td>
+                                            <td class="td-head" width="">Brand</td>
+                                            <td class="td-head" width="">Serial No.</td>
+                                            <td class="td-head" width="">Catalog No</td>
+                                            <td class="td-head" width="">SEMT No</td>
+                                            <td class="td-head" width="">NKK No</td>
+                                            <td class="td-head" width="">Net Cost</td>
+                                            <td class="td-head" width="">Expected Qty</td>
+                                            <td class="td-head" width="">Delivered/ Received</td>
+                                            <td class="td-head" width="">Shipping/U & other related cost</td>
+                                            <td class="td-head" width="">Currency</td>
+                                            <td class="td-head" width="">Local/ Manila</td>
                                         </tr>
                                         <tr>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><select class="form-control"></select></td>             
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample55</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td></select></td>             
                                         </tr>
                                         <tr>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><input class="form-control" type="" name=""></td>
-                                            <td class="p-0"><select class="form-control"></select></td>             
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td>sample</td>
+                                            <td></select></td>             
                                         </tr>
                                     </table>
-                                </div>
-                            </div>
-                            <div class="col-lg-1">
-                                <button class="btn btn-gradient-primary btn-sm " name="">
-                                    <span class="mdi mdi-plus"></span> Item
-                                </button>  
-                            </div>
+                                </div>  
+                            </div>                            
                         </div>  
                     </div>
                 </div>
@@ -210,6 +213,7 @@
     </div>
 </div>
         
+<script src="<?php echo base_url(); ?>assets/js/receive.js"></script>
 
 
 

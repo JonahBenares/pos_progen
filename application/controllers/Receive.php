@@ -45,6 +45,28 @@ class Receive extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+
+    public function add_receive_head()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('receive/add_receive_head');
+        $this->load->view('template/footer');
+    }
+
+    public function add_receive_pr()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('receive/add_receive_pr');
+        $this->load->view('template/footer');
+    }
    
+    public function add_receive_item()
+    {
+        $this->load->view('template/header');
+        $this->load->view('receive/add_receive_item');
+        $this->load->view('template/footer');
+    }
 
 }

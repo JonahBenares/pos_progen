@@ -26,7 +26,10 @@
                                 <b><span class="mdi mdi-filter"></span> Filter</b>
                             </button>
                             <a href="<?php echo base_url(); ?>receive/add_receive" type="button" class="btn btn-gradient-primary btn-md" >
-                                <b><span class="mdi mdi-plus"></span> Add</b>
+                                <b><span class="mdi mdi-plus"></span> Add (1)</b>
+                            </a>
+                            <a href="<?php echo base_url(); ?>receive/add_receive_head" type="button" class="btn btn-gradient-primary btn-md" >
+                                <b><span class="mdi mdi-plus"></span> Add (2)</b>
                             </a>
                             <button type="button" class="btn btn-gradient-warning btn-sm">
                                 <b><span class="mdi mdi-export"></span> Export</b>

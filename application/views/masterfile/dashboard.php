@@ -1,6 +1,5 @@
 <div class="main-panel">
   <div class="content-wrapper">
-    
     <div class="page-header">
       <h3 class="page-title">
         <span class="page-title-icon bg-gradient-info text-white mr-2">
@@ -14,6 +13,18 @@
           </li>
         </ul>
       </nav>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="template-demo">
+          <a href="<?php echo base_url(); ?>receive/add_receive" class="btn btn-inverse-primary btn-rounded btn-fw">Add Receive</a>
+          <a href="" class="btn btn-inverse-primary btn-rounded btn-fw">Add Issue</a>
+          <a href="" class="btn btn-inverse-primary btn-rounded btn-fw">Add Request</a>
+          <a href="" class="btn btn-inverse-primary btn-rounded btn-fw">Add Restock</a>
+          <a href="" class="btn btn-inverse-primary btn-rounded btn-fw">Add Sample</a>
+          <a href="" class="btn btn-inverse-primary btn-rounded btn-fw">Add Test</a>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="col-md-4 stretch-card grid-margin">
@@ -50,6 +61,7 @@
         </div>
       </div>
     </div>
+    
     <div class="row">
       <div class="col-md-7 grid-margin stretch-card">
         <div class="card">
