@@ -15,10 +15,7 @@
                     </li>
                 </ol>
             </nav>
-        </div>
-         <!-- <?php if(!empty($filt)){ ?>     
-        <span class='btn btn-success disabled'>Filter Applied</span><?php echo $filt ?>, <a href='<?php echo base_url(); ?>index.php/masterfile/department_list/' class='remove_filter alert-link pull-right btn'><span class="fa fa-times"></span></a>
-        <?php } ?>  -->
+        </div>        
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
@@ -28,32 +25,20 @@
                                 <h4 class="m-0">Department List</h4>
                             </div>
                             <div class="col-lg-6">
-                                <div class="pull-right">                            
-                                    <!-- <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterDepartment">
-                                        <b><span class="mdi mdi-filter"></span> Filter</b>
-                                    </button> -->
+                                <div class="pull-right">          
                                     <button type="button" class="btn btn-gradient-primary btn-rounded btn-sm" data-toggle="modal" data-target="#addDepartment">
                                         <b><span class="mdi mdi-plus"></span> Add</b>
-                                    </button>                                    
-                                    <!-- <?php if(!empty($filt)){ ?>
-                                        <a type="button" class="btn btn-gradient-warning btn-sm" href="<?php echo base_url(); ?>index.php/Masterfile/export_department_list/<?php echo $department_name;?>" >
-                                            <b><span class="mdi mdi-export"></span> Export</b>
-                                        </a>
-                                    <?php } else { ?>
-                                        <a type="button" class="btn btn-gradient-warning btn-sm" href="<?php echo base_url(); ?>index.php/masterfile/export_department_list">
-                                            <b><span class="mdi mdi-export"></span> Export</b>
-                                        </a>
-                                    <?php } ?> -->
+                                    </button>                      
                                 </div>
                             </div>
                         </div>   
                     </div>
-                    <div class="card-body">                        
+                    <div class="card-body">                     
                         <table class="table table-bordered table-hover" id="myTable">
                             <thead>
                                 <tr>
                                     <th width="90%"> Department </th>
-                                    <th width="10%" align="center"> <span class="mdi mdi-menu"></span> </th>
+                                    <th width="10%" align="center"><center><span class="mdi mdi-menu"></span> </center> </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,11 +47,13 @@
                                 foreach($department AS $dept){ ?>
                                     <tr>
                                         <td><?php echo $dept->department_name;?></td>
-                                        <td width="1%">
-                                         <center>
-                                             <a onclick="updateDepartment('<?php echo base_url(); ?>','<?php echo $dept->department_id; ?>')" class="btn btn-custon-three btn-info btn-xs"><span class="fa fa-pencil"></span></a>
-                                             <a href = "<?php echo base_url(); ?>index.php/masterfile/delete_department/<?php echo $dept->department_id;?>" onclick="confirmationDelete(this);return false;" class = "btn btn-danger btn-sm" title="DELETE"><span class="fa fa-trash"></span></a>
-                                         </center>
+                                        <td align="center">
+                                            <a href="<?php echo base_url(); ?>masterfile/update_department/<?php echo $dept->department_id; ?>" class="btn btn-gradient-info btn-rounded btn-xs" data-toggle="tooltip" data-placement="top" title="Update">
+                                                <span class="mdi mdi-pencil"></span>
+                                            </a>
+                                            <a href="<?php echo base_url(); ?>index.php/masterfile/delete_department/<?php echo $dept->department_id;?>" data-toggle="tooltip" data-placement="top" title="Delete" onclick="confirmationDelete(this);return false;" class = "btn btn-gradient-danger btn-rounded btn-xs">
+                                                <span class="mdi mdi-delete"></span>
+                                            </a>
                                         </td>
                                     </tr>
                                     <?php } } else { ?>
@@ -99,8 +86,8 @@
                             </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Add</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btn-md">Add</button>
                     </div>
                     </form>
                 </div>
@@ -132,32 +119,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- //Update Department// 
-        <div class="modal fade" id="updateDepartment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header info-modalhead">
-                        <h5 class="modal-title" id="exampleModalLabel">Update Department</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="forms-sample">
-                            <div class="form-group">
-                                <label for="exampleInputUsername1">Department</label>
-                                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Department">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-info">Update Department</button>
-                    </div>
-                </div>
-            </div>
-        </div>-->
 
         <!-- //Delete Department// -->
         <div class="modal fade" id="deleteDepartment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -5,39 +5,40 @@
             <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-info text-white mr-2">
                   <i class="mdi mdi-home"></i>
-                </span> UOM List
+                </span> Unit Of Measurement
             </h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active" aria-current="page">
-                        <span></span>Unit of Measurement &nbsp;
+                        <span></span>UOM List &nbsp;
                         <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                     </li>
-                    <!--  <li class="breadcrumb-item"><a href="#">Editors</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Buyer List</li> -->
                 </ol>
             </nav>            
         </div>
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="main-button-center">
-                            <!-- <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterUOM">
-                                <b><span class="mdi mdi-filter"></span> Filter</b>
-                            </button>
-                            <button type="button" class="btn btn-gradient-warning btn-sm">
-                                <b><span class="mdi mdi-export"></span> Export</b>
-                            </button> -->
-                            <button type="button" class="btn btn-gradient-primary btn-md" data-toggle="modal" data-target="#addUOM">
-                                <b><span class="mdi mdi-plus"></span> Add</b>
-                            </button>
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h4 class="m-0">UOM List</h4>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="pull-right">
+                                    <button type="button" class="btn btn-gradient-primary btn-sm btn-rounded" data-toggle="modal" data-target="#addUOM">
+                                        <b><span class="mdi mdi-plus"></span> Add</b>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <div class="card-body">
                         <table class="table table-bordered table-hover" id="myTable">
                             <thead>
                                 <tr>
                                     <th width="90%"> UOM </th>
-                                    <th width="10%" align="center"> <span class="mdi mdi-menu"></span> </th>
+                                    <th width="10%"> <center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>
                              <tbody>
@@ -46,17 +47,19 @@
                                 foreach($uom AS $uo){ ?>
                                     <tr>
                                         <td><?php echo $uo->unit_name;?></td>
-                                        <td width="1%">
-                                         <center>
-                                             <a onclick="updateUnit('<?php echo base_url(); ?>','<?php echo $uo->unit_id; ?>')" class="btn btn-custon-three btn-info btn-xs"><span class="fa fa-pencil"></span></a>
-                                             <a href = "<?php echo base_url(); ?>index.php/masterfile/delete_uom/<?php echo $uo->unit_id;?>" onclick="confirmationDelete(this);return false;" class = "btn btn-danger btn-sm" title="DELETE"><span class="fa fa-trash"></span></a>
-                                         </center>
+                                        <td align="center">
+                                            <a href="<?php echo base_url(); ?>masterfile/update_uom/<?php echo $uo->unit_id; ?>" class="btn btn-gradient-info btn-rounded btn-xs" data-toggle="tooltip" data-placement="top" title="Update">
+                                                <span class="mdi mdi-pencil"></span>
+                                            </a>
+                                            <a href="<?php echo base_url(); ?>index.php/masterfile/delete_uom/<?php echo $uo->unit_id;?>" data-toggle="tooltip" data-placement="top" title="Delete" onclick="confirmationDelete(this);return false;" class = "btn btn-gradient-danger btn-rounded btn-xs">
+                                                <span class="mdi mdi-delete"></span>
+                                            </a>
                                         </td>
                                     </tr>
                                     <?php } } else { ?>
-                                <tr>
-                                    <td align="center" colspan='9'><center>No Data Available.</center></td>
-                                </tr>
+                                    <tr>
+                                        <td align="center" colspan='9'><center>No Data Available.</center></td>
+                                    </tr>
                                 <?php } ?>
                             </tbody>                           
                         </table>
@@ -83,8 +86,8 @@
                             </div>
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Add</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                      </form>
                 </div>

@@ -223,6 +223,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url(); ?>sales/sales_list">
+                        <span class="menu-title">Sales</span>
+                        <i class="mdi mdi-tag-multiple menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="pages/tables/basic-table.html">
                         <span class="menu-title">Tables</span>
                         <i class="mdi mdi-table-large menu-icon"></i>

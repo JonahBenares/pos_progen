@@ -5,12 +5,12 @@
             <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-info text-white mr-2">
                   <i class="mdi mdi-home"></i>
-                </span> Supplier List
+                </span> Supplier 
             </h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active" aria-current="page">
-                        <span></span>Supplier &nbsp;
+                        <span></span>Supplier List&nbsp;
                         <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                     </li>
                     <!--  <li class="breadcrumb-item"><a href="#">Editors</a></li>
@@ -21,18 +21,21 @@
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="main-button-center">
-                            <!-- <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterSupplier">
-                                <b><span class="mdi mdi-filter"></span> Filter</b>
-                            </button>
-                            <button type="button" class="btn btn-gradient-warning btn-sm">
-                                <b><span class="mdi mdi-export"></span> Export</b>
-                            </button> -->
-                            <button type="button" class="btn btn-gradient-primary btn-md" data-toggle="modal" data-target="#addSupplier">
-                                <b><span class="mdi mdi-plus"></span> Add</b>
-                            </button>
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h4 class="m-0">Supplier List</h4>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="pull-right">
+                                    <button type="button" class="btn btn-gradient-primary btn-sm btn-rounded" data-toggle="modal" data-target="#addSupplier">
+                                        <b><span class="mdi mdi-plus"></span> Add</b>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <div class="card-body">
                         <table class="table table-bordered table-hover" id="myTable">
                             <thead>
                                 <tr>
@@ -42,10 +45,10 @@
                                     <th width="10%"> Contact No. </th>
                                     <th width="15%"> Terms </th>
                                     <th width="5%"> Status</th>
-                                    <th width="10%" align="center"> <span class="mdi mdi-menu"></span> </th>
+                                    <th width="10%"><center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>
-                           <tbody>
+                            <tbody>
                                 <?php 
                                 if(!empty($supplier)){
                                 foreach($supplier AS $sup){ ?>
@@ -56,21 +59,23 @@
                                         <td><?php echo $sup->contact_number;?></td>
                                         <td><?php echo $sup->terms;?></td>
                                         <?php if($sup->active == '1') { ?>
-                                        <td><?php echo '<span class = "label label-success label-xs">Active</span>'; ?></td>
+                                        <td><?php echo '<span class = "badge badge-gradient-success">Active</span>'; ?></td>
                                         <?php } else { ?>
-                                        <td><?php echo '<span class = "label label-danger label-xs">Inactive</span>'; ?></td>
+                                        <td><?php echo '<span class = "badge badge-gradient-danger">Inactive</span>'; ?></td>
                                         <?php } ?>
-                                        <td width="1%">
-                                         <center>
-                                             <a onclick="updateSupplier('<?php echo base_url(); ?>','<?php echo $sup->supplier_id; ?>')" class="btn btn-custon-three btn-info btn-xs"><span class="fa fa-pencil"></span></a>
-                                             <a href = "<?php echo base_url(); ?>index.php/masterfile/delete_supplier/<?php echo $sup->supplier_id;?>" onclick="confirmationDelete(this);return false;" class = "btn btn-danger btn-sm" title="DELETE"><span class="fa fa-trash"></span></a>
-                                         </center>
+                                        <td align="center">
+                                            <a href="<?php echo base_url(); ?>masterfile/update_supplier/<?php echo $sup->supplier_id; ?>" class="btn btn-gradient-info btn-rounded btn-xs" data-toggle="tooltip" data-placement="top" title="Update">
+                                                <span class="mdi mdi-pencil"></span>
+                                            </a>
+                                            <a href="<?php echo base_url(); ?>index.php/masterfile/delete_supplier/<?php echo $sup->supplier_id;?>" data-toggle="tooltip" data-placement="top" title="Delete" onclick="confirmationDelete(this);return false;" class = "btn btn-gradient-danger btn-rounded btn-xs">
+                                                <span class="mdi mdi-delete"></span>
+                                            </a>                                            
                                         </td>
                                     </tr>
                                     <?php } } else { ?>
-                                <tr>
-                                    <td align="center" colspan='9'><center>No Data Available.</center></td>
-                                </tr>
+                                    <tr>
+                                        <td align="center" colspan='9'><center>No Data Available.</center></td>
+                                    </tr>
                                 <?php } ?>
                             </tbody>                               
                         </table>
@@ -120,8 +125,8 @@
                             </div>
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Add</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                     </form>
                 </div>

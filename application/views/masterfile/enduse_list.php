@@ -5,40 +5,41 @@
             <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-info text-white mr-2">
                   <i class="mdi mdi-home"></i>
-                </span> Enduse List
+                </span> Enduse 
             </h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active" aria-current="page">
-                        <span></span>Enduse &nbsp;
+                        <span></span>Enduse List &nbsp;
                         <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                     </li>
-                    <!--  <li class="breadcrumb-item"><a href="#">Editors</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Buyer List</li> -->
                 </ol>
             </nav>
         </div>
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="main-button-center">
-                            <!-- <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterEnduse">
-                                <b><span class="mdi mdi-filter"></span> Filter</b>
-                            </button>
-                            <button type="button" class="btn btn-gradient-warning btn-sm">
-                                <b><span class="mdi mdi-export"></span> Export</b>
-                            </button> -->
-                            <button type="button" class="btn btn-gradient-primary btn-md" data-toggle="modal" data-target="#addEnduse">
-                            <b><span class="mdi mdi-plus"></span> Add</b>
-                            </button>
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h4 class="m-0">Enduse List</h4>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="pull-right">
+                                    <button type="button" class="btn btn-gradient-primary btn-sm btn-rounded" data-toggle="modal" data-target="#addEnduse">
+                                        <b><span class="mdi mdi-plus"></span> Add</b>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <div class="card-body">
                         <table class="table table-bordered table-hover" id="myTable">
                             <thead>
                                 <tr>
                                     <th width="20%"> Enduse Code</th>
                                     <th width="70%"> Enduse Name</th>
-                                    <th width="10%" align="center"> <span class="mdi mdi-menu"></span> </th>
+                                    <th width="10%"><center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,10 +49,14 @@
                                     <tr>
                                         <td><?php echo $end->enduse_code; ?></td>
                                         <td><?php echo $end->enduse_name; ?></td>
-                                        <td width="1%">
+                                        <td>
                                          <center>
-                                             <a onclick="updateEnduse('<?php echo base_url(); ?>','<?php echo $end->enduse_id; ?>')" class="btn btn-custon-three btn-info btn-xs"><span class="fa fa-pencil"></span></a>
-                                             <a href = "<?php echo base_url(); ?>index.php/masterfile/delete_enduse/<?php echo $end->enduse_id;?>" onclick="confirmationDelete(this);return false;" class = "btn btn-danger btn-sm" title="DELETE"><span class="fa fa-trash"></span></a>
+                                            <a href="<?php echo base_url(); ?>masterfile/update_enduse/<?php echo $end->enduse_id; ?>" class="btn btn-gradient-info btn-rounded btn-xs" data-toggle="tooltip" data-placement="top" title="Update">
+                                                <span class="mdi mdi-pencil"></span>
+                                            </a>
+                                            <a href="<?php echo base_url(); ?>index.php/masterfile/delete_enduse/<?php echo $end->enduse_id;?>" data-toggle="tooltip" data-placement="top" title="Delete" onclick="confirmationDelete(this);return false;" class = "btn btn-gradient-danger btn-rounded btn-xs">
+                                                <span class="mdi mdi-delete"></span>
+                                            </a>
                                          </center>
                                         </td>
                                     </tr>
@@ -89,8 +94,8 @@
                             </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
                     </div>
                     </form>
                 </div>

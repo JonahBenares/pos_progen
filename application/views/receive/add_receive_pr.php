@@ -1,8 +1,3 @@
-<!-- <div class="right-sidebar-toggler-wrapper">
-    <div class="sidebar-toggler" id="settings-trigger">
-        <a href="#" data-toggle="tooltip" data-placement="left" title="Add PR">Save All</a>
-    </div>
-</div> -->
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -143,12 +138,12 @@
                             <br>             
                             <div class="col-lg-12">
                                 <div > <!-- style="width:100%;overflow-x: scroll;" -->
-                                    <table id="table-alt" class="table-bordered">
+                                    <table id="table-alt" class="table-bordered" width="100%">
                                         <tr>
-                                            <td class="td-head" width="">Item Description</td>
-                                            <td class="td-head" width="">Supplier</td>
-                                            <td class="td-head" width="">Brand</td>
-                                            <td class="td-head" width="">Serial No.</td>
+                                            <td class="td-head" width="15%">Item Description</td>
+                                            <td class="td-head" width="15%">Supplier</td>
+                                            <td class="td-head" width="10%">Brand</td>
+                                            <td class="td-head" width="10%">Serial No.</td>
                                             <td class="td-head" width="">Catalog No</td>
                                             <td class="td-head" width="">SEMT No</td>
                                             <td class="td-head" width="">NKK No</td>
@@ -156,6 +151,7 @@
                                             <td class="td-head" width="">Expected Qty</td>
                                             <td class="td-head" width="">Delivered/ Received</td>
                                             <td class="td-head" width="">Shipping/U & other related cost</td>
+                                            <td class="td-head" width="">Exp Date</td>
                                             <td class="td-head" width="">Currency</td>
                                             <td class="td-head" width="">Local/ Manila</td>
                                         </tr>
@@ -172,9 +168,11 @@
                                             <td>sample</td>
                                             <td>sample</td>
                                             <td>sample</td>
+                                            <td>sample</td>
                                             <td></select></td>             
                                         </tr>
                                         <tr>
+                                            <td>sample</td>
                                             <td>sample</td>
                                             <td>sample</td>
                                             <td>sample</td>

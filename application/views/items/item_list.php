@@ -4,45 +4,52 @@
             <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-info text-white mr-2">
                   <i class="mdi mdi-home"></i>
-                </span> Item List
+                </span> Items 
             </h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active" aria-current="page">
-                        <span></span>Items &nbsp;
+                        <span></span>Item List&nbsp;
                         <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                     </li>
-                    <!--  <li class="breadcrumb-item"><a href="#">Editors</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Buyer List</li> -->
                 </ol>
             </nav>
         </div>
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="main-button-center">
-                            <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterBuyer">
-                                <b><span class="mdi mdi-filter"></span> Filter</b>
-                            </button>
-                            <a href="<?php echo base_url(); ?>items/add_item" type="button" class="btn btn-gradient-primary btn-md">
-                                <b><span class="mdi mdi-plus"></span> Add</b>
-                            </a>
-                            <button type="button" class="btn btn-gradient-warning btn-sm" data-toggle="modal" data-target="#updateBuyer">
-                                <b><span class="mdi mdi-export"></span> Export</b>
-                            </button>
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h4 class="m-0">Item List</h4>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="pull-right">
+                                    <a href="<?php echo base_url(); ?>items/add_item" type="button" class="btn btn-gradient-primary btn-sm">
+                                        <b><span class="mdi mdi-plus"></span> Add</b>
+                                    </a>
+                                    <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterBuyer">
+                                        <b><span class="mdi mdi-filter"></span> Filter</b>
+                                    </button>                            
+                                    <button type="button" class="btn btn-gradient-warning btn-sm" data-toggle="modal" data-target="#updateBuyer">
+                                        <b><span class="mdi mdi-export"></span> Export</b>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <div class="card-body">
                         <table class="table table-bordered table-hover" id="myTable">
                             <thead>
                                 <tr>
                                     <th width="10%"> OPN </th>
                                     <th width="40%"> Item Description </th>
                                     <th width="5%"> Qty</th>
-                                    <th width="10%"> UOM </th>
+                                    <th width="5%"> UOM </th>
                                     <th width="10%"> Locationn </th>
                                     <th width="10%"> Rack </th>
                                     <th width="10%"> Price </th>
-                                    <th width="10%" align="center"> <span class="mdi mdi-menu"></span> </th>
+                                    <th width="10%"><center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>    
                             <tbody>
@@ -54,9 +61,9 @@
                                     <td></td>
                                     <td>Rack 1</td>
                                     <td>P 4414</td>
-                                    <td>
-                                        <a href="<?php echo base_url(); ?>items/update_item" class="btn btn-xs btn-gradient-info" ><span class="mdi mdi-pencil"></span></a>
-                                        <a href="" class="btn btn-xs btn-gradient-danger" data-toggle="modal" data-target="#deleteEmployee"><span class="mdi mdi-delete"></span></a>
+                                    <td align="center">
+                                        <a href="<?php echo base_url(); ?>items/update_item" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a>
+                                        <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteEmployee"><span class="mdi mdi-delete"></span></a>
                                     </td>
                                 </tr> 
                             </tbody>                        

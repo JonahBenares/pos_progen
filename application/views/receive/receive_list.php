@@ -12,41 +12,45 @@
                         <span></span>Receive List &nbsp;
                         <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                     </li>
-                    <!--  <li class="breadcrumb-item"><a href="#">Editors</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Buyer List</li> -->
                 </ol>
             </nav>
         </div>
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="main-button-center">                            
-                            <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterReceive">
-                                <b><span class="mdi mdi-filter"></span> Filter</b>
-                            </button>
-                            <a href="<?php echo base_url(); ?>receive/add_receive" type="button" class="btn btn-gradient-primary btn-md" >
-                                <b><span class="mdi mdi-plus"></span> Add (1)</b>
-                            </a>
-                            <a href="<?php echo base_url(); ?>receive/add_receive_head" type="button" class="btn btn-gradient-primary btn-md" >
-                                <b><span class="mdi mdi-plus"></span> Add (2)</b>
-                            </a>
-                            <button type="button" class="btn btn-gradient-warning btn-sm">
-                                <b><span class="mdi mdi-export"></span> Export</b>
-                            </button>
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h4 class="m-0">Receive List</h4>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="pull-right">
+                                    <a href="<?php echo base_url(); ?>receive/add_receive_head" type="button" class="btn btn-gradient-primary btn-sm btn-rounded">
+                                        <b><span class="mdi mdi-plus"></span> Add</b>
+                                    </a>
+                                    <button type="button" class="btn btn-gradient-success btn-sm btn-rounded" data-toggle="modal" data-target="#filterReceive">
+                                        <b><span class="mdi mdi-filter"></span> Filter</b>
+                                    </button>                            
+                                    <button type="button" class="btn btn-gradient-warning btn-sm btn-rounded" data-toggle="modal" data-target="#updateBuyer">
+                                        <b><span class="mdi mdi-export"></span> Export</b>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <div class="card-body">                        
                         <table class="table table-bordered table-hover" id="myTable">
                             <thead>
                                 <tr>
                                     <th width="90%"> Receive </th>
-                                    <th width="10%" align="center"> <span class="mdi mdi-menu"></span> </th>
+                                    <th width="10%"><span class="mdi mdi-menu"></span></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <td></td>
-                                <td>
-                                    <a href="" class="btn btn-sm btn-gradient-info" data-toggle="modal" data-target="#updateReceive"><span class="mdi mdi-pencil"></span></a>
-                                    <a href="" class="btn btn-sm btn-gradient-danger" data-toggle="modal" data-target="#deleteReceive"><span class="mdi mdi-delete"></span></a>
+                                <td align="center">
+                                    <a href="<?php echo base_url(); ?>receive/update_receive_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a>
+                                    <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteReceive"><span class="mdi mdi-delete"></span></a>
                                 </td>
                             </tbody>                            
                         </table>

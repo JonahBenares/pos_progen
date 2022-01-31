@@ -74,12 +74,18 @@
                             </div>                            
                         </div>
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <label >Shipping/U & other related cost</label>
                                     <input type="number" class="form-control" name="" placeholder="Currency">
                                 </div>
-                            </div>                             
+                            </div>      
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label >Expiry Date</label>
+                                    <input type="date" class="form-control" name="" placeholder="Expiry Date">
+                                </div>
+                            </div>                       
                         </div>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">

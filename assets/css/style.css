@@ -5753,9 +5753,9 @@ input[type="button"].btn-block {
   margin-left: 1.25rem; }
 
 .card-header {
-  padding: 0.75rem 1.25rem;
+  padding: 2rem 2.5rem 1rem 2.5rem;
   margin-bottom: 0;
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: rgba(0, 0, 0, 0.01);
  /* border-bottom: 1px solid rgba(0, 0, 0, 0.125);*/ }
   .card-header:first-child {
     border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0; }
@@ -6788,6 +6788,9 @@ a.close.disabled {
   overflow: scroll; }
 
 @media (min-width: 576px) {
+  .modal-dialog-md {
+    max-width: 800px!important;
+    margin: 30px auto; }
   .modal-dialog {
     max-width: 500px;
     margin: 30px auto; }
@@ -11220,7 +11223,7 @@ code {
   .btn.btn-lg, .btn-group-lg > .btn {
     font-size: 0.875rem; }
   .btn.btn-xs {
-    padding: 0.4rem 0.5rem;}
+    padding: 0.4rem 0.4rem;}
   .btn.btn-icon {
     width: 42px;
     height: 42px;
@@ -12791,7 +12794,7 @@ dl {
 .table {
   margin-bottom: 0; }
   .table thead{
-    background: #ede5ff73;
+    background: #fff0;
   }
   .table thead th {
     border-top: 0;
@@ -12805,7 +12808,7 @@ dl {
     vertical-align: middle;
     font-size: 0.875rem;
     line-height: 1;
-    white-space: nowrap; }
+    white-space: wrap; }
     .table th img,
     .table td img {
       width: 36px;
@@ -13743,6 +13746,7 @@ table#table-alt{
 }
 table#table-alt tr td{
     padding: 5px;
+    flex-wrap: wrap;
 }
 td.td-head{
     background-color: #f6eeff;

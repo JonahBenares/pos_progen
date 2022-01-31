@@ -4,45 +4,24 @@
             <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-info text-white mr-2">
                   <i class="mdi mdi-home"></i>
-                </span> Item List
+                </span> Item
             </h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <!-- <li class="breadcrumb-item active" aria-current="page">
-                        <span></span>Items &nbsp;
-                        <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
-                    </li> -->
-                    <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>items/item_list">Items</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>items/item_list">Item list</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Update Item</li>
                 </ol>
             </nav>
-            <!-- <nav aria-label="breadcrumb">
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">
-                        <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal" data-target="#addBuyer">
-                            <b><span class="mdi mdi-plus"></span> Add</b>
-                        </button>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        <button type="button" class="btn btn-gradient-success btn-sm" data-toggle="modal" data-target="#filterBuyer">
-                            <b><span class="mdi mdi-filter"></span> Filter</b>
-                        </button>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        <button type="button" class="btn btn-gradient-warning btn-sm" data-toggle="modal" data-target="#updateBuyer">
-                            <b><span class="mdi mdi-export"></span> Export</b>
-                        </button>
-                    </li>
-                </ul>
-            </nav> -->
         </div>
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                    <div class="card-header bg-gradient-info card-img-holder text-white">
+                        <h4 class=" m-0">Update Item</h4>
+                        <p class=" m-0"> Update the following fields </p>
+                    </div>
                     <div class="card-body">
-                        <h4 class="card-title">Update Item</h4>
                         <form class="form-sample">
-                            <p class="card-description"> Update the following fields </p>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group row">

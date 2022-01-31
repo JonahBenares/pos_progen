@@ -63,7 +63,7 @@ class Masterfile extends CI_Controller {
         );
         if($this->super_model->insert_into("buyer", $data)){
             echo "<script>alert('Buyer Successfully Added!'); 
-                window.location ='".base_url()."index.php/masterfile/buyer_list'; </script>";
+                window.location ='".base_url()."masterfile/buyer_list'; </script>";
         }
     }
 
@@ -93,7 +93,7 @@ class Masterfile extends CI_Controller {
         $id=$this->uri->segment(3);
         if($this->super_model->delete_where('buyer', 'buyer_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."index.php/masterfile/buyer_list'; </script>";
+                window.location ='".base_url()."masterfile/buyer_list'; </script>";
         }
     }
 
@@ -112,12 +112,13 @@ class Masterfile extends CI_Controller {
         );
         if($this->super_model->insert_into("department", $data)){
             echo "<script>alert('Department Successfully Added!'); 
-                window.location ='".base_url()."index.php/masterfile/department_list'; </script>";
+                window.location ='".base_url()."masterfile/department_list'; </script>";
         }
     }
 
     public function update_department(){
         $this->load->view('template/header');
+        $this->load->view('template/navbar');
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
         $data['update_department'] = $this->super_model->select_row_where('department', 'department_id', $id);
@@ -131,7 +132,8 @@ class Masterfile extends CI_Controller {
         );
         $department_id = $this->input->post('department_id');
         if($this->super_model->update_where('department', $data, 'department_id', $department_id)){
-            echo "<script>alert('Successfully Updated!'); window.opener.location.reload(); window.close();</script>";
+            echo "<script>alert('Department Successfully Updated!'); 
+                window.location ='".base_url()."masterfile/department_list'; </script>";
         }
     }
 
@@ -139,7 +141,7 @@ class Masterfile extends CI_Controller {
         $id=$this->uri->segment(3);
         if($this->super_model->delete_where('department', 'department_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."index.php/masterfile/department_list'; </script>";
+                window.location ='".base_url()."masterfile/department_list'; </script>";
         }
     }
 
@@ -166,12 +168,13 @@ class Masterfile extends CI_Controller {
         );
         if($this->super_model->insert_into("employees", $data)){
             echo "<script>alert('Employee Successfully Added!'); 
-                window.location ='".base_url()."index.php/masterfile/employee_list'; </script>";
+                window.location ='".base_url()."masterfile/employee_list'; </script>";
         }
     }
 
     public function update_employee(){
         $this->load->view('template/header');
+        $this->load->view('template/navbar');
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
         $data['update_employee'] = $this->super_model->select_row_where('employees', 'employee_id', $id);
@@ -189,7 +192,8 @@ class Masterfile extends CI_Controller {
         );
         $employee_id = $this->input->post('employee_id');
         if($this->super_model->update_where('employees', $data, 'employee_id', $employee_id)){
-            echo "<script>alert('Successfully Updated!'); window.opener.location.reload(); window.close();</script>";
+            echo "<script>alert('Employee Successfully Updated!'); 
+                window.location ='".base_url()."masterfile/employee_list'; </script>";
         }
     }
 
@@ -197,7 +201,7 @@ class Masterfile extends CI_Controller {
         $id=$this->uri->segment(3);
         if($this->super_model->delete_where('employees', 'employee_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."index.php/masterfile/employee_list'; </script>";
+                window.location ='".base_url()."masterfile/employee_list'; </script>";
         }
     }
 
@@ -215,12 +219,13 @@ class Masterfile extends CI_Controller {
         );
         if($this->super_model->insert_into("groups", $data)){
             echo "<script>alert('Group Successfully Added!'); 
-                window.location ='".base_url()."index.php/masterfile/group_list'; </script>";
+                window.location ='".base_url()."masterfile/group_list'; </script>";
         }
     }
 
     public function update_group(){
         $this->load->view('template/header');
+        $this->load->view('template/navbar');
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
         $data['update_group'] = $this->super_model->select_row_where('groups', 'group_id', $id);
@@ -234,7 +239,8 @@ class Masterfile extends CI_Controller {
         );
         $group_id = $this->input->post('group_id');
         if($this->super_model->update_where('groups', $data, 'group_id', $group_id)){
-            echo "<script>alert('Successfully Updated!'); window.opener.location.reload(); window.close();</script>";
+            echo "<script>alert('Group Successfully Updated!'); 
+                window.location ='".base_url()."masterfile/group_list'; </script>";
         }
     }
 
@@ -242,7 +248,7 @@ class Masterfile extends CI_Controller {
         $id=$this->uri->segment(3);
         if($this->super_model->delete_where('groups', 'group_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."index.php/masterfile/group_list'; </script>";
+                window.location ='".base_url()."masterfile/group_list'; </script>";
         }
     }
 
@@ -277,7 +283,7 @@ class Masterfile extends CI_Controller {
         );
         if($this->super_model->insert_into("item_categories", $data)){
            echo "<script>alert('Successfully Added!'); 
-                window.location ='".base_url()."index.php/masterfile/category_list'; </script>";
+                window.location ='".base_url()."masterfile/category_list'; </script>";
         }
     }
 
@@ -303,17 +309,19 @@ class Masterfile extends CI_Controller {
             'subcat_name'=> $sub_name
         );
         if($this->super_model->insert_into("item_subcat", $data)){
-           echo "<script>alert('Successfully Added!'); window.opener.location.reload(); window.close();</script>";
+           echo "<script>alert('Sub Category Successfully Added!'); 
+                window.location ='".base_url()."masterfile/category_list'; </script>";
         }
     }
 
-    public function view_cat(){
+    public function view_subcat(){
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
         $data['cat'] = $this->super_model->select_row_where('item_categories', 'cat_id', $id);
         //$data['access']=$this->access;
         $this->load->view('template/header');
-        $this->load->view('masterfile/view_cat',$data);
+        $this->load->view('template/navbar');
+        $this->load->view('masterfile/view_subcat',$data);
         $this->load->view('template/footer');
     }
 
@@ -325,7 +333,7 @@ class Masterfile extends CI_Controller {
         $subid = $this->input->post('subcat_id');
             if($this->super_model->update_where('item_subcat', $data, 'subcat_id', $subid)){
             echo "<script>alert('Successfully Updated!'); 
-                window.location ='".base_url()."index.php/masterfile/category_list'; </script>";
+                window.location ='".base_url()."masterfile/category_list'; </script>";
         }
     }
 
@@ -335,6 +343,7 @@ class Masterfile extends CI_Controller {
         $data['update_category'] = $this->super_model->select_row_where('item_categories', 'cat_id', $id);
         //$data['access']=$this->access;
         $this->load->view('template/header');
+        $this->load->view('template/navbar');
         $this->load->view('masterfile/update_category',$data);
         $this->load->view('template/footer');
     }
@@ -347,7 +356,7 @@ class Masterfile extends CI_Controller {
         $catid = $this->input->post('cat_id');
             if($this->super_model->update_where('item_categories', $data, 'cat_id', $catid)){
             echo "<script>alert('Successfully Updated'); 
-                window.location ='".base_url()."index.php/masterfile/category_list'; </script>";
+                window.location ='".base_url()."masterfile/category_list'; </script>";
         }
     }
 
@@ -355,11 +364,11 @@ class Masterfile extends CI_Controller {
         $id=$this->uri->segment(3);
         if($this->super_model->delete_where('item_categories', 'cat_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."index.php/masterfile/category_list'; </script>";
+                window.location ='".base_url()."masterfile/category_list'; </script>";
         }
     }
 
-public function location_list(){
+    public function location_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $data['location']=$this->super_model->select_all_order_by("location","location_name","ASC");
@@ -374,12 +383,13 @@ public function location_list(){
         );
         if($this->super_model->insert_into("location", $data)){
             echo "<script>alert('Location Successfully Added!'); 
-                window.location ='".base_url()."index.php/masterfile/location_list'; </script>";
+                window.location ='".base_url()."masterfile/location_list'; </script>";
         }
     }
 
     public function update_location(){
         $this->load->view('template/header');
+        $this->load->view('template/navbar');
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
         $data['update_location'] = $this->super_model->select_row_where('location', 'location_id', $id);
@@ -393,7 +403,8 @@ public function location_list(){
         );
         $location_id = $this->input->post('location_id');
         if($this->super_model->update_where('location', $data, 'location_id', $location_id)){
-            echo "<script>alert('Successfully Updated!'); window.opener.location.reload(); window.close();</script>";
+            echo "<script>alert('Location Successfully Updated!'); 
+                window.location ='".base_url()."masterfile/location_list'; </script>";
         }
     }
 
@@ -401,11 +412,11 @@ public function location_list(){
         $id=$this->uri->segment(3);
         if($this->super_model->delete_where('location', 'location_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."index.php/masterfile/location_list'; </script>";
+                window.location ='".base_url()."masterfile/location_list'; </script>";
         }
     }
 
-public function enduse_list(){
+    public function enduse_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $data['enduse']=$this->super_model->select_all_order_by("enduse","enduse_name","ASC");
@@ -422,12 +433,13 @@ public function enduse_list(){
         );
         if($this->super_model->insert_into("enduse", $data)){
             echo "<script>alert('Enduse Successfully Added!');
-            window.location ='".base_url()."index.php/masterfile/enduse_list'; </script>";
+            window.location ='".base_url()."masterfile/enduse_list'; </script>";
         }
     }
 
     public function update_enduse(){
         $this->load->view('template/header');
+        $this->load->view('template/navbar');
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
         $data['update_enduse'] = $this->super_model->select_row_where('enduse', 'enduse_id', $id);
@@ -442,7 +454,8 @@ public function enduse_list(){
         );
         $enduse_id = $this->input->post('enduse_id');
         if($this->super_model->update_where('enduse', $data, 'enduse_id', $enduse_id)){
-            echo "<script>alert('Successfully Updated!'); window.opener.location.reload(); window.close();</script>";
+            echo "<script>alert('Enduse Successfully Updated!');
+            window.location ='".base_url()."masterfile/enduse_list'; </script>";
         }
     }
 
@@ -450,7 +463,7 @@ public function enduse_list(){
         $id=$this->uri->segment(3);
         if($this->super_model->delete_where('enduse', 'enduse_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."index.php/masterfile/enduse_list'; </script>";
+                window.location ='".base_url()."masterfile/enduse_list'; </script>";
         }
     }
 
@@ -469,12 +482,13 @@ public function enduse_list(){
         );
         if($this->super_model->insert_into("purpose", $data)){
             echo "<script>alert('Purpose Successfully Added!'); 
-                window.location ='".base_url()."index.php/masterfile/purpose_list'; </script>";
+                window.location ='".base_url()."masterfile/purpose_list'; </script>";
         }
     }
 
     public function update_purpose(){
         $this->load->view('template/header');
+        $this->load->view('template/navbar');
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
         $data['update_purpose'] = $this->super_model->select_row_where('purpose', 'purpose_id', $id);
@@ -488,7 +502,8 @@ public function enduse_list(){
         );
         $purpose_id = $this->input->post('purpose_id');
         if($this->super_model->update_where('purpose', $data, 'purpose_id', $purpose_id)){
-            echo "<script>alert('Successfully Updated!'); window.opener.location.reload(); window.close();</script>";
+            echo "<script>alert('Purpose Successfully Updated!'); 
+                window.location ='".base_url()."masterfile/purpose_list'; </script>";
         }
     }
 
@@ -496,7 +511,7 @@ public function enduse_list(){
         $id=$this->uri->segment(3);
         if($this->super_model->delete_where('purpose', 'purpose_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."index.php/masterfile/purpose_list'; </script>";
+                window.location ='".base_url()."masterfile/purpose_list'; </script>";
         }
     }
 
@@ -515,12 +530,13 @@ public function enduse_list(){
         );
         if($this->super_model->insert_into("rack", $data)){
             echo "<script>alert('Rack Successfully Added!'); 
-                window.location ='".base_url()."index.php/masterfile/rack_list'; </script>";
+                window.location ='".base_url()."masterfile/rack_list'; </script>";
         }
     }
 
     public function update_rack(){
         $this->load->view('template/header');
+        $this->load->view('template/navbar');
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
         $data['update_rack'] = $this->super_model->select_row_where('rack', 'rack_id', $id);
@@ -534,7 +550,8 @@ public function enduse_list(){
         );
         $rack_id = $this->input->post('rack_id');
         if($this->super_model->update_where('rack', $data, 'rack_id', $rack_id)){
-            echo "<script>alert('Successfully Updated!'); window.opener.location.reload(); window.close();</script>";
+            echo "<script>alert('Rack Successfully Updated!'); 
+                window.location ='".base_url()."masterfile/rack_list'; </script>";
         }
     }
 
@@ -542,7 +559,7 @@ public function enduse_list(){
         $id=$this->uri->segment(3);
         if($this->super_model->delete_where('rack', 'rack_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."index.php/masterfile/rack_list'; </script>";
+                window.location ='".base_url()."masterfile/rack_list'; </script>";
         }
     }
 
@@ -571,12 +588,13 @@ public function enduse_list(){
         );
         if($this->super_model->insert_into("supplier", $data)){
             echo "<script>alert('Supplier Successfully Added!'); 
-                window.location ='".base_url()."index.php/masterfile/supplier_list'; </script>";
+                window.location ='".base_url()."masterfile/supplier_list'; </script>";
         }
     }
 
     public function update_supplier(){
         $this->load->view('template/header');
+        $this->load->view('template/navbar');
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
         $data['update_supplier'] = $this->super_model->select_row_where('supplier', 'supplier_id', $id);
@@ -595,7 +613,8 @@ public function enduse_list(){
         );
         $supplier_id = $this->input->post('supplier_id');
         if($this->super_model->update_where('supplier', $data, 'supplier_id', $supplier_id)){
-            echo "<script>alert('Successfully Updated!'); window.opener.location.reload(); window.close();</script>";
+           echo "<script>alert('Supplier Successfully Updated!'); 
+                window.location ='".base_url()."masterfile/supplier_list'; </script>";
         }
     }
 
@@ -603,7 +622,7 @@ public function enduse_list(){
         $id=$this->uri->segment(3);
         if($this->super_model->delete_where('supplier', 'supplier_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."index.php/masterfile/supplier_list'; </script>";
+                window.location ='".base_url()."masterfile/supplier_list'; </script>";
         }
     }
 
@@ -622,12 +641,13 @@ public function enduse_list(){
         );
         if($this->super_model->insert_into("uom", $data)){
             echo "<script>alert('Uom Successfully Added!'); 
-                window.location ='".base_url()."index.php/masterfile/uom_list'; </script>";
+                window.location ='".base_url()."masterfile/uom_list'; </script>";
         }
     }
 
     public function update_uom(){
         $this->load->view('template/header');
+        $this->load->view('template/navbar');
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
         $data['update_uom'] = $this->super_model->select_row_where('uom', 'unit_id', $id);
@@ -641,7 +661,8 @@ public function enduse_list(){
         );
         $unit_id = $this->input->post('unit_id');
         if($this->super_model->update_where('uom', $data, 'unit_id', $unit_id)){
-            echo "<script>alert('Successfully Updated!'); window.opener.location.reload(); window.close();</script>";
+            echo "<script>alert('Uom Successfully Updated!'); 
+                window.location ='".base_url()."masterfile/uom_list'; </script>";
         }
     }
 
@@ -649,7 +670,7 @@ public function enduse_list(){
         $id=$this->uri->segment(3);
         if($this->super_model->delete_where('uom', 'unit_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."index.php/masterfile/uom_list'; </script>";
+                window.location ='".base_url()."masterfile/uom_list'; </script>";
         }
     }
 
@@ -668,12 +689,13 @@ public function enduse_list(){
         );
         if($this->super_model->insert_into("warehouse", $data)){
             echo "<script>alert('Warehouse Successfully Added!'); 
-                window.location ='".base_url()."index.php/masterfile/warehouse_list'; </script>";
+                window.location ='".base_url()."masterfile/warehouse_list'; </script>";
         }
     }
 
     public function update_warehouse(){
         $this->load->view('template/header');
+        $this->load->view('template/navbar');
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
         $data['update_warehouse'] = $this->super_model->select_row_where('warehouse', 'warehouse_id', $id);
@@ -687,7 +709,8 @@ public function enduse_list(){
         );
         $warehouse_id = $this->input->post('warehouse_id');
         if($this->super_model->update_where('warehouse', $data, 'warehouse_id', $warehouse_id)){
-            echo "<script>alert('Successfully Updated!'); window.opener.location.reload(); window.close();</script>";
+            echo "<script>alert('Warehouse Successfully Updated!'); 
+                window.location ='".base_url()."masterfile/warehouse_list'; </script>";
         }
     }
 
@@ -695,7 +718,7 @@ public function enduse_list(){
         $id=$this->uri->segment(3);
         if($this->super_model->delete_where('warehouse', 'warehouse_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."index.php/masterfile/warehouse_list'; </script>";
+                window.location ='".base_url()."masterfile/warehouse_list'; </script>";
         }
     }
 
