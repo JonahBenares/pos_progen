@@ -36,7 +36,7 @@
                                     </button> 
                                     <span style="margin:0px 5px">|</span>
                                     <a href="" class="btn btn-gradient-danger btn-sm btn-rounded" >
-                                        <b><span class="mdi mdi-playlist-remove"></span> Damage List</b>
+                                        <b><span class="mdi mdi-window-close"></span> Damage List</b>
                                     </a>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                                         <a href="<?php echo base_url(); ?>items/update_item" class="btn btn-xs btn-gradient-info btn-rounded" data-toggle="tooltip" data-placement="top" title="Update"><span class="mdi mdi-pencil"></span></a>
                                         <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Delete"><span class="mdi mdi-delete"></span></a>
                                         <a href="" class="btn btn-xs btn-gradient-warning btn-rounded" data-toggle="tooltip" data-placement="top" title="View"><span class="mdi mdi-delete"></span></a>
-                                        <a href="<?php echo base_url(); ?>items/damage_item" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Damage"><span class="mdi mdi-playlist-remove"></span></a>
+                                        <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Damage"><span class="mdi mdi-window-close"></span></a>
                                     </td>
                                 </tr> 
                             </tbody>                        

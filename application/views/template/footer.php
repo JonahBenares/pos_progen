@@ -2,8 +2,9 @@
       </div>
       <!-- page-body-wrapper ends -->
         </div>
-        <!-- container-scroller -->
-        <!-- plugins:js -->
+        <script src="<?php echo base_url(); ?>assets/js/billing.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/receive.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/sales.js"></script>
         <script src="<?php echo base_url(); ?>assets/vendors/js/vendor.bundle.base.js"></script>
         <!-- endinject -->
         <!-- Plugin js for this page -->
@@ -67,6 +68,16 @@
                     }
                 );
             });
+        </script>
+        <script>
+            function loadTransactions() {
+                var x = document.getElementById("loadTransactions");
+                if (x.style.display === "block") {
+                    x.style.display = "none";
+                } else {
+                    x.style.display = "block";
+                }
+            }
         </script>
     </body>
 </html>

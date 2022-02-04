@@ -3263,7 +3263,7 @@ pre {
   color: #212529; }
   .table th,
   .table td {
-    padding: 0.9375rem;
+    padding: 0.7855rem;
     vertical-align: top;
     border-top: 1px solid #ebedf2; }
   .table thead th {
@@ -11220,6 +11220,8 @@ code {
     min-width: 150px; }
   .btn.btn-sm, .btn-group-sm > .btn {
     font-size: 0.875rem; }
+  .btn.btn-md, .btn-group-md > .btn {
+    padding: 0.875rem 1.5rem }
   .btn.btn-lg, .btn-group-lg > .btn {
     font-size: 0.875rem; }
   .btn.btn-xs {
@@ -12465,8 +12467,8 @@ code {
       color: #ffffff; }
 
 /* Forms */
-.form-group {
-  margin-bottom: 1.5rem; }
+/*.form-group {
+  margin-bottom: 1.5rem; }*/
 
 .input-group-append,
 .input-group-prepend {
@@ -13750,4 +13752,37 @@ table#table-alt tr td{
 }
 td.td-head{
     background-color: #f6eeff;
+}
+.amount-txt{
+  text-align: right;
+}
+
+#loadTransactions{
+  display: none;
+}
+
+page[size="A4"] {
+  background: white;
+  width: 21cm;
+  height: 29.7cm;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 0.5cm;
+  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+}
+@media print {
+  body, page[size="A4"] {
+    margin: 0;
+    box-shadow: 0;
+  }
+}
+
+.page-A4{
+    font-size: 14px;
+}
+.bor-btm1{
+    border-bottom:solid 1px #000;
+}
+.bor-btm2{
+    border-bottom:solid 2px #000;
 }

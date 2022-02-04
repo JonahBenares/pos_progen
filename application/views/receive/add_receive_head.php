@@ -1,8 +1,3 @@
-<!-- <div class="right-sidebar-toggler-wrapper">
-    <div class="sidebar-toggler" id="settings-trigger">
-        <a href="#" data-toggle="tooltip" data-placement="left" title="Add PR">Save All</a>
-    </div>
-</div> -->
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -26,43 +21,47 @@
                     </div>
                     <div class="card-body">                        
                         <div class="row">
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label for="exampleInputName1">Date</label>
-                                    <input type="date" class="form-control" placeholder="Date">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail3">PO No.</label>
-                                    <input type="text" class="form-control" placeholder="PO No">
+                            <div class="col-lg-7">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Date</label>
+                                            <input type="date" class="form-control" placeholder="Date">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail3">PO No.</label>
+                                            <input type="text" class="form-control" placeholder="PO No">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail3">DR No.</label>
+                                            <input type="text" class="form-control" placeholder="DR No">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail3">SI/OR</label>
+                                            <input type="text" class="form-control" placeholder="SI/OR">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail3">DR No.</label>
-                                    <input type="text" class="form-control" placeholder="DR No">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail3">SI/OR</label>
-                                    <input type="text" class="form-control" placeholder="SI/OR">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-5">
                                 <div class="form-group">
                                     <label for="exampleTextarea1">Overall Remarks</label>
                                     <textarea class="form-control" id="exampleTextarea1" rows="2" placeholder="Overall Remarks"></textarea>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-8">
                                         <div class="form-check mx-sm-2">
                                             <label class="form-check-label">
                                                 <input type="checkbox" class="form-check-input" checked> PCF
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <label for="exampleTextarea1"></label>
+                                    <div class="col-lg-4">
+                                        <label for="exampleTextarea1"><br></label>
                                         <div class="form-group">
-                                            <a  href="<?php echo base_url(); ?>receive/add_receive_pr"  class="btn btn-gradient-primary btn-fw pull-right">Proceed / Add PR</a>
+                                            <a  href="<?php echo base_url(); ?>receive/add_receive_pr"  class="btn btn-gradient-primary btn-sm btn-block btn-rounded">Proceed</a>
                                             <!-- <input type="submit" class="btn btn-gradient-primary btn-fw pull-right" value="Add PR" name=""> -->
                                         </div>
                                     </div>

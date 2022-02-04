@@ -1,8 +1,3 @@
-<!-- <div class="right-sidebar-toggler-wrapper">
-    <div class="sidebar-toggler" id="settings-trigger">
-        <a href="#" data-toggle="tooltip" data-placement="left" title="Add PR">Save All</a>
-    </div>
-</div> -->
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">

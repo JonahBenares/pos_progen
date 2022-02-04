@@ -3,13 +3,13 @@
         <div class="page-header">
             <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-info text-white mr-2">
-                  <i class="mdi mdi-chart-areaspline"></i>
-                </span> Sales
+                  <i class="mdi mdi-file-document"></i>
+                </span> Billing
             </h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active" aria-current="page">
-                        <span></span>Sales List &nbsp;
+                        <span></span>Billing List &nbsp;
                         <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                     </li>
                 </ol>
@@ -21,11 +21,11 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-lg-6">
-                                <h4 class="m-0">Sales List</h4>
+                                <h4 class="m-0">Billing List</h4>
                             </div>
                             <div class="col-lg-6">
                                 <div class="pull-right">
-                                    <a href="<?php echo base_url(); ?>sales/add_sales_head" class="btn btn-gradient-primary btn-sm btn-rounded">
+                                    <a href="<?php echo base_url(); ?>billing/add_billing_head" class="btn btn-gradient-primary btn-sm btn-rounded">
                                         <b><span class="mdi mdi-plus"></span> Add</b>
                                     </a>
                                     <button type="button" class="btn btn-gradient-success btn-sm btn-rounded" data-toggle="modal" data-target="#filterSales">
@@ -42,30 +42,24 @@
                         <table class="table table-bordered table-hover" id="myTable" width="100%">
                             <thead>
                                 <tr>
-                                    <td width="10%">DR Date</td>
-                                    <td width="10%">DR No.</td>
-                                    <td width="10%">Buyer</td>
-                                    <td width="10%">Address</td>
-                                    <td width="10%">Shipped Via</td>
-                                    <td width="10%">Waybill No.</td>                                   
-                                    <td width="10%">Source PR No.</td>
-                                    <td width="10%">PGC PR No. /PO No.</td> 
+                                    <td width="9%">Date</td>
+                                    <td width="31%">Customer</td>
+                                    <td width="20%">Address</td>
+                                    <td width="15%">PO/JO No.</td>
+                                    <td width="15%">PO/JO Date</td>        
                                     <th width="10%"><center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>10-10-10</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td align="center">
-                                    <a href="<?php echo base_url(); ?>sales/update_sales_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a>
+                                    <a href="<?php echo base_url(); ?>billing/update_billing_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a>
                                     <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteSales"><span class="mdi mdi-delete"></span></a>
-                                    <a href="<?php echo base_url(); ?>sales/print_sales" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
+                                    <a href="<?php echo base_url(); ?>billing/print_billing" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
                                 </td>
                             </tbody>                            
                         </table>
