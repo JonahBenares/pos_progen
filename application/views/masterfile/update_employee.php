@@ -34,7 +34,13 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Department</label>
-                                            <input type="text" class="form-control" name="department" value = "<?php echo $e->department; ?>">
+                                            <select name = "department_id" class = "form-control">
+                                            <?php 
+                                                foreach($department AS $dep){
+                                            ?>
+                                            <option value = "<?php echo $dep->department_id;?>" <?php echo ($e->department_id==$dep->department_id) ? " selected" : '';?>><?php echo $dep->department_name;?></option>
+                                            <?php } ?>  
+                                            </select>           
                                         </div>
                                         <div class="form-group">
                                             <label>Contact Number</label>
