@@ -217,6 +217,18 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url(); ?>damage/damage_item">
+                        <span class="menu-title">Damage</span>
+                        <i class="mdi mdi-image-broken-variant menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url(); ?>repair/repair_item">
+                        <span class="menu-title">Repair</span>
+                        <i class="mdi mdi-wrench menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url(); ?>receive/receive_list">
                         <span class="menu-title">Receive</span>
                         <i class="mdi mdi-import menu-icon"></i>

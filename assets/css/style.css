@@ -13786,3 +13786,11 @@ page[size="A4"] {
 .bor-btm2{
     border-bottom:solid 2px #000;
 }
+.label-table{
+  position: relative;
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  padding-left: 5px;
+  font-size: 14px;
+}
