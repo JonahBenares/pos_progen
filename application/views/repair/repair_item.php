@@ -29,11 +29,10 @@
                                                     </label>
                                                 </div>
                                             </th>
-                                            <th><label class="label-table">Item Code</label></th>
+                                            <th><label class="label-table">Receive Date</label></th>
+                                            <th><label class="label-table">PR No</label></th>
                                             <th><label class="label-table">Category</label></th>
-                                            <th><label class="label-table">Brand</label></th>
-                                            <th><label class="label-table">Model</label></th>
-                                            <th><label class="label-table">Serial No.</label></th>
+                                            <th><label class="label-table">Sub Category</label></th>
                                             <th width="5%">
                                                 <center>
                                                     <label class="label-table"><span class="mdi mdi-menu"></span></label>
@@ -53,7 +52,6 @@
                                         <td><label class="label-table">sample</label></td>
                                         <td><label class="label-table">sample</label></td>
                                         <td><label class="label-table">sample</label></td>
-                                        <td><label class="label-table">225545</label></td>
                                         <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
                                     </tr>
                                     <tr>
@@ -68,7 +66,6 @@
                                         <td><label class="label-table">sample</label></td>
                                         <td><label class="label-table">sample</label></td>
                                         <td><label class="label-table">sample</label></td>
-                                        <td><label class="label-table">3366555</label></td>
                                         <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
                                     </tr>
                                     <tr>
@@ -83,7 +80,6 @@
                                         <td><label class="label-table">sample</label></td>
                                         <td><label class="label-table">sample</label></td>
                                         <td><label class="label-table">sample</label></td>
-                                        <td><label class="label-table">6696996</label></td>
                                         <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
                                     </tr>
                                     <tr>
@@ -98,7 +94,6 @@
                                         <td><label class="label-table">sample</label></td>
                                         <td><label class="label-table">sample</label></td>
                                         <td><label class="label-table">sample</label></td>
-                                        <td><label class="label-table">225669</label></td>
                                         <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
                                     </tr>
                                     <tr>
@@ -113,7 +108,6 @@
                                         <td><label class="label-table">sample</label></td>
                                         <td><label class="label-table">sample</label></td>
                                         <td><label class="label-table">sample</label></td>
-                                        <td><label class="label-table">9985854</label></td>
                                         <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
                                     </tr>
                                 </table>
