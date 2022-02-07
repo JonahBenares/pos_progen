@@ -148,20 +148,31 @@ class Masterfile extends CI_Controller {
     public function employee_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $data['employees']=$this->super_model->select_all_order_by("employees","employee_name","ASC");
+        $data['department'] = $this->super_model->select_all('department');
+        foreach($this->super_model->select_all_order_by('employees','employee_name','ASC') AS $emp){
+            $department =$this->super_model->select_column_where("department", "department_name", "department_id", $emp->department_id);
+            $data['employee'][] = array(
+                'employee_id'=>$emp->employee_id,
+                'employee'=>$emp->employee_name,
+                'department'=>$department,
+                'position'=>$emp->position,
+                'contact_no'=>$emp->contact_no,
+                'email'=>$emp->email
+            );
+        }
         $this->load->view('masterfile/employee_list',$data);
         $this->load->view('template/footer');
     }
 
     public function add_employee(){
         $employee_name = $this->input->post('employee_name');
-        $department = $this->input->post('department');
+        $department_id = $this->input->post('department_id');
         $position = $this->input->post('position');
         $contact_no = $this->input->post('contact_no');
         $email = $this->input->post('email');
         $data = array(
             'employee_name'=>$employee_name,
-            'department'=>$department,
+            'department_id'=>$department_id,
             'position'=>$position,
             'contact_no'=>$contact_no,
             'email'=>$email,
@@ -177,6 +188,7 @@ class Masterfile extends CI_Controller {
         $this->load->view('template/navbar');
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
+        $data['department'] = $this->super_model->select_all('department');
         $data['update_employee'] = $this->super_model->select_row_where('employees', 'employee_id', $id);
         $this->load->view('masterfile/update_employee',$data);
         $this->load->view('template/footer');
@@ -185,7 +197,7 @@ class Masterfile extends CI_Controller {
     public function edit_employee(){
         $data = array(
             'employee_name'=>$this->input->post('employee_name'),
-            'department'=>$this->input->post('department'),
+            'department_id'=>$this->input->post('department_id'),
             'position'=>$this->input->post('position'),
             'contact_no'=>$this->input->post('contact_no'),
             'email'=>$this->input->post('email'),

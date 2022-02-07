@@ -49,18 +49,18 @@
                             </thead>
                             <tbody>
                                 <?php 
-                                    if(!empty($employees)){
-                                        foreach($employees AS $emp){ ?>
-                                        <td><?php echo $emp->employee_name;?></td>
-                                        <td><?php echo $emp->position;?></td>
-                                        <td><?php echo $emp->department;?></td>
-                                        <td><?php echo $emp->contact_no;?></td>
-                                        <td><?php echo $emp->email;?></td>
+                                    if(!empty($employee)){
+                                        foreach($employee AS $emp){ ?>
+                                        <td><?php echo $emp['employee']?></td>
+                                        <td><?php echo $emp['position']?></td>
+                                        <td><?php echo $emp['department']?></td>
+                                        <td><?php echo $emp['contact_no']?></td>
+                                        <td><?php echo $emp['email']?></td>
                                         <td align="center">
-                                            <a href="<?php echo base_url(); ?>masterfile/update_employee/<?php echo $emp->employee_id; ?>" class="btn btn-gradient-info btn-rounded btn-xs" data-toggle="tooltip" data-placement="top" title="Update">
+                                            <a href="<?php echo base_url(); ?>masterfile/update_employee/<?php echo $emp['employee_id'] ?>" class="btn btn-gradient-info btn-rounded btn-xs" data-toggle="tooltip" data-placement="top" title="Update">
                                                 <span class="mdi mdi-pencil"></span>
                                             </a>
-                                            <a href="<?php echo base_url(); ?>index.php/masterfile/delete_employee/<?php echo $emp->employee_id;?>" data-toggle="tooltip" data-placement="top" title="Delete" onclick="confirmationDelete(this);return false;" class = "btn btn-gradient-danger btn-rounded btn-xs">
+                                            <a href="<?php echo base_url(); ?>index.php/masterfile/delete_employee/<?php echo  $emp['employee_id']?>" data-toggle="tooltip" data-placement="top" title="Delete" onclick="confirmationDelete(this);return false;" class = "btn btn-gradient-danger btn-rounded btn-xs">
                                                 <span class="mdi mdi-delete"></span>
                                             </a>
                                         </td>
@@ -99,7 +99,14 @@
                             </div>
                             <div class="form-group">
                                 <label>Department</label>
-                                <input type="text" class="form-control" name="department" placeholder="Department">
+                                <select name = "department_id" class = "form-control">
+                                <option value = "">--Select Department--</option>
+                                <?php 
+                                    foreach($department AS $dep){
+                                ?>
+                                <option value = "<?php echo $dep->department_id;?>"><?php echo $dep->department_name;?></option>
+                                <?php } ?>  
+                            </select>
                             </div>
                             <div class="form-group">
                                 <label>Contact Number</label>
