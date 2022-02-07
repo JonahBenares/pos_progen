@@ -35,8 +35,7 @@
             
         </style>
         <page size="A4">
-            under construction
-            <!-- <table class="page-A4 table-bordsered" width="100%">
+            <table class="page-A4 table-bsordered" width="100%">
                 <tr>
                     <td width="5%"><br></td>
                     <td width="5%"></td>
@@ -66,213 +65,280 @@
                         VAT Reg. TIN: 008-726-170-001  
                         <br>
                         <br>
-                        <b>BILLING STATEMENT</b>
+                        <b>MATERIAL RECEIVING & INSPECTION FORM</b>
                         <br>
                         <br>
                     </td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td colspan="2">No:</td>
-                    <td colspan="4" class="bor-btm1"></td>
-                    <td colspan="4"></td>
-                    <td></td>
-                    <td colspan="3"></td>
-                    <td colspan="4"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
                     <td colspan="2">Date:</td>
-                    <td colspan="4" class="bor-btm1"></td>
-                    <td colspan="4"></td>
-                    <td></td>
-                    <td colspan="3">TIN:</td>
-                    <td colspan="4" class="bor-btm1"></td>
-                    <td></td>
+                    <td colspan="8" class="bor-btm1">2021-12-02</td>
+                    <td colspan="2" align="right">MRF NO.:</td>
+                    <td colspan="8" class="bor-btm1">MRIF-2021-12-0364</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td colspan="2">Customer:</td>
-                    <td colspan="8" class="bor-btm1"></td>
-                    <td></td>
-                    <td colspan="3">PO/JO No.:</td>
-                    <td colspan="4" class="bor-btm1"></td>
-                    <td></td>
+                    <td colspan="2">DR NO.:</td>
+                    <td colspan="8" class="bor-btm1">PROGENMNL-012</td>
+                    <td colspan="2" align="right">PO:</td>
+                    <td colspan="8" class="bor-btm1">PROGEN-034-066</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td colspan="2">Address:</td>
+                    <td colspan="2">SI NO.:</td>
+                    <td colspan="8" class="bor-btm1"> 1392</td>
+                    <td colspan="2" align="right">PCF:</td>
                     <td colspan="8" class="bor-btm1"></td>
-                    <td></td>
-                    <td colspan="3">PO/JO Date:</td>
-                    <td colspan="4" class="bor-btm1"></td>
-                    <td></td>
                 </tr>
                 <tr>
                     <td colspan="20" align="center"><br><br></td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td colspan="18">
-                        <table class="table-bordered" width="100%">
-                            <tr>
-                                <td width="7%">Qty</td>
-                                <td width="8%">UoM</td>
-                                <td width="15%">Item Code</td>
-                                <td>Item Description</td>
-                                <td width="15%">Price per unit</td>
-                                <td width="15%">Total Amount</td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td colspan="5">
-                                    <span class="pull-right">Total Amount Due:</span>
-                                </td>
-                                <td class="bor-btm2"></td>
-                            </tr>
-                        </table>
+                    <td colspan="20">
+                        <fieldset>
+                            <legend>PR/JO No.: PFLM201022-00299-CNPR</legend>
+                            <table width="100%">
+                                <tr>
+                                    <td width="10%">Department:</td>
+                                    <td width="70%" class="bor-btm1"> Progen Warehouse</td>
+                                    <td width="5%"></td>
+                                </tr>
+                                <tr>
+                                    <td width="10%">Purpose:</td>
+                                    <td width="70%" class="bor-btm1">Replacement Parts for Refurbishing / Reconditioning</td>
+                                    <td width="5%"></td>
+                                </tr>
+                                <tr>
+                                    <td width="10%">Enduse:</td>
+                                    <td width="70%" class="bor-btm1">Replacement Parts for Refurbishing / Reconditioning</td>
+                                    <td width="5%"></td>
+                                </tr>
+                            </table>
+                            <br>
+                            <table class="table-bordered" width="100%">
+                                <tr> 
+                                    <td align="center" width="3%"> #</td>
+                                    <td align="center" width="5%">Qty</td>
+                                    <td align="center" width="8%">U/M</td>
+                                    <td align="center" width="15%">Part No.</td>
+                                    <td align="center" width="25%">Item Description</td>
+                                    <td align="center" width="25%">Supplier</td>
+                                    <td align="center" width="10%">Cat No. / NKK No. / SEMT No.</td>
+                                    <td align="center" width="15%">Brand</td>
+                                    <td align="center" width="10%">Cost</td>
+                                    <td align="center" width="10%">Shipping Fee </td>
+                                    <td align="center" width="10%">Total Cost</td>
+                                </tr>
+                                <tr>
+                                    <td><br></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><br></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><br></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><br></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><br></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>                           
+                            </table>
+                            <br>
+                            <table width="100%">
+                                <tr>
+                                    <td width="10%" style="vertical-align:text-top;">Remarks:</td>
+                                    <td width="70%" style="vertical-align:text-top;" class="bor-btm1">   O-ring - This was accommodated by SIPC due to import permit. The reference Purchase Order number under SIPC is PO-CXPPO-2021-018(MD Trade Power GmbH ,</td>
+                                    <td width="5%"></td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" style="vertical-align:text-top;">Inspected by:</td>
+                                    <td width="70%" style="vertical-align:text-top;" class="bor-btm1">Mary Grace Bugna</td>
+                                    <td width="5%"></td>
+                                </tr>
+                            </table>
+                        </fieldset>
                     </td>
-                    <td></td>
                 </tr>
                 <tr>
-                    <td colspan="20" align="center">
-                        <br>
-                        <br>                        
-                        <b style="color: red;">Please make all checks payable to PROGEN DIESELTECH SERVICES CORP.</b>
-                        <br>
-                        <br>
-                        <i>This document is not valid for claiming input taxes.</i>
-                        <br>
-                        <br>
+                    <td colspan="20">
+                        <fieldset>
+                            <legend>PR/JO No.: PFLM201022-00299-CNPR</legend>
+                            <table width="100%">
+                                <tr>
+                                    <td width="10%">Department:</td>
+                                    <td width="70%" class="bor-btm1"> Progen Warehouse</td>
+                                    <td width="5%"></td>
+                                </tr>
+                                <tr>
+                                    <td width="10%">Purpose:</td>
+                                    <td width="70%" class="bor-btm1">Replacement Parts for Refurbishing / Reconditioning</td>
+                                    <td width="5%"></td>
+                                </tr>
+                                <tr>
+                                    <td width="10%">Enduse:</td>
+                                    <td width="70%" class="bor-btm1">Replacement Parts for Refurbishing / Reconditioning</td>
+                                    <td width="5%"></td>
+                                </tr>
+                            </table>
+                            <br>
+                            <table class="table-bordered" width="100%">
+                                <tr> 
+                                    <td align="center" width="3%"> #</td>
+                                    <td align="center" width="5%">Qty</td>
+                                    <td align="center" width="8%">U/M</td>
+                                    <td align="center" width="15%">Part No.</td>
+                                    <td align="center" width="25%">Item Description</td>
+                                    <td align="center" width="25%">Supplier</td>
+                                    <td align="center" width="10%">Cat No. / NKK No. / SEMT No.</td>
+                                    <td align="center" width="15%">Brand</td>
+                                    <td align="center" width="10%">Cost</td>
+                                    <td align="center" width="10%">Shipping Fee </td>
+                                    <td align="center" width="10%">Total Cost</td>
+                                </tr>
+                                <tr>
+                                    <td><br></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><br></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><br></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><br></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><br></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>                           
+                            </table>
+                            <br>
+                            <table width="100%">
+                                <tr>
+                                    <td width="10%" style="vertical-align:text-top;">Remarks:</td>
+                                    <td width="70%" style="vertical-align:text-top;" class="bor-btm1">   O-ring - This was accommodated by SIPC due to import permit. The reference Purchase Order number under SIPC is PO-CXPPO-2021-018(MD Trade Power GmbH ,</td>
+                                    <td width="5%"></td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" style="vertical-align:text-top;">Inspected by:</td>
+                                    <td width="70%" style="vertical-align:text-top;" class="bor-btm1">Mary Grace Bugna</td>
+                                    <td width="5%"></td>
+                                </tr>
+                            </table>
+                        </fieldset>
                     </td>
+                </tr>
+
+
+                <tr>
+                    <td colspan="20"><br></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td colspan="5"><b>Prepared by:</b></td>
                     <td></td>
-                    <td colspan="5"><b>Checked by:</b></td>
+                    <td colspan="5"><b>Delivered by:</b></td>
                     <td></td>
-                    <td colspan="6"><b>Approved by:</b></td>
+                    <td colspan="6"><b>Received by:</b></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -280,23 +346,57 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td colspan="5">Mary Grace Bugna</td>
+                    <td colspan="5" class="bor-btm1" align="center">Mary Grace Bugna</td>
                     <td></td>
-                    <td colspan="5">Jordan T. Yap</td>
+                    <td colspan="5" class="bor-btm1" align="center"></td>
                     <td></td>
-                    <td colspan="6">Merry Michelle D. Dato</td>
+                    <td colspan="6" class="bor-btm1" align="center">Merry Michelle D. Dato</td>
                     <td></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td colspan="5">Sales Officer</td>
+                    <td colspan="5" align="center" style="vertical-align:text-top;">Sales Officer</td>
                     <td></td>
-                    <td colspan="5">Internal Auditor</td>
+                    <td colspan="5" align="center" style="vertical-align:text-top;">Supplier/Driver</td>
                     <td></td>
-                    <td colspan="6">Assets & Projects Management Assistant</td>
+                    <td colspan="6" align="center" style="vertical-align:text-top;">Warehouse Assistant</td>
                     <td></td>
                 </tr>
-            </table> -->
+
+                <tr>
+                    <td colspan="20"><br></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="5"><b>Acknowledged by:</b></td>
+                    <td></td>
+                    <td colspan="5"><b></b></td>
+                    <td></td>
+                    <td colspan="6"><b>Noted by:</b></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="20"><br></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="5" class="bor-btm1" align="center">Mary Grace Bugna</td>
+                    <td></td>
+                    <td colspan="5"></td>
+                    <td></td>
+                    <td colspan="6" class="bor-btm1" align="center"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="5" align="center" style="vertical-align:text-top;">Warehouse Supervisor</td>
+                    <td></td>
+                    <td colspan="5" align="center" style="vertical-align:text-top;"></td>
+                    <td></td>
+                    <td colspan="6" align="center" style="vertical-align:text-top;">Plant Director</td>
+                    <td></td>
+                </tr>
+            </table>
         </page>
     </div>
 </div>

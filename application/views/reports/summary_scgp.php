@@ -25,9 +25,9 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="pull-right">
-                                    <button type="button" class="btn btn-gradient-success btn-sm btn-rounded" data-toggle="modal" data-target="#filterSales">
+                                    <!-- <button type="button" class="btn btn-gradient-success btn-sm btn-rounded" data-toggle="modal" data-target="#filterSales">
                                         <b><span class="mdi mdi-filter"></span> Filter</b>
-                                    </button>
+                                    </button> -->
                                     <a href="<?php echo base_url(); ?>report/print_monthly_report" class="btn btn-gradient-info btn-sm btn-rounded">
                                         <b><span class="mdi mdi-printer"></span> Print</b>
                                     </a>                            
@@ -38,7 +38,24 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">         
+                    <div class="card-body"> 
+                        <div class="row">
+                            <div class="col-lg-2 offset-lg-1">
+                                <input placeholder="Date From" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                            </div>
+                            <div class="col-lg-2">
+                                <input placeholder="Date to" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                            </div>
+                            <div class="col-lg-4">
+                                <select class="form-control">
+                                    <option>--Select Customer--</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="" value="Filter">
+                            </div>
+                        </div>
+                        <hr>          
                         <table class="table table-bordered table-hover" width="100%">
                             <thead>
                                 <tr>

@@ -38,11 +38,9 @@
                     <div class="card-body"> 
                         <div class="row">
                             <div class="col-lg-5">
-                                <div class="form-group">
-                                    <select class="form-control">
-                                        <option>-Choose Month-</option>
-                                    </select>
-                                </div>
+                                <select class="form-control">
+                                    <option>-Choose Month-</option>
+                                </select>
                             </div>
                             <div class="col-lg-5">
                                 <select class="form-control">
@@ -50,9 +48,10 @@
                                 </select>
                             </div>
                             <div class="col-lg-2">
-                                <button class="btn btn-sm btn-success btn-rounded btn-block">submit</button>
+                                <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="" value="Filter">
                             </div>
-                        </div>           
+                        </div>    
+                        <hr>       
                         <table class="table table-bordered table-hover" width="100%">
                             <thead>
                                 <tr>

@@ -1,3 +1,4 @@
+
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -76,7 +77,7 @@
             <div class="col-lg-2"><center><br><span style="color:#aeaeae;font-size: 13px;">PURCHASE REQUESTS</span></center></div>
             <div class="col-lg-5"><br><hr></div>
         </div>
-        <div class="row">
+        <div class="row>
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -204,11 +205,12 @@
                 </div>
             </div>
         </div>
-        <br> 
+        <br>
+
         <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-3">
-                <button class="btn btn-gradient-primary btn-md btn-block">Add PR</button>
+                <button class="btn btn-gradient-primary btn-md btn-block" id="show/hide">Add PR</button>
             </div>
             <div class="col-lg-3">
                 <a href="<?php echo base_url(); ?>receive/print_receive" class="btn btn-gradient-success btn-md btn-block">Save and Print</a>
@@ -217,9 +219,19 @@
         </div>
     </div>
 </div>
+<div class="row">
+  <div class="customer_records">
+    <input name="customer_name" type="text" value="name">
+    <input name="customer_age" type="number" value="age">
+    <input name="customer_email" type="email" value="email">
+
+    <a class="extra-fields-customer" >Add More Customer</a>
+  </div>
+
+  <div class="customer_records_dynamic"></div>
+
+</div>
         
-
-
 
 
 

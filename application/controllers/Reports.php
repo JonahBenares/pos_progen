@@ -45,6 +45,21 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function billing_report()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/billing_report');
+        $this->load->view('template/footer');
+    }
+
+    public function print_billing()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/print_billing');
+        $this->load->view('template/footer');
+    }
 
 
 

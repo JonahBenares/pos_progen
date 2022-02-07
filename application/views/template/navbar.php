@@ -240,12 +240,12 @@
                         <i class="mdi mdi-chart-areaspline menu-icon"></i>
                     </a>
                 </li>
-                <li class="nav-item">
+               <!--  <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url(); ?>billing/billing_list">
                         <span class="menu-title">Billing</span>
                         <i class="mdi mdi-file-document menu-icon"></i>
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#reportlist" aria-expanded="false" aria-controls="reportlist">
                         <span class="menu-title">Reports</span>
@@ -254,6 +254,9 @@
                     </a>
                     <div class="collapse" id="reportlist">
                         <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>reports/billing_report">Billing Statement</a>
+                            </li>
                             <li class="nav-item"> 
                                 <a class="nav-link" href="<?php echo base_url(); ?>reports/monthly_report">Monthly Report</a>
                             </li>
