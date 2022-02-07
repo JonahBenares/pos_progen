@@ -164,12 +164,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                    <a class="nav-link" data-toggle="collapse" href="#masterfilelist" aria-expanded="false" aria-controls="masterfilelist">
                         <span class="menu-title">Masterfile</span>
                         <i class="menu-arrow"></i>
                         <i class="mdi mdi-apps menu-icon"></i>
                     </a>
-                    <div class="collapse" id="ui-basic">
+                    <div class="collapse" id="masterfilelist">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> 
                                 <a class="nav-link" href="<?php echo base_url(); ?>masterfile/buyer_list">Buyer</a>
@@ -213,7 +213,19 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url(); ?>items/item_list">
                         <span class="menu-title">Items</span>
-                        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+                        <i class="mdi mdi-file-document-box menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url(); ?>damage/damage_item">
+                        <span class="menu-title">Damage</span>
+                        <i class="mdi mdi-image-broken-variant menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url(); ?>repair/repair_item">
+                        <span class="menu-title">Repair</span>
+                        <i class="mdi mdi-wrench menu-icon"></i>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -225,28 +237,29 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url(); ?>sales/sales_list">
                         <span class="menu-title">Sales</span>
-                        <i class="mdi mdi-tag-multiple menu-icon"></i>
+                        <i class="mdi mdi-chart-areaspline menu-icon"></i>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="pages/tables/basic-table.html">
-                        <span class="menu-title">Tables</span>
-                        <i class="mdi mdi-table-large menu-icon"></i>
+                    <a class="nav-link" href="<?php echo base_url(); ?>billing/billing_list">
+                        <span class="menu-title">Billing</span>
+                        <i class="mdi mdi-file-document menu-icon"></i>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
-                        <span class="menu-title">Sample Pages</span>
+                    <a class="nav-link" data-toggle="collapse" href="#reportlist" aria-expanded="false" aria-controls="reportlist">
+                        <span class="menu-title">Reports</span>
                         <i class="menu-arrow"></i>
-                        <i class="mdi mdi-medical-bag menu-icon"></i>
+                        <i class="mdi mdi-apps menu-icon"></i>
                     </a>
-                    <div class="collapse" id="general-pages">
+                    <div class="collapse" id="reportlist">
                         <ul class="nav flex-column sub-menu">
-                          <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Blank Page </a></li>
-                          <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
-                          <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
-                          <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
-                          <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>reports/monthly_report">Monthly Report</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>reports/summary_scgp">Summary of SCGP</a>
+                            </li>
                         </ul>
                     </div>
                 </li>

@@ -92,11 +92,11 @@
                                 <div class="form-group">
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value=""> Default <i class="input-helper"></i></label>
+                                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value=""> Local <i class="input-helper"></i></label>
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2" checked=""> Selected <i class="input-helper"></i></label>
+                                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2" checked=""> Manila <i class="input-helper"></i></label>
                                     </div>
                                 </div>
                             </div>

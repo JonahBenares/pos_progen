@@ -43,7 +43,7 @@
                             <thead>
                                 <tr>
                                     <th width="90%"> Receive </th>
-                                    <th width="10%"><span class="mdi mdi-menu"></span></th>
+                                    <th width="10%"><center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,6 +51,7 @@
                                 <td align="center">
                                     <a href="<?php echo base_url(); ?>receive/update_receive_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a>
                                     <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteReceive"><span class="mdi mdi-delete"></span></a>
+                                    <a href="<?php echo base_url(); ?>receive/print_receive" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>                                    
                                 </td>
                             </tbody>                            
                         </table>

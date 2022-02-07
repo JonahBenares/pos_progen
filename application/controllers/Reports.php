@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Items extends CI_Controller {
+class Reports extends CI_Controller {
 
     function __construct(){
         parent::__construct();
@@ -29,45 +29,24 @@ class Items extends CI_Controller {
     } 
 
 
-    public function item_list()
+    public function monthly_report()
     {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('items/item_list');
+        $this->load->view('reports/monthly_report');
         $this->load->view('template/footer');
     }
 
-    public function add_item()
+    public function summary_scgp()
     {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('items/add_item');
+        $this->load->view('reports/summary_scgp');
         $this->load->view('template/footer');
     }
 
-    public function update_item()
-    {
-        $this->load->view('template/header');
-        $this->load->view('template/navbar');
-        $this->load->view('items/update_item');
-        $this->load->view('template/footer');
-    }
 
-    public function damage_item()
-    {
-        $this->load->view('template/header');
-        $this->load->view('template/navbar');
-        $this->load->view('items/damage_item');
-        $this->load->view('template/footer');
-    }
 
-    public function damage_item_list()
-    {
-        $this->load->view('template/header');
-        $this->load->view('template/navbar');
-        $this->load->view('items/damage_item_list');
-        $this->load->view('template/footer');
-    }
-   
+
 
 }

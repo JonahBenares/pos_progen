@@ -92,4 +92,12 @@ class Receive extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function print_receive()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('receive/print_receive');
+        $this->load->view('template/footer');
+    }
+
 }

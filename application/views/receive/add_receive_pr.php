@@ -21,27 +21,31 @@
                     </div>
                     <div class="card-body">                        
                         <div class="row">
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label for="exampleInputName1">Date</label>
-                                    <input type="date" class="form-control" placeholder="Date" value="2022-06-06">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail3">PO No.</label>
-                                    <input type="text" class="form-control" placeholder="PO No" value="sample123-cnpr">
+                            <div class="col-lg-7">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Date</label>
+                                            <input type="date" class="form-control" placeholder="Date" value="2022-06-06">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail3">PO No.</label>
+                                            <input type="text" class="form-control" placeholder="PO No" value="sample123-cnpr">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail3">DR No.</label>
+                                            <input type="text" class="form-control" placeholder="DR No" value="sample123-cnpr">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail3">SI/OR</label>
+                                            <input type="text" class="form-control" placeholder="SI/OR" value="sample123-cnpr">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail3">DR No.</label>
-                                    <input type="text" class="form-control" placeholder="DR No" value="sample123-cnpr">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail3">SI/OR</label>
-                                    <input type="text" class="form-control" placeholder="SI/OR" value="sample123-cnpr">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-5">
                                 <div class="form-group">
                                     <label for="exampleTextarea1">Overall Remarks</label>
                                     <textarea class="form-control" id="exampleTextarea1" rows="2" placeholder="Overall Remarks">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</textarea>
@@ -154,6 +158,9 @@
                                             <td class="td-head" width="">Exp Date</td>
                                             <td class="td-head" width="">Currency</td>
                                             <td class="td-head" width="">Local/ Manila</td>
+                                            <td class="td-head" width="2%">
+                                                <span class="mdi mdi-menu"></span>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>sample</td>
@@ -169,7 +176,8 @@
                                             <td>sample</td>
                                             <td>sample</td>
                                             <td>sample</td>
-                                            <td></select></td>             
+                                            <td></select></td>
+                                            <td><a href="" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td>             
                                         </tr>
                                         <tr>
                                             <td>sample</td>
@@ -185,7 +193,8 @@
                                             <td>sample</td>
                                             <td>sample</td>
                                             <td>sample</td>
-                                            <td></select></td>             
+                                            <td></select></td>
+                                            <td><a href="" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td>             
                                         </tr>
                                     </table>
                                 </div>  
@@ -197,21 +206,19 @@
         </div>
         <br> 
         <div class="row">
-            <div class="col-lg-6">
-                <br>
-                <a href="<?php echo base_url(); ?>receive/add_receive" class="btn btn-gradient-warning btn-sm">Receive New</a>
+            <div class="col-lg-3"></div>
+            <div class="col-lg-3">
+                <button class="btn btn-gradient-primary btn-md btn-block">Add PR</button>
             </div>
-                <div class="col-lg-6">
-                    <div class="pull-right">
-                    <button class="btn btn-gradient-primary btn-md">Add PR</button>
-                    <button class="btn btn-gradient-success btn-md">Save All</button>
-                </div>
+            <div class="col-lg-3">
+                <a href="<?php echo base_url(); ?>receive/print_receive" class="btn btn-gradient-success btn-md btn-block">Save and Print</a>
             </div>
+            <div class="col-lg-3"></div>
         </div>
     </div>
 </div>
         
-<script src="<?php echo base_url(); ?>assets/js/receive.js"></script>
+
 
 
 
