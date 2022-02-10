@@ -88,7 +88,9 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
+                                    <td>
+                                        <!-- <div class="badge badge-primary badge-pill">Receive</div> -->
+                                    </td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -101,7 +103,9 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
+                                    <td>
+                                        <!-- <div class="badge badge-info badge-pill">Sales</div> -->
+                                    </td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
