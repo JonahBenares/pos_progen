@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Warehouse (Kg)</label>
+                                        <label class="col-sm-3 col-form-label">Warehouse</label>
                                         <div class="col-sm-9">
                                             <select class="form-control form-control-sm" id="exampleFormControlSelect3">
                                                 <option>1</option>

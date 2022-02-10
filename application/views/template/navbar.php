@@ -255,6 +255,9 @@
                     <div class="collapse" id="reportlist">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>reports/stock_card">Stock Card</a>
+                            </li>
+                            <li class="nav-item"> 
                                 <a class="nav-link" href="<?php echo base_url(); ?>reports/billing_report">Billing Statement</a>
                             </li>
                             <li class="nav-item"> 

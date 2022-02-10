@@ -10394,7 +10394,7 @@ body {
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-  font-family: "ubuntu-medium", sans-serif; }
+  font-family: "ubuntu-regular", sans-serif; }
 
 p {
   font-size: 0.875rem; }
@@ -13814,3 +13814,4 @@ legend {
   font-size: 14px;
   width: 350px;
 }
+

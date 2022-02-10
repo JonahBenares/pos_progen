@@ -61,7 +61,11 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-
-
-
+    public function stock_card()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/stock_card');
+        $this->load->view('template/footer');
+    }
 }

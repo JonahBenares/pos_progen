@@ -68,6 +68,14 @@ class Items extends CI_Controller {
         $this->load->view('items/damage_item_list');
         $this->load->view('template/footer');
     }
+
+    public function view_item()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('items/view_item');
+        $this->load->view('template/footer');
+    }
    
 
 }

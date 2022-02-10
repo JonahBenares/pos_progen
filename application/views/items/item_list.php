@@ -64,7 +64,7 @@
                                     <td align="center">
                                         <a href="<?php echo base_url(); ?>items/update_item" class="btn btn-xs btn-gradient-info btn-rounded" data-toggle="tooltip" data-placement="top" title="Update"><span class="mdi mdi-pencil"></span></a>
                                         <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Delete"><span class="mdi mdi-delete"></span></a>
-                                        <a href="" class="btn btn-xs btn-gradient-warning btn-rounded" data-toggle="tooltip" data-placement="top" title="View"><span class="mdi mdi-delete"></span></a>
+                                        <a href="<?php echo base_url(); ?>items/view_item" class="btn btn-xs btn-gradient-warning btn-rounded" data-toggle="tooltip" data-placement="top" title="View"><span class="mdi mdi-eye"></span></a>
                                         <!-- <a href="<?php echo base_url(); ?>items/damage_item" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Damage"><span class="mdi mdi-playlist-remove"></span></a> -->
                                     </td>
                                 </tr> 
