@@ -40,7 +40,7 @@
                             <div class="col-lg-4 offset-lg-3">
                                 <!-- <input type="" class="form-control" name="" placeholder="Customer"> -->
                                 <select class="form-control">
-                                    <option>--Select Customer--</option>
+                                    <option>--Select an Item--</option>
                                 </select>
                             </div>
                             <div class="col-lg-2">

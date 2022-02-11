@@ -145,7 +145,7 @@
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
                 <li class="nav-item nav-profile">
-                    <a href="#" class="nav-link">
+                    <a href="<?php echo base_url(); ?>masterfile/dashboard" class="nav-link">
                         <div class="nav-profile-image">
                             <img src="<?php echo base_url(); ?>assets/images/logo/progen_logo.png" alt="profile">
                             <span class="login-status online"></span>

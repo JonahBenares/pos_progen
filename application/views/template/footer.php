@@ -14,6 +14,8 @@
         <!-- inject:js -->
         <script src="<?php echo base_url(); ?>assets/js/off-canvas.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/hoverable-collapse.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/lightgallery-all.min.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/light-gallery.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/misc.js"></script>
         <!-- endinject -->
         <!-- Custom js for this page -->

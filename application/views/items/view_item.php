@@ -108,17 +108,20 @@
                                     </div>
                                 </div>
                                 <hr> 
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <a href="" class="btn btn-light btn-block btn-md">Image 1</a> 
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <a href="" class="btn btn-light btn-block btn-md">Image 2</a> 
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <a href="" class="btn btn-light btn-block btn-md">Image 3</a> 
-                                    </div>
-                                </div>
+                                <div id="lightgallery-without-thumb" class="row lightGallery" >
+                                    <a href="<?php echo base_url(); ?>assets/images/default-img.jpg" class="image-tile">
+                                        <img src="<?php echo base_url(); ?>assets/images/default-img.jpg" class="image_size" alt="Image One">
+                                        <span>Image One</span>
+                                    </a>
+                                    <a href="<?php echo base_url(); ?>assets/images/default-img.jpg" class="image-tile">
+                                        <img src="<?php echo base_url(); ?>assets/images/default-img.jpg" class="image_size" alt="Image Two">
+                                        <span>Image Two</span>
+                                    </a>
+                                    <a href="<?php echo base_url(); ?>assets/images/default-img.jpg" class="image-tile">
+                                        <img src="<?php echo base_url(); ?>assets/images/default-img.jpg" class="image_size" alt="Image Three">
+                                        <span>Image Three</span>
+                                    </a>
+                                </div>                                
                             </div>                            
                         </div>   
                     </div>

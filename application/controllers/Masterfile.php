@@ -734,5 +734,13 @@ class Masterfile extends CI_Controller {
         }
     }
 
+    public function upload_priceRef()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('masterfile/upload_priceRef');
+        $this->load->view('template/footer');
+    }
+
 
 }
