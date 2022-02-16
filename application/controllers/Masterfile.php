@@ -150,11 +150,11 @@ class Masterfile extends CI_Controller {
         $this->load->view('template/navbar');
         $data['department'] = $this->super_model->select_all('department');
         foreach($this->super_model->select_all_order_by('employees','employee_name','ASC') AS $emp){
-            $department =$this->super_model->select_column_where("department", "department_name", "department_id", $emp->department_id);
+            // $department =$this->super_model->select_column_where("department", "department_name", "department_id", $emp->department_id);
             $data['employee'][] = array(
                 'employee_id'=>$emp->employee_id,
                 'employee'=>$emp->employee_name,
-                'department'=>$department,
+                // 'department'=>$department,
                 'position'=>$emp->position,
                 'contact_no'=>$emp->contact_no,
                 'email'=>$emp->email
