@@ -47,6 +47,7 @@
                                     <th width="20%"> Address</th>
                                     <th width="15%"> Contact Person </th>
                                     <th width="15%"> Contact No. </th>
+                                    <th width="10%"> Tin No. </th>
                                     <th width="10%" align="center"> <span class="mdi mdi-menu"></span> </th>
                                 </tr>
                             </thead>
@@ -59,6 +60,7 @@
                                         <td><?php echo $buy->address;?></td>
                                         <td><?php echo $buy->contact_person;?></td>
                                         <td><?php echo $buy->contact_no;?></td>
+                                        <td><?php echo $buy->tin;?></td>
                                         <td width="1%">
                                          <center>
                                              <a onclick="updateBuyer('<?php echo base_url(); ?>','<?php echo $buy->buyer_id; ?>')" class="btn btn-custon-three btn-info btn-xs"><span class="fa fa-pencil"></span></a>
@@ -106,6 +108,10 @@
                             <div class="form-group">
                                 <label >Contact Number</label>
                                 <input type="text" class="form-control" name="contact_no" placeholder="Contact Number">
+                            </div>
+                            <div class="form-group">
+                                <label >Tin Number</label>
+                                <input type="text" class="form-control" name="tin" placeholder="Tin Number">
                             </div>
                     </div>
                     <div class="modal-footer">

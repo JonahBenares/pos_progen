@@ -24,6 +24,10 @@
                                 <label for="exampleInputConfirmPassword1">Contact Number</label>
                                 <input type="text" class="form-control" name="contact_no" value = "<?php echo $b->contact_no; ?>">
                             </div>
+                            <div class="form-group">
+                                <label for="exampleInputConfirmPassword1">Tin Number</label>
+                                <input type="text" class="form-control" name="tin" value = "<?php echo $b->tin; ?>">
+                            </div>
                     </div>
                      <input type = "hidden" name = "buyer_id" value="<?php echo $id; ?>">
                         <center><button type="submit" class="btn btn-primary">Update</button></center>

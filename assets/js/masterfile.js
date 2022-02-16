@@ -6,10 +6,6 @@ function updateDepartment(baseurl,id) {
     window.open(baseurl+"index.php/masterfile/update_department/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
 
-function updateEnduse(baseurl,id) {
-    window.open(baseurl+"index.php/masterfile/update_enduse/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
-}
-
 function updateEmployee(baseurl,id) {
     window.open(baseurl+"index.php/masterfile/update_employee/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }

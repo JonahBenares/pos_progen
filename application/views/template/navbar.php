@@ -190,9 +190,6 @@
                                 <a class="nav-link" href="<?php echo base_url(); ?>masterfile/location_list">Location</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/enduse_list">Enduse</a>
-                            </li>
-                            <li class="nav-item"> 
                                 <a class="nav-link" href="<?php echo base_url(); ?>masterfile/purpose_list">Purpose</a>
                             </li>
                             <li class="nav-item"> 
