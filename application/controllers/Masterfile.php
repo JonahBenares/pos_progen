@@ -55,11 +55,13 @@ class Masterfile extends CI_Controller {
         $address = $this->input->post('address');
         $contact_person = $this->input->post('contact_person');
         $contact_no = $this->input->post('contact_no');
+        $tin = $this->input->post('tin');
         $data = array(
             'buyer_name'=>$buyer_name,
             'address'=>$address,
             'contact_person'=>$contact_person,
-            'contact_no'=>$contact_no
+            'contact_no'=>$contact_no,
+            'tin'=>$tin
         );
         if($this->super_model->insert_into("buyer", $data)){
             echo "<script>alert('Buyer Successfully Added!'); 
@@ -82,6 +84,7 @@ class Masterfile extends CI_Controller {
             'address'=>$this->input->post('address'),
             'contact_person'=>$this->input->post('contact_person'),
             'contact_no'=>$this->input->post('contact_no'),
+            'tin'=>$this->input->post('tin'),
         );
         $buyer_id = $this->input->post('buyer_id');
         if($this->super_model->update_where('buyer', $data, 'buyer_id', $buyer_id)){
@@ -425,57 +428,6 @@ class Masterfile extends CI_Controller {
         if($this->super_model->delete_where('location', 'location_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
                 window.location ='".base_url()."masterfile/location_list'; </script>";
-        }
-    }
-
-    public function enduse_list(){
-        $this->load->view('template/header');
-        $this->load->view('template/navbar');
-        $data['enduse']=$this->super_model->select_all_order_by("enduse","enduse_name","ASC");
-        $this->load->view('masterfile/enduse_list',$data);
-        $this->load->view('template/footer');
-    }
-
-    public function add_enduse(){
-        $endc = trim($this->input->post('end_code')," ");
-        $endn = trim($this->input->post('end_name')," ");
-        $data = array(
-            'enduse_code'=>$endc,
-            'enduse_name'=>$endn
-        );
-        if($this->super_model->insert_into("enduse", $data)){
-            echo "<script>alert('Enduse Successfully Added!');
-            window.location ='".base_url()."masterfile/enduse_list'; </script>";
-        }
-    }
-
-    public function update_enduse(){
-        $this->load->view('template/header');
-        $this->load->view('template/navbar');
-        $data['id']=$this->uri->segment(3);
-        $id=$this->uri->segment(3);
-        $data['update_enduse'] = $this->super_model->select_row_where('enduse', 'enduse_id', $id);
-        $this->load->view('masterfile/update_enduse',$data);
-        $this->load->view('template/footer');
-    }
-
-    public function edit_enduse(){
-        $data = array(
-            'enduse_code'=>$this->input->post('end_code'),
-            'enduse_name'=>$this->input->post('end_name')
-        );
-        $enduse_id = $this->input->post('enduse_id');
-        if($this->super_model->update_where('enduse', $data, 'enduse_id', $enduse_id)){
-            echo "<script>alert('Enduse Successfully Updated!');
-            window.location ='".base_url()."masterfile/enduse_list'; </script>";
-        }
-    }
-
-    public function delete_enduse(){
-        $id=$this->uri->segment(3);
-        if($this->super_model->delete_where('enduse', 'enduse_id', $id)){
-            echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."masterfile/enduse_list'; </script>";
         }
     }
 
