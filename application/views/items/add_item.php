@@ -54,7 +54,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">PR Number</label>
+                                        <label class="col-sm-3 col-form-label">PN No</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" />
                                         </div>
@@ -156,6 +156,24 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">NKK Number</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">SEMT Number</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Weight</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" />
@@ -164,7 +182,7 @@
                                 </div>                            
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Current Price</label>
+                                        <label class="col-sm-3 col-form-label">Highest Cost</label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
                                                 <div class="input-group-prepend">

@@ -15,12 +15,6 @@
                                         <option>-Select Item-</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail3">Cross Reference</label>
-                                    <select class="form-control">
-                                        <option>-Cross Reference-</option>
-                                    </select>
-                                </div>
                             </div>                             
                         </div>  
                         <div class="row">
@@ -48,18 +42,10 @@
                                     <input type="text" class="form-control amount-txt" name="" placeholder="00.00">
                                 </div>
                                 <div class="form-group">
-                                    <label >Shipping Fee</label>
-                                    <input type="text" class="form-control amount-txt" name="" placeholder="00.00">
-                                </div>
-                            </div>                            
-                        </div>
-                        <div class="row">     
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div class="form-group">
                                     <label >Total Cost</label>
                                     <input type="text" disabled class="form-control amount-txt" name="" placeholder="00.00">
                                 </div>
-                            </div>                       
+                            </div>                            
                         </div>
                         <div class="row">
                             <div class="col-lg-12">

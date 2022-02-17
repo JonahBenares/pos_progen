@@ -91,7 +91,7 @@
                                         </span>
                                     </h3>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-5">
                                     <div class="form-group">
                                         <label for="exampleInputName1">PR/JO No.</label>
                                         <select class="form-control">
@@ -99,7 +99,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail3">Department</label>
                                         <select class="form-control">
@@ -107,24 +107,8 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label for="exampleTextarea1">Inspected by</label>
-                                        <select class="form-control">
-                                            <option>-Select Inspected by-</option>
-                                        </select>
-                                    </div>
-                                </div>
                             </div>  
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputName1">Enduse</label>
-                                        <select class="form-control">
-                                            <option>-Select Enduse-</option>
-                                        </select>
-                                    </div>
-                                </div>
+                            <div class="row">                                
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail3">Purpose</label>
@@ -132,7 +116,15 @@
                                             <option>-Select Purpose-</option>
                                         </select>
                                     </div>
-                                </div>                                
+                                </div>   
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="exampleTextarea1">Inspected by</label>
+                                        <select class="form-control">
+                                            <option>-Select Inspected by-</option>
+                                        </select>
+                                    </div>
+                                </div>                             
                             </div>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -151,14 +143,11 @@
                                                 <td class="td-head" width="10%">Brand</td>
                                                 <td class="td-head" width="10%">Serial No.</td>
                                                 <td class="td-head" width="">Catalog No</td>
-                                                <td class="td-head" width="">SEMT No</td>
-                                                <td class="td-head" width="">NKK No</td>
                                                 <td class="td-head" width="">Net Cost</td>
                                                 <td class="td-head" width="">Expected Qty</td>
                                                 <td class="td-head" width="">Delivered/ Received</td>
                                                 <td class="td-head" width="">Shipping/U & other related cost</td>
                                                 <td class="td-head" width="">Exp Date</td>
-                                                <td class="td-head" width="">Currency</td>
                                                 <td class="td-head" width="">Local/ Manila</td>
                                                 <td class="td-head" width="2%">
                                                     <span class="mdi mdi-menu"></span>
@@ -173,18 +162,12 @@
                                                 <td>sample</td>
                                                 <td>sample</td>
                                                 <td>sample</td>
-                                                <td>sample55</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
                                                 <td>sample</td>
                                                 <td>sample</td>
                                                 <td></select></td>
                                                 <td><a href="" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td>             
                                             </tr>
                                             <tr>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
                                                 <td>sample</td>
                                                 <td>sample</td>
                                                 <td>sample</td>

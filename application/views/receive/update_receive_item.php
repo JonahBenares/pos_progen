@@ -27,12 +27,6 @@
                                         <option>-Select Brand-</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label >Brand</label>
-                                    <select class="form-control">
-                                        <option>-Select Brand-</option>
-                                    </select>
-                                </div>
                             </div>                             
                         </div>  
                         <div class="row">
@@ -40,10 +34,6 @@
                                 <div class="form-group">
                                     <label >Serial No.</label>
                                     <input type="text" class="form-control" name="" placeholder="Serial No.">
-                                </div>
-                                <div class="form-group">
-                                    <label >SEMT No</label>
-                                    <input type="text" class="form-control" name="" placeholder="SEMT No">
                                 </div>
                                 <div class="form-group">
                                     <label >Net Cost</label>
@@ -60,34 +50,16 @@
                                     <input type="text" class="form-control" name="" placeholder="Catalog No.">
                                 </div>
                                 <div class="form-group">
-                                    <label >NKK No.</label>
-                                    <input type="text" class="form-control" name="" placeholder="NKK No">
+                                    <label >Shipping/U & other related cost</label>
+                                    <input type="number" class="form-control" name="" placeholder="Currency">
                                 </div>
                                 <div class="form-group">
                                     <label >Expected Qty</label>
                                     <input type="number" class="form-control" name="" placeholder="">
-                                </div>
-                                <div class="form-group">
-                                    <label >Currency</label>
-                                    <input type="number" class="form-control" name="" placeholder="Currency">
-                                </div>
+                                </div>                                
                             </div>                            
                         </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label >Shipping/U & other related cost</label>
-                                    <input type="number" class="form-control" name="" placeholder="Currency">
-                                </div>
-                            </div>      
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label >Expiry Date</label>
-                                    <input type="date" class="form-control" name="" placeholder="Expiry Date">
-                                </div>
-                            </div>                       
-                        </div>
-                        <div class="row">
+                        <div class="row">                                 
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <div class="form-check">
@@ -99,6 +71,12 @@
                                         <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2" checked=""> Manila <i class="input-helper"></i></label>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label >Expiry Date</label>
+                                    <input type="date" class="form-control" name="" placeholder="Expiry Date">
+                                </div>                                
                             </div>
                         </div>
                         <div class="row">

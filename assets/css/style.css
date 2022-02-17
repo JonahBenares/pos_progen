@@ -13781,7 +13781,7 @@ page[size="A4"] {
     font-size: 13px;
 }
 .bor-btm1{
-    border-bottom:solid 1px #aeaeae;
+    border-bottom:solid 1px #aeaeae61;
 }
 .bor-btm2{
     border-bottom:solid 2px #000;
@@ -14831,4 +14831,26 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
 .justify-content{
   justify-content: center;
 }
+.nav-subtitle{
+    margin: 0px;
+    padding-left: 30px;
+    font-size: 13px;
+    color: #888888c2;
+}
 
+
+.one-green{
+  background-color: #96fba2a8;
+}
+.one-yellow{
+  background-color: #ecfb96a8;
+}
+.one-orange{
+  background-color: #fbdc96a8;
+}
+.one-red{
+  background-color: #fb9696a8;
+}
+.one-pink{
+  background-color: #fb96d7a8;
+}

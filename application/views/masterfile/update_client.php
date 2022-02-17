@@ -1,15 +1,29 @@
-        <div tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header primary-modalhead">
-                        <h5 class="modal-title" id="exampleModalLabel">Update Buyer</h5>
-                        </button>
+<div class="main-panel">
+    <div class="content-wrapper">    
+        <div class="page-header">
+            <h3 class="page-title">
+                <span class="page-title-icon bg-gradient-info text-white mr-2">
+                  <i class="mdi mdi-import"></i>
+                </span> Client
+            </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>masterfile/client_list">Client List</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Update Client</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-gradient-info card-img-holder text-white">
+                        <h4 class="m-0">Update Client</h4>
                     </div>
-                    <div class="modal-body">
-                        <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/edit_buyer">
-                            <?php foreach($update_buyer AS $b){ ?>
+                    <div class="card-body">
+                        <form method="POST" action = "<?php echo base_url();?>masterfile/edit_client">
+                            <?php foreach($update_client AS $b){ ?>
                             <div class="form-group">
-                                <label >Buyer</label>
+                                <label >Client</label>
                                 <input type="text" class="form-control" name="buyer_name" value = "<?php echo $b->buyer_name; ?>">
                             </div>
                             <div class="form-group">
@@ -28,11 +42,15 @@
                                 <label for="exampleInputConfirmPassword1">Tin Number</label>
                                 <input type="text" class="form-control" name="tin" value = "<?php echo $b->tin; ?>">
                             </div>
-                     <input type = "hidden" name = "buyer_id" value="<?php echo $id; ?>">
-                        <center><button type="submit" class="btn btn-primary">Update</button></center>
-                    <?php } ?>
-                    </form>
+                            <input type = "hidden" name = "buyer_id" value="<?php echo $id; ?>">
+                            <center><button type="submit" class="btn btn-primary">Update</button></center>
+                            <?php } ?>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>    
+    </div>
+</div>
+        
+

@@ -25,10 +25,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="pull-right">
-                                    <button type="button" class="btn btn-gradient-warning btn-sm btn-rounded" data-toggle="modal" data-target="#viewcat">
-                                        <b><span class="mdi mdi-file"></span> View All</b>
-                                    </button>
-                                    <button type="button" class="btn btn-gradient-primary btn-sm btn-rounded" data-toggle="modal" data-target="#addCategory">
+                                    <button type=   "button" class="btn btn-gradient-primary btn-sm btn-rounded" data-toggle="modal" data-target="#addClient">
                                         <b><span class="mdi mdi-plus"></span> Add</b>
                                     </button>
                                 </div>
@@ -39,12 +36,12 @@
                         <table class="table table-bordered table-hover" id="myTable">
                              <thead>
                                 <tr>
-                                    <th width="40%"> Buyer </th>
+                                    <th width="40%"> Client </th>
                                     <th width="20%"> Address</th>
-                                    <th width="15%"> Contact Person </th>
-                                    <th width="15%"> Contact No. </th>
+                                    <th width="10%"> Contact Person </th>
+                                    <th width="10%"> Contact No. </th>
                                     <th width="10%"> Tin No. </th>
-                                    <th width="10%" align="center"> <span class="mdi mdi-menu"></span> </th>
+                                    <th width="8%"> <center><span class="mdi mdi-menu"></span> </center> </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,11 +54,13 @@
                                         <td><?php echo $buy->contact_person;?></td>
                                         <td><?php echo $buy->contact_no;?></td>
                                         <td><?php echo $buy->tin;?></td>
-                                        <td width="1%">
-                                         <center>
-                                             <a onclick="updateBuyer('<?php echo base_url(); ?>','<?php echo $buy->buyer_id; ?>')" class="btn btn-custon-three btn-info btn-xs"><span class="fa fa-pencil"></span></a>
-                                             <a href = "<?php echo base_url(); ?>index.php/masterfile/delete_buyer/<?php echo $buy->buyer_id;?>" onclick="confirmationDelete(this);return false;" class = "btn btn-danger btn-sm" title="DELETE"><span class="fa fa-trash"></span></a>
-                                         </center>
+                                        <td align="center">
+                                            <a href="<?php echo base_url(); ?>masterfile/update_client/<?php echo $buy->buyer_id; ?>" class="btn btn-gradient-info btn-rounded btn-xs" data-toggle="tooltip" data-placement="top" title="Update">
+                                                <span class="mdi mdi-pencil"></span>
+                                            </a>
+                                            <a href="<?php echo base_url(); ?>index.php/masterfile/delete_client/<?php echo $buy->buyer_id;?>" data-toggle="tooltip" data-placement="top" title="Delete" onclick="confirmationDelete(this);return false;" class = "btn btn-gradient-danger btn-rounded btn-xs">
+                                                <span class="mdi mdi-delete"></span>
+                                            </a>
                                         </td>
                                     </tr>
                                 <?php } } else { ?>
@@ -101,89 +100,47 @@
             </div>
         </div>
 
-        <!-- //Add Category// -->
-        <div class="modal fade" id="addCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+             <div class="modal fade" id="addClient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header primary-modalhead">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Add Client</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                         <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/add_category">
+                    <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/add_client">
+                        <div class="modal-body">
                             <div class="form-group">
-                                <label>Prefix</label>
-                                <input type="text" class="form-control" name="prefix" placeholder="Prefix">
+                                <label >Client</label>
+                                <input type="text" class="form-control" name="buyer_name" placeholder="Client">
                             </div>
                             <div class="form-group">
-                                <label>Category Name</label>
-                                <input type="text" class="form-control" name="category_name" placeholder="Category Name">
+                                <label >Address</label>
+                                <input type="Text" class="form-control" name="address" placeholder="Address">
                             </div>
                             <div class="form-group">
-                                <label >Tin Number</label>
-                                <input type="text" class="form-control" name="tin" placeholder="Tin Number">
+                                <label >Contact Person</label>
+                                <input type="text" class="form-control" name="contact_person" placeholder="Contact Person">
                             </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add</button>
-                    </div>
+                            <div class="form-group">
+                                <label >Contact Number</label>
+                                <input type="text" class="form-control" name="contact_no" placeholder="Contact Number">
+                            </div>
+                            <div class="form-group">
+                                <label >TIN</label>
+                                <input type="text" class="form-control" name="tin" placeholder="TIN">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- //Filter Category// -->
-        <div class="modal fade" id="filterDepartment" tabindex="-1" role="dialog" aria-labelledby="filterDepartment" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header success-modalhead">
-                        <h5 class="modal-title" id="exampleModalLabel">Filter Category</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                         <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/search_department">
-                            <div class="form-group">
-                                <label>Department</label>
-                                <input type="text" class="form-control" name="department_name" placeholder="Department">
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Filter</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="deleteDepartment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content " >
-                    <div class="modal-header danger-modalhead">
-                        <h5 class="modal-title" id="exampleModalLabel">Delete Department</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <br>
-                        <br>
-                        <center>Do you want to delete _________?</center>
-                        <br>
-                        <br>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                        <button type="button" class="btn btn-danger">Yes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
     </div>
 </div>

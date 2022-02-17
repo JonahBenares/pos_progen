@@ -68,11 +68,17 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-5">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
-                                            <p class="text-muted mb-0">PR Number</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">PFLM2022-298288-CNPR</p>
+                                            <p class="text-muted mb-0">PN Number</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold">2982882254</p>
                                         </div>
+                                    </div>
+                                    <div class="col-lg-2 offset-lg-1">
+                                        <div class="form-group">
+                                            <p class="text-muted mb-0">Highest Cost</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold">P 22,872.00</p>
+                                        </div>                                         
                                     </div>
                                     <div class="col-lg-3 offset-lg-1">
                                         <div class="form-group">
@@ -88,10 +94,16 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-5">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
-                                            <p class="text-muted mb-0">Current Price</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">P 22,872.00</p>
+                                            <p class="text-muted mb-0">NKK Number</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold">2255525</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 offset-lg-1">
+                                        <div class="form-group">
+                                            <p class="text-muted mb-0">SEMT Number</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold">25525545</p>
                                         </div>                                         
                                     </div>
                                     <div class="col-lg-3 offset-lg-1">

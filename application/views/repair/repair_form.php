@@ -53,7 +53,17 @@
                         </div>  
                         <hr>
                         <div class="row">
-                            <div class="col-lg-5">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Repaired by</label>
+                                    <input type="text" class="form-control" name="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Repair Price</label>
+                                    <input type="text" class="form-control" name="" placeholder="00">
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="exampleInputName1">Repair Date</label>
                                     <input type="date" class="form-control" name="">
@@ -76,7 +86,7 @@
                                     </div>
                                 </div>                    
                             </div>     
-                            <div class="col-lg-5">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="exampleInputName1">Received by</label>
                                     <select class="form-control">
@@ -134,7 +144,17 @@
                         </div>  
                         <hr>
                         <div class="row">
-                            <div class="col-lg-5">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Repaired by</label>
+                                    <input type="text" class="form-control" name="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Repair Price</label>
+                                    <input type="text" class="form-control" name="" placeholder="00">
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="exampleInputName1">Repair Date</label>
                                     <input type="date" class="form-control" name="">
@@ -157,7 +177,7 @@
                                     </div>
                                 </div>                    
                             </div>     
-                            <div class="col-lg-5">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="exampleInputName1">Received by</label>
                                     <select class="form-control">

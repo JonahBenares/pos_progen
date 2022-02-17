@@ -42,15 +42,15 @@ class Masterfile extends CI_Controller {
     }
 
 
-    public function buyer_list(){
+    public function client_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $data['buyer']=$this->super_model->select_all_order_by("buyer","buyer_name","ASC");
-        $this->load->view('masterfile/buyer_list',$data);
+        $this->load->view('masterfile/client_list',$data);
         $this->load->view('template/footer');
     }
 
-    public function add_buyer(){
+    public function add_client(){
         $buyer_name = $this->input->post('buyer_name');
         $address = $this->input->post('address');
         $contact_person = $this->input->post('contact_person');
@@ -64,17 +64,18 @@ class Masterfile extends CI_Controller {
             'tin'=>$tin
         );
         if($this->super_model->insert_into("buyer", $data)){
-            echo "<script>alert('Buyer Successfully Added!'); 
-                window.location ='".base_url()."masterfile/buyer_list'; </script>";
+            echo "<script>alert('Client Successfully Added!'); 
+                window.location ='".base_url()."masterfile/client_list'; </script>";
         }
     }
 
-    public function update_buyer(){
+    public function update_client(){
         $this->load->view('template/header');
+        $this->load->view('template/navbar');
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
-        $data['update_buyer'] = $this->super_model->select_row_where('buyer', 'buyer_id', $id);
-        $this->load->view('masterfile/update_buyer',$data);
+        $data['update_client'] = $this->super_model->select_row_where('buyer', 'buyer_id', $id);
+        $this->load->view('masterfile/update_client',$data);
         $this->load->view('template/footer');
     }
 
@@ -84,7 +85,6 @@ class Masterfile extends CI_Controller {
             'address'=>$this->input->post('address'),
             'contact_person'=>$this->input->post('contact_person'),
             'contact_no'=>$this->input->post('contact_no'),
-            'tin'=>$this->input->post('tin'),
         );
         $buyer_id = $this->input->post('buyer_id');
         if($this->super_model->update_where('buyer', $data, 'buyer_id', $buyer_id)){
@@ -92,11 +92,11 @@ class Masterfile extends CI_Controller {
         }
     }
 
-    public function delete_buyer(){
+    public function delete_client(){
         $id=$this->uri->segment(3);
         if($this->super_model->delete_where('buyer', 'buyer_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
-                window.location ='".base_url()."masterfile/buyer_list'; </script>";
+                window.location ='".base_url()."masterfile/client_list'; </script>";
         }
     }
 
@@ -153,11 +153,11 @@ class Masterfile extends CI_Controller {
         $this->load->view('template/navbar');
         $data['department'] = $this->super_model->select_all('department');
         foreach($this->super_model->select_all_order_by('employees','employee_name','ASC') AS $emp){
-            // $department =$this->super_model->select_column_where("department", "department_name", "department_id", $emp->department_id);
+            $department =$this->super_model->select_column_where("department", "department_name", "department_id", $emp->department_id);
             $data['employee'][] = array(
                 'employee_id'=>$emp->employee_id,
                 'employee'=>$emp->employee_name,
-                // 'department'=>$department,
+                'department'=>$department,
                 'position'=>$emp->position,
                 'contact_no'=>$emp->contact_no,
                 'email'=>$emp->email
@@ -428,6 +428,57 @@ class Masterfile extends CI_Controller {
         if($this->super_model->delete_where('location', 'location_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
                 window.location ='".base_url()."masterfile/location_list'; </script>";
+        }
+    }
+
+    public function enduse_list(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $data['enduse']=$this->super_model->select_all_order_by("enduse","enduse_name","ASC");
+        $this->load->view('masterfile/enduse_list',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function add_enduse(){
+        $endc = trim($this->input->post('end_code')," ");
+        $endn = trim($this->input->post('end_name')," ");
+        $data = array(
+            'enduse_code'=>$endc,
+            'enduse_name'=>$endn
+        );
+        if($this->super_model->insert_into("enduse", $data)){
+            echo "<script>alert('Enduse Successfully Added!');
+            window.location ='".base_url()."masterfile/enduse_list'; </script>";
+        }
+    }
+
+    public function update_enduse(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $data['id']=$this->uri->segment(3);
+        $id=$this->uri->segment(3);
+        $data['update_enduse'] = $this->super_model->select_row_where('enduse', 'enduse_id', $id);
+        $this->load->view('masterfile/update_enduse',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function edit_enduse(){
+        $data = array(
+            'enduse_code'=>$this->input->post('end_code'),
+            'enduse_name'=>$this->input->post('end_name')
+        );
+        $enduse_id = $this->input->post('enduse_id');
+        if($this->super_model->update_where('enduse', $data, 'enduse_id', $enduse_id)){
+            echo "<script>alert('Enduse Successfully Updated!');
+            window.location ='".base_url()."masterfile/enduse_list'; </script>";
+        }
+    }
+
+    public function delete_enduse(){
+        $id=$this->uri->segment(3);
+        if($this->super_model->delete_where('enduse', 'enduse_id', $id)){
+            echo "<script>alert('Succesfully Deleted'); 
+                window.location ='".base_url()."masterfile/enduse_list'; </script>";
         }
     }
 

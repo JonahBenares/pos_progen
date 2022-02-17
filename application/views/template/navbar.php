@@ -172,7 +172,7 @@
                     <div class="collapse" id="masterfilelist">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/buyer_list">Buyer</a>
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/client_list">Client</a>
                             </li>
                             <li class="nav-item"> 
                                 <a class="nav-link" href="<?php echo base_url(); ?>masterfile/department_list">Department</a>
@@ -231,18 +231,35 @@
                         <i class="mdi mdi-import menu-icon"></i>
                     </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url(); ?>sales/sales_list">
                         <span class="menu-title">Sales</span>
                         <i class="mdi mdi-chart-areaspline menu-icon"></i>
                     </a>
-                </li>
-               <!--  <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>billing/billing_list">
-                        <span class="menu-title">Billing</span>
-                        <i class="mdi mdi-file-document menu-icon"></i>
-                    </a>
                 </li> -->
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#reportlist" aria-expanded="false" aria-controls="reportlist">
+                        <span class="menu-title">Sales</span>
+                        <i class="menu-arrow"></i>
+                        <i class="mdi mdi-chart-areaspline menu-icon"></i>
+                    </a>
+                    <div class="collapse" id="reportlist">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>sales/goods_sales_list">Goods</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <hr>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>sales/services_sales_list">Services</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>sales/return_form">Return</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#reportlist" aria-expanded="false" aria-controls="reportlist">
                         <span class="menu-title">Reports</span>
@@ -252,16 +269,41 @@
                     <div class="collapse" id="reportlist">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>reports/stock_card">Stock Card</a>
+                                <p class="nav-subtitle">Billing Statement</p>
+                            </li>
+                             <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>reports/pending_list">Pending</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>reports/billing_report">Billing Statement</a>
+                                <a class="nav-link" href="<?php echo base_url(); ?>reports/billed_list">Billed</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>reports/paid_list">Paid</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <hr>
+                            </li>
+
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>reports/stock_card">Stock Card</a>
                             </li>
                             <li class="nav-item"> 
                                 <a class="nav-link" href="<?php echo base_url(); ?>reports/monthly_report">Monthly Report</a>
                             </li>
                             <li class="nav-item"> 
                                 <a class="nav-link" href="<?php echo base_url(); ?>reports/summary_scgp">Summary of SCGP</a>
+                            </li>
+                             <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>reports/item_pr">Item PR</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>reports/overallpr_report">Overall PR Report</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>reports/aging_report">Aging Report</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>reports/inventory_rangedate">Inventory (Per Range of Date)</a>
                             </li>
                         </ul>
                     </div>

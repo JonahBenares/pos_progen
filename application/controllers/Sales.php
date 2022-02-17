@@ -29,67 +29,155 @@ class Sales extends CI_Controller {
     } 
 
 
-    public function sales_list()
+    public function goods_sales_list()
     {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('sales/sales_list');
+        $this->load->view('sales/goods_sales_list');
         $this->load->view('template/footer');
     }
 
-    public function add_sales_head()
+    public function goods_add_sales_head()
     {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('sales/add_sales_head');
+        $this->load->view('sales/goods_add_sales_head');
         $this->load->view('template/footer');
     }
 
-    public function add_sales_itemlist()
+    public function goods_add_sales_itemlist()
     {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('sales/add_sales_itemlist');
+        $this->load->view('sales/goods_add_sales_itemlist');
         $this->load->view('template/footer');
     }
    
-    public function add_sales_item()
+    public function goods_add_sales_item()
     {
         $this->load->view('template/header');
-        $this->load->view('sales/add_sales_item');
+        $this->load->view('sales/goods_add_sales_item');
         $this->load->view('template/footer');
     }
 
-     public function update_sales_head()
+     public function goods_update_sales_head()
     {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('sales/update_sales_head');
+        $this->load->view('sales/goods_update_sales_head');
         $this->load->view('template/footer');
     }
 
-    public function update_sales_itemlist()
+    public function goods_update_sales_itemlist()
     {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('sales/update_sales_itemlist');
+        $this->load->view('sales/goods_update_sales_itemlist');
         $this->load->view('template/footer');
     }
    
-    public function update_sales_item()
+    public function goods_update_sales_item()
     {
         $this->load->view('template/header');
-        $this->load->view('sales/update_sales_item');
+        $this->load->view('sales/goods_update_sales_item');
         $this->load->view('template/footer');
     }
 
-    public function print_sales()
+    public function goods_print_sales()
     {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('sales/print_sales');
+        $this->load->view('sales/goods_print_sales');
         $this->load->view('template/footer');
     }
+
+
+
+
+
+
+
+
+
+
+    public function services_sales_list()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('sales/services_sales_list');
+        $this->load->view('template/footer');
+    }
+
+    public function services_add_sales_head()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('sales/services_add_sales_head');
+        $this->load->view('template/footer');
+    }
+
+    public function services_add_sales_itemlist()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('sales/services_add_sales_itemlist');
+        $this->load->view('template/footer');
+    }
+   
+    public function services_add_sales_item()
+    {
+        $this->load->view('template/header');
+        $this->load->view('sales/services_add_sales_item');
+        $this->load->view('template/footer');
+    }
+
+     public function services_update_sales_head()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('sales/services_update_sales_head');
+        $this->load->view('template/footer');
+    }
+
+    public function services_update_sales_itemlist()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('sales/services_update_sales_itemlist');
+        $this->load->view('template/footer');
+    }
+   
+    public function services_update_sales_item()
+    {
+        $this->load->view('template/header');
+        $this->load->view('sales/services_update_sales_item');
+        $this->load->view('template/footer');
+    }
+
+    public function services_print_sales()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('sales/services_print_sales');
+        $this->load->view('template/footer');
+    }
+
+    public function return_form()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('sales/return_form');
+        $this->load->view('template/footer');
+    }
+
+    public function print_return()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('sales/print_return');
+        $this->load->view('template/footer');
+    }
+
 
 
 }

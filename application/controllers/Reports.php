@@ -45,11 +45,25 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function billing_report()
+    public function pending_list()
     {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('reports/billing_report');
+        $this->load->view('reports/pending_list');
+        $this->load->view('template/footer');
+    }
+    public function billed_list()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/billed_list');
+        $this->load->view('template/footer');
+    }
+    public function paid_list()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/paid_list');
         $this->load->view('template/footer');
     }
 
@@ -68,4 +82,36 @@ class Reports extends CI_Controller {
         $this->load->view('reports/stock_card');
         $this->load->view('template/footer');
     }
+
+    public function overallpr_report()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/overallpr_report');
+        $this->load->view('template/footer');
+    }
+
+    public function item_pr()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/item_pr');
+        $this->load->view('template/footer');
+    }
+
+    public function aging_report()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/aging_report');
+        $this->load->view('template/footer');
+    }
+    public function inventory_rangedate()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/inventory_rangedate');
+        $this->load->view('template/footer');
+    }
+
 }

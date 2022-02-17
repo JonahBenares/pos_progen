@@ -3,12 +3,12 @@
         <div class="page-header">
             <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-info text-white mr-2">
-                  <i class="mdi mdi-file-document"></i>
+                  <i class="mdi mdi-chart-areaspline"></i>
                 </span> Sales
             </h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>sales/sales_list">Sales List</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>sales/services_sales_list">Sales List (Services)</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Print Sales</li>
                 </ol>
             </nav>
@@ -29,7 +29,7 @@
             
         </style>
         <page size="A4">
-            <table class="page-A4 table-sdbordered" width="100%">
+            <table class="page-A4 table-borsdered" width="100%">
                 <tr>
                     <td width="5%"><br></td>
                     <td width="5%"></td>
@@ -59,42 +59,64 @@
                         VAT Reg. TIN: 008-726-170-001  
                         <br>
                         <br>
-                        <b>DELIVERY RECEIPT</b>
+                        <b>DELIVERY RECEIPT - SERVICES</b>
                         <br>
                         <br>
                     </td>
                 </tr>
-                
                 <tr>
-                    <td colspan="3">Buyer:</td>
-                    <td colspan="11" class="bor-btm1"></td>
-                    <td colspan="2" align="right">Date:</td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="3"></td>
+                    <td colspan="11" class=""></td>
+                    <td colspan="6" align="right"><h5 style="color:blue"><b>DR-2552554028</b></h5></td>
                 </tr>
                 <tr>
+                    <td colspan="3"></td>
+                    <td colspan="10"></td>
+                    <td colspan="1"></td>
+                    <td colspan="2" align="right">Date: &nbsp;</td>
+                    <td colspan="4" class="bor-btm1"></td>
+                </tr> 
+                <tr>
+                    <td colspan="3">Client:</td>
+                    <td colspan="10" class="bor-btm1"></td>
+                    <td colspan="1"></td>
+                    <td colspan="2" align="right">TIN: &nbsp;</td>
+                    <td colspan="4" class="bor-btm1"></td>
+                </tr>               
+                <tr>
                     <td colspan="3">Address:</td>
-                    <td colspan="11" class="bor-btm1"></td>
-                    <td colspan="2" align="right">VAT:</td>
+                    <td colspan="10" class="bor-btm1"></td>
+                    <td colspan="1"></td>
+                    <td colspan="2" align="right">VAT: &nbsp;</td>
                     <td colspan="4" class="bor-btm1"></td>
                 </tr>
                 <tr>
                     <td colspan="3">Contact Person:</td>
-                    <td colspan="11" class="bor-btm1"></td>
-                    <td colspan="2" align="right">Contact No:</td>
+                    <td colspan="10" class="bor-btm1"></td>
+                    <td colspan="1"></td>
+                    <td colspan="2" align="right">Contact No: &nbsp;</td>
                     <td colspan="4" class="bor-btm1"></td>
                 </tr>
                 <tr>
-                    <td colspan="3">PGC PR No /PO No:</td>
-                    <td colspan="11" class="bor-btm1"></td>
-                    <td colspan="2" align="right">PR/PO Date:</td>
+                    <td colspan="3">PGC <b>JOR </b>No:</td>
+                    <td colspan="10" class="bor-btm1"></td>
+                    <td colspan="1"></td>
+                    <td colspan="2" align="right">JOR Date: &nbsp;</td>
                     <td colspan="4" class="bor-btm1"></td>
                 </tr>
                 <tr>
-                    <td colspan="3">DR No:</td>
+                    <td colspan="3">PGC <b>JOI </b>No:</td>
+                    <td colspan="10" class="bor-btm1"></td>
+                    <td colspan="1"></td>
+                    <td colspan="2" align="right">JOI Date: &nbsp;</td>
+                    <td colspan="4" class="bor-btm1"></td>
+                </tr>
+               <!--  <tr>
+                    <td colspan="3"></td>
                     <td colspan="11" class="bor-btm1"></td>
                     <td colspan="2" align="right"></td>
                     <td colspan="4" class="bor-btm1"></td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td colspan="20" align="center"><br><br></td>
                 </tr>
@@ -109,7 +131,6 @@
                                 <td width="5%">UOM</td>
                                 <td width="10%">Selling Price</td>
                                 <td width="8%">Discount</td>
-                                <td width="10%">Shipping Fee</td>
                                 <td width="12%">Total Price</td>
                             </tr>
                             <tr>
@@ -121,22 +142,9 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
                             </tr>
                             <tr>
                                 <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -154,22 +162,9 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
                             </tr>
                             <tr>
                                 <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -187,22 +182,9 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
                             </tr>
                             <tr>
                                 <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -220,22 +202,9 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
                             </tr>
                             <tr>
                                 <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -253,6 +222,15 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -264,11 +242,39 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td><br></td>
                                 <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -287,13 +293,13 @@
                     <td colspan="2">Remarks:</td>
                     <td colspan="18" class="bor-btm1"></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td colspan="2">Shipped via:</td>
                     <td colspan="8" class="bor-btm1"></td>
 
                     <td colspan="2" align="center">Waybill No.:</td>
                     <td colspan="8" class="bor-btm1"></td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td colspan="20"><br></td>
                 </tr>

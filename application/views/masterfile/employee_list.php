@@ -53,8 +53,7 @@
                                         foreach($employee AS $emp){ ?>
                                         <td><?php echo $emp['employee']?></td>
                                         <td><?php echo $emp['position']?></td>
-                                        <td></td>
-                                        <!-- <td><?php echo $emp['department']?></td> -->
+                                        <td><?php echo $emp['department']?></td>
                                         <td><?php echo $emp['contact_no']?></td>
                                         <td><?php echo $emp['email']?></td>
                                         <td align="center">

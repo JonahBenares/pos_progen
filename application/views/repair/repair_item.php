@@ -22,12 +22,13 @@
                                 <table class=" table-hover table-bordered" width="100%">
                                     <thead>
                                         <tr>
-                                            <th width="40%">
-                                                <div class="form-check mx-sm-2">
-                                                    <label class="form-check-label">
-                                                        <input type="checkbox" class="form-check-input forn"> Item name
-                                                    </label>
-                                                </div>
+                                            <th width="4%"> 
+                                                <center>
+                                                    <input type="checkbox" class="form-control" style="width:25px">
+                                                </center>
+                                            </th>
+                                            <th width="36%">
+                                                <label class="label-table">Item Name</label>
                                             </th>
                                             <th><label class="label-table">Receive Date</label></th>
                                             <th><label class="label-table">PR No</label></th>
@@ -40,76 +41,73 @@
                                             </th>                                                                 
                                         </tr>
                                     </thead>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check mx-sm-2">
-                                                <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input forn" > Sample
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td><label class="label-table">222525</label></td>
-                                        <td><label class="label-table">sample</label></td>
-                                        <td><label class="label-table">sample</label></td>
-                                        <td><label class="label-table">sample</label></td>
-                                        <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check mx-sm-2">
-                                                <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input forn" checked> Sample
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td><label class="label-table">5855896</label></td>
-                                        <td><label class="label-table">sample</label></td>
-                                        <td><label class="label-table">sample</label></td>
-                                        <td><label class="label-table">sample</label></td>
-                                        <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check mx-sm-2">
-                                                <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input forn" checked> Sample
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td><label class="label-table">5899888</label></td>
-                                        <td><label class="label-table">sample</label></td>
-                                        <td><label class="label-table">sample</label></td>
-                                        <td><label class="label-table">sample</label></td>
-                                        <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check mx-sm-2">
-                                                <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input forn" checked> Sample
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td><label class="label-table">55787887</label></td>
-                                        <td><label class="label-table">sample</label></td>
-                                        <td><label class="label-table">sample</label></td>
-                                        <td><label class="label-table">sample</label></td>
-                                        <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check mx-sm-2">
-                                                <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input forn"> Sample
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td><label class="label-table">1152545</label></td>
-                                        <td><label class="label-table">sample</label></td>
-                                        <td><label class="label-table">sample</label></td>
-                                        <td><label class="label-table">sample</label></td>
-                                        <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
-                                    </tr>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    <input type="checkbox" class="form-control" style="width:25px">
+                                                </center>
+                                            </td>
+                                            <td><label class="label-table">222525</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    <input type="checkbox" class="form-control" style="width:25px">
+                                                </center>
+                                            </td>
+                                            <td><label class="label-table">5855896</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    <input type="checkbox" class="form-control" style="width:25px">
+                                                </center>
+                                            </td>
+                                            <td><label class="label-table">5899888</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    <input type="checkbox" class="form-control" style="width:25px">
+                                                </center>
+                                            </td>
+                                            <td><label class="label-table">55787887</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    <input type="checkbox" class="form-control" style="width:25px">
+                                                </center>
+                                            </td>
+                                            <td><label class="label-table">1152545</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td><label class="label-table">sample</label></td>
+                                            <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>                            
                         </div>

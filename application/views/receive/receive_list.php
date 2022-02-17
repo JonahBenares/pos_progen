@@ -28,9 +28,9 @@
                                     <a href="<?php echo base_url(); ?>receive/add_receive_head" type="button" class="btn btn-gradient-primary btn-sm btn-rounded">
                                         <b><span class="mdi mdi-plus"></span> Add</b>
                                     </a>
-                                    <button type="button" class="btn btn-gradient-success btn-sm btn-rounded" data-toggle="modal" data-target="#filterReceive">
+                                    <!-- <button type="button" class="btn btn-gradient-success btn-sm btn-rounded" data-toggle="modal" data-target="#filterReceive">
                                         <b><span class="mdi mdi-filter"></span> Filter</b>
-                                    </button>                            
+                                    </button>     -->                        
                                     <button type="button" class="btn btn-gradient-warning btn-sm btn-rounded" data-toggle="modal" data-target="#updateBuyer">
                                         <b><span class="mdi mdi-export"></span> Export</b>
                                     </button>
@@ -42,11 +42,17 @@
                         <table class="table table-bordered table-hover" id="myTable">
                             <thead>
                                 <tr>
-                                    <th width="90%"> Receive </th>
+                                    <th width="20%"> Receive Date</th>
+                                    <th width="20%"> DR No </th>
+                                    <th width="25%"> Mrecf_no </th>
+                                    <th width="25%"> PR No </th>
                                     <th width="10%"><center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                                 <td align="center">
                                     <a href="<?php echo base_url(); ?>receive/update_receive_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a>
