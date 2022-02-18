@@ -129,19 +129,13 @@
                                             <textarea class="form-control" rows="1"></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>VAT</label>
                                             <select class="form-control">
                                                 <option>Vatable</option>
                                                 <option>Non-Vatable</option>
                                             </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label><br></label>
-                                            <a  href="<?php echo base_url(); ?>sales/services_add_sales_itemlist"  class="btn btn-gradient-primary btn-sm btn-block btn-rounded">Proceed</a>
                                         </div>
                                     </div>
                                 </div>                                
