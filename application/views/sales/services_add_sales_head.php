@@ -56,10 +56,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Labor</label>
-                                    <input type="text" class="form-control" placeholder="Address">
-                                </div>
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
@@ -75,8 +71,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label>Labor</label>
+                                    <input type="text" class="form-control" placeholder="Labor">
+                                </div>
+                                <div class="form-group">
                                     <label>Purpose</label>
-                                    <textarea class="form-control" rows="1"></textarea>
+                                    <textarea class="form-control" rows="1" placeholder="Purpose"></textarea>
                                 </div>
                             </div>
                             <div class="col-lg-6">
