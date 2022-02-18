@@ -29,8 +29,8 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label>TIN</label>
-                                    <input type="text" class="form-control" placeholder="TIN">
+                                    <label>DR No.</label>
+                                    <input type="text" class="form-control" placeholder="DR No">
                                 </div>
                             </div>
                             <div class="col-lg-3">
@@ -42,8 +42,22 @@
                         </div>                  
                         <div class="row">
                             <div class="col-lg-6">                                
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <input type="text" class="form-control" placeholder="Address">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>TIN</label>
+                                            <input type="text" class="form-control" placeholder="TIN">
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group">
-                                    <label>Address</label>
+                                    <label>Labor</label>
                                     <input type="text" class="form-control" placeholder="Address">
                                 </div>
                                 <div class="row">
@@ -64,11 +78,6 @@
                                     <label>Purpose</label>
                                     <textarea class="form-control" rows="1"></textarea>
                                 </div>
-                                <div class="form-group">
-                                    <label>Remarks</label>
-                                    <textarea class="form-control" rows="1"></textarea>
-                                </div>
-
                             </div>
                             <div class="col-lg-6">
                                 <div class="row">                                    
@@ -102,13 +111,13 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label>Start Date</label>
+                                            <label>Date Started</label>
                                             <input type="date" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label>Completion Date</label>
+                                            <label>Date Completed</label>
                                             <input type="date" class="form-control" >
                                         </div>
                                     </div>
@@ -116,8 +125,8 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label>DR No.</label>
-                                            <input type="text" class="form-control" placeholder="DR No">
+                                            <label>Remarks</label>
+                                            <textarea class="form-control" rows="1"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">

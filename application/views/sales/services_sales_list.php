@@ -46,8 +46,8 @@
                                     <td width="10%">DR No.</td>
                                     <td width="10%">Client</td>
                                     <td width="10%">Address</td>
-                                    <td width="10%">PGC PR No.</td>   
-                                    <td width="10%">PGC PO No.</td> 
+                                    <td width="10%">PGC JOR No.</td>   
+                                    <td width="10%">PGC JOI No.</td> 
                                     <th width="8%"><center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>

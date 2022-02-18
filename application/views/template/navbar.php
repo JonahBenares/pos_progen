@@ -249,16 +249,16 @@
                                 <a class="nav-link" href="<?php echo base_url(); ?>sales/goods_sales_list">Goods</a>
                             </li>
                             <li class="nav-item"> 
-                                <hr>
-                            </li>
-                            <li class="nav-item"> 
                                 <a class="nav-link" href="<?php echo base_url(); ?>sales/services_sales_list">Services</a>
-                            </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>sales/return_form">Return</a>
                             </li>
                         </ul>
                     </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url(); ?>returns/return_form">
+                        <span class="menu-title">Return</span>
+                        <i class="mdi mdi-sync menu-icon"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#reportlist" aria-expanded="false" aria-controls="reportlist">
