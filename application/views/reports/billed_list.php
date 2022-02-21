@@ -71,12 +71,7 @@
                                         </th>
                                         <th width="30%"><label class="label-table">DR Date</label></th>
                                         <th width="30%"><label class="label-table">DR No</label></th>
-                                        <th width="31"><label class="label-table pull-right">Total Amount &nbsp;</label></th>
-                                        <th width="5%">
-                                            <center>
-                                                <label class="label-table"><span class="mdi mdi-menu"></span></label>
-                                            </center>
-                                        </th>                                                                 
+                                        <th width="31"><label class="label-table pull-right">Total Amount &nbsp;</label></th>                                                                
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -89,11 +84,6 @@
                                         <td> &nbsp; October 20, 2022</td>
                                         <td> &nbsp; DR-29938773-8882</td>
                                         <td align="right">P 1255525 &nbsp;</td>
-                                        <td align="center">
-                                            <a href="<?php echo base_url(); ?>reports/print_billing" class="btn btn-xs btn-gradient-warning btn-rounded">
-                                                <span class="mdi mdi-eye"></span>
-                                            </a>
-                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -104,11 +94,6 @@
                                         <td> &nbsp; October 20, 2022</td>
                                         <td> &nbsp; DR-29938773-8882</td>
                                         <td align="right">P 45455 &nbsp;</td>
-                                        <td align="center">
-                                            <a href="<?php echo base_url(); ?>reports/print_billing" class="btn btn-xs btn-gradient-warning btn-rounded">
-                                                <span class="mdi mdi-eye"></span>
-                                            </a>
-                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -119,11 +104,6 @@
                                         <td> &nbsp; October 20, 2022</td>
                                         <td> &nbsp; DR-29938773-8882</td>
                                         <td align="right">P 6777 &nbsp;</td>
-                                        <td align="center">
-                                            <a href="<?php echo base_url(); ?>reports/print_billing" class="btn btn-xs btn-gradient-warning btn-rounded">
-                                                <span class="mdi mdi-eye"></span>
-                                            </a>
-                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -134,11 +114,6 @@
                                         <td> &nbsp; July 20, 2022</td>
                                         <td> &nbsp; DR-29938773-8882</td>
                                         <td align="right">P 67775 &nbsp;</td>
-                                        <td align="center">
-                                            <a href="<?php echo base_url(); ?>reports/print_billing" class="btn btn-xs btn-gradient-warning btn-rounded">
-                                                <span class="mdi mdi-eye"></span>
-                                            </a>
-                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -149,11 +124,6 @@
                                         <td> &nbsp; November 20, 2022</td>
                                         <td> &nbsp; DR-29938773-8882</td>
                                         <td align="right">P 688885 &nbsp;</td>
-                                        <td align="center">
-                                            <a href="<?php echo base_url(); ?>reports/print_billing" class="btn btn-xs btn-gradient-warning btn-rounded">
-                                                <span class="mdi mdi-eye"></span>
-                                            </a>
-                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -164,11 +134,6 @@
                                         <td> &nbsp; January 20, 2022</td>
                                         <td> &nbsp; DR-29938773-8882</td>
                                         <td align="right">P 67556 &nbsp;</td>
-                                        <td align="center">
-                                            <a href="<?php echo base_url(); ?>reports/print_billing" class="btn btn-xs btn-gradient-warning btn-rounded">
-                                                <span class="mdi mdi-eye"></span>
-                                            </a>
-                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -179,11 +144,6 @@
                                         <td> &nbsp; December 20, 2022</td>
                                         <td> &nbsp; DR-29938773-8882</td>
                                         <td align="right">P 567765 &nbsp;</td>
-                                        <td align="center">
-                                            <a href="<?php echo base_url(); ?>reports/print_billing" class="btn btn-xs btn-gradient-warning btn-rounded">
-                                                <span class="mdi mdi-eye"></span>
-                                            </a>
-                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -194,11 +154,6 @@
                                         <td> &nbsp; November 20, 2022</td>
                                         <td> &nbsp; DR-29938773-8882</td>
                                         <td align="right">P 56777 &nbsp;</td>
-                                        <td align="center">
-                                            <a href="<?php echo base_url(); ?>reports/print_billing" class="btn btn-xs btn-gradient-warning btn-rounded">
-                                                <span class="mdi mdi-eye"></span>
-                                            </a>
-                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

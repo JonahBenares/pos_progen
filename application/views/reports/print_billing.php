@@ -115,58 +115,52 @@
                     <td colspan="18">
                         <table class="table-bordered" width="100%">
                             <tr>
-                                <td width="7%">Qty</td>
-                                <td width="8%">UoM</td>
-                                <td width="15%">Item Code</td>
-                                <td>Item Description</td>
-                                <td width="15%">Price per unit</td>
-                                <td width="15%">Total Amount</td>
+                                <td width="30%" class="td-head">DR Date</td>
+                                <td width="40%" class="td-head">DR No.</td>
+                                <td width="30%" class="td-head" align="right">Total Amount</td>
+                            </tr>
+                            <tr>
+                                <td>November 11, 2002</td>
+                                <td>DR2002-2255655454-10</td>
+                                <td align="right">225,299.00</td>
+                            </tr>
+                            <tr>
+                                <td>April 11, 2022</td>
+                                <td>DR2002-2255655454-10</td>
+                                <td align="right">225,299.00</td>
+                            </tr>
+                            <tr>
+                                <td>December 11, 2019</td>
+                                <td>DR2002-2255655454-10</td>
+                                <td align="right">225,299.00</td>
+                            </tr>
+                            <tr>
+                                <td>March 11, 2001</td>
+                                <td>DR2002-2255655454-10</td>
+                                <td align="right">225,299.00</td>
+                            </tr>
+                            <tr>
+                                <td>November 11, 2002</td>
+                                <td>DR2002-2255655454-10</td>
+                                <td align="right">225,299.00</td>
+                            </tr>
+                            <tr>
+                                <td>June 11, 2004</td>
+                                <td>DR2002-2255655454-10</td>
+                                <td align="right">225,299.00</td>
+                            </tr>
+                            <tr>
+                                <td>March 11, 2202</td>
+                                <td>DR2002-2255655454-10</td>
+                                <td align="right">225,299.00</td>
+                            </tr>
+                            <tr>
+                                <td>July 11, 2003</td>
+                                <td>DR2002-2255655454-10</td>
+                                <td align="right">225,299.00</td>
                             </tr>
                             <tr>
                                 <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -174,7 +168,9 @@
                                 <td><br></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -182,7 +178,9 @@
                                 <td><br></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -190,7 +188,9 @@
                                 <td><br></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -198,55 +198,17 @@
                                 <td><br></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
                             </tr>
                             <tr>
                                 <td><br></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
                             </tr>
                             <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td colspan="5">
+                                <td colspan="2">
                                     <span class="pull-right">Total Amount Due:</span>
                                 </td>
-                                <td class="bor-btm2"></td>
+                                <td class="bor-btm2" align="right"> <b>1,802,392.00</b></td>
                             </tr>
                         </table>
                     </td>
