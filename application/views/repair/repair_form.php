@@ -1,3 +1,11 @@
+<style type="text/css">
+    .form-group label {
+        font-size: 0.875rem;
+        line-height: 1;
+        vertical-align: top;
+        margin-bottom: .3rem;
+    }
+</style>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -69,9 +77,10 @@
                                     <input type="date" class="form-control" name="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputName1">Qty</label>
-                                    <input type="text" class="form-control" name="" placeholder="00">
+                                    <label for="exampleInputName1">JO No.</label>
+                                    <input type="text" class="form-control" name="">
                                 </div>
+                                
                             </div>
                             <div class="col-lg-2">
                                 <div class="form-group" >
@@ -84,7 +93,11 @@
                                         <label class="form-check-label">
                                         <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2" checked="">Beyond Repair <i class="input-helper"></i></label>
                                     </div>
-                                </div>                    
+                                </div>   
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Qty</label>
+                                    <input type="text" class="form-control" name="" placeholder="00">
+                                </div>                 
                             </div>     
                             <div class="col-lg-3">
                                 <div class="form-group">
@@ -160,8 +173,8 @@
                                     <input type="date" class="form-control" name="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputName1">Qty</label>
-                                    <input type="text" class="form-control" name="" placeholder="00">
+                                    <label for="exampleInputName1">JO No.</label>
+                                    <input type="text" class="form-control" name="">
                                 </div>
                             </div>
                             <div class="col-lg-2">
@@ -175,7 +188,11 @@
                                         <label class="form-check-label">
                                         <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2" checked="">Beyond Repair <i class="input-helper"></i></label>
                                     </div>
-                                </div>                    
+                                </div>       
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Qty</label>
+                                    <input type="text" class="form-control" name="" placeholder="00">
+                                </div>             
                             </div>     
                             <div class="col-lg-3">
                                 <div class="form-group">

@@ -70,10 +70,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label>Labor</label>
                                     <input type="text" class="form-control" placeholder="Labor">
-                                </div>
+                                </div> -->
                                 <div class="form-group">
                                     <label>Purpose</label>
                                     <textarea class="form-control" rows="1" placeholder="Purpose"></textarea>
@@ -108,7 +108,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                               <!--  <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Date Started</label>
@@ -121,7 +121,7 @@
                                             <input type="date" class="form-control" >
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
