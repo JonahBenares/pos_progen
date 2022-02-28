@@ -161,7 +161,7 @@
                             <div class="row">
                                 <div class="col-lg-4"></div>
                                 <div class="col-lg-4">
-                                    <a href="<?php echo base_url(); ?>reports/bill" class="btn btn-gradient-success btn-md btn-block">Pay</a>
+                                    <a href="<?php echo base_url(); ?>reports/bill_pay" class="btn btn-gradient-success btn-md btn-block">Pay</a>
                                 </div>
                                 <div class="col-lg-4"></div>
                             </div>

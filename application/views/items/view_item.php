@@ -168,8 +168,8 @@
                                                                           
                                                     <th width="25%"> Supplier </th>
                                                     <th width="10%"> Catalog No. </th>
-                                                    <th width="5%"> NKK No. </th>
-                                                    <th width="5%"> SEMT No. </th>
+                                                    <!-- <th width="5%"> NKK No. </th>
+                                                    <th width="5%"> SEMT No. </th> -->
                                                     <th width="10%"> Brand </th>
                                                     <th width="10%"> Serial No </th>
                                                     <th width="10%"> Average Cost per Supplier </th>
@@ -184,22 +184,8 @@
                                                 <tr>
                                                     <td></td>
                                                     <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td align="center">
-                                                        <a href="<?php echo base_url(); ?>reports/stock_card" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <!-- <td></td>
+                                                    <td></td> -->
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
@@ -212,22 +198,8 @@
                                                 <tr>
                                                     <td></td>
                                                     <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td align="center">
-                                                        <a href="<?php echo base_url(); ?>reports/stock_card" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <!-- <td></td>
+                                                    <td></td> -->
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
@@ -240,8 +212,8 @@
                                                 <tr>
                                                     <td></td>
                                                     <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                   <!--  <td></td>
+                                                    <td></td> -->
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
@@ -254,8 +226,36 @@
                                                 <tr>
                                                     <td></td>
                                                     <td></td>
+                                                    <!-- <td></td>
+                                                    <td></td> -->
                                                     <td></td>
                                                     <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td align="center">
+                                                        <a href="<?php echo base_url(); ?>reports/stock_card" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <!-- <td></td>
+                                                    <td></td> -->
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td align="center">
+                                                        <a href="<?php echo base_url(); ?>reports/stock_card" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <!-- <td></td>
+                                                    <td></td> -->
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>

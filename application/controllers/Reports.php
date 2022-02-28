@@ -59,6 +59,13 @@ class Reports extends CI_Controller {
         $this->load->view('reports/billed_list');
         $this->load->view('template/footer');
     }
+    public function bill_pay()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/bill_pay');
+        $this->load->view('template/footer');
+    }
     public function paid_list()
     {
         $this->load->view('template/header');

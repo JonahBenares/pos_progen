@@ -32,8 +32,8 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="exampleTextarea1">Remarks</label>
-                                    <textarea class="form-control" id="exampleTextarea1" rows="3" placeholder=" Remarks"></textarea>
+                                    <label for="exampleTextarea1">Notes</label>
+                                    <textarea class="form-control" id="exampleTextarea1" rows="2" placeholder=" Notes"></textarea>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -52,7 +52,7 @@
                                 <div class="col-lg-12">
                                     <table width="100%">
                                         <tr>
-                                            <td width="55%">
+                                            <td width="45%">
                                                 <div class="form-group">
                                                     <label>All Transactions</label>
                                                     <select class="form-control">
@@ -60,14 +60,21 @@
                                                     </select>
                                                 </div>
                                             </td>
-                                            <td width="3%"></td>
-                                            <td width="30%">
+                                            <td width="2%"></td>
+                                            <td width="15%">
                                                 <div class="form-group">
                                                     <label>Quantity</label>
                                                     <input type="number" class="form-control" placeholder="00">
                                                 </div>
                                             </td>
-                                            <td width="3%"></td>
+                                            <td width="2%"></td>
+                                            <td width="25%">
+                                                <div class="form-group">
+                                                    <label>Remarks</label>
+                                                    <textarea class="form-control" rows="1"></textarea>
+                                                </div>
+                                            </td>
+                                            <td width="2%"></td>
                                             <td width="9%">
                                                 <label><br></label>
                                                 <div class="form-group">
@@ -81,7 +88,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td width="55%">
+                                            <td width="45%">
                                                 <div class="form-group">
                                                     <label>All Transactions</label>
                                                     <select class="form-control">
@@ -89,14 +96,21 @@
                                                     </select>
                                                 </div>
                                             </td>
-                                            <td width="3%"></td>
-                                            <td width="30%">
+                                            <td width="2%"></td>
+                                            <td width="15%">
                                                 <div class="form-group">
                                                     <label>Quantity</label>
                                                     <input type="number" class="form-control" placeholder="00">
                                                 </div>
                                             </td>
-                                            <td width="3%"></td>
+                                            <td width="2%"></td>
+                                            <td width="25%">
+                                                <div class="form-group">
+                                                    <label>Remarks</label>
+                                                    <textarea class="form-control" rows="1"></textarea>
+                                                </div>
+                                            </td>
+                                            <td width="2%"></td>
                                             <td width="9%">
                                                 <label><br></label>
                                                 <div class="form-group">
@@ -110,7 +124,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td width="55%">
+                                            <td width="45%">
                                                 <div class="form-group">
                                                     <label>All Transactions</label>
                                                     <select class="form-control">
@@ -118,14 +132,129 @@
                                                     </select>
                                                 </div>
                                             </td>
-                                            <td width="3%"></td>
-                                            <td width="30%">
+                                            <td width="2%"></td>
+                                            <td width="15%">
                                                 <div class="form-group">
                                                     <label>Quantity</label>
                                                     <input type="number" class="form-control" placeholder="00">
                                                 </div>
                                             </td>
-                                            <td width="3%"></td>
+                                            <td width="2%"></td>
+                                            <td width="25%">
+                                                <div class="form-group">
+                                                    <label>Remarks</label>
+                                                    <textarea class="form-control" rows="1"></textarea>
+                                                </div>
+                                            </td>
+                                            <td width="2%"></td>
+                                            <td width="9%">
+                                                <label><br></label>
+                                                <div class="form-group">
+                                                    <a href="" class="btn btn-gradient-info btn-sm">
+                                                        <span class="mdi mdi-plus"></span>
+                                                    </a>
+                                                    <a href="" class="btn btn-gradient-danger btn-sm">
+                                                        <span class="mdi mdi-close"></span>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="45%">
+                                                <div class="form-group">
+                                                    <label>All Transactions</label>
+                                                    <select class="form-control">
+                                                        <option>-Select Transaction-</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td width="2%"></td>
+                                            <td width="15%">
+                                                <div class="form-group">
+                                                    <label>Quantity</label>
+                                                    <input type="number" class="form-control" placeholder="00">
+                                                </div>
+                                            </td>
+                                            <td width="2%"></td>
+                                            <td width="25%">
+                                                <div class="form-group">
+                                                    <label>Remarks</label>
+                                                    <textarea class="form-control" rows="1"></textarea>
+                                                </div>
+                                            </td>
+                                            <td width="2%"></td>
+                                            <td width="9%">
+                                                <label><br></label>
+                                                <div class="form-group">
+                                                    <a href="" class="btn btn-gradient-info btn-sm">
+                                                        <span class="mdi mdi-plus"></span>
+                                                    </a>
+                                                    <a href="" class="btn btn-gradient-danger btn-sm">
+                                                        <span class="mdi mdi-close"></span>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="45%">
+                                                <div class="form-group">
+                                                    <label>All Transactions</label>
+                                                    <select class="form-control">
+                                                        <option>-Select Transaction-</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td width="2%"></td>
+                                            <td width="15%">
+                                                <div class="form-group">
+                                                    <label>Quantity</label>
+                                                    <input type="number" class="form-control" placeholder="00">
+                                                </div>
+                                            </td>
+                                            <td width="2%"></td>
+                                            <td width="25%">
+                                                <div class="form-group">
+                                                    <label>Remarks</label>
+                                                    <textarea class="form-control" rows="1"></textarea>
+                                                </div>
+                                            </td>
+                                            <td width="2%"></td>
+                                            <td width="9%">
+                                                <label><br></label>
+                                                <div class="form-group">
+                                                    <a href="" class="btn btn-gradient-info btn-sm">
+                                                        <span class="mdi mdi-plus"></span>
+                                                    </a>
+                                                    <a href="" class="btn btn-gradient-danger btn-sm">
+                                                        <span class="mdi mdi-close"></span>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="45%">
+                                                <div class="form-group">
+                                                    <label>All Transactions</label>
+                                                    <select class="form-control">
+                                                        <option>-Select Transaction-</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td width="2%"></td>
+                                            <td width="15%">
+                                                <div class="form-group">
+                                                    <label>Quantity</label>
+                                                    <input type="number" class="form-control" placeholder="00">
+                                                </div>
+                                            </td>
+                                            <td width="2%"></td>
+                                            <td width="25%">
+                                                <div class="form-group">
+                                                    <label>Remarks</label>
+                                                    <textarea class="form-control" rows="1"></textarea>
+                                                </div>
+                                            </td>
+                                            <td width="2%"></td>
                                             <td width="9%">
                                                 <label><br></label>
                                                 <div class="form-group">

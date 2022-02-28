@@ -77,7 +77,7 @@
                                     <input type="date" class="form-control" name="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputName1">JO No.</label>
+                                    <label for="exampleInputName1">JO/PR No.</label>
                                     <input type="text" class="form-control" name="">
                                 </div>
                                 
@@ -173,7 +173,7 @@
                                     <input type="date" class="form-control" name="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputName1">JO No.</label>
+                                    <label for="exampleInputName1">JO/PR No.</label>
                                     <input type="text" class="form-control" name="">
                                 </div>
                             </div>
