@@ -27,13 +27,7 @@
                                     <input type="text" class="form-control" placeholder="Client Name">
                                 </div>
                             </div>
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label>TIN</label>
-                                    <input type="text" class="form-control" placeholder="TIN">
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Date</label>
                                     <input type="date" class="form-control" placeholder="Date">
@@ -41,11 +35,23 @@
                             </div>                                    
                         </div>                  
                         <div class="row">
-                            <div class="col-lg-6">                                
-                                <div class="form-group">
-                                    <label>Address</label>
-                                    <input type="text" class="form-control" placeholder="Address">
-                                </div>
+                            <div class="col-lg-6"> 
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <input type="text" class="form-control" placeholder="Address">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>TIN</label>
+                                            <input type="text" class="form-control" placeholder="TIN">
+                                        </div>
+                                    </div>
+                                </div>                               
+                                
+                                
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
