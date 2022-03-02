@@ -52,6 +52,13 @@ class Reports extends CI_Controller {
         $this->load->view('reports/pending_list');
         $this->load->view('template/footer');
     }
+    public function pending_popup()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/pending_popup');
+        $this->load->view('template/footer');
+    }
     public function billed_list()
     {
         $this->load->view('template/header');
@@ -120,5 +127,7 @@ class Reports extends CI_Controller {
         $this->load->view('reports/inventory_rangedate');
         $this->load->view('template/footer');
     }
+
+
 
 }

@@ -22,6 +22,9 @@
                     <a href="#" class="btn btn-gradient-success btn-md btn-rounded">
                         <b><span class="mdi mdi-printer"></span> Print</b>
                     </a>
+                    <a href="<?php echo base_url(); ?>reports/bill_pay" class="btn btn-gradient-info btn-md btn-rounded">
+                        <b><span class="mdi mdi-cash"></span> Proceed Pay</b>
+                    </a>
                     <!-- <a href="<?php echo base_url(); ?>billing/update_billing_head" class="btn btn-gradient-info btn-sm btn-rounded">
                         <b><span class="mdi mdi-pencil"></span> Update</b>
                     </a> -->

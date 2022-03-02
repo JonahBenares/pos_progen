@@ -41,7 +41,7 @@
                     </div>
                     <div class="card-body">   
                         <div class="row">
-                            <div class="col-lg-3 offset-lg-2">
+                            <div class="col-lg-3">
                                 <!-- <input type="" class="form-control" name="" placeholder="Customer"> -->
                                 <select class="form-control">
                                     <option>--Select Customer--</option>
@@ -57,6 +57,10 @@
                             </div>
                             <div class="col-lg-2">
                                 <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="" value="Filter">
+                            </div>
+                            <div class="col-lg-3 offset-lg-1">
+                                <small class="pull-right">Overall Total Amount</small>
+                                <h2 class="pull-right">P 225,545,555</h2>
                             </div>
                         </div>
                         <hr>   

@@ -25,9 +25,9 @@
                                 <div class="col-lg-6">
                                     <table class="table table-bordered table-hover">
                                         <tr>
-                                            <td>DR Date</td>
-                                            <td>DR No</td>
-                                            <td>Total Amount</td>
+                                            <td class="td-head">DR Date</td>
+                                            <td class="td-head">DR No</td>
+                                            <td class="td-head">Total Amount</td>
                                         </tr>
                                         <tr>
                                             <td> &nbsp; July 20, 2022</td>
@@ -63,11 +63,19 @@
                                             <td> &nbsp; July 20, 2022</td>
                                             <td> &nbsp; DR-29938773-8882</td>
                                             <td align="right">P 67775 &nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="td-head" colspan="2" align="right">Grand Total</td>
+                                            <td class="td-head" align="right"><b>P 67775 &nbsp;</b></td>
                                         </tr>
                                     </table>
                                 </div>
                                 <div class="col-lg-3">
                                     <br>
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Payment Date</label>
+                                        <input type="date" class="form-control" name="" placeholder="">
+                                    </div>
                                     <div class="form-group" >
                                         <label for="exampleInputName1">Payment</label>
                                         <div class="form-check m-0" >

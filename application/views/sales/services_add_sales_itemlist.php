@@ -157,7 +157,6 @@
                                             <td class="td-head" width="1%">#</td>
                                             <td class="td-head" width="">Part No.</td>
                                             <td class="td-head" width="">Item Description</td>
-                                            <td class="td-head" width="">Cross Reference</td>
                                             <td class="td-head" width="">Serial No.</td>
                                             <td class="td-head" width="5%">Qty</td>
                                             <td class="td-head" width="3%">UOM</td>
@@ -173,7 +172,6 @@
                                             <td>sample</td>
                                             <td>sample</td>
                                             <td>sample</td>
-                                            <td>sample</td>
                                             <td>282</td>
                                             <td>kg</td>
                                             <td>sample55</td>
@@ -183,7 +181,6 @@
                                         </tr>
                                         <tr>
                                             <td>02</td>
-                                            <td>sample</td>
                                             <td>sample</td>
                                             <td>sample</td>
                                             <td>sample</td>
