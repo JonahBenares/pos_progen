@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 27, 2022 at 08:03 PM
+-- Generation Time: Mar 01, 2022 at 03:07 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -23,6 +23,36 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `billing_details`
+--
+
+CREATE TABLE IF NOT EXISTS `billing_details` (
+`billing_detail_id` int(11) NOT NULL,
+  `billing_id` int(11) NOT NULL DEFAULT '0',
+  `dr_no` int(11) NOT NULL DEFAULT '0',
+  `dr_date` varchar(20) DEFAULT NULL,
+  `total_amount` decimal(10,2) NOT NULL DEFAULT '0.00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `billing_head`
+--
+
+CREATE TABLE IF NOT EXISTS `billing_head` (
+`billing_id` int(11) NOT NULL,
+  `billing_no` int(11) NOT NULL DEFAULT '0',
+  `billing_date` varchar(20) DEFAULT NULL,
+  `total_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `client_id` int(11) NOT NULL DEFAULT '0',
+  `create_date` varchar(20) DEFAULT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `buyer`
 --
 
@@ -31,15 +61,44 @@ CREATE TABLE IF NOT EXISTS `buyer` (
   `address` text,
   `buyer_name` varchar(100) DEFAULT NULL,
   `contact_person` varchar(100) DEFAULT NULL,
-  `contact_no` varchar(50) DEFAULT NULL
+  `contact_no` varchar(50) DEFAULT NULL,
+  `tin` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `buyer`
 --
 
-INSERT INTO `buyer` (`buyer_id`, `address`, `buyer_name`, `contact_person`, `contact_no`) VALUES
-(1, 'Purok San Jose, Brgy. Calumangan, Bago City, Negros Occidental, 6101', 'Central Negros Power Reliability, Inc.', 'Ms. Julyn May', '(034)4351932');
+INSERT INTO `buyer` (`buyer_id`, `address`, `buyer_name`, `contact_person`, `contact_no`, `tin`) VALUES
+(1, 'Purok San Jose, Brgy. Calumangan, Bago City, Negros Occidental, 6101', 'Central Negros Power Reliability, Inc.', 'Ms. Julyn May', '(034)4351932', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `damage_details`
+--
+
+CREATE TABLE IF NOT EXISTS `damage_details` (
+`damage_det_id` int(11) NOT NULL,
+  `damage_id` int(11) NOT NULL DEFAULT '0',
+  `in_id` int(11) NOT NULL DEFAULT '0',
+  `damage_qty` decimal(10,2) NOT NULL DEFAULT '0.00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `damage_head`
+--
+
+CREATE TABLE IF NOT EXISTS `damage_head` (
+`damage_id` int(11) NOT NULL,
+  `damage_date` varchar(20) DEFAULT NULL,
+  `remarks` text,
+  `item_id` int(11) NOT NULL DEFAULT '0',
+  `create_date` varchar(20) DEFAULT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -213,241 +272,39 @@ INSERT INTO `employees` (`employee_id`, `employee_name`, `department`, `position
 -- --------------------------------------------------------
 
 --
--- Table structure for table `enduse`
+-- Table structure for table `fifo_in`
 --
 
-CREATE TABLE IF NOT EXISTS `enduse` (
-`enduse_id` int(11) NOT NULL,
-  `enduse_code` varchar(100) DEFAULT NULL,
-  `enduse_name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=231 DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `fifo_in` (
+`in_id` int(11) NOT NULL,
+  `receive_id` int(11) NOT NULL DEFAULT '0',
+  `rd_id` int(11) NOT NULL DEFAULT '0',
+  `ri_id` int(11) NOT NULL DEFAULT '0',
+  `receive_date` varchar(20) DEFAULT NULL,
+  `pr_no` varchar(30) DEFAULT NULL,
+  `item_id` int(11) NOT NULL DEFAULT '0',
+  `supplier_id` int(11) NOT NULL DEFAULT '0',
+  `brand_id` int(11) NOT NULL DEFAULT '0',
+  `catalog_no` varchar(30) DEFAULT NULL,
+  `serial_no` varchar(30) DEFAULT NULL,
+  `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `remaining_qty` decimal(10,2) NOT NULL DEFAULT '0.00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `enduse`
+-- Table structure for table `fifo_out`
 --
 
-INSERT INTO `enduse` (`enduse_id`, `enduse_code`, `enduse_name`) VALUES
-(1, NULL, 'Air Intake Room\r\n'),
-(2, '', 'Control Air Compressor No. 1'),
-(3, '', 'Control Air Compressor No. 2'),
-(4, '', 'Control Air Compressor No. 3'),
-(5, NULL, 'Canteen\r\n'),
-(6, NULL, 'CENPRI Employees\r\n'),
-(7, NULL, 'Cenpri Warehouse Building\r\n'),
-(8, NULL, 'Cenpri Warehouse Extension\r\n'),
-(9, NULL, 'Clinic Use\r\n'),
-(10, '', 'Cooling Tower Basin No. 1 '),
-(11, '', 'Cooling Tower Basin No. 2'),
-(12, '', 'CV Access Bay Area'),
-(13, NULL, 'DG1 \r\n'),
-(14, NULL, 'DG2\r\n'),
-(15, NULL, 'DG3'),
-(16, NULL, 'DG4'),
-(17, NULL, 'DG5'),
-(18, NULL, 'Guardhouse\r\n'),
-(19, '', 'Heavy Fuel Oil Purifier No. 1'),
-(20, '', 'Heavy Fuel Oil Purifier No. 2'),
-(21, '', 'Heavy Fuel Oil Purifier - Common'),
-(22, '', 'Jacket Water Cooler No. 1'),
-(23, '', 'Jacket Water Cooler No. 2'),
-(24, '', 'Jacket Water Cooler No. 3'),
-(25, '', 'Jacket Water Cooler No. 4'),
-(26, '', 'Jacket Water Cooler No. 5'),
-(27, NULL, 'Laboratory Use\r\n'),
-(28, NULL, 'Ladies'' Dormitory\r\n'),
-(29, '', 'Lube Oil Cooler No. 1'),
-(30, '', 'Lube Oil Cooler No. 2'),
-(31, '', 'Lube Oil Cooler No. 3'),
-(32, '', 'Lube Oil Cooler No. 4'),
-(33, '', 'Lube Oil Cooler No. 5'),
-(34, '', 'Lube Oil Purifier No. 1'),
-(35, '', 'Lube Oil Purifier No. 2'),
-(36, '', 'Lube Oil Purifier No. 3'),
-(37, '', 'Lube Oil Purifier No. 4'),
-(38, '', 'Lube Oil Purifier No. 5'),
-(39, NULL, 'Office Use\r\n'),
-(40, NULL, 'Powerhouse Building\r\n'),
-(41, NULL, 'Progen Warehouse\r\n'),
-(42, NULL, 'Restrooms\r\n'),
-(43, NULL, 'Running Units\r\n'),
-(44, NULL, 'Running Units - Pielstick\r\n'),
-(45, NULL, 'Running Units - Sulzer\r\n'),
-(46, '', 'Starting Air Compressor No. 1'),
-(47, '', 'Starting Air Compressor No. 2'),
-(48, '', 'Starting Air Compressor No. 3'),
-(49, '', 'Starting Air Compressor No. 4'),
-(50, '', 'Starting Air Compressor No. 5'),
-(52, '', 'Steam Equipment'),
-(53, NULL, 'Substation\r\n'),
-(54, NULL, 'Tank Farm\r\n'),
-(55, '', 'Trainees on Oil Spill'),
-(56, '', 'Bacolod Office'),
-(57, '', 'Boiler Circulating Pump No.4'),
-(58, '', 'Boiler Condensate Pump Motor'),
-(59, '', 'Control Air Compressor - Common'),
-(60, '', 'Environment and Pollution Control'),
-(61, '', 'Fuel Tank'),
-(62, '', 'Guests/VIP'),
-(63, '', 'Jacket Water Cooler - Common'),
-(64, '', 'Lube Oil Cooler - Common'),
-(65, '', 'Lube Oil Purifier - Common'),
-(66, '', 'NALCO Water Softener Unit'),
-(67, '', 'Progen Office Use'),
-(68, '', 'Starting Air Compressor - Common'),
-(69, '', 'Starting Air Compressor No. 4 & 5'),
-(70, '', 'SEM Water Softener Unit'),
-(71, '', 'Sludge Tank'),
-(72, '', 'Staffhouse 1 - Site'),
-(73, '', 'Staffhouse 2 - Jara'),
-(74, '', 'Staffhouse 3 - EDJ'),
-(75, '', 'Waste Heat Recovery Boiler - Common'),
-(76, '', 'Waste Heat Recovery Boiler No.1'),
-(77, '', 'Waste Heat Recovery Boiler No.2'),
-(78, '', 'Waste Heat Recovery Boiler No.3'),
-(82, '', 'Battery Charger'),
-(83, '', 'Heavy Equipment - Boomtruck and Forklift'),
-(84, '', 'Heavy Equipment - Boomtruck'),
-(85, '', 'Heavy Equipment - Forklift'),
-(86, '', 'Microwave Radio Equipment'),
-(87, '', 'Switch Gear Room'),
-(88, '', 'Control Room'),
-(89, '', 'Community'),
-(90, '', 'Warehouse Office'),
-(92, '', 'Westfalia Separator AG-Lube Oil'),
-(93, '', 'Station Load Metering'),
-(94, '', 'Service Vehicle Isuzu Crosswind Plate No. FFN706'),
-(95, '', 'Heavy Fuel Oil Sludge Basin'),
-(96, '', 'Generator Sliding Tools'),
-(97, '', 'Smoke Stack'),
-(98, '', 'Cooling Tower Basin -  Common'),
-(99, '', 'Mechanical Barracks'),
-(100, '', '69KV Pole No. 3 and 4'),
-(101, '', 'Fluke Clamp Meter'),
-(102, '', 'Electrical Consumables'),
-(103, '', 'Non Disturbance Monitoring Equipment'),
-(104, '', 'Diesel Storage Tank'),
-(105, '', 'Power Plant Premises'),
-(107, '', 'Fuel and Lube Oil Recovery System'),
-(108, '', 'NALCO and SEM Water Softener'),
-(109, '', 'Fuel Farm'),
-(110, '', 'Honing Machine'),
-(111, '', 'Maintenance Reconditioning Area and Fuel Farm Area'),
-(112, '', 'Powerhouse Toolbox'),
-(113, '', 'Cummins Engine'),
-(114, '', 'Isuzu, Pick-up, Fuego, Diesel, 1999'),
-(115, '', 'Plant Equipment'),
-(116, '', 'Electrical Handtools'),
-(117, '', 'Warehouse Beginning Balance'),
-(118, '', 'Switch Yard'),
-(119, '', 'Deep Well Pump'),
-(120, '', 'Drain Pipe in Running Units Sulzer and Smoke Stack'),
-(121, '', 'Cooling Tower'),
-(122, '', '1.5 MVA Station Transformer DG4 & DG5 Generator Winding/VCB/MOCB/Cable Monitor'),
-(123, '', 'Plate Compactor'),
-(124, '', 'Microwave Antenna'),
-(125, '', 'Asset Management'),
-(126, '', 'Operations & Maintenance Consumables'),
-(127, '', 'Christmas Lantern'),
-(128, '', '40 MVA Power Transformer'),
-(129, '', 'Boiler Water Intake'),
-(130, '', 'HFO Fuel Piping Insulation and Cladding'),
-(131, '', 'Fuel and Lube Oil Management'),
-(132, '', 'Settling and Service Tank'),
-(133, '', '125 Vdc Battery Charger'),
-(134, '', 'NVR CCTV Cameras'),
-(135, '', 'Deep Well Facility'),
-(136, '', 'Air Compressor'),
-(137, '', '40 MVA, 69kV/6.6kV Power Transformer'),
-(138, '', 'Deep Well Riser Pipes Pull-out'),
-(139, '', 'Barring Gear Motor - Unit 2'),
-(140, '', 'Trading'),
-(141, '', 'Plant Decoration'),
-(142, '', 'Christmas Party Stage'),
-(143, '', 'Soft Water Supply Pump'),
-(144, '', 'MOCB Units 4 & 5'),
-(145, '', 'HFO Settling & Service Tanks'),
-(146, '', '4 Units Pielstick Generator'),
-(147, '', '3 Units Exhaust Fan ( MCI )'),
-(148, '', 'Computer/Electronic device power supply'),
-(149, '', 'Fuel Module Booster Pump Unit 2'),
-(150, '', 'Boiler Circulating Pump and Motor Units 3 and 4'),
-(151, '', 'Jacket Water Pump Motor No.4'),
-(152, '', 'Wire Marker Device'),
-(153, '', 'Mono Pump Chamber No.1'),
-(155, '', 'DG4 (CV Area) Main Engine Parts & Components'),
-(156, '', 'DG1 (CV Area) Main Engine Parts & Components.'),
-(157, '', 'Container Van #16'),
-(158, 'Generator @ CV yard', ''),
-(159, '', 'Generator @ CV Yard'),
-(160, '', 'Equipment @ CV yard'),
-(161, '', 'DG2 Main Engine Frame Cleaning and Preserving'),
-(162, '', 'Progen Personnel & Helper'),
-(163, '', 'DG2 Running Unit'),
-(164, '', '36 Units SEMT Pielstick PC2-5 Cylinder Head Assembly'),
-(165, '', 'Turbo Charger - Pielstick'),
-(166, '', 'Exhaust Valve Cage'),
-(167, '', '12 Units Connecting Rod Assembly and 12 Units Piston Assembly'),
-(168, '', 'Crates'),
-(169, '', 'Lateral Bolt'),
-(170, '', 'Intermediate Gear, Crankshaft Gear, Bearing Body and Lateral Bolt'),
-(171, '', 'Calapan Power Generation Corp. (CPGC)'),
-(172, '', '18 Units SEMT Pielstick PC2-5 Cylinder Head Assembly'),
-(173, '', 'Cenpri Warehouse'),
-(174, '', '4 Units Cylinder Head (Bare) for CPGC'),
-(175, '', '6 Units Piston Assembly'),
-(176, '', 'Pneumatic Valve Assembly for Sulzer Engines'),
-(177, '', 'Pull out, Inspection & Crack Testing of Progen Items'),
-(178, '', '36 Units Fuel Injection Pump Assembly'),
-(179, '', 'Petty Cash Fund Storage'),
-(180, '', 'Engine Parts'),
-(181, '', 'Ultrasonic Thickness Meter'),
-(182, '', '36 Units Rocker Arm Assembly'),
-(183, '', '10 Units Cylinder Head Bare for CPGC'),
-(184, '', ''),
-(185, '', 'Progen Engine and Auxiliary Equipment'),
-(186, '', 'Alfa Laval Moati Filter'),
-(187, '', '2 Units Turbo Charger Pielstick'),
-(188, '', 'Cylinder Head Accessories'),
-(189, '', 'Progen Spare Parts'),
-(190, '', 'DG5 Control Panel'),
-(191, '', 'Fuel Pump Drive'),
-(192, '', 'CV Yard Maintenance'),
-(193, '', 'Refurbishing of Progen Items for CPGC'),
-(194, '', 'Refurbishing of 36 units Cylinder Liner with Water Jacket'),
-(195, '', 'Timing Gear'),
-(196, '', 'Anti Vibrational Damper'),
-(197, '', 'Valve Gear'),
-(198, '', '24 & 125 VDC Bank Batteries'),
-(199, '', 'Generator, Electrical Controls and Medium Voltage'),
-(200, '', 'Fuel Injection Pump'),
-(201, '', 'Governor Drive'),
-(202, '', 'Progen & IPRO-B Warehouse'),
-(203, '', '18 Units Valve Gear Assembly'),
-(204, '', '18 Units Cylinder Liner with Water Jacket'),
-(205, '', 'Cylinder Liner Jacket Puller'),
-(206, '', 'Flywheel'),
-(207, '', 'Barring Gear'),
-(208, '', 'Pedestal Bearing'),
-(209, '', 'Grass Cutter'),
-(210, '', 'Turbocharger Parts'),
-(211, '', 'IPRO Steel Cabinet'),
-(212, '', 'Pielstick Engine Piping System'),
-(213, '', '11 Units Pielstick Cylinder Head Assembly'),
-(214, '', 'Air Cooler Assembly'),
-(215, '', '18 Units Connecting Rod - Pielstick'),
-(216, '', 'Hydraulic Jack'),
-(217, '', 'Air Starting Distributor'),
-(218, '', 'Transition Piece Bracket'),
-(219, '', 'Main Engine (Engine Frame)'),
-(220, '', 'Turbocharger Gas Outlet Casing'),
-(221, '', 'Raw Water Pump'),
-(222, '', 'Testing Equipment'),
-(223, '', 'Lube Oil and Jacket Water Cooler'),
-(224, '', 'Container Vans'),
-(225, '', 'Thickness Gauge'),
-(226, '', 'Progen CV Area'),
-(227, '', 'Installation of Motor Parking Area'),
-(228, '', 'Edwin Bejec');
+CREATE TABLE IF NOT EXISTS `fifo_out` (
+`out_id` int(11) NOT NULL,
+  `in_id` int(11) NOT NULL DEFAULT '0',
+  `transaction_type` varchar(30) DEFAULT NULL,
+  `sales_id` int(11) NOT NULL DEFAULT '0',
+  `damage_id` int(11) NOT NULL DEFAULT '0',
+  `quantity` decimal(10,2) NOT NULL DEFAULT '0.00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -610,6 +467,34 @@ INSERT INTO `groups` (`group_id`, `group_name`) VALUES
 (146, 'SEALS'),
 (147, 'Unidentified Cotter Pin'),
 (148, 'Unidentified Washer');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `items`
+--
+
+CREATE TABLE IF NOT EXISTS `items` (
+`item_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL DEFAULT '0',
+  `subcat_id` int(11) NOT NULL DEFAULT '0',
+  `original_pn` varchar(100) DEFAULT NULL,
+  `item_name` varchar(255) DEFAULT NULL,
+  `unit_id` int(11) DEFAULT NULL,
+  `group_id` int(11) NOT NULL DEFAULT '0',
+  `location_id` int(11) NOT NULL DEFAULT '0',
+  `bin_id` int(11) NOT NULL DEFAULT '0',
+  `warehouse_id` int(11) NOT NULL DEFAULT '0',
+  `rack_id` int(11) DEFAULT NULL,
+  `barcode` varchar(100) DEFAULT NULL,
+  `picture1` varchar(255) DEFAULT NULL,
+  `picture2` varchar(255) DEFAULT NULL,
+  `picture3` varchar(255) DEFAULT NULL,
+  `nkk_no` varchar(100) DEFAULT NULL,
+  `semt_no` varchar(100) DEFAULT NULL,
+  `selling_price` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `weight` decimal(10,2) NOT NULL DEFAULT '0.00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -902,13 +787,32 @@ INSERT INTO `location` (`location_id`, `location_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payment_head`
+--
+
+CREATE TABLE IF NOT EXISTS `payment_head` (
+`payment_id` int(11) NOT NULL,
+  `billing_id` int(11) NOT NULL DEFAULT '0',
+  `payment_date` varchar(20) DEFAULT NULL,
+  `payment_type` int(11) NOT NULL DEFAULT '0' COMMENT '1=full, 2 = partial',
+  `or_number` varchar(50) DEFAULT NULL,
+  `payment_method` int(11) NOT NULL DEFAULT '0' COMMENT '1=cash, 2=check',
+  `check_no` varchar(50) DEFAULT NULL,
+  `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `create_date` varchar(20) DEFAULT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `purpose`
 --
 
 CREATE TABLE IF NOT EXISTS `purpose` (
 `purpose_id` int(11) NOT NULL,
   `purpose_desc` text
-) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=196 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purpose`
@@ -1118,7 +1022,7 @@ INSERT INTO `purpose` (`purpose_id`, `purpose_desc`) VALUES
 CREATE TABLE IF NOT EXISTS `rack` (
 `rack_id` int(11) NOT NULL,
   `rack_name` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=391 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=390 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `rack`
@@ -1509,6 +1413,216 @@ INSERT INTO `rack` (`rack_id`, `rack_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `receive_details`
+--
+
+CREATE TABLE IF NOT EXISTS `receive_details` (
+`rd_id` int(11) NOT NULL,
+  `receive_id` int(11) NOT NULL DEFAULT '0',
+  `pr_no` varchar(50) DEFAULT NULL,
+  `department_id` int(11) NOT NULL DEFAULT '0',
+  `purpose_id` int(11) NOT NULL DEFAULT '0',
+  `inspected_by` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `receive_head`
+--
+
+CREATE TABLE IF NOT EXISTS `receive_head` (
+`receive_id` int(11) NOT NULL,
+  `mrecf_no` varchar(50) DEFAULT NULL,
+  `create_date` varchar(20) DEFAULT NULL,
+  `receive_date` varchar(20) DEFAULT NULL,
+  `dr_no` varchar(50) DEFAULT NULL,
+  `po_no` varchar(50) DEFAULT NULL,
+  `si_no` varchar(50) DEFAULT NULL,
+  `user_id` int(20) NOT NULL DEFAULT '0',
+  `pcf` int(11) DEFAULT '0',
+  `saved` int(11) DEFAULT '0',
+  `delivered_by` text,
+  `received_by` int(11) NOT NULL DEFAULT '0',
+  `acknowledged_by` int(11) NOT NULL DEFAULT '0',
+  `noted_by` int(11) NOT NULL DEFAULT '0',
+  `overall_remarks` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `receive_items`
+--
+
+CREATE TABLE IF NOT EXISTS `receive_items` (
+`ri_id` int(11) NOT NULL,
+  `rd_id` int(11) NOT NULL DEFAULT '0',
+  `receive_id` int(11) NOT NULL DEFAULT '0',
+  `supplier_id` int(11) NOT NULL DEFAULT '0',
+  `item_id` int(11) NOT NULL DEFAULT '0',
+  `brand_id` int(11) NOT NULL DEFAULT '0',
+  `catalog_no` varchar(50) DEFAULT NULL,
+  `serial_no` varchar(100) DEFAULT NULL,
+  `item_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `expected_qty` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `received_qty` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `local_mnl` int(11) NOT NULL DEFAULT '0',
+  `shipping_fee` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `expiration_date` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `repair_details`
+--
+
+CREATE TABLE IF NOT EXISTS `repair_details` (
+  `repair_id` int(11) NOT NULL,
+  `damage_det_id` int(11) NOT NULL DEFAULT '0',
+  `in_id` int(11) NOT NULL DEFAULT '0',
+  `repair_date` varchar(20) DEFAULT NULL,
+  `jo_no` varchar(30) DEFAULT NULL,
+  `assessment` int(11) NOT NULL DEFAULT '0' COMMENT '1=repair, 2=beyong repair',
+  `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `repaired_by` varchar(150) DEFAULT NULL,
+  `repair_price` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `received_by` int(11) NOT NULL DEFAULT '0',
+  `remarks` text,
+  `create_date` varchar(20) DEFAULT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `return_details`
+--
+
+CREATE TABLE IF NOT EXISTS `return_details` (
+`return_details_id` int(11) NOT NULL,
+  `return_id` int(11) NOT NULL DEFAULT '0',
+  `ri_id` int(11) NOT NULL DEFAULT '0',
+  `in_id` int(11) NOT NULL DEFAULT '0',
+  `return_qty` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `remarks` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `return_head`
+--
+
+CREATE TABLE IF NOT EXISTS `return_head` (
+`return_id` int(11) NOT NULL,
+  `dr_no` varchar(30) DEFAULT NULL,
+  `return_date` varchar(20) DEFAULT NULL,
+  `create_date` varchar(20) DEFAULT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_good_details`
+--
+
+CREATE TABLE IF NOT EXISTS `sales_good_details` (
+`sales_good_det_id` int(11) NOT NULL,
+  `sales_good_head_id` int(11) NOT NULL DEFAULT '0',
+  `in_id` int(11) NOT NULL DEFAULT '0',
+  `unit_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `ave_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `selling_price` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `discount_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `discount_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `total` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `group_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_good_head`
+--
+
+CREATE TABLE IF NOT EXISTS `sales_good_head` (
+`sales_good_head_id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL DEFAULT '0',
+  `sales_date` varchar(20) DEFAULT NULL,
+  `pr_no` varchar(30) DEFAULT NULL,
+  `pr_date` varchar(20) DEFAULT NULL,
+  `po_no` varchar(30) DEFAULT NULL,
+  `po_date` varchar(20) DEFAULT NULL,
+  `dr_no` varchar(30) DEFAULT NULL,
+  `vat` int(11) NOT NULL DEFAULT '0' COMMENT '1-vatable, 2-non vat',
+  `remarks` text,
+  `create_date` varchar(20) DEFAULT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_services_head`
+--
+
+CREATE TABLE IF NOT EXISTS `sales_services_head` (
+`sales_serv_head_id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL DEFAULT '0',
+  `sales_date` varchar(20) DEFAULT NULL,
+  `jor_no` varchar(30) DEFAULT NULL,
+  `jor_date` varchar(20) DEFAULT NULL,
+  `joi_no` varchar(30) DEFAULT NULL,
+  `joi_date` varchar(20) DEFAULT NULL,
+  `dr_no` varchar(30) DEFAULT NULL,
+  `vat` int(11) NOT NULL DEFAULT '0' COMMENT '1-vatable, 2-non vat',
+  `purpose` text,
+  `create_date` varchar(20) DEFAULT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_serv_items`
+--
+
+CREATE TABLE IF NOT EXISTS `sales_serv_items` (
+`sales_serv_items_id` int(11) NOT NULL,
+  `sales_serv_head_id` int(11) NOT NULL DEFAULT '0',
+  `in_id` int(11) NOT NULL DEFAULT '0',
+  `selling_price` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `discount_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `discount_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `total` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `group_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_serv_labor`
+--
+
+CREATE TABLE IF NOT EXISTS `sales_serv_labor` (
+`sales_serv_labor_id` int(11) NOT NULL,
+  `sales_serv_head_id` int(11) NOT NULL DEFAULT '0',
+  `labor` text,
+  `start_date` varchar(20) DEFAULT NULL,
+  `completion_date` varchar(20) DEFAULT NULL,
+  `discount_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `discount_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `total_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `total` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `group_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `supplier`
 --
 
@@ -1520,7 +1634,7 @@ CREATE TABLE IF NOT EXISTS `supplier` (
   `contact_number` varchar(100) DEFAULT NULL,
   `terms` varchar(100) DEFAULT NULL,
   `active` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=381 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=380 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `supplier`
@@ -1916,7 +2030,7 @@ INSERT INTO `supplier` (`supplier_id`, `supplier_code`, `supplier_name`, `addres
 CREATE TABLE IF NOT EXISTS `uom` (
 `unit_id` int(11) NOT NULL,
   `unit_name` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `uom`
@@ -1966,7 +2080,7 @@ INSERT INTO `uom` (`unit_id`, `unit_name`) VALUES
 CREATE TABLE IF NOT EXISTS `warehouse` (
 `warehouse_id` int(11) NOT NULL,
   `warehouse_name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `warehouse`
@@ -1983,10 +2097,34 @@ INSERT INTO `warehouse` (`warehouse_id`, `warehouse_name`) VALUES
 --
 
 --
+-- Indexes for table `billing_details`
+--
+ALTER TABLE `billing_details`
+ ADD PRIMARY KEY (`billing_detail_id`);
+
+--
+-- Indexes for table `billing_head`
+--
+ALTER TABLE `billing_head`
+ ADD PRIMARY KEY (`billing_id`);
+
+--
 -- Indexes for table `buyer`
 --
 ALTER TABLE `buyer`
  ADD PRIMARY KEY (`buyer_id`);
+
+--
+-- Indexes for table `damage_details`
+--
+ALTER TABLE `damage_details`
+ ADD PRIMARY KEY (`damage_det_id`);
+
+--
+-- Indexes for table `damage_head`
+--
+ALTER TABLE `damage_head`
+ ADD PRIMARY KEY (`damage_id`);
 
 --
 -- Indexes for table `department`
@@ -2001,16 +2139,28 @@ ALTER TABLE `employees`
  ADD PRIMARY KEY (`employee_id`);
 
 --
--- Indexes for table `enduse`
+-- Indexes for table `fifo_in`
 --
-ALTER TABLE `enduse`
- ADD PRIMARY KEY (`enduse_id`);
+ALTER TABLE `fifo_in`
+ ADD PRIMARY KEY (`in_id`);
+
+--
+-- Indexes for table `fifo_out`
+--
+ALTER TABLE `fifo_out`
+ ADD PRIMARY KEY (`out_id`);
 
 --
 -- Indexes for table `groups`
 --
 ALTER TABLE `groups`
  ADD PRIMARY KEY (`group_id`);
+
+--
+-- Indexes for table `items`
+--
+ALTER TABLE `items`
+ ADD PRIMARY KEY (`item_id`);
 
 --
 -- Indexes for table `item_categories`
@@ -2031,6 +2181,12 @@ ALTER TABLE `location`
  ADD PRIMARY KEY (`location_id`);
 
 --
+-- Indexes for table `payment_head`
+--
+ALTER TABLE `payment_head`
+ ADD PRIMARY KEY (`payment_id`);
+
+--
 -- Indexes for table `purpose`
 --
 ALTER TABLE `purpose`
@@ -2041,6 +2197,66 @@ ALTER TABLE `purpose`
 --
 ALTER TABLE `rack`
  ADD PRIMARY KEY (`rack_id`);
+
+--
+-- Indexes for table `receive_details`
+--
+ALTER TABLE `receive_details`
+ ADD PRIMARY KEY (`rd_id`);
+
+--
+-- Indexes for table `receive_head`
+--
+ALTER TABLE `receive_head`
+ ADD PRIMARY KEY (`receive_id`), ADD UNIQUE KEY `mrecf_no` (`mrecf_no`);
+
+--
+-- Indexes for table `receive_items`
+--
+ALTER TABLE `receive_items`
+ ADD PRIMARY KEY (`ri_id`);
+
+--
+-- Indexes for table `return_details`
+--
+ALTER TABLE `return_details`
+ ADD PRIMARY KEY (`return_details_id`);
+
+--
+-- Indexes for table `return_head`
+--
+ALTER TABLE `return_head`
+ ADD PRIMARY KEY (`return_id`);
+
+--
+-- Indexes for table `sales_good_details`
+--
+ALTER TABLE `sales_good_details`
+ ADD PRIMARY KEY (`sales_good_det_id`);
+
+--
+-- Indexes for table `sales_good_head`
+--
+ALTER TABLE `sales_good_head`
+ ADD PRIMARY KEY (`sales_good_head_id`);
+
+--
+-- Indexes for table `sales_services_head`
+--
+ALTER TABLE `sales_services_head`
+ ADD PRIMARY KEY (`sales_serv_head_id`);
+
+--
+-- Indexes for table `sales_serv_items`
+--
+ALTER TABLE `sales_serv_items`
+ ADD PRIMARY KEY (`sales_serv_items_id`);
+
+--
+-- Indexes for table `sales_serv_labor`
+--
+ALTER TABLE `sales_serv_labor`
+ ADD PRIMARY KEY (`sales_serv_labor_id`);
 
 --
 -- Indexes for table `supplier`
@@ -2065,10 +2281,30 @@ ALTER TABLE `warehouse`
 --
 
 --
+-- AUTO_INCREMENT for table `billing_details`
+--
+ALTER TABLE `billing_details`
+MODIFY `billing_detail_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `billing_head`
+--
+ALTER TABLE `billing_head`
+MODIFY `billing_id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `buyer`
 --
 ALTER TABLE `buyer`
 MODIFY `buyer_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `damage_details`
+--
+ALTER TABLE `damage_details`
+MODIFY `damage_det_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `damage_head`
+--
+ALTER TABLE `damage_head`
+MODIFY `damage_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `department`
 --
@@ -2080,15 +2316,25 @@ MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
 ALTER TABLE `employees`
 MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=105;
 --
--- AUTO_INCREMENT for table `enduse`
+-- AUTO_INCREMENT for table `fifo_in`
 --
-ALTER TABLE `enduse`
-MODIFY `enduse_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=231;
+ALTER TABLE `fifo_in`
+MODIFY `in_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `fifo_out`
+--
+ALTER TABLE `fifo_out`
+MODIFY `out_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
 MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=149;
+--
+-- AUTO_INCREMENT for table `items`
+--
+ALTER TABLE `items`
+MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `item_categories`
 --
@@ -2105,30 +2351,85 @@ MODIFY `subcat_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
 ALTER TABLE `location`
 MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=105;
 --
+-- AUTO_INCREMENT for table `payment_head`
+--
+ALTER TABLE `payment_head`
+MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `purpose`
 --
 ALTER TABLE `purpose`
-MODIFY `purpose_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=197;
+MODIFY `purpose_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=196;
 --
 -- AUTO_INCREMENT for table `rack`
 --
 ALTER TABLE `rack`
-MODIFY `rack_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=391;
+MODIFY `rack_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=390;
+--
+-- AUTO_INCREMENT for table `receive_details`
+--
+ALTER TABLE `receive_details`
+MODIFY `rd_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `receive_head`
+--
+ALTER TABLE `receive_head`
+MODIFY `receive_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `receive_items`
+--
+ALTER TABLE `receive_items`
+MODIFY `ri_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `return_details`
+--
+ALTER TABLE `return_details`
+MODIFY `return_details_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `return_head`
+--
+ALTER TABLE `return_head`
+MODIFY `return_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `sales_good_details`
+--
+ALTER TABLE `sales_good_details`
+MODIFY `sales_good_det_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `sales_good_head`
+--
+ALTER TABLE `sales_good_head`
+MODIFY `sales_good_head_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `sales_services_head`
+--
+ALTER TABLE `sales_services_head`
+MODIFY `sales_serv_head_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `sales_serv_items`
+--
+ALTER TABLE `sales_serv_items`
+MODIFY `sales_serv_items_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `sales_serv_labor`
+--
+ALTER TABLE `sales_serv_labor`
+MODIFY `sales_serv_labor_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
-MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=381;
+MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=380;
 --
 -- AUTO_INCREMENT for table `uom`
 --
 ALTER TABLE `uom`
-MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=35;
+MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT for table `warehouse`
 --
 ALTER TABLE `warehouse`
-MODIFY `warehouse_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `warehouse_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
