@@ -33,24 +33,424 @@ class Items extends CI_Controller {
     {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('items/item_list');
+        $data['category'] = $this->super_model->select_all('item_categories');
+        $data['subcat'] = $this->super_model->select_all('item_subcat');
+        $data['group'] = $this->super_model->select_all('groups');
+        $data['location'] = $this->super_model->select_all('location');
+        $data['warehouse'] = $this->super_model->select_all('warehouse');
+        $data['bin'] = $this->super_model->select_all('bin');
+        $data['rack'] = $this->super_model->select_all('rack');
+        $row=$this->super_model->count_rows("items");
+        if($row!=0){
+            foreach($this->super_model->select_all('items') AS $itm){
+                $bin = $this->super_model->select_column_where('bin', 'bin_name', 'bin_id', $itm->bin_id);
+                $rack = $this->super_model->select_column_where('rack', 'rack_name', 'rack_id', $itm->rack_id);
+                $warehouse = $this->super_model->select_column_where('warehouse', 'warehouse_name', 
+                    'warehouse_id', $itm->warehouse_id);
+                $location = $this->super_model->select_column_where('location', 'location_name', 
+                    'location_id', $itm->location_id);
+                $unit = $this->super_model->select_column_where('uom', 'unit_name', 'unit_id', $itm->unit_id);
+
+                $data['items'][] = array(
+                    'item_id'=>$itm->item_id,
+                    'original_pn'=>$itm->original_pn,
+                    'item_name'=>$itm->item_name,
+                    'category'=>$this->super_model->select_column_where('item_categories', 'cat_name', 
+                    'cat_id', $itm->category_id),
+                    'subcategory'=>$this->super_model->select_column_where('item_subcat', 'subcat_name', 
+                    'subcat_id', $itm->subcat_id),
+                    'bin'=>$bin,
+                    'rack'=>$rack,
+                    'warehouse'=>$warehouse,
+                    'location'=>$location,                
+                    'selling_price'=>$itm->selling_price,
+                    'uom'=>$unit
+                );
+            }
+        }else{
+            $data['items'] = array();
+        }
+        $this->load->view('items/item_list', $data);
         $this->load->view('template/footer');
     }
 
-    public function add_item()
-    {
+    public function add_item(){
+        $id=$this->uri->segment(3);
+        $data['id'] = $id;
+        $data['subcat'] = $this->super_model->select_all_order_by('item_subcat', 'subcat_name', 'ASC');
+        $data['group'] = $this->super_model->select_all_order_by('groups','group_name','ASC');
+        $data['location'] = $this->super_model->select_all_order_by('location','location_name','ASC');
+        $data['warehouse'] = $this->super_model->select_all_order_by('warehouse','warehouse_name','ASC');
+        $data['unit'] = $this->super_model->select_all_order_by('uom','unit_name','ASC');
+        $data['rack'] = $this->super_model->select_all_order_by('rack','rack_name','ASC');
+        //$data['supplier'] = $this->super_model->select_all_order_by('supplier','supplier_name','ASC');
+        //$data['serial_number'] = $this->super_model->select_all_order_by('serial_number','serial_no','ASC');
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('items/add_item');
+        $this->load->view('items/add_item', $data);
         $this->load->view('template/footer');
     }
 
-    public function update_item()
-    {
+    public function getcategory(){
+        $subcat = $this->input->post('subcat');
+        $cat_id= $this->super_model->select_column_where('item_subcat', 'cat_id', 'subcat_id', $subcat);
+
+        $subcat_prefix= $this->super_model->select_column_where('item_subcat', 'subcat_prefix', 'subcat_id', $subcat);
+        $cat = $this->super_model->select_column_where('item_categories', 'cat_name', 'cat_id', $cat_id);
+
+        $rows=$this->super_model->count_custom_where("pn_series","subcat_prefix = '$subcat_prefix'");
+
+        if($rows==0){
+            $pn_no= $subcat_prefix."_1001";
+        } else {
+            $series = $this->super_model->get_max_where("pn_series", "series","subcat_prefix = '$subcat_prefix'");
+            $next=$series+1;
+            $pn_no = $subcat_prefix."_".$next;
+        }
+        
+        
+        $return = array('catid' => $cat_id, 'cat' => $cat, 'pn' => $pn_no);
+        echo json_encode($return);
+    }
+
+    public function getsubcat(){  
+        $postData = $this->input->post();
+        $data = $this->super_model->getsubcat($postData);
+        echo json_encode($data); 
+    }
+
+    public function search(){
+        $type=$this->input->post('type');
+        //echo "hi";
+        if($type=='item'){
+            $item_name=$this->input->post('itemname');   
+            $this->load->model('item_model');
+            return $this->item_model->select_item('items', "item_name = '$item_name'");
+            //return 0;
+        } else if($type=='bin'){
+            $bin_name=$this->input->post('binname');   
+            $this->load->model('item_model');
+            return $this->item_model->select_bin('bin', "bin_name LIKE '%$bin_name%'");
+        }
+    } 
+
+    public function clean($string) {
+       $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+
+       return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+    }
+
+    public function insert_item(){
+        $timestamp = date('Y-m-d H:i:s');
+        $itemdesc=$this->clean($this->input->post('item_name'));
+        $error_ext=0;
+        $dest= realpath(APPPATH . '../uploads/');
+        if(!empty($_FILES['img1']['name'])){
+             $img1= basename($_FILES['img1']['name']);
+             $img1=explode('.',$img1);
+             $ext1=$img1[1];
+            
+            if($ext1=='php' || ($ext1!='png' && $ext1 != 'jpg' && $ext1!='jpeg')){
+                $error_ext++;
+            } else {
+                 $filename1=$itemdesc.'1.'.$ext1;
+                 move_uploaded_file($_FILES["img1"]['tmp_name'], $dest.'/'.$filename1);
+            }
+
+        } else {
+            $filename1="";
+        }
+
+        if(!empty($_FILES['img2']['name'])){
+             $img2= basename($_FILES['img2']['name']);
+             $img2=explode('.',$img2);
+             $ext2=$img2[1];
+             
+            if($ext2=='php' || ($ext2!='png' && $ext2 != 'jpg' && $ext2!='jpeg')){
+                $error_ext++;
+            } else {
+                $filename2=$itemdesc.'2.'.$ext2;
+                move_uploaded_file($_FILES["img2"]['tmp_name'], $dest.'/'.$filename2);
+            }
+        } else {
+            $filename2="";
+        }
+
+        if(!empty($_FILES['img3']['name'])){
+             $img3= basename($_FILES['img3']['name']);
+             $img3=explode('.',$img3);
+             $ext3=$img3[1];
+            
+            if($ext3=='php' || ($ext3!='png' && $ext3 != 'jpg' && $ext3!='jpeg')){
+                $error_ext++;
+            } else {
+                $filename3=$itemdesc.'3.'.$ext3;
+                move_uploaded_file($_FILES["img3"]['tmp_name'], $dest.'/'.$filename3);
+            }
+        } else {
+            $filename3="";
+        }
+
+        if($error_ext!=0){
+            echo "ext";
+        } else {
+             $binid= $this->input->post('binid');
+             if(empty($binid)){
+                $bin_name= $this->input->post('bin');
+
+                
+                $rows=$this->super_model->count_rows("bin");
+                if($rows==0){
+                    $bin = 1;
+                } else {
+                    $max=$this->super_model->get_max("bin", "bin_id");
+                    $bin=$max+1;
+                }
+
+                $bindata = array(
+                    'bin_id' => $bin,
+                    'bin_name' => $bin_name
+                );
+
+                $this->super_model->insert_into("bin", $bindata);
+
+             } else {
+                $bin= $this->input->post('binid');
+             }
+      
+            $row_item=$this->super_model->count_rows("items");
+            if($row_item==0){
+                $item_id=1;
+            } else {
+                 $maxid=$this->super_model->get_max("items", "item_id");
+                 $item_id=$maxid+1;
+            }
+
+            $pnformat=$this->input->post('pnformat');
+
+            if($pnformat==1){
+                $pndetails=explode("_", $this->input->post('pn'));
+                $subcat_prefix=$pndetails[0];
+                $series = $pndetails[1];
+
+                $rows=$this->super_model->count_custom_where("pn_series","subcat_prefix = '$subcat_prefix'");
+                if($rows==0){
+                    $next= "1001";
+                    $pn_no= $subcat_prefix."_1001";
+                } else {
+                    $series = $this->super_model->get_max_where("pn_series", "series","subcat_prefix = '$subcat_prefix'");
+                    $next=$series+1;
+                    $pn_no = $subcat_prefix."_".$next;
+                }
+
+                $pn_data= array(
+                    'subcat_prefix'=>$subcat_prefix,
+                    'series'=>$next
+                );
+                $this->super_model->insert_into("pn_series", $pn_data);
+            } else {
+                $pn_no = $this->input->post('pn');
+            }
+
+              $data = array(
+                    'item_id' => $item_id,
+                    'category_id' => $this->input->post('cat'),
+                    'subcat_id' => $this->input->post('subcat'),
+                    'original_pn' => $pn_no,
+                    'item_name' => $this->input->post('item_name'),
+                    'unit_id' => $this->input->post('unit'),
+                    'group_id' => $this->input->post('group'),
+                    'location_id' => $this->input->post('location'),
+                    'warehouse_id' => $this->input->post('warehouse'),
+                    'rack_id' => $this->input->post('rack'),
+                    'nkk_no' => $this->input->post('nkk_no'),
+                    'semt_no' => $this->input->post('semt_no'),
+                    'barcode' => $this->input->post('barcode'),
+                    'weight' => $this->input->post('weight'),
+                    'selling_price' => $this->input->post('selling_price'),
+                    'bin_id' => $bin,
+                    'picture1' => $filename1,
+                    'picture2' => $filename2,
+                    'picture3' => $filename3,
+                    'date_added'=>$timestamp,
+                    'added_by'=>$_SESSION['user_id']
+             );
+
+
+              if($this->super_model->insert_into("items", $data)){
+                echo $item_id;
+              }
+        }
+    }  
+
+    public function update_item(){   
+        $data['id']=$this->uri->segment(3);
+        $id=$this->uri->segment(3);
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('items/update_item');
+        $data['items'] = $this->super_model->select_row_where('items', 'item_id', $id);
+
+        $catid=$this->super_model->select_column_where("items", "category_id", "item_id", $id);
+        $data['cat_name'] = $this->super_model->select_column_where("item_categories", "cat_name", "cat_id", $catid);
+
+        $binid=$this->super_model->select_column_where("items", "bin_id", "item_id", $id);
+        $data['bin_name'] = $this->super_model->select_column_where("bin", "bin_name", "bin_id", $binid);
+
+        $orig_pn=$this->super_model->select_column_where("items", "original_pn", "item_id", $id);
+        $pn_details=explode("_",$orig_pn);
+        if(count($pn_details)<2){
+            $prefix=0;
+            $series=0;
+        } else {
+            $prefix=$pn_details[0];
+            $series=$pn_details[1];
+        }
+
+        $row_count = $this->super_model->count_custom_where("pn_series","subcat_prefix='$prefix' AND series = '$series'");
+        if($row_count!=0){
+            $data['pn_format']=1;
+        } else {
+            $data['pn_format']=0;
+        }
+
+
+        $data['subcat'] = $this->super_model->select_all_order_by('item_subcat', 'subcat_name', 'ASC');
+        $data['group'] = $this->super_model->select_all_order_by('groups','group_name','ASC');
+        $data['location'] = $this->super_model->select_all_order_by('location','location_name','ASC');
+        $data['warehouse'] = $this->super_model->select_all_order_by('warehouse','warehouse_name','ASC');
+        $data['unit'] = $this->super_model->select_all_order_by('uom','unit_name','ASC');
+        $data['rack'] = $this->super_model->select_all_order_by('rack','rack_name','ASC');
+        $this->load->view('items/update_item',$data);
         $this->load->view('template/footer');
+    }
+
+        public function savechanges_item(){
+        $itemdesc=$this->clean($this->input->post('item_name'));
+        $item_id=$this->input->post('item_id');
+        $error_ext=0;
+        $dest= realpath(APPPATH . '../uploads/');
+        if(!empty($_FILES['img1']['name'])){
+             $img1= basename($_FILES['img1']['name']);
+             $img1=explode('.',$img1);
+             $ext1=$img1[1];
+            
+            if($ext1=='php' || ($ext1!='png' && $ext1 != 'jpg' && $ext1!='jpeg')){
+                $error_ext++;
+            } else {
+                 $filename1=$item_id.'1.'.$ext1;
+                 move_uploaded_file($_FILES["img1"]['tmp_name'], $dest.'\/'.$filename1);
+                 $data_pic1 = array(
+                    'picture1'=>$filename1
+                 );
+                 $this->super_model->update_where("items", $data_pic1, "item_id", $item_id);
+            }
+
+        }
+
+        if(!empty($_FILES['img2']['name'])){
+             $img2= basename($_FILES['img2']['name']);
+             $img2=explode('.',$img2);
+             $ext2=$img2[1];
+             
+            if($ext2=='php' || ($ext2!='png' && $ext2 != 'jpg' && $ext2!='jpeg')){
+                $error_ext++;
+            } else {
+                $filename2=$item_id.'2.'.$ext2;
+                move_uploaded_file($_FILES["img2"]['tmp_name'], $dest.'\/'.$filename2);
+                 $data_pic2 = array(
+                    'picture2'=>$filename2
+                 );
+                 $this->super_model->update_where("items", $data_pic2, "item_id", $item_id);
+            }
+        } 
+
+        if(!empty($_FILES['img3']['name'])){
+             $img3= basename($_FILES['img3']['name']);
+             $img3=explode('.',$img3);
+             $ext3=$img3[1];
+            
+            if($ext3=='php' || ($ext3!='png' && $ext3 != 'jpg' && $ext3!='jpeg')){
+                $error_ext++;
+            } else {
+                $filename3=$item_id.'3.'.$ext3;
+                move_uploaded_file($_FILES["img3"]['tmp_name'], $dest.'\/'.$filename3);
+                $data_pic3 = array(
+                    'picture3'=>$filename3
+                 );
+                 $this->super_model->update_where("items", $data_pic3, "item_id", $item_id);
+            }
+        } 
+
+        if($error_ext!=0){
+            echo "ext";
+        } else {
+             $binid= $this->input->post('binid');
+             if(empty($binid)){
+                $bin_name= $this->input->post('bin');
+
+                
+                $rows=$this->super_model->count_rows("bin");
+                if($rows==0){
+                    $bin = 1;
+                } else {
+                    $max=$this->super_model->get_max("bin", "bin_id");
+                    $bin=$max+1;
+                }
+
+                $bindata = array(
+                    'bin_id' => $bin,
+                    'bin_name' => $bin_name
+                );
+
+                $this->super_model->insert_into("bin", $bindata);
+
+             } else {
+                $bin= $this->input->post('binid');
+             }
+            
+            $orig_pn=$this->super_model->select_column_where("items", "original_pn", "item_id", $item_id);
+
+            $pnformat=$this->input->post('pnformat');
+
+            if($pnformat==1){
+                $pndetails=explode("_", $this->input->post('pn'));
+                $subcat_prefix=$pndetails[0];
+                $series = $pndetails[1];
+
+                $rows=$this->super_model->count_custom_where("pn_series","subcat_prefix = '$subcat_prefix'");
+                if($rows==0){
+                    $next= "1001";
+                    $pn_no= $subcat_prefix."_1001";
+                } else {
+                    $pn_no=$this->input->post('pn');
+                }
+
+            }else {
+                $pn_no=$this->input->post('pn');
+            }
+
+              $data = array(
+                    'category_id' => $this->input->post('cat'),
+                    'subcat_id' => $this->input->post('subcat'),
+                    'original_pn' => $pn_no,
+                    'item_name' => $this->input->post('item_name'),
+                    'unit_id' => $this->input->post('unit'),
+                    'group_id' => $this->input->post('group'),
+                    'location_id' => $this->input->post('location'),
+                    'warehouse_id' => $this->input->post('warehouse'),
+                    'rack_id' => $this->input->post('rack'),
+                    'nkk_no' => $this->input->post('nkk_no'),
+                    'semt_no' => $this->input->post('semt_no'),
+                    'barcode' => $this->input->post('barcode'),
+                    'weight' => $this->input->post('weight'),
+                    'selling_price' => $this->input->post('selling_price'),
+                    'bin_id' => $bin,
+             );
+        
+              if($this->super_model->update_where("items", $data, "item_id", $item_id)){
+                echo $item_id;
+              }
+        }
     }
 
     public function damage_item()
@@ -69,11 +469,41 @@ class Items extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function view_item()
-    {
+    public function view_item(){
+        $data['id']=$this->uri->segment(3);
+        $id=$this->uri->segment(3);
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('items/view_item');
+        $row=$this->super_model->count_rows("items");
+        
+        if($row!=0){
+            foreach($this->super_model->select_row_where('items', 'item_id', $id) AS $det){
+                $data['details'][] = array(
+                    'item_id'=>$det->item_id,
+                    'original_pn'=>$det->original_pn,
+                    'item_name'=>$det->item_name,
+                    'picture1'=>$det->picture1,
+                    'picture2'=>$det->picture2,
+                    'picture3'=>$det->picture3,
+                    'unit'=>$this->super_model->select_column_where('uom', 'unit_name','unit_id', $det->unit_id),
+                    'category'=>$this->super_model->select_column_where('item_categories', 'cat_name','cat_id', $det->category_id),
+                    'subcategory'=>$this->super_model->select_column_where('item_subcat', 'subcat_name','subcat_id', $det->subcat_id),
+                    'group'=>$this->super_model->select_column_where('groups', 'group_name','group_id', $det->group_id),
+                    'location'=>$this->super_model->select_column_where('location', 'location_name', 'location_id', $det->location_id),
+                    'bin'=>$this->super_model->select_column_where('bin', 'bin_name', 'bin_id', $det->bin_id),
+                    'warehouse'=>$this->super_model->select_column_where('warehouse', 'warehouse_name', 'warehouse_id', $det->warehouse_id),
+                    'rack'=>$this->super_model->select_column_where('rack', 'rack_name','rack_id', $det->rack_id),
+                    'barcode'=>$det->barcode,
+                    'selling_price'=>$det->selling_price,
+                    'weight'=>$det->weight,
+                    'nkk_no'=>$det->nkk_no,
+                    'semt_no'=>$det->semt_no,
+                );
+            }
+        }else{
+            $data['details'] = array();
+        }
+        $this->load->view('items/view_item',$data);
         $this->load->view('template/footer');
     }
    

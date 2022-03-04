@@ -44,7 +44,7 @@
                                 <tr>
                                     <th width="10%"> OPN </th>
                                     <th width="35%"> Item Description </th>
-                                    <th width="5%"> Qty</th>
+                                    <!-- <th width="5%"> Qty</th> -->
                                     <th width="5%"> UOM </th>
                                     <th width="10%"> Locationn </th>
                                     <th width="10%"> Rack </th>
@@ -53,21 +53,25 @@
                                 </tr>
                             </thead>    
                             <tbody>
+                                <?php 
+                                
+                                foreach($items AS $itm) { ?>
                                 <tr>
-                                    <td>1145545</td>
-                                    <td>Sample Item 1</td>
-                                    <td>52</td>
-                                    <td>Kg</td>
-                                    <td></td>
-                                    <td>Rack 1</td>
-                                    <td>P 4414</td>
+                                    <td><?php echo $itm['original_pn'];  ?></td>
+                                    <td><?php echo $itm['item_name']?></td>
+                                    <!-- <td><?php echo $itm['quantity']?></td> -->
+                                    <td><?php echo $itm['uom']?></td>
+                                    <td><?php echo $itm['location'];?></td>
+                                    <td><?php echo $itm['rack'];?></td>
+                                    <td><?php echo $itm['selling_price'];?></td>
                                     <td align="center">
-                                        <a href="<?php echo base_url(); ?>items/update_item" class="btn btn-xs btn-gradient-info btn-rounded" data-toggle="tooltip" data-placement="top" title="Update"><span class="mdi mdi-pencil"></span></a>
+                                        <a href="<?php echo base_url(); ?>index.php/items/update_item/<?php echo $itm['item_id'];?>" class="btn btn-xs btn-gradient-info btn-rounded" data-toggle="tooltip" data-placement="top" title="Update"><span class="mdi mdi-pencil"></span></a>
                                         <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Delete"><span class="mdi mdi-delete"></span></a>
-                                        <a href="<?php echo base_url(); ?>items/view_item" class="btn btn-xs btn-gradient-warning btn-rounded" data-toggle="tooltip" data-placement="top" title="View"><span class="mdi mdi-eye"></span></a>
+                                        <a  href="<?php echo base_url(); ?>index.php/items/view_item/<?php echo $itm['item_id'];?>" class="btn btn-xs btn-gradient-warning btn-rounded" data-toggle="tooltip" data-placement="top" title="View"><span class="mdi mdi-eye"></span></a>
                                         <!-- <a href="<?php echo base_url(); ?>items/damage_item" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Damage"><span class="mdi mdi-playlist-remove"></span></a> -->
                                     </td>
                                 </tr> 
+                                <?php } ?>
                             </tbody>                        
                         </table>
                     </div>
