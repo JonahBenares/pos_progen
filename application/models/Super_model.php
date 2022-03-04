@@ -341,6 +341,15 @@ class super_model extends CI_Model
         return $rows;
     }
 
+        function getsubcat($postData){
+        $response = array();
+        $this->db->select('subcat_id,subcat_name');
+        $this->db->where('cat_id', $postData['category']);
+        $q = $this->db->get('item_subcat');
+        $response = $q->result_array();
+        return $response;
+    }
+
      public function select_join_where_order($table1,$table2, $where,$group_id, $column, $order)
     {
         $this->db->select($table1.'.*');

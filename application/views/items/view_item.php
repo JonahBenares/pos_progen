@@ -1,3 +1,7 @@
+<?php
+    $ci =& get_instance();
+?>
+
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -20,30 +24,29 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
+                                <?php foreach($details AS $det) { ?>
                                 <div class="form-group">
                                     <p class="text-muted mb-0">Item Description</p>
-                                    <h3 class="mb-0 font-weight-medium">
-                                        Tape, Fiber Glass,  1" 013 mills, 30mtrs lengths, without adhesive 
-                                    </h3>
+                                    <h3 class="mb-0 font-weight-medium"><?php echo $det['item_name'];?></h3>
                                 </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col-lg-5">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">Category</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">CASING EXHAUST PIPING (TURBOCHARGER ON THE FLYWHEEL SIDE)</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"<?php echo $det['category'];?></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 offset-lg-1">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">Warehouse</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">CV Bay 1-10</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['warehouse'];?></p>
                                         </div> 
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">Unit</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">Unit 2</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['unit'];?></p>
                                         </div> 
                                     </div>
                                 </div>
@@ -51,19 +54,19 @@
                                     <div class="col-lg-5">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">Sub Category</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">Supplementary Regulating Device/Safety Device For Fuel Cut</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['subcategory'];?></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 offset-lg-1">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">Group</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">Vibration Damper</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['group'];?></p>
                                         </div> 
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">Location</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">Vibration Damper</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['location'];?></p>
                                         </div> 
                                     </div>
                                 </div>
@@ -71,25 +74,25 @@
                                     <div class="col-lg-2">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">PN Number</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">2982882254</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['original_pn'];?></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-2 offset-lg-1">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">Highest Cost</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">P 22,872.00</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['selling_price'];?></p>
                                         </div>                                         
                                     </div>
                                     <div class="col-lg-3 offset-lg-1">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">Rack</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">Aux Rack 1-C Drawer 2.1</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['rack'];?></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">Bin</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">Bin-2872</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['bin'];?></p>
                                         </div>
                                     </div>
                                 </div>
@@ -97,40 +100,52 @@
                                     <div class="col-lg-2">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">NKK Number</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">2255525</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['nkk_no'];?></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-2 offset-lg-1">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">SEMT Number</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">25525545</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['semt_no'];?></p>
                                         </div>                                         
                                     </div>
                                     <div class="col-lg-3 offset-lg-1">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">Barcode</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">112114452112214424-11</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['barcode'];?></p>
                                         </div> 
                                     </div>
                                     <div class="col-lg-3">
                                          <div class="form-group">
                                             <p class="text-muted mb-0">Weight</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold">100 Kg</p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['weight'];?></p>
                                         </div>
                                     </div>
                                 </div>
                                 <hr> 
                                 <div id="lightgallery-without-thumb" class="row lightGallery" >
-                                    <a href="<?php echo base_url(); ?>assets/images/default-img.jpg" class="image-tile">
-                                        <img src="<?php echo base_url(); ?>assets/images/default-img.jpg" class="image_size" alt="Image One">
+                                    <a href="<?php if(!empty($det['picture1'])) { 
+                                                    echo base_url(); ?>uploads/<?php echo $det['picture1']; 
+                                                 } else { echo base_url(); ?>assets/images/default-img.jpg <?php } ?>" class="image-tile">
+                                        <img src="<?php if(!empty($det['picture1'])) { 
+                                                    echo base_url(); ?>uploads/<?php echo $det['picture1']; 
+                                                 } else { echo base_url(); ?>assets/images/default-img.jpg <?php } ?>" class="image_size" alt="Image One">
                                         <span>Image One</span>
                                     </a>
-                                    <a href="<?php echo base_url(); ?>assets/images/default-img.jpg" class="image-tile">
-                                        <img src="<?php echo base_url(); ?>assets/images/default-img.jpg" class="image_size" alt="Image Two">
+                                    <a href="<?php if(!empty($det['picture2'])) { 
+                                                    echo base_url(); ?>uploads/<?php echo $det['picture2']; 
+                                                 } else { echo base_url(); ?>assets/images/default-img.jpg <?php } ?>" class="image-tile">
+                                        <img src="<?php if(!empty($det['picture2'])) { 
+                                                    echo base_url(); ?>uploads/<?php echo $det['picture2']; 
+                                                 } else { echo base_url(); ?>assets/images/default-img.jpg <?php } ?>" class="image_size" alt="Image Two">
                                         <span>Image Two</span>
                                     </a>
-                                    <a href="<?php echo base_url(); ?>assets/images/default-img.jpg" class="image-tile">
-                                        <img src="<?php echo base_url(); ?>assets/images/default-img.jpg" class="image_size" alt="Image Three">
+                                    <a href="<?php if(!empty($det['picture3'])) { 
+                                                    echo base_url(); ?>uploads/<?php echo $det['picture3']; 
+                                                 } else { echo base_url(); ?>assets/images/default-img.jpg<?php } ?>" class="image-tile">
+                                        <img src="<?php if(!empty($det['picture3'])) { 
+                                                    echo base_url(); ?>uploads/<?php echo $det['picture3']; 
+                                                 } else { echo base_url(); ?>assets/images/default-img.jpg<?php } ?>" class="image_size" alt="Image Three">
                                         <span>Image Three</span>
                                     </a>
                                 </div>                                
@@ -267,6 +282,7 @@
                                                 </tr>
                                             </tbody>                            
                                         </table>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </div>                            
