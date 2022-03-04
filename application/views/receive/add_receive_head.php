@@ -54,14 +54,14 @@
                                     <textarea class="form-control" id="exampleTextarea1" rows="2" name='remarks' placeholder="Overall Remarks"></textarea>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-8">
+                                    <div class="col-lg-6">
                                         <div class="form-check mx-sm-2">
                                             <label class="form-check-label">
                                                 <input type="checkbox" class="form-check-input" checked name='pcf' value='1'> PCF
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-6">
                                         <label for="exampleTextarea1"><br></label>
                                         <div class="form-group">
                                             <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
@@ -86,6 +86,7 @@
         </div>
 
         <div class="customer_records" id='myDIV' style='display: none;'>
+            <br>
             <div class="row" >
                 <div class="col-12">
                     <div class="card">
@@ -93,7 +94,6 @@
                             <div class="row">
                                 <div class="col-lg-1">
                                     <h3 class="page-title">
-                                        <br>
                                         <span class="page-title-icon bg-gradient-primary text-white mr-2 item-block" >
                                             <span ><b><h4 class="m-0" style="padding-top:6px">01</h4></b></span>
                                         </span>
@@ -101,7 +101,6 @@
                                 </div>
                                 <div class="col-lg-5">
                                     <div class="form-group">
-
                                         <label for="exampleInputName1">PR/JO No.</label>
                                         <input type="text" class="form-control" placeholder="PR/JO No." name='pr_no1' onblur="updateDetails(this.value)">
                                     </div>
@@ -173,7 +172,7 @@
                                                 <td>sample</td>
                                                 <td>sample</td>
                                                 <td></select></td>
-                                                <td><a href="" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td>             
+                                                <td><a  class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td>             
                                             </tr>
                                             <tr>
                                                 <td>sample</td>
@@ -187,7 +186,7 @@
                                                 <td>sample</td>
                                                 <td>sample</td>
                                                 <td></select></td>
-                                                <td><a href="" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td>             
+                                                <td><a class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td>             
                                             </tr>
                                         </table>
                                     </div>  
@@ -197,24 +196,22 @@
                     </div>
                 </div>
             </div>
-            <br>
-          </div>
-
-    </div>
-
-       <div class="customer_records_dynamic"></div>
-
-         <div class="row" id="PRDiv" style='display: none;'>
-            <div class="col-lg-3"></div>
-            <div class="col-lg-3">
-                <button class="btn btn-gradient-primary btn-md btn-block addPR">Add PR</button>
-            </div>
-            <div class="col-lg-3">
-                <a href="<?php echo base_url(); ?>receive/print_receive" class="btn btn-gradient-success btn-md btn-block">Save and Print</a>
-            </div>
-            <div class="col-lg-3"></div>
         </div>
-        
+        <div class="customer_records_dynamic"></div>
+
+        <div id="PRDiv" style='display: none;'>
+            <br>
+            <div class="row" >
+                <div class="col-lg-3 offset-lg-3">
+                    <button class="btn btn-gradient-primary btn-md btn-block addPR">Add PR</button>
+                </div>
+                <div class="col-lg-3">
+                    <a href="<?php echo base_url(); ?>receive/print_receive" class="btn btn-gradient-success btn-md btn-block">Save and Print</a>
+                </div>
+                <div class="col-lg-3"></div>
+            </div>
+        </div>
+    </div>
 </div>
         
 

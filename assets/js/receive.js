@@ -4,7 +4,7 @@ $('.addPR').click(function() {
     $('.customer_records').clone().appendTo('.customer_records_dynamic');
     $('.customer_records_dynamic .customer_records').addClass('single remove');
     $('.single .extra-fields-customer').remove();
-    // $('.single').append('<a href="#" class="remove-field btn-remove-customer">Remove Fields</a>');
+    $('.single').append('<a href="" class=" remove-field btn-remove-customer btn btn-sm btn-inverse-secondary btn-block btn-round"><span class="mdi mdi-window-close"></span> Remove PR</a>');
     $('.customer_records_dynamic > .single').attr("class", "remove");
 
     $('.customer_records_dynamic input').each(function() {
