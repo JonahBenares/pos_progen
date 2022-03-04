@@ -93,6 +93,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-1">
+                                    <br>
                                     <h3 class="page-title">
                                         <span class="page-title-icon bg-gradient-primary text-white mr-2 item-block" >
                                             <span ><b><h4 class="m-0" style="padding-top:6px">01</h4></b></span>
@@ -172,7 +173,7 @@
                                                 <td>sample</td>
                                                 <td>sample</td>
                                                 <td></select></td>
-                                                <td><a  class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td>             
+                                                <td><a  class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td>             
                                             </tr>
                                             <tr>
                                                 <td>sample</td>
@@ -186,7 +187,7 @@
                                                 <td>sample</td>
                                                 <td>sample</td>
                                                 <td></select></td>
-                                                <td><a class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td>             
+                                                <td><a class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td>             
                                             </tr>
                                         </table>
                                     </div>  
