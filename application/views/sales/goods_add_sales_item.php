@@ -1,3 +1,4 @@
+<script src="<?php echo base_url(); ?>assets/js/sales.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="row">
@@ -6,58 +7,66 @@
                     <div class="card-header bg-gradient-primary card-img-holder text-white">
                         <h4 class="m-0">Add Item</h4>
                     </div>
-                    <div class="card-body">                        
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label >Item Description</label>
-                                    <select class="form-control">
-                                        <option>-Select Item-</option>
-                                    </select>
+                    <div class="card-body">  
+                        <form id="sales_item">                      
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label >Item Description</label>
+                                        <select class="form-control" name="item" id="item" onclick="item_append();">
+                                            <option value="">-Select Item-</option>
+                                            <?php foreach($fifo_in AS $fi){ ?>
+                                                <option value="<?php echo $fi['in_id']; ?>"><?php echo $fi['original_pn']." - ".$fi['item_name']; ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Unit Cost</label>
+                                        <input type="text" class="form-control" name="unit_cost" id="unit_cost" placeholder="Unit Cost">
+                                    </div>
+                                </div>                             
+                            </div>  
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label >Serial No.</label>
+                                        <input type="text" class="form-control" name="serial_no" id="serial_no" placeholder="Serial No.">
+                                    </div>
+                                    <div class="form-group">
+                                        <label >Qty</label>
+                                        <input type="text" class="form-control amount-txt" name="quantity" id="quantity" placeholder="00">
+                                    </div>
+                                    <div class="form-group">
+                                        <label >UOM</label>
+                                        <input type="text" class="form-control" name="uom" id="uom" placeholder="Unit of Measurement">
+                                    </div>                                
                                 </div>
-                                <div class="form-group">
-                                    <label>Unit Cost</label>
-                                    <input type="text" class="form-control" name="" placeholder="Unit Cost">
-                                </div>
-                            </div>                             
-                        </div>  
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label >Serial No.</label>
-                                    <input type="text" class="form-control" name="" placeholder="Serial No.">
-                                </div>
-                                <div class="form-group">
-                                    <label >Qty</label>
-                                    <input type="text" class="form-control amount-txt" name="" placeholder="00">
-                                </div>
-                                <div class="form-group">
-                                    <label >UOM</label>
-                                    <input type="number" class="form-control" name="" placeholder="Unit of Measurement">
-                                </div>                                
+                                <div class="col-md-6 col-sm-6">                                
+                                    <div class="form-group">
+                                        <label >Selling Price</label>
+                                        <input type="text" class="form-control amount-txt" name="selling_price" id="selling_price" placeholder="00.00">
+                                    </div>
+                                    <div class="form-group">
+                                        <label >Discount</label>
+                                        <input type="text" class="form-control amount-txt" name="discount" id="discount" placeholder="00.00">
+                                    </div>
+                                    <div class="form-group">
+                                        <label >Total Cost</label>
+                                        <input type="text" disabled class="form-control amount-txt" name="total_cost" id="total_cost" placeholder="00.00">
+                                    </div>
+                                </div>                            
                             </div>
-                            <div class="col-md-6 col-sm-6">                                
-                                <div class="form-group">
-                                    <label >Selling Price</label>
-                                    <input type="text" class="form-control amount-txt" name="" placeholder="00.00">
-                                </div>
-                                <div class="form-group">
-                                    <label >Discount</label>
-                                    <input type="text" class="form-control amount-txt" name="" placeholder="00.00">
-                                </div>
-                                <div class="form-group">
-                                    <label >Total Cost</label>
-                                    <input type="text" disabled class="form-control amount-txt" name="" placeholder="00.00">
-                                </div>
-                            </div>                            
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="pull-right">
-                                    <input type="submit" class="btn btn-gradient-primary btn-md" value="Add Item">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="pull-right">
+                                        <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
+                                        <input type="hidden" name="sales_good_head_id" value="<?php echo $sales_good_head_id; ?>">
+                                        <input type="button" class="btn btn-gradient-primary btn-md" value="Add Item" onclick="save_item();">
+                                        <!-- <button class="btn btn-gradient-primary btn-md" id="save_sales" onclick="save_item();">Add Item</button> -->
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -65,7 +74,7 @@
     </div>
 </div>
         
-                        
+                     
 
 
 
