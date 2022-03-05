@@ -64,6 +64,7 @@
                                     <div class="col-lg-6">
                                         <label for="exampleTextarea1"><br></label>
                                         <div class="form-group">
+                                            <input type="hidden" name="count" id="count" value='1'>
                                             <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
                                             <input type='button' class="btn btn-gradient-primary btn-sm btn-block btn-rounded" id="proc" onclick="proceed()" value="Proceed">
                                             <input type='button' class="btn btn-gradient-danger btn-sm btn-block btn-rounded" id="cancel" onclick="cancel_receive()" value="Cancel Transaction" style='display: none;'>
@@ -96,21 +97,22 @@
                                     <br>
                                     <h3 class="page-title">
                                         <span class="page-title-icon bg-gradient-primary text-white mr-2 item-block" >
-                                            <span ><b><h4 class="m-0" style="padding-top:6px">01</h4></b></span>
+                                            <span id='PRcount' ><b><h4 class="m-0" style="padding-top:6px">01</h4></b></span>
                                         </span>
                                     </h3>
                                 </div>
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <label for="exampleInputName1">PR/JO No.</label>
-                                        <input type="text" class="form-control" placeholder="PR/JO No." name='pr_no1' onblur="updateDetails(this.value)">
+                                        <input type="text" class="form-control " placeholder="PR/JO No." name='pr_no1' id='pr_no1' onblur="updateDetails(this.value, this.id)";>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail3">Department</label>
-                                        <select class="form-control" name='department1'>
+                                        <select class="form-control" name='department1' id='department1' onchange="updateDetailsDD(this.value, this.id)">
                                             <option>-Select Department-</option>
+                                            <option value='1'>department</option>
                                         </select>
                                     </div>
                                 </div>
@@ -119,18 +121,21 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail3">Purpose</label>
-                                        <select class="form-control" name='purpose1'>
+                                        <select class="form-control " name='purpose1' id='purpose1' onchange="updateDetailsDD(this.value, this.id)">
                                             <option>-Select Purpose-</option>
+                                            <option value='2'>purpose</option>
                                         </select>
                                     </div>
                                 </div>   
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="exampleTextarea1">Inspected by</label>
-                                        <select class="form-control" name='inspected1'>
+                                        <select class="form-control " name='inspected1' id='inspected1'  onchange="updateDetailsDD(this.value, this.id)">
                                             <option>-Select Inspected by-</option>
+                                            <option value='3 '>inspected</option>
                                         </select>
                                         <input type='hidden' name='receive_id' id='receive_id'>
+                                        <input type='hidden' name='rd_id1' id='rd_id1'>
                                     </div>
                                 </div>                             
                             </div>
@@ -198,8 +203,11 @@
                 </div>
             </div>
         </div>
-        <div class="customer_records_dynamic"></div>
-
+         <?php for($x=1;$x<=10;$x++){ ?>
+        <div class="customer_records_dynamic<?php echo $x; ?>"></div>
+        <?php } ?> 
+       <!--  <div class="customer_records_dynamic1"></div>
+         <div class="customer_records_dynamic2"></div> -->
         <div id="PRDiv" style='display: none;'>
             <br>
             <div class="row" >
