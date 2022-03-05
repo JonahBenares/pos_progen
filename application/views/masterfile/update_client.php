@@ -42,7 +42,7 @@
                                 <label for="exampleInputConfirmPassword1">Tin Number</label>
                                 <input type="text" class="form-control" name="tin" value = "<?php echo $b->tin; ?>">
                             </div>
-                            <input type = "hidden" name = "buyer_id" value="<?php echo $id; ?>">
+                            <input type = "hidden" name = "client_id" value="<?php echo $id; ?>">
                             <center><button type="submit" class="btn btn-primary">Update</button></center>
                             <?php } ?>
                         </form>
