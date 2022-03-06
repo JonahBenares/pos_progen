@@ -131,11 +131,72 @@ class Receive extends CI_Controller {
    
     public function add_receive_item()
     {
+        $data['receive_id']= $this->uri->segment(3);
+        $data['rd_id']= $this->uri->segment(4);
+        $data['item'] = $this->super_model->select_all('items');
+        $data['supplier'] = $this->super_model->select_all('supplier');
+
         $this->load->view('template/header');
-        $this->load->view('receive/add_receive_item');
+        $this->load->view('receive/add_receive_item',$data);
         $this->load->view('template/footer');
     }
 
+     public function insert_items(){
+        
+       $receive_id = $this->input->post('receive_id');
+        $rd_id = $this->input->post('rd_id');
+
+        
+        if($this->input->post('local')=='1'){
+            $mode = 1;
+        } else {
+            $mode =2;
+        }
+
+        
+        $data=array(
+            "rd_id"=>$rd_id,
+            "receive_id"=>$receive_id,
+            "supplier_id"=>$this->input->post('supplier'),
+            "item_id"=>$this->input->post('item'),
+            "brand"=>$this->input->post('brand'),
+            "catalog_no"=>$this->input->post('catalog_no'),
+            "serial_no"=>$this->input->post('serial_no'),
+            "item_cost"=>$this->input->post('net_cost'),
+            "expected_qty"=>$this->input->post('expected_qty'),
+            "received_qty"=>$this->input->post('received_qty'),
+            "local_mnl"=>$mode,
+            "shipping_fee"=>$this->input->post('shipping'),
+            "expiration_date"=>$this->input->post('expiry'),
+           
+        );
+
+        if($this->super_model->insert_into("receive_items", $data)){
+            
+
+            $x=1;
+            foreach($this->super_model->custom_query("SELECT * FROM receive_items WHERE rd_id='$rd_id' ORDER BY ri_id DESC LIMIT 1") AS $app){
+                if($app->local_mnl == 1){
+                    $mode = 'Local';
+                } else {
+                    $mode = 'MNL';
+                }
+                $item_id = $app->item_id;
+                $item_name = $this->super_model->select_column_where("items","item_name","item_id",$app->item_id);
+                $supplier = $this->super_model->select_column_where("supplier","supplier_name","supplier_id",$app->supplier_id);
+                $brand = $app->brand;
+                $serial_no = $app->serial_no;
+                $catalog_no = $app->catalog_no;
+                $net_cost = $app->item_cost;
+                $expected_qty = $app->expected_qty;
+                $received_qty = $app->received_qty;
+                $shipping= $app->shipping_fee;
+                $expiry =$app->expiration_date;
+                $mode=$mode;
+                echo '<tr><td>'.$item_name.'</td><td>'.$supplier.'</td><td>'.$app->brand.'</td><td>'.$app->serial_no.'</td><td>'.$app->catalog_no.'</td><td>'.$app->item_cost.'</td><td>'.$app->expected_qty.'</td><td>'.$app->received_qty.'</td><td>'.$app->shipping_fee.'</td><td>'.$app->expiration_date.'</td><td>'.$mode.'</td>  <td><a href="" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
+            }
+        }
+    }
     public function update_receive_head()
     {
         $this->load->view('template/header');

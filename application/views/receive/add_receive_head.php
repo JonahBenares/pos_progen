@@ -141,15 +141,17 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <button class="btn btn-gradient-primary btn-xs pull-right " onclick="add_receive_items('<?php echo base_url(); ?>')" name="">
+                                  <!--   <button class="btn btn-gradient-primary btn-xs pull-right " onclick="add_receive_items('<?php echo base_url(); ?>')" name="">
                                         <span class="mdi mdi-plus"></span> Add Item
-                                    </button>  
+                                    </button>   -->
+                                    <div id ="myButton1"></div>
                                 </div>      
                                 <br>
                                 <br>             
                                 <div class="col-lg-12">
                                     <div > <!-- style="width:100%;overflow-x: scroll;" -->
                                         <table id="table-alt" class="table-bordered" width="100%">
+                                            <thead>
                                             <tr>
                                                 <td class="td-head" width="15%">Item Description</td>
                                                 <td class="td-head" width="15%">Supplier</td>
@@ -166,34 +168,11 @@
                                                     <span class="mdi mdi-menu"></span>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td></select></td>
-                                                <td><a  class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td>             
-                                            </tr>
-                                            <tr>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td>sample</td>
-                                                <td></select></td>
-                                                <td><a class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td>             
-                                            </tr>
+                                         </thead>
+                                         <tbody id="append_data1">
+                                         </tbody>
+                                           
+                                           
                                         </table>
                                     </div>  
                                 </div>                            
