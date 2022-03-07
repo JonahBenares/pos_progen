@@ -133,7 +133,7 @@ class Masterfile extends CI_Controller {
     public function client_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $data['buyer']=$this->super_model->select_all_order_by("buyer","buyer_name","ASC");
+        $data['buyer']=$this->super_model->select_all_order_by("client","buyer_name","ASC");
         $this->load->view('masterfile/client_list',$data);
         $this->load->view('template/footer');
     }
@@ -151,7 +151,7 @@ class Masterfile extends CI_Controller {
             'contact_no'=>$contact_no,
             'tin'=>$tin
         );
-        if($this->super_model->insert_into("buyer", $data)){
+        if($this->super_model->insert_into("client", $data)){
             echo "<script>alert('Client Successfully Added!'); 
                 window.location ='".base_url()."masterfile/client_list'; </script>";
         }
@@ -162,27 +162,29 @@ class Masterfile extends CI_Controller {
         $this->load->view('template/navbar');
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
-        $data['update_client'] = $this->super_model->select_row_where('buyer', 'buyer_id', $id);
+        $data['update_client'] = $this->super_model->select_row_where('client', 'client_id', $id);
         $this->load->view('masterfile/update_client',$data);
         $this->load->view('template/footer');
     }
 
-    public function edit_buyer(){
+    public function edit_client(){
         $data = array(
             'buyer_name'=>$this->input->post('buyer_name'),
             'address'=>$this->input->post('address'),
             'contact_person'=>$this->input->post('contact_person'),
             'contact_no'=>$this->input->post('contact_no'),
+            'tin'=>$this->input->post('tin'),
         );
-        $buyer_id = $this->input->post('buyer_id');
-        if($this->super_model->update_where('buyer', $data, 'buyer_id', $buyer_id)){
-            echo "<script>alert('Successfully Updated!'); window.opener.location.reload(); window.close();</script>";
+        $client_id = $this->input->post('client_id');
+        if($this->super_model->update_where('client', $data, 'client_id', $client_id)){
+            echo "<script>alert('Client Successfully Updated!'); 
+                window.location ='".base_url()."masterfile/update_client/$client_id'; </script>";
         }
     }
 
     public function delete_client(){
         $id=$this->uri->segment(3);
-        if($this->super_model->delete_where('buyer', 'buyer_id', $id)){
+        if($this->super_model->delete_where('client', 'client_id', $id)){
             echo "<script>alert('Succesfully Deleted'); 
                 window.location ='".base_url()."masterfile/client_list'; </script>";
         }

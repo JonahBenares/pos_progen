@@ -11226,6 +11226,8 @@ code {
     font-size: 0.875rem; }
   .btn.btn-xs {
     padding: 0.4rem 0.4rem;}
+    .btn.btn-xxs {
+    padding: 0.2rem 0.2rem;}
   .btn.btn-icon {
     width: 42px;
     height: 42px;
