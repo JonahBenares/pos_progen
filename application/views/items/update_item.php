@@ -212,19 +212,19 @@
                                 <div class="col-lg-4">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                          <span class="input-group-text bg-gradient-info text-white"><i class="mdi mdi-image"></i></span>
+                                            <span class="input-group-text bg-gradient-info text-white"><i class="mdi mdi-image"></i></span>
                                         </div>
                                         <input class="form-control" type="file" name="pic1" id="img1" onchange="readPic1(this);">
                                     </div>
                                     <div class="thumbnail">
                                         <?php if(!empty($i->picture1)) { ?>
-                                            <input type='button' class="btn btn-danger btn-xs delete_but" onclick="deleteImage('<?php echo $id; ?>','picture1','<?php echo base_url(); ?>')" value="x">
+                                            <button type='button' class="btn btn-secondary btn-rounded btn-xs delete_but" onclick="deleteImage('<?php echo $id; ?>','picture1','<?php echo base_url(); ?>')" > <span class="mdi mdi-close"></span> </button>
                                         <?php } ?>
                                         <img id="pic1" class="pictures" src="<?php echo (empty($i->picture1) ? base_url().'assets/default/default-img.jpg' : base_url().'uploads/'.$i->picture1); ?>" alt="your image" />
                                     </div>
                                     <span id="img1-check" class='img-check'></span>
-                                    </div>
                                 </div>
+                                
                                 <div class="col-lg-4">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -234,7 +234,7 @@
                                     </div>
                                     <div class="thumbnail">
                                         <?php if(!empty($i->picture2)) { ?>
-                                            <button class="btn btn-danger btn-xs delete_but" onclick="deleteImage('<?php echo $id; ?>','picture2','<?php echo base_url(); ?>')"><span class="fa fa-times" ></span> </button>
+                                            <button class="btn btn-secondary btn-rounded btn-xs delete_but" onclick="deleteImage('<?php echo $id; ?>','picture2','<?php echo base_url(); ?>')"> <span class="mdi mdi-close"></span> </button>
                                         <?php } ?>
                                         <img id="pic2" class="pictures" src="<?php echo (empty($i->picture2) ? base_url().'assets/default/default-img.jpg' : base_url().'uploads/'.$i->picture2); ?>" alt="your image" />
                                     </div>
@@ -249,12 +249,11 @@
                                     </div>
                                     <div class="thumbnail">
                                         <?php if(!empty($i->picture3)) { ?>
-                                            <button class="btn btn-danger btn-xs delete_but" onclick="deleteImage('<?php echo $id; ?>','picture3','<?php echo base_url(); ?>')"><span class="fa fa-times"></span> </button>
+                                            <button class="btn btn-secondary btn-rounded btn-xs delete_but" onclick="deleteImage('<?php echo $id; ?>','picture3','<?php echo base_url(); ?>')"><span class="mdi mdi-close"></span> </button>
                                         <?php } ?>
                                         <img id="pic3" class="pictures" src="<?php echo (empty($i->picture3) ? base_url().'assets/default/default-img.jpg' : base_url().'uploads/'.$i->picture3); ?>" alt="your image" />
                                     </div>
                                     <span id="img3-check" class='img-check'></span>
-                                </div>
                                 </div>
                             </div>
                             <hr> 
