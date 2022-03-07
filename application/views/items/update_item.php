@@ -29,7 +29,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Sub Category</label>
-                                        <select class="form-control" name="subcat" id='subcat' onChange="chooseSubcat();">
+                                        <select class="form-control select2" name="subcat" id='subcat' onChange="chooseSubcat();">
                                                 <option value='' selected>-Choose Sub Category-</option>
                                                 <?php foreach($subcat as $sub) { ?>
                                                 <option value='<?php echo $sub->subcat_id; ?>' <?php echo (($sub->subcat_id == $i->subcat_id) ? ' selected' : ''); ?>><?php echo $sub->subcat_name; ?></option>
@@ -73,7 +73,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Warehouse</label>
                                         <div class="col-sm-9">
-                                            <select class="form-control"  name="warehouse" id="warehouse">
+                                            <select class="form-control select2"  name="warehouse" id="warehouse">
                                                 <option value='' selected>-Choose Warehouse-</option>
                                                 <?php foreach($warehouse as $wh) { ?>
                                                 <option value='<?php echo $wh->warehouse_id; ?>' <?php echo (($wh->warehouse_id == $i->warehouse_id) ? ' selected' : ''); ?>><?php echo $wh->warehouse_name; ?></option>
@@ -88,7 +88,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Unit</label>
                                         <div class="col-sm-9">
-                                           <select class="form-control" name="unit" id="unit">
+                                           <select class="form-control select2" name="unit" id="unit">
                                                 <option value='' selected>-Choose Unit-</option>
                                                 <?php foreach($unit AS $uom) { ?>
                                                 <option value='<?php echo $uom->unit_id; ?>' <?php echo (($uom->unit_id == $i->unit_id) ? ' selected' : ''); ?>><?php echo $uom->unit_name; ?></option>
@@ -101,7 +101,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Location</label>
                                         <div class="col-sm-9">
-                                            <select class="form-control"  name="location" id="location">
+                                            <select class="form-control select2"  name="location" id="location">
                                                 <option value='' selected>-Choose Location-</option>
                                                 <?php foreach($location as $lc) { ?>
                                                 <option value='<?php echo $lc->location_id; ?>' <?php echo (($lc->location_id == $i->location_id) ? ' selected' : ''); ?>><?php echo $lc->location_name; ?></option>
@@ -116,7 +116,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Group</label>
                                         <div class="col-sm-9">
-                                            <select class="form-control" name="group" id="group">
+                                            <select class="form-control select2" name="group" id="group">
                                                 <option value='' selected>-Choose Group-</option>
                                                 <?php foreach($group as $gr) { ?>
                                                 <option value='<?php echo $gr->group_id; ?>' <?php echo (($gr->group_id == $i->group_id) ? ' selected' : ''); ?>><?php echo $gr->group_name; ?></option>
@@ -127,10 +127,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Bin</label>
+                                        <label class="col-sm-3 col-form-label" for="bin">Bin</label>
                                         <div class="col-sm-9">
-                                            <input class="form-control"  type="text" name="bin" id="bin" autocomplete="off" value='<?php echo $bin_name; ?>'>
-                                            <span id="suggestion-bin"></span>
+                                        <select class="form-control select2" name="bin" id="bin">
+                                                <option value='' selected>-Choose Bin-</option>
+                                                <?php foreach($bin as $b) { ?>
+                                                <option value='<?php echo $b->bin_id; ?>' <?php echo (($b->bin_id == $i->bin_id) ? ' selected' : ''); ?>><?php echo $b->bin_name; ?></option>
+                                                <?php } ?>
+                                        </select>
                                         </div>
                                     </div>
                                 </div>
@@ -148,7 +152,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Rack</label>
                                         <div class="col-sm-9">
-                                            <select class="form-control" name="rack" id="rack">
+                                            <select class="form-control select2" name="rack" id="rack">
                                                 <option value='' selected>-Choose Rack-</option>
                                                 <?php foreach($rack as $rack) { ?>
                                                 <option value='<?php echo $rack->rack_id;?>' <?php echo (($rack->rack_id == $i->rack_id) ? ' selected' : ''); ?>><?php echo $rack->rack_name; ?></option>
@@ -208,19 +212,19 @@
                                 <div class="col-lg-4">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                          <span class="input-group-text bg-gradient-info text-white"><i class="mdi mdi-image"></i></span>
+                                            <span class="input-group-text bg-gradient-info text-white"><i class="mdi mdi-image"></i></span>
                                         </div>
                                         <input class="form-control" type="file" name="pic1" id="img1" onchange="readPic1(this);">
                                     </div>
                                     <div class="thumbnail">
                                         <?php if(!empty($i->picture1)) { ?>
-                                            <input type='button' class="btn btn-danger btn-xs delete_but" onclick="deleteImage('<?php echo $id; ?>','picture1','<?php echo base_url(); ?>')" value="x">
+                                            <button type='button' class="btn btn-secondary btn-rounded btn-xs delete_but" onclick="deleteImage('<?php echo $id; ?>','picture1','<?php echo base_url(); ?>')" > <span class="mdi mdi-close"></span> </button>
                                         <?php } ?>
                                         <img id="pic1" class="pictures" src="<?php echo (empty($i->picture1) ? base_url().'assets/default/default-img.jpg' : base_url().'uploads/'.$i->picture1); ?>" alt="your image" />
                                     </div>
                                     <span id="img1-check" class='img-check'></span>
-                                    </div>
                                 </div>
+                                
                                 <div class="col-lg-4">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -230,7 +234,7 @@
                                     </div>
                                     <div class="thumbnail">
                                         <?php if(!empty($i->picture2)) { ?>
-                                            <button class="btn btn-danger btn-xs delete_but" onclick="deleteImage('<?php echo $id; ?>','picture2','<?php echo base_url(); ?>')"><span class="fa fa-times" ></span> </button>
+                                            <button class="btn btn-secondary btn-rounded btn-xs delete_but" onclick="deleteImage('<?php echo $id; ?>','picture2','<?php echo base_url(); ?>')"> <span class="mdi mdi-close"></span> </button>
                                         <?php } ?>
                                         <img id="pic2" class="pictures" src="<?php echo (empty($i->picture2) ? base_url().'assets/default/default-img.jpg' : base_url().'uploads/'.$i->picture2); ?>" alt="your image" />
                                     </div>
@@ -245,12 +249,11 @@
                                     </div>
                                     <div class="thumbnail">
                                         <?php if(!empty($i->picture3)) { ?>
-                                            <button class="btn btn-danger btn-xs delete_but" onclick="deleteImage('<?php echo $id; ?>','picture3','<?php echo base_url(); ?>')"><span class="fa fa-times"></span> </button>
+                                            <button class="btn btn-secondary btn-rounded btn-xs delete_but" onclick="deleteImage('<?php echo $id; ?>','picture3','<?php echo base_url(); ?>')"><span class="mdi mdi-close"></span> </button>
                                         <?php } ?>
                                         <img id="pic3" class="pictures" src="<?php echo (empty($i->picture3) ? base_url().'assets/default/default-img.jpg' : base_url().'uploads/'.$i->picture3); ?>" alt="your image" />
                                     </div>
                                     <span id="img3-check" class='img-check'></span>
-                                </div>
                                 </div>
                             </div>
                             <hr> 
