@@ -362,6 +362,7 @@ class super_model extends CI_Model
         return $query->result();
     }
 
+
     /*public function login_user($username, $password){
         $this->db->select('*');
         $this->db->from('users');

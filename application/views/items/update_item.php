@@ -127,10 +127,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Bin</label>
+                                        <label class="col-sm-3 col-form-label" for="bin">Bin</label>
                                         <div class="col-sm-9">
-                                            <input class="form-control"  type="text" name="bin" id="bin" autocomplete="off" value='<?php echo $bin_name; ?>'>
-                                            <span id="suggestion-bin"></span>
+                                        <select class="form-control" name="bin" id="bin">
+                                                <option value='' selected>-Choose Bin-</option>
+                                                <?php foreach($bin as $b) { ?>
+                                                <option value='<?php echo $b->bin_id; ?>' <?php echo (($b->bin_id == $i->bin_id) ? ' selected' : ''); ?>><?php echo $b->bin_name; ?></option>
+                                                <?php } ?>
+                                        </select>
                                         </div>
                                     </div>
                                 </div>

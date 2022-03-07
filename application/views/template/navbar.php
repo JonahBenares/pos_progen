@@ -172,6 +172,9 @@
                     <div class="collapse" id="masterfilelist">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/bin_list">Bin</a>
+                            </li>
+                            <li class="nav-item"> 
                                 <a class="nav-link" href="<?php echo base_url(); ?>masterfile/client_list">Client</a>
                             </li>
                             <li class="nav-item"> 

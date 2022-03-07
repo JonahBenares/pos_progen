@@ -81,6 +81,54 @@ class Masterfile extends CI_Controller {
         window.location ='".base_url()."index.php/masterfile/index'; </script>";
     }
 
+    public function bin_list(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $data['bin']=$this->super_model->select_all_order_by("bin","bin_name","ASC");
+        $this->load->view('masterfile/bin_list',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function add_bin(){
+        $bin_name = trim($this->input->post('bin_name')," ");
+        $data = array(
+            'bin_name'=>$bin_name,
+        );
+        if($this->super_model->insert_into("bin", $data)){
+            echo "<script>alert('Bin Successfully Added!'); 
+                window.location ='".base_url()."masterfile/bin_list'; </script>";
+        }
+    }
+
+    public function update_bin(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $data['id']=$this->uri->segment(3);
+        $id=$this->uri->segment(3);
+        $data['update_bin'] = $this->super_model->select_row_where('bin', 'bin_id', $id);
+        $this->load->view('masterfile/update_bin',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function edit_bin(){
+        $data = array(
+            'bin_name'=>$this->input->post('bin_name'),
+        );
+        $bin_id = $this->input->post('bin_id');
+        if($this->super_model->update_where('bin', $data, 'bin_id', $bin_id)){
+            echo "<script>alert('Bin Successfully Updated!'); 
+                window.location ='".base_url()."masterfile/bin_list'; </script>";
+        }
+    }
+
+    public function delete_bin(){
+        $id=$this->uri->segment(3);
+        if($this->super_model->delete_where('bin', 'bin_id', $id)){
+            echo "<script>alert('Succesfully Deleted'); 
+                window.location ='".base_url()."masterfile/bin_list'; </script>";
+        }
+    }
+
 
     public function client_list(){
         $this->load->view('template/header');

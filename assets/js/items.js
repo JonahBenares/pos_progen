@@ -50,26 +50,6 @@ $(document).ready(function(){
       });
 
 
-
-
-  $("#bin").keyup(function(){
-    var loc= document.getElementById("baseurl").value;
-     var redirect = loc+'index.php/items/search';
-        $.ajax({
-        type: "POST",
-        url: redirect,
-        data:'binname='+$(this).val()+'&type=bin',
-        beforeSend: function(){
-          $("#bin").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
-        },
-        success: function(data){
-          $("#suggestion-bin").show();
-          $("#suggestion-bin").html(data);
-          $("#bin").css("background","#FFF");
-        }
-        });
-      });
-
       $("#serial").keyup(function(){
         var loc= document.getElementById("baseurl").value;
         var redirect = loc+'index.php/items/search';
@@ -89,31 +69,9 @@ $(document).ready(function(){
         });
       });
 
-    $("#brand").keyup(function(){
-     var loc= document.getElementById("baseurl").value;
-     var redirect = loc+'index.php/items/search';
-      document.getElementById('brandid').value="";
-        $.ajax({
-        type: "POST",
-        url: redirect,
-        data:'brandname='+$(this).val()+'&type=brand',
-        beforeSend: function(){
-          $("#brand").css("background","#FFF url(loading.gif) no-repeat 165px");
-        },
-        success: function(data){
-          $("#suggestion-brand").show();
-          $("#suggestion-brand").html(data);
-          $("#brand").css("background","#FFF");
-
-        }
-        });
-      });
 
     $("#pn").keyup(function(){
       document.getElementById("pn_format").value  = 0;
-    });
-    $("#bin").keyup(function(){
-      document.getElementById("binid").value  = '';
     });
 
     $('#category').change(function(){
@@ -179,24 +137,6 @@ $(document).ready(function(){
         $("#item_name").val(val);
         $("#suggestion-item").hide();
     }
-
-    function selectBin(val,id) {
-        $("#bin").val(val);
-        $("#binid").val(id);
-        $("#suggestion-bin").hide();
-    }
-
-    /*function selectBrand(val,id) {
-        $("#brand").val(val);
-        $("#brandid").val(id);
-        $("#suggestion-brand").hide();
-    }
-
-    function selectSerial(val, id) {
-        $("#serial").val(val);
-        $("#serial_id").val(id);
-        $("#suggestion-serial").hide();
-    }*/
 
 
 function readPic1(input) {
@@ -299,9 +239,6 @@ function readPic1(input) {
 
     var bin =document.getElementById('bin').value;
     frm.append('bin', bin);
-
-    var binid =document.getElementById('binid').value;
-    frm.append('binid', binid);
 
     var warehouse =document.getElementById('warehouse').value;
     frm.append('warehouse', warehouse);
@@ -406,9 +343,6 @@ function readPic1(input) {
 
     var bin =document.getElementById('bin').value;
     frm.append('bin', bin);
-
-    var binid =document.getElementById('binid').value;
-    frm.append('binid', binid);
 
     var warehouse =document.getElementById('warehouse').value;
     frm.append('warehouse', warehouse);
