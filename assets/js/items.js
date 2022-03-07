@@ -20,7 +20,36 @@ function chooseSubcat()
         }); 
 }
 
-$(document).ready(function(){
+$( document ).ready(function() {
+  $("#item_name").blur(function(){
+   var loc= document.getElementById("baseurl").value;
+   var redirect = loc+'index.php/items/search';
+       //alert(redirect);
+      
+        $.ajax({
+        type: "POST",
+        url: redirect,
+        data:'itemname='+$(this).val()+'&type=item',
+        success: function(output){
+         
+          if(output!=0) {
+                $("#item-check").show();
+                $("#item-check").html("Warning: Item name already exists!");
+                $('input[type="button"]').attr('disabled','disabled');
+                $('input[type="submit"]').attr('disabled','disabled');
+            }
+            else{
+                $("#item-check").hide();
+                $('input[type="button"]').removeAttr('disabled');
+                $('input[type="submit"]').removeAttr('disabled');
+            }
+          
+        }
+        });
+      });
+});
+
+/*$(document).ready(function(){
    
   $("#item_name").blur(function(){
    var loc= document.getElementById("baseurl").value;
@@ -50,26 +79,6 @@ $(document).ready(function(){
       });
 
 
-      $("#serial").keyup(function(){
-        var loc= document.getElementById("baseurl").value;
-        var redirect = loc+'index.php/items/search';
-       /* document.getElementById('serialid').value="";*/
-        $.ajax({
-          type: "POST",
-          url: redirect,
-          data:'serial='+$(this).val()+'&type=serial',
-          beforeSend: function(){
-            $("#serial").css("background","#FFF url(loading.gif) no-repeat 165px");
-        },
-        success: function(data){
-          $("#suggestion-serial").show();
-          $("#suggestion-serial").html(data);
-          $("#serial").css("background","#FFF");
-        }
-        });
-      });
-
-
     $("#pn").keyup(function(){
       document.getElementById("pn_format").value  = 0;
     });
@@ -94,7 +103,7 @@ $(document).ready(function(){
         }
       });
     });
- });
+ });*/
 
 /*function check_item(){
          var itemid = document.getElementById('item_id').value;

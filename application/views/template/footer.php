@@ -2,6 +2,7 @@
       </div>
       <!-- page-body-wrapper ends -->
         </div>
+        <script src="<?php echo base_url(); ?>assets/js/items.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/billing.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/receive.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/reports.js"></script>
