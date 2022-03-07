@@ -91,8 +91,9 @@
                             <div class="col-lg-12">
                                 <div class="pull-right">
                                     <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
-                                    <input type='text' name='receive_id' id='receive_id' value="<?php echo $receive_id; ?>">
-                                    <input type='text' name='rd_id' id='rd_id' value="<?php echo $rd_id; ?>">
+                                    <input type='hidden' name='receive_id' id='receive_id' value="<?php echo $receive_id; ?>">
+                                     <input type='hidden' name='counter' id='counter' value="<?php echo $counter; ?>">
+                                    <input type='hidden' name='rd_id' id='rd_id' value="<?php echo $rd_id; ?>">
                                     <input type="button" class="btn btn-gradient-primary btn-md" value="Add Item" onclick="save_item_receive();">
                                 </div>
                             </div>

@@ -53,6 +53,8 @@ class Receive extends CI_Controller {
         $data['count_pr'] = $count_pr;
 
         $data['department']= $this->super_model->select_all("department");
+        $data['purpose']= $this->super_model->select_all("purpose");
+        $data['employees']= $this->super_model->select_all("employees");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('receive/add_receive_head',$data);
@@ -61,13 +63,36 @@ class Receive extends CI_Controller {
 
     public function add_receive_head_process(){
        
-     
+        $year=date('Y-m');
+        $year_series=date('Y');
+        
+        $rows=$this->super_model->count_custom_where("receive_head","create_date LIKE '$year_series%'");
+        if($rows==0){
+             $newrec_no = "MRIF-".$year."-0001";
+        } else {
+            $maxrecno=$this->super_model->get_max_where("receive_head", "mrecf_no","create_date LIKE '$year_series%'");
+            $recno = explode('-',$maxrecno);
+            $series = $recno[3]+1;
+            if(strlen($series)==1){
+                $newrec_no = "MRIF-".$year."-000".$series;
+            } else if(strlen($series)==2){
+                 $newrec_no = "MRIF-".$year."-00".$series;
+            } else if(strlen($series)==3){
+                 $newrec_no = "MRIF-".$year."-0".$series;
+            } else if(strlen($series)==4){
+                 $newrec_no = "MRIF-".$year."-".$series;
+            }
+        }
+
         $data=array(
             "receive_date"=>$this->input->post('receive_date'),
             "po_no"=>$this->input->post('po_no'),
             "dr_no"=>$this->input->post('dr_no'),
             "si_no"=>$this->input->post('si_no'),
             "pcf"=>$this->input->post('pcf'),
+            "mrecf_no"=>$newrec_no,
+            "create_date"=>date("Y-m-d H:i:s"),
+            "user_id"=>$_SESSION['user_id'],
             "overall_remarks"=>$this->input->post('remarks')
         );
      
@@ -133,6 +158,7 @@ class Receive extends CI_Controller {
     {
         $data['receive_id']= $this->uri->segment(3);
         $data['rd_id']= $this->uri->segment(4);
+        $data['counter']= $this->uri->segment(5);
         $data['item'] = $this->super_model->select_all('items');
         $data['supplier'] = $this->super_model->select_all('supplier');
 
@@ -171,8 +197,26 @@ class Receive extends CI_Controller {
            
         );
 
-        if($this->super_model->insert_into("receive_items", $data)){
+        $ri_id = $this->super_model->insert_return_id("receive_items", $data);
             
+            $data_fifo = array(
+                "receive_id"=>$receive_id,
+                "rd_id"=>$rd_id,
+                "ri_id"=>$ri_id,
+                "receive_date"=>$this->super_model->select_column_where("receive_head", "receive_date", "receive_id", $receive_id),
+                "pr_no"=>$this->super_model->select_column_where("receive_details", "pr_no", "rd_id", $rd_id),
+                "item_id"=>$this->input->post('item'),
+                "supplier_id"=>$this->input->post('supplier'),
+                "brand"=>$this->input->post('brand'),
+                "catalog_no"=>$this->input->post('catalog_no'),
+                "serial_no"=>$this->input->post('serial_no'),
+                "expiry_date"=>$this->input->post('expiry'),
+                "item_cost"=>$this->input->post('net_cost'),
+                "quantity"=>$this->input->post('received_qty'),
+                "remaining_qty"=>$this->input->post('received_qty')
+            );
+
+            $this->super_model->insert_into("fifo_in", $data_fifo);
 
             $x=1;
             foreach($this->super_model->custom_query("SELECT * FROM receive_items WHERE rd_id='$rd_id' ORDER BY ri_id DESC LIMIT 1") AS $app){
@@ -184,19 +228,26 @@ class Receive extends CI_Controller {
                 $item_id = $app->item_id;
                 $item_name = $this->super_model->select_column_where("items","item_name","item_id",$app->item_id);
                 $supplier = $this->super_model->select_column_where("supplier","supplier_name","supplier_id",$app->supplier_id);
-                $brand = $app->brand;
-                $serial_no = $app->serial_no;
-                $catalog_no = $app->catalog_no;
-                $net_cost = $app->item_cost;
-                $expected_qty = $app->expected_qty;
-                $received_qty = $app->received_qty;
-                $shipping= $app->shipping_fee;
-                $expiry =$app->expiration_date;
-                $mode=$mode;
+          
                 echo '<tr><td>'.$item_name.'</td><td>'.$supplier.'</td><td>'.$app->brand.'</td><td>'.$app->serial_no.'</td><td>'.$app->catalog_no.'</td><td>'.$app->item_cost.'</td><td>'.$app->expected_qty.'</td><td>'.$app->received_qty.'</td><td>'.$app->shipping_fee.'</td><td>'.$app->expiration_date.'</td><td>'.$mode.'</td>  <td><a href="" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
             }
-        }
+        
     }
+
+    public function removePR(){
+        $rd_id = $this->input->post('rd_id');
+        $this->super_model->delete_where("receive_details", "rd_id", $rd_id);
+        $this->super_model->delete_where("receive_items", "rd_id", $rd_id);
+    }
+
+    public function savePR(){
+        $receive_id = $this->input->post('receive_id');
+        $data =array(
+            "saved"=>1
+        );
+        $this->super_model->update_where("receive_head", $data, "receive_id", $receive_id);
+    }
+
     public function update_receive_head()
     {
         $this->load->view('template/header');
@@ -222,9 +273,48 @@ class Receive extends CI_Controller {
 
     public function print_receive()
     {
+        $receive_id= $this->uri->segment(3);
+        $data["head"] = $this->super_model->select_row_where("receive_head", "receive_id",$receive_id);
+
+
+        foreach($this->super_model->select_row_where("receive_details", "receive_id", $receive_id) AS $det){
+            $data['details'][]=array(
+                "rd_id"=>$det->rd_id,
+                "pr_no"=>$det->pr_no,
+                "department"=>$this->super_model->select_column_where("department","department_name","department_id",$det->department_id),
+                "purpose"=>$this->super_model->select_column_where("purpose","purpose_desc","purpose_id",$det->purpose_id),
+                "inspected"=>$this->super_model->select_column_where("employees","employee_name","employee_id",$det->inspected_by)
+            );
+
+            foreach($this->super_model->select_row_where("receive_items", "rd_id", $det->rd_id) AS $it){
+                if($it->local_mnl == 1){
+                    $local = "Local";
+                } else {
+                    $local = "MNL";
+                }
+                $data['items'][]=array(
+                    "rd_id"=>$det->rd_id,
+                    "supplier"=>$this->super_model->select_column_where("supplier","supplier_name","supplier_id",$it->supplier_id),
+                    "item"=>$this->super_model->select_column_where("items","item_name","item_id",$it->item_id),
+                    "brand"=>$it->brand,
+                    "catalog_no"=>$it->catalog_no,
+                    "serial_no"=>$it->serial_no,
+                    "item_cost"=>$it->item_cost,
+                    "expected_qty"=>$it->expected_qty,
+                    "received_qty"=>$it->received_qty,
+                    "local"=>$local,
+                    "shipping"=>$it->shipping_fee,
+                    "expiry"=>$it->expiration_date
+
+                );
+            }
+
+          // $data['items'][]=array();
+
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('receive/print_receive');
+        $this->load->view('receive/print_receive',$data);
         $this->load->view('template/footer');
     }
 
