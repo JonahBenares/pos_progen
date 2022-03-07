@@ -2,7 +2,6 @@
       </div>
       <!-- page-body-wrapper ends -->
         </div>
-
         <script src="<?php echo base_url(); ?>assets/js/billing.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/receive.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/reports.js"></script>
@@ -25,6 +24,11 @@
 
        
         <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+         <link href="<?php echo base_url(); ?>assets/css/select2.min.css" rel="stylesheet" />
+        <script src="<?php echo base_url(); ?>assets/js/select2.min.js"></script>
+        <script>
+            $('.select2').select2();
+        </script>
         <!-- End custom js for this page -->
 
         <script type="text/javascript">
