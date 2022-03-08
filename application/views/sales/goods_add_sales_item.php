@@ -22,7 +22,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Unit Cost</label>
-                                        <input type="text" class="form-control" name="unit_cost" id="unit_cost" placeholder="Unit Cost">
+                                        <input type="text" class="form-control" name="unit_cost" id="unit_cost" placeholder="Unit Cost" onkeypress="return isNumberKey(this, event)">
                                     </div>
                                 </div>                             
                             </div>  
@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label >Qty</label>
-                                        <input type="text" class="form-control amount-txt" name="quantity" id="quantity" placeholder="00">
+                                        <input type="text" class="form-control amount-txt" name="quantity" id="quantity" placeholder="00" onkeypress="return isNumberKey(this, event)" onkeyup='changePrice()'>
                                     </div>
                                     <div class="form-group">
                                         <label >UOM</label>
@@ -44,15 +44,15 @@
                                 <div class="col-md-6 col-sm-6">                                
                                     <div class="form-group">
                                         <label >Selling Price</label>
-                                        <input type="text" class="form-control amount-txt" name="selling_price" id="selling_price" placeholder="00.00">
+                                        <input type="text" class="form-control amount-txt" name="selling_price" id="selling_price" placeholder="00.00" onkeypress="return isNumberKey(this, event)" onkeyup='changePrice()'>
                                     </div>
                                     <div class="form-group">
-                                        <label >Discount</label>
-                                        <input type="text" class="form-control amount-txt" name="discount" id="discount" placeholder="00.00">
+                                        <label >Discount Percentage</label>
+                                        <input type="text" class="form-control amount-txt" name="discount" id="discount" placeholder="0%" onkeypress="return isNumberKey(this, event)" onkeyup='changePrice()'>
                                     </div>
                                     <div class="form-group">
                                         <label >Total Cost</label>
-                                        <input type="text" disabled class="form-control amount-txt" name="total_cost" id="total_cost" placeholder="00.00">
+                                        <input type="text" class="form-control amount-txt total_cost" name="total_cost" id="grandtotal" placeholder="00.00" readonly="">
                                     </div>
                                 </div>                            
                             </div>
@@ -60,6 +60,8 @@
                                 <div class="col-lg-12">
                                     <div class="pull-right">
                                         <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
+                                        <input type="hidden" name="group_id" id="group_id">
+                                        <input type="hidden" name="discount_amount" id="discount_amount">
                                         <input type="hidden" name="sales_good_head_id" value="<?php echo $sales_good_head_id; ?>">
                                         <input type="button" class="btn btn-gradient-primary btn-md" value="Add Item" onclick="save_item();">
                                         <!-- <button class="btn btn-gradient-primary btn-md" id="save_sales" onclick="save_item();">Add Item</button> -->
