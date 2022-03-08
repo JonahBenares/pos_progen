@@ -83,6 +83,7 @@ class Items extends CI_Controller {
         $data['warehouse'] = $this->super_model->select_all_order_by('warehouse','warehouse_name','ASC');
         $data['unit'] = $this->super_model->select_all_order_by('uom','unit_name','ASC');
         $data['rack'] = $this->super_model->select_all_order_by('rack','rack_name','ASC');
+        $data['bin'] = $this->super_model->select_all_order_by('bin','bin_name','ASC');
         //$data['supplier'] = $this->super_model->select_all_order_by('supplier','supplier_name','ASC');
         //$data['serial_number'] = $this->super_model->select_all_order_by('serial_number','serial_no','ASC');
         $this->load->view('template/header');
@@ -127,10 +128,6 @@ class Items extends CI_Controller {
             $this->load->model('item_model');
             return $this->item_model->select_item('items', "item_name = '$item_name'");
             //return 0;
-        } else if($type=='bin'){
-            $bin_name=$this->input->post('binname');   
-            $this->load->model('item_model');
-            return $this->item_model->select_bin('bin', "bin_name LIKE '%$bin_name%'");
         }
     } 
 
@@ -194,29 +191,6 @@ class Items extends CI_Controller {
         if($error_ext!=0){
             echo "ext";
         } else {
-             $binid= $this->input->post('binid');
-             if(empty($binid)){
-                $bin_name= $this->input->post('bin');
-
-                
-                $rows=$this->super_model->count_rows("bin");
-                if($rows==0){
-                    $bin = 1;
-                } else {
-                    $max=$this->super_model->get_max("bin", "bin_id");
-                    $bin=$max+1;
-                }
-
-                $bindata = array(
-                    'bin_id' => $bin,
-                    'bin_name' => $bin_name
-                );
-
-                $this->super_model->insert_into("bin", $bindata);
-
-             } else {
-                $bin= $this->input->post('binid');
-             }
       
             $row_item=$this->super_model->count_rows("items");
             if($row_item==0){
@@ -262,13 +236,13 @@ class Items extends CI_Controller {
                     'group_id' => $this->input->post('group'),
                     'location_id' => $this->input->post('location'),
                     'warehouse_id' => $this->input->post('warehouse'),
+                    'bin_id' => $this->input->post('bin'),
                     'rack_id' => $this->input->post('rack'),
                     'nkk_no' => $this->input->post('nkk_no'),
                     'semt_no' => $this->input->post('semt_no'),
                     'barcode' => $this->input->post('barcode'),
                     'weight' => $this->input->post('weight'),
                     'selling_price' => $this->input->post('selling_price'),
-                    'bin_id' => $bin,
                     'picture1' => $filename1,
                     'picture2' => $filename2,
                     'picture3' => $filename3,
@@ -292,9 +266,6 @@ class Items extends CI_Controller {
 
         $catid=$this->super_model->select_column_where("items", "category_id", "item_id", $id);
         $data['cat_name'] = $this->super_model->select_column_where("item_categories", "cat_name", "cat_id", $catid);
-
-        $binid=$this->super_model->select_column_where("items", "bin_id", "item_id", $id);
-        $data['bin_name'] = $this->super_model->select_column_where("bin", "bin_name", "bin_id", $binid);
 
         $orig_pn=$this->super_model->select_column_where("items", "original_pn", "item_id", $id);
         $pn_details=explode("_",$orig_pn);
@@ -320,6 +291,7 @@ class Items extends CI_Controller {
         $data['warehouse'] = $this->super_model->select_all_order_by('warehouse','warehouse_name','ASC');
         $data['unit'] = $this->super_model->select_all_order_by('uom','unit_name','ASC');
         $data['rack'] = $this->super_model->select_all_order_by('rack','rack_name','ASC');
+        $data['bin'] = $this->super_model->select_all_order_by('bin','bin_name','ASC');
         $this->load->view('items/update_item',$data);
         $this->load->view('template/footer');
     }
@@ -384,29 +356,6 @@ class Items extends CI_Controller {
         if($error_ext!=0){
             echo "ext";
         } else {
-             $binid= $this->input->post('binid');
-             if(empty($binid)){
-                $bin_name= $this->input->post('bin');
-
-                
-                $rows=$this->super_model->count_rows("bin");
-                if($rows==0){
-                    $bin = 1;
-                } else {
-                    $max=$this->super_model->get_max("bin", "bin_id");
-                    $bin=$max+1;
-                }
-
-                $bindata = array(
-                    'bin_id' => $bin,
-                    'bin_name' => $bin_name
-                );
-
-                $this->super_model->insert_into("bin", $bindata);
-
-             } else {
-                $bin= $this->input->post('binid');
-             }
             
             $orig_pn=$this->super_model->select_column_where("items", "original_pn", "item_id", $item_id);
 
@@ -438,13 +387,13 @@ class Items extends CI_Controller {
                     'group_id' => $this->input->post('group'),
                     'location_id' => $this->input->post('location'),
                     'warehouse_id' => $this->input->post('warehouse'),
+                    'bin_id' => $this->input->post('bin'),
                     'rack_id' => $this->input->post('rack'),
                     'nkk_no' => $this->input->post('nkk_no'),
                     'semt_no' => $this->input->post('semt_no'),
                     'barcode' => $this->input->post('barcode'),
                     'weight' => $this->input->post('weight'),
                     'selling_price' => $this->input->post('selling_price'),
-                    'bin_id' => $bin,
              );
         
               if($this->super_model->update_where("items", $data, "item_id", $item_id)){

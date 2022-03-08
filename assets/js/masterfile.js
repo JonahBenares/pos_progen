@@ -1,3 +1,7 @@
+function updateBin(baseurl,id) {
+    window.open(baseurl+"index.php/masterfile/update_bin/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+}
+
 function updateBuyer(baseurl,id) {
     window.open(baseurl+"index.php/masterfile/update_buyer/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
