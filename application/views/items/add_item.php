@@ -191,7 +191,7 @@
                                         </div>
                                     </div>
                                 </div>                            
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-6">
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Highest Cost</label>
                                         <div class="col-sm-9">
@@ -201,12 +201,12 @@
                                                 </div>
                                                 <input type="text" name="selling_price" id="selling_price" class="form-control">
                                                 <div class="input-group-append">
-                                                  <!-- <span class="input-group-text">.00</span> -->
+                                                  <span class="input-group-text">.00</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>  
                             <hr>
                             <h4 class="card-title">Add Image</h4>

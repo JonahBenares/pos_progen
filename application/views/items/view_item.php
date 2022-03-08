@@ -80,7 +80,7 @@
                                     <div class="col-lg-2 offset-lg-1">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">Highest Cost</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['selling_price'];?></p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['highest_cost'];?></p>
                                         </div>                                         
                                     </div>
                                     <div class="col-lg-3 offset-lg-1">

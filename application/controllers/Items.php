@@ -43,6 +43,7 @@ class Items extends CI_Controller {
         $row=$this->super_model->count_rows("items");
         if($row!=0){
             foreach($this->super_model->select_all('items') AS $itm){
+                $highest_cost=$this->super_model->get_max_where("fifo_in", "item_cost","item_id=$itm->item_id");
                 $bin = $this->super_model->select_column_where('bin', 'bin_name', 'bin_id', $itm->bin_id);
                 $rack = $this->super_model->select_column_where('rack', 'rack_name', 'rack_id', $itm->rack_id);
                 $warehouse = $this->super_model->select_column_where('warehouse', 'warehouse_name', 
@@ -63,7 +64,7 @@ class Items extends CI_Controller {
                     'rack'=>$rack,
                     'warehouse'=>$warehouse,
                     'location'=>$location,                
-                    'selling_price'=>$itm->selling_price,
+                    'highest_cost'=>$highest_cost,
                     'uom'=>$unit
                 );
             }
@@ -242,7 +243,6 @@ class Items extends CI_Controller {
                     'semt_no' => $this->input->post('semt_no'),
                     'barcode' => $this->input->post('barcode'),
                     'weight' => $this->input->post('weight'),
-                    'selling_price' => $this->input->post('selling_price'),
                     'picture1' => $filename1,
                     'picture2' => $filename2,
                     'picture3' => $filename3,
@@ -393,7 +393,6 @@ class Items extends CI_Controller {
                     'semt_no' => $this->input->post('semt_no'),
                     'barcode' => $this->input->post('barcode'),
                     'weight' => $this->input->post('weight'),
-                    'selling_price' => $this->input->post('selling_price'),
              );
         
               if($this->super_model->update_where("items", $data, "item_id", $item_id)){
@@ -418,6 +417,53 @@ class Items extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function delete_item(){
+        $id=$this->uri->segment(3);
+        if($this->super_model->delete_where('items', 'item_id', $id)){
+            echo "<script>alert('Succesfully Deleted'); 
+                window.location ='".base_url()."items/item_list'; </script>";
+        }
+    }
+
+    public function deleteImage(){
+         $dest= realpath(APPPATH . '../uploads/');
+         $id=$this->input->post('id');
+         $pic=$this->input->post('pic');
+            
+         if($pic=='picture1'){
+          
+            $pic=$dest."\/".$this->super_model->select_column_where('items', 'picture1', 'item_id', $id);
+             if(unlink($pic)){
+                $data = array(
+                    'picture1'=>""
+                );
+                if($this->super_model->update_where("items", $data, "item_id", $id)){
+                    echo $id;
+                }
+             }
+         } else if($pic=='picture2'){
+             $pic=$dest."\/".$this->super_model->select_column_where('items', 'picture2', 'item_id', $id);
+             if(unlink($pic)){
+                $data = array(
+                    'picture2'=>""
+                );
+                 if($this->super_model->update_where("items", $data, "item_id", $id)){
+                    echo $id;
+                }
+             }
+         } else if($pic=='picture3'){
+            $pic=$dest."\/".$this->super_model->select_column_where('items', 'picture3', 'item_id', $id);
+             if(unlink($pic)){
+                $data = array(
+                    'picture3'=>""
+                );
+                 if($this->super_model->update_where("items", $data, "item_id", $id)){
+                    echo $id;
+                }
+             }
+         }
+     }
+
     public function view_item(){
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
@@ -427,6 +473,7 @@ class Items extends CI_Controller {
         
         if($row!=0){
             foreach($this->super_model->select_row_where('items', 'item_id', $id) AS $det){
+                $highest_cost=$this->super_model->get_max_where("fifo_in", "item_cost","item_id=$det->item_id");
                 $data['details'][] = array(
                     'item_id'=>$det->item_id,
                     'original_pn'=>$det->original_pn,
@@ -443,7 +490,7 @@ class Items extends CI_Controller {
                     'warehouse'=>$this->super_model->select_column_where('warehouse', 'warehouse_name', 'warehouse_id', $det->warehouse_id),
                     'rack'=>$this->super_model->select_column_where('rack', 'rack_name','rack_id', $det->rack_id),
                     'barcode'=>$det->barcode,
-                    'selling_price'=>$det->selling_price,
+                    'highest_cost'=>$highest_cost,
                     'weight'=>$det->weight,
                     'nkk_no'=>$det->nkk_no,
                     'semt_no'=>$det->semt_no,
