@@ -1,6 +1,6 @@
 
 $('.addPR').click(function() {
-
+    var loc= document.getElementById("baseurl").value;
     var conf = confirm('Are you sure you want to add another PR?');
     if(conf){
 
@@ -9,9 +9,10 @@ $('.addPR').click(function() {
            
             $('.customer_records').clone().appendTo('.customer_records_dynamic'+count);
             $('.customer_records_dynamic'+count+' .customer_records').addClass('single remove');
-            $('.single .extra-fields-customer').remove();
-            $('.single').append('<a href="" class=" remove-field btn-remove-customer btn btn-sm btn-inverse-secondary btn-block btn-round"><span class="mdi mdi-window-close"></span> Remove PR</a>');
-            $('.customer_records_dynamic'+count+' > .single').attr("class", "remove");
+            //$('.single .extra-fields-customer').remove();
+            //$('.single').append('<a href="" class=" remove-field btn-remove-customer btn btn-sm btn-inverse-secondary btn-block btn-round"><span class="mdi mdi-window-close"></span> Remove PR</a>');
+            //$('.customer_records_dynamic'+count+' > .single').attr("class", "remove");
+           
 
             $('.customer_records_dynamic'+count+' input').each(function() {
              
@@ -37,11 +38,45 @@ $('.addPR').click(function() {
                 
               
               });
-         
+
+         $('.customer_records_dynamic'+count+' table').each(function() {
+
+                var tableid = $(this).attr("id");
+                var tib = tableid.slice(0, -1);
+                $(this).attr('id', tib + count);
+
+                $(this).find('tbody').each(function(){
+                     $(this).attr('id', "append_data" + count);
+
+                });
+
+         });
+
+
+         $('.customer_records_dynamic'+count+' .bttn').each(function() {
+
+                var divid = $(this).attr("id");
+                var sid = divid.slice(0, -1);
+
+                $(this).attr('id', sid + count);
+
+
+         });
+
+          $('.customer_records_dynamic'+count+' .prcnt').each(function() {
+
+                var spanid = $(this).attr("id");
+                var spid = spanid.slice(0, -1);
+                $(this).attr('id', spid + count);
+                $("#"+spid+count).html("0"+count);
+         });
+
+        
+
            document.getElementById("count").value = count;
 
-           var receive_id= document.getElementById("receive_id").value;
-         
+           
+          var receive_id= document.getElementById("receive_id").value;
            var loc= document.getElementById("baseurl").value;
            var redirect = loc+"receive/add_another_pr";
             $.ajax({
@@ -49,21 +84,47 @@ $('.addPR').click(function() {
                 type: "POST",
                 url: redirect,
                 success: function(output){
-                      
+                    $('.single').append('<button onclick="remove_pr('+output+','+count+')" class=" remove-field btn-remove-customer btn btn-sm btn-inverse-secondary btn-block btn-round"><span class="mdi mdi-window-close"></span> Remove PR</button>');
+                    $('.customer_records_dynamic'+count+' > .single').attr("class", "remove");
                     document.getElementById("rd_id"+count).value=output;
+                    var loc= document.getElementById("baseurl").value;
+                   
+                    $("#append_data"+count).empty();
+                    $("#myButton"+count).empty();
+                    $("#myButton"+count).append('<button class="btn btn-gradient-primary btn-xs pull-right " onclick="add_receive_items(\''+loc+'\','+output+','+receive_id+','+count+')" name=""><span class="mdi mdi-plus"></span> Add Item</button>'); 
                   
+                    /*$('.single').append('<a href="" onclick ='+removePR(loc, output)+' class=" remove-field btn-remove-customer btn btn-sm btn-inverse-secondary btn-block btn-round"><span class="mdi mdi-window-close"></span> Remove PR</a>');
+                   $('.customer_records_dynamic'+count+' > .single').attr("class", "remove");*/
                 }
           });
+
+     
+      /*  var rd_id= document.getElementById("rd_id"+count).value;
+        alert(rd_id);*/
+        
 
     }
 
   
 });
 
-$(document).on('click', '.remove-field', function(e) {
+function remove_pr(rd_id,count){
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"receive/removePR";
+    $.ajax({
+        data: 'rd_id='+rd_id,
+        type: "POST",
+        url: redirect,
+        success: function(output){
+            $('.customer_records_dynamic'+count).load(loc+"receive/add_receive_head .customer_records_dynamic"+count+"");
+        }
+    });  
+}
+
+/*$(document).on('click', '.remove-field', function(e) {
   $(this).parent('.remove').remove();
   e.preventDefault();
-});
+});*/
 
 
 function proceed(){
@@ -98,7 +159,8 @@ function proceed(){
 
                 document.getElementById("receive_id").value  = response.receive_id;
                 document.getElementById("rd_id1").value  = response.rd_id;
-                $("#myButton1").append('<button class="btn btn-gradient-primary btn-xs pull-right " onclick="add_receive_items(\''+loc+'\','+response.rd_id+','+response.receive_id+')" name=""><span class="mdi mdi-plus"></span> Add Item</button>'); 
+                $("#myButton1").append('<button class="btn btn-gradient-primary btn-xs pull-right " onclick="add_receive_items(\''+loc+'\','+response.rd_id+','+response.receive_id+','+1+')" ><span class="mdi mdi-plus"></span> Add Item</button>');
+                $("#savebttn").append('<button class="btn btn-gradient-success btn-md" onclick="savePR(\''+loc+'\','+response.receive_id+')" >Save and Print</button>');  
             }
         });
 
@@ -174,28 +236,24 @@ function updateDetailsDD(thisfield, thisid){
 }
 /*});
 */
-function add_receive_items(baseurl,rd_id, receive_id) {
-    window.open(baseurl+"index.php/receive/add_receive_item/"+receive_id+"/"+rd_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+function add_receive_items(baseurl,rd_id, receive_id, counter) {
+    window.open(baseurl+"index.php/receive/add_receive_item/"+receive_id+"/"+rd_id+"/"+counter+"/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
 
 function save_item_receive(){
     var data = $("#receive_item").serialize();
+    var counter = document.getElementById("counter").value; 
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+"receive/insert_items";
    
    $.ajax({
-        type: "POST", // Post / Get method
-        url: redirect, //Where form data is sent on submission
-        data:data, //Form variables
+        type: "POST", 
+        url: redirect, 
+        data:data, 
         success:function(response){
            
             if (window.opener != null && !window.opener.closed) {
-             /*   if ($("#table-alt tbody").length == 0) {
-                    $("#table-alt").append("<tbody></tbody>");
-                }*/
-                window.opener.$("#append_data1").append(response);
-              
-                //window.opener.document.getElementById("#table-alt tbody").append(response);
+                window.opener.$("#append_data"+counter).append(response); 
             }
             window.close();
         }
@@ -204,4 +262,42 @@ function save_item_receive(){
 
 function update_receive_items(baseurl) {
     window.open(baseurl+"index.php/receive/update_receive_item", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+}
+
+function removePR(loc, rdid){
+    var redirect = loc+"receive/removePR"
+    $.ajax({
+        type: "POST", 
+        url: redirect, 
+        data:"rd_id="+rdid, 
+      
+    });
+        
+}
+
+function savePR(loc, receive_id){
+  var redirect = loc+"receive/savePR"
+    $.ajax({
+        type: "POST", 
+        url: redirect, 
+        data:"receive_id="+receive_id, 
+          success:function(response){
+            window.location.href = loc+"receive/print_receive/"+receive_id;
+          }
+      
+    });
+
+}
+
+function delete_receive_item(ri_id,count){
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"receive/delete_item";
+    $.ajax({
+        data: 'ri_id='+ri_id,
+        type: "POST",
+        url: redirect,
+        success: function(output){
+            $('#load_data'+count).load(loc+"receive/add_receive_head #load_data"+count+"");
+        }
+    });  
 }

@@ -89,17 +89,21 @@ function save_item(){
     var data = $("#sales_item").serialize();
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+"sales/insert_items";
-    $.ajax({
-        type: "POST", // Post / Get method
-        url: redirect, //Where form data is sent on submission
-        data:data, //Form variables
-        success:function(response){
-        	if (window.opener != null && !window.opener.closed) {
-        		window.opener.document.getElementById("append_data").append(response);
-			}
-			window.close();
-        }
-    });
+    var conf = confirm('Are you sure you want to save this item?');
+    if(conf){
+	    $.ajax({
+	        type: "POST", // Post / Get method
+	        url: redirect, //Where form data is sent on submission
+	        data:data, //Form variables
+	        success:function(response){
+	        	if (window.opener != null && !window.opener.closed) {
+	        		window.opener.$("#append_data").append(response);
+	        		//window.opener.document.getElementById("append_data").append(response);
+				}
+				window.close();
+	        }
+	    });
+	}
 }
 
 function item_append(){
@@ -113,9 +117,73 @@ function item_append(){
         dataType: "json",
         success: function(response){
             document.getElementById("serial_no").value = response.serial_no;
-            document.getElementById("selling_price").value = response.selling_price;
+            document.getElementById("unit_cost").value = response.unit_cost;
             document.getElementById("quantity").value = response.quantity;
             document.getElementById("uom").value = response.unit;
+            document.getElementById("group_id").value = response.group_id;
         }
     });  
+}
+
+function delete_sales_item(sales_good_det_id,count,quantity,in_id){
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/delete_item";
+    var load = loc+"sales/goods_add_sales_head";
+    $.ajax({
+        data: 'sales_good_det_id='+sales_good_det_id+"&quantity="+quantity+"&in_id="+in_id,
+        type: "POST",
+        url: redirect,
+        success: function(output){
+        	$('#load_data'+count).load(loc+"sales/goods_add_sales_head #load_data"+count+"");
+        }
+    });  
+}
+
+function changePrice(){
+	var selling_price = document.getElementById("selling_price").value;
+	var qty = document.getElementById("quantity").value;
+	var tprice = parseFloat(selling_price) * parseFloat(qty);
+    var discount = document.getElementById("discount").value;
+    var percent=discount/100;
+    var new_discount = parseFloat(percent)*parseFloat(tprice);
+    document.getElementById("discount_amount").value = parseFloat(new_discount);
+    document.getElementById("grandtotal").value  =(parseFloat(selling_price) * parseFloat(qty))-parseFloat(new_discount);
+}
+
+function isNumberKey(txt, evt){
+   var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode == 46) {
+        //Check if the text already contains the . character
+        if (txt.value.indexOf('.') === -1) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        if (charCode > 31
+             && (charCode < 48 || charCode > 57))
+            return false;
+    }
+    return true;
+}
+
+function saveAll(){
+	var data = $("#saveAll").serialize();
+	var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/save_sales";
+    var conf = confirm('Are you sure you want to save this Sales?');
+    if(conf){
+	    $.ajax({
+	        data: data,
+	        type: "POST",
+	        url: redirect,
+	        beforeSend: function(){
+	        	document.getElementById('alt').innerHTML='<b>Please wait, Saving Data...</b>'; 
+                $("#submitdata").hide(); 
+	        },
+	        success: function(output){
+	        	window.location=loc+'sales/goods_print_sales/'+output;  
+	        }
+	    }); 
+    }	 
 }

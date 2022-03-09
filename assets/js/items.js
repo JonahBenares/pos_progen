@@ -270,9 +270,6 @@ function readPic1(input) {
     var pnformat =document.getElementById('pn_format').value;
     frm.append('pnformat', pnformat);
 
-    var selling_price =document.getElementById('selling_price').value;
-    frm.append('selling_price', selling_price);
-
     var img1 = document.getElementById('img1');
     frm.append('img1', img1.files[0]);
   
@@ -462,4 +459,10 @@ function chooseCategory(){
               
            }
     }); 
+}
+
+function confirmationDelete(anchor){
+     var conf = confirm('Are you sure you want to delete this record?');
+     if(conf)
+     window.location=anchor.attr("href");
 }

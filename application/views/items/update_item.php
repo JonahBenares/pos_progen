@@ -1,5 +1,5 @@
-<script src="<?php echo base_url(); ?>assets/js/items.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/items.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -189,7 +189,7 @@
                                         </div>
                                     </div>
                                 </div>                            
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-6">
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Highest Cost</label>
                                         <div class="col-sm-9">
@@ -198,13 +198,13 @@
                                                   <span class="input-group-text bg-gradient-info text-white">₱</span>
                                                 </div>
                                                 <input type="text" name="selling_price" id="selling_price" class="form-control" value='<?php echo $i->selling_price; ?>'>
-                                                <!-- <div class="input-group-append">
+                                                <div class="input-group-append">
                                                   <span class="input-group-text">.00</span>
-                                                </div> -->
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>  
                             <hr>
                             <h4 class="card-title">Add Image</h4>

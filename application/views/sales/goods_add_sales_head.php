@@ -130,7 +130,7 @@
                                                 <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
                                                 <input type='button' class="btn btn-gradient-primary btn-sm btn-block btn-rounded" id="proc" onclick="proceed_sales()" value="Proceed">
                                                 <input type='button' class="btn btn-gradient-danger btn-sm btn-block btn-rounded" id="cancel" onclick="cancel_sale()" value="Cancel Transaction" style='display: none;font-size: 10px;'>
-                                                <input type="hidden" name="sales_good_head_id" id="sales_good_head_id">
+                                                <input type="hidden" name="sales_good_head_id" id="sales_good_head_id" form="saveAll">
                                             </div>
                                         </div>
                                     </div>                                
@@ -187,7 +187,18 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
+        <form id="saveAll"></form>
+        <br> 
+        <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <!-- <a href="<?php echo base_url(); ?>sales/goods_print_sales" class="btn btn-gradient-success btn-md btn-block">Save and Print</a> -->
+                <div id='alt' style="font-weight:bold"></div>
+                <input type="button" id="submitdata" class="btn btn-gradient-success btn-md btn-block" onclick="saveAll();" value="Save and Print">
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
     </div>
 </div>
         

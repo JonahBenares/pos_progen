@@ -88,7 +88,7 @@
 
         <div class="customer_records" id='myDIV' style='display: none;'>
             <br>
-            <div class="row" >
+            <div class="row" id="append_pr1">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
@@ -97,7 +97,7 @@
                                     <br>
                                     <h3 class="page-title">
                                         <span class="page-title-icon bg-gradient-primary text-white mr-2 item-block" >
-                                            <span id='PRcount' ><b><h4 class="m-0" style="padding-top:6px">01</h4></b></span>
+                                            <span id='PRcount1' class='prcnt'><b><h4 class="m-0" style="padding-top:6px">01</h4></b></span>
                                         </span>
                                     </h3>
                                 </div>
@@ -112,7 +112,9 @@
                                         <label for="exampleInputEmail3">Department</label>
                                         <select class="form-control" name='department1' id='department1' onchange="updateDetailsDD(this.value, this.id)">
                                             <option>-Select Department-</option>
-                                            <option value='1'>department</option>
+                                            <?php foreach($department AS $d){ ?>
+                                                <option value='<?php echo $d->department_id; ?>'><?php echo $d->department_name; ?></option>
+                                            <?php } ?>
                                         </select>
                                     </div>
                                 </div>
@@ -123,7 +125,9 @@
                                         <label for="exampleInputEmail3">Purpose</label>
                                         <select class="form-control " name='purpose1' id='purpose1' onchange="updateDetailsDD(this.value, this.id)">
                                             <option>-Select Purpose-</option>
-                                            <option value='2'>purpose</option>
+                                            <?php foreach($purpose AS $p){ ?>
+                                                <option value='<?php echo $p->purpose_id; ?>'><?php echo $p->purpose_desc; ?></option>
+                                            <?php } ?>
                                         </select>
                                     </div>
                                 </div>   
@@ -132,25 +136,27 @@
                                         <label for="exampleTextarea1">Inspected by</label>
                                         <select class="form-control " name='inspected1' id='inspected1'  onchange="updateDetailsDD(this.value, this.id)">
                                             <option>-Select Inspected by-</option>
-                                            <option value='3 '>inspected</option>
+                                            <?php foreach($employees AS $e){ ?>
+                                                <option value='<?php echo $e->employee_id; ?>'><?php echo $e->employee_name; ?></option>
+                                            <?php } ?>
                                         </select>
                                         <input type='hidden' name='receive_id' id='receive_id'>
                                         <input type='hidden' name='rd_id1' id='rd_id1'>
                                     </div>
                                 </div>                             
                             </div>
-                            <div class="row">
+                            <div class="row prrow1">
                                 <div class="col-lg-12">
                                   <!--   <button class="btn btn-gradient-primary btn-xs pull-right " onclick="add_receive_items('<?php echo base_url(); ?>')" name="">
                                         <span class="mdi mdi-plus"></span> Add Item
                                     </button>   -->
-                                    <div id ="myButton1"></div>
+                                    <div id ="myButton1" class='bttn'></div>
                                 </div>      
                                 <br>
                                 <br>             
                                 <div class="col-lg-12">
                                     <div > <!-- style="width:100%;overflow-x: scroll;" -->
-                                        <table id="table-alt" class="table-bordered" width="100%">
+                                        <table id="table-item1" class="table-bordered " width="100%">
                                             <thead>
                                             <tr>
                                                 <td class="td-head" width="15%">Item Description</td>
@@ -165,7 +171,7 @@
                                                 <td class="td-head" width="">Exp Date</td>
                                                 <td class="td-head" width="">Local/ Manila</td>
                                                 <td class="td-head" width="2%">
-                                                    <span class="mdi mdi-menu"></span>
+                                                    <a class="mdi mdi-menu"></a>
                                                 </td>
                                             </tr>
                                          </thead>
@@ -193,8 +199,8 @@
                 <div class="col-lg-3 offset-lg-3">
                     <button class="btn btn-gradient-primary btn-md btn-block addPR">Add PR</button>
                 </div>
-                <div class="col-lg-3">
-                    <a href="<?php echo base_url(); ?>receive/print_receive" class="btn btn-gradient-success btn-md btn-block">Save and Print</a>
+                <div class="col-lg-3" id='savebttn'>
+                    <!-- <a href="#" class="btn btn-gradient-success btn-md btn-block">Save and Print</a> -->
                 </div>
                 <div class="col-lg-3"></div>
             </div>
