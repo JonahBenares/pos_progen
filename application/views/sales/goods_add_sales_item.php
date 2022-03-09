@@ -16,7 +16,7 @@
                                         <select class="form-control" name="item" id="item" onclick="item_append();">
                                             <option value="">-Select Item-</option>
                                             <?php foreach($fifo_in AS $fi){ ?>
-                                                <option value="<?php echo $fi['in_id']; ?>"><?php echo $fi['original_pn']." - ".$fi['item_name']; ?></option>
+                                                <option value="<?php echo $fi['in_id']; ?>"><?php echo $fi['item_name']; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>

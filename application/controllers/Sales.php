@@ -99,7 +99,7 @@ class Sales extends CI_Controller {
    
     public function goods_add_sales_item(){
         $data['sales_good_head_id']=$this->uri->segment(3);
-        foreach($this->super_model->select_custom_where("fifo_in","remaining_qty!='0' ORDER BY receive_date ASC") AS $fi){
+        foreach($this->super_model->select_custom_where("fifo_in","remaining_qty!='0' GROUP BY item_id ORDER BY receive_date ASC") AS $fi){
             $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$fi->item_id);
             $item_name = $this->super_model->select_column_where("items","item_name","item_id",$fi->item_id);
             $unit_cost = $this->super_model->select_column_custom_where("receive_items","item_cost","item_id='$fi->item_id' AND ri_id = '$fi->ri_id'");

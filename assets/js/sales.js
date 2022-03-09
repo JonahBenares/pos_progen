@@ -117,8 +117,8 @@ function item_append(){
         dataType: "json",
         success: function(response){
             document.getElementById("serial_no").value = response.serial_no;
-            document.getElementById("unit_cost").value = response.unit_cost;
-            document.getElementById("quantity").value = response.quantity;
+            //document.getElementById("unit_cost").value = response.unit_cost;
+            //document.getElementById("quantity").value = response.quantity;
             document.getElementById("uom").value = response.unit;
             document.getElementById("group_id").value = response.group_id;
         }
