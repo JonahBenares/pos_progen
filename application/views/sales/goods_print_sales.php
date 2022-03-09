@@ -64,52 +64,53 @@
                         <br>
                     </td>
                 </tr>
+                <?php foreach($sales_head AS $sh){ ?>
                 <tr>
                     <td colspan="3"></td>
                     <td colspan="11" class=""></td>
-                    <td colspan="6" align="right"><h5 style="color:blue"><b>DR-2552554028</b></h5></td>
+                    <td colspan="6" align="right"><h5 style="color:blue"><b><?php echo $sh['dr_no'];?></b></h5></td>
                 </tr>
                 <tr>
                     <td colspan="3"></td>
                     <td colspan="10"></td>
                     <td colspan="1"></td>
                     <td colspan="2" align="right">Date: &nbsp;</td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1"><?php echo $sh['sales_date'];?></td>
                 </tr> 
                 <tr>
                     <td colspan="3">Client:</td>
-                    <td colspan="10" class="bor-btm1"></td>
+                    <td colspan="10" class="bor-btm1"><?php echo $sh['client'];?></td>
                     <td colspan="1"></td>
                     <td colspan="2" align="right">TIN: &nbsp;</td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1"><?php echo $sh['tin'];?></td>
                 </tr>               
                 <tr>
                     <td colspan="3">Address:</td>
-                    <td colspan="10" class="bor-btm1"></td>
+                    <td colspan="10" class="bor-btm1"><?php echo $sh['address'];?></td>
                     <td colspan="1"></td>
                     <td colspan="2" align="right">VAT: &nbsp;</td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1"><?php echo ($sh['vat']==1) ? 'Vatable' : 'Non-Vatable';?></td>
                 </tr>
                 <tr>
                     <td colspan="3">Contact Person:</td>
-                    <td colspan="10" class="bor-btm1"></td>
+                    <td colspan="10" class="bor-btm1"><?php echo $sh['contact_person'];?></td>
                     <td colspan="1"></td>
                     <td colspan="2" align="right">Contact No: &nbsp;</td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1"><?php echo $sh['contact_no'];?></td>
                 </tr>
                 <tr>
                     <td colspan="3">PGC <b>PR </b>No:</td>
-                    <td colspan="10" class="bor-btm1"></td>
+                    <td colspan="10" class="bor-btm1"><?php echo $sh['pr_no'];?></td>
                     <td colspan="1"></td>
                     <td colspan="2" align="right">PR Date: &nbsp;</td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1"><?php echo $sh['pr_date'];?></td>
                 </tr>
                 <tr>
                     <td colspan="3">PGC <b>PO </b>No:</td>
-                    <td colspan="10" class="bor-btm1"></td>
+                    <td colspan="10" class="bor-btm1"><?php echo $sh['po_no'];?></td>
                     <td colspan="1"></td>
                     <td colspan="2" align="right">PO Date: &nbsp;</td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1"><?php echo $sh['po_date'];?></td>
                 </tr>
                <!--  <tr>
                     <td colspan="3"></td>
@@ -133,156 +134,18 @@
                                 <td width="8%">Discount</td>
                                 <td width="12%">Total Price</td>
                             </tr>
+                            <?php foreach($sales_details AS $sd){ ?>
                             <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td><?php echo $sd['original_pn'];?></td>
+                                <td><?php echo $sd['item'];?></td>
+                                <td><?php echo $sd['serial_no'];?></td>
+                                <td><?php echo $sd['quantity'];?></td>
+                                <td><?php echo $sd['uom'];?></td>
+                                <td align="center"><?php echo number_format($sd['selling_price'],2);?></td>
+                                <td align="center"><?php echo number_format($sd['discount'],0)."%";?></td>
+                                <td><?php echo number_format($sd['total'],2);?></td>
                             </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            <?php } ?>
                         </table>
                     </td>
                 </tr>
@@ -291,7 +154,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">Remarks:</td>
-                    <td colspan="18" class="bor-btm1"></td>
+                    <td colspan="18" class="bor-btm1"><?php echo nl2br($sh['remarks']);?></td>
                 </tr>
                 <!-- <tr>
                     <td colspan="2">Shipped via:</td>
@@ -317,11 +180,11 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td colspan="5" class="bor-btm1" align="center">Mary Grace Bugna</td>
+                    <td colspan="5" class="bor-btm1" align="center"></td>
                     <td></td>
-                    <td colspan="5" class="bor-btm1" align="center">Jordan T. Yap</td>
+                    <td colspan="5" class="bor-btm1" align="center"></td>
                     <td></td>
-                    <td colspan="6" class="bor-btm1" align="center">Merry Michelle D. Dato</td>
+                    <td colspan="6" class="bor-btm1" align="center"></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -351,7 +214,7 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td colspan="5" class="bor-btm1" align="center">Mary Grace Bugna</td>
+                    <td colspan="5" class="bor-btm1" align="center"></td>
                     <td></td>
                     <td colspan="5"></td>
                     <td></td>
@@ -367,6 +230,7 @@
                     <td colspan="6" align="center" style="vertical-align:text-top;">Signature over Printed Name</td>
                     <td></td>
                 </tr>
+                <?php } ?>
             </table>
         </page>
     </div>

@@ -88,7 +88,7 @@
 
         <div class="customer_records" id='myDIV' style='display: none;'>
             <br>
-            <div class="row" >
+            <div class="row" id="append_pr1">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
