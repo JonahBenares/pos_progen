@@ -48,7 +48,7 @@
                                     <th width="5%"> UOM </th>
                                     <th width="10%"> Locationn </th>
                                     <th width="10%"> Rack </th>
-                                    <th width="10%"> Price </th>
+                                    <th width="10%"> Highest Cost </th>
                                     <th width="10%"><center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>    
@@ -63,10 +63,10 @@
                                     <td><?php echo $itm['uom']?></td>
                                     <td><?php echo $itm['location'];?></td>
                                     <td><?php echo $itm['rack'];?></td>
-                                    <td><?php echo $itm['selling_price'];?></td>
+                                    <td><?php echo $itm['highest_cost'];?></td>
                                     <td align="center">
                                         <a href="<?php echo base_url(); ?>index.php/items/update_item/<?php echo $itm['item_id'];?>" class="btn btn-xs btn-gradient-info btn-rounded" data-toggle="tooltip" data-placement="top" title="Update"><span class="mdi mdi-pencil"></span></a>
-                                        <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Delete"><span class="mdi mdi-delete"></span></a>
+                                        <a href="<?php echo base_url(); ?>index.php/items/delete_item/<?php echo $itm['item_id'];?>" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Delete" onclick="confirmationDelete(this);return false;"><span class="mdi mdi-delete"></span></a>
                                         <a  href="<?php echo base_url(); ?>index.php/items/view_item/<?php echo $itm['item_id'];?>" class="btn btn-xs btn-gradient-warning btn-rounded" data-toggle="tooltip" data-placement="top" title="View"><span class="mdi mdi-eye"></span></a>
                                         <!-- <a href="<?php echo base_url(); ?>items/damage_item" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Damage"><span class="mdi mdi-playlist-remove"></span></a> -->
                                     </td>
