@@ -1,6 +1,6 @@
 
 $('.addPR').click(function() {
-
+    var loc= document.getElementById("baseurl").value;
     var conf = confirm('Are you sure you want to add another PR?');
     if(conf){
 
@@ -8,10 +8,10 @@ $('.addPR').click(function() {
              count++;
            
             $('.customer_records').clone().appendTo('.customer_records_dynamic'+count);
-             $('.customer_records_dynamic'+count+' .customer_records').addClass('single remove');
-            $('.single .extra-fields-customer').remove();
-            $('.single').append('<a href="" class=" remove-field btn-remove-customer btn btn-sm btn-inverse-secondary btn-block btn-round"><span class="mdi mdi-window-close"></span> Remove PR</a>');
-            $('.customer_records_dynamic'+count+' > .single').attr("class", "remove");
+            $('.customer_records_dynamic'+count+' .customer_records').addClass('single remove');
+            //$('.single .extra-fields-customer').remove();
+            //$('.single').append('<a href="" class=" remove-field btn-remove-customer btn btn-sm btn-inverse-secondary btn-block btn-round"><span class="mdi mdi-window-close"></span> Remove PR</a>');
+            //$('.customer_records_dynamic'+count+' > .single').attr("class", "remove");
            
 
             $('.customer_records_dynamic'+count+' input').each(function() {
@@ -69,7 +69,6 @@ $('.addPR').click(function() {
                 var spid = spanid.slice(0, -1);
                 $(this).attr('id', spid + count);
                 $("#"+spid+count).html("0"+count);
-
          });
 
         
@@ -85,7 +84,8 @@ $('.addPR').click(function() {
                 type: "POST",
                 url: redirect,
                 success: function(output){
-                      
+                    $('.single').append('<button onclick="remove_pr('+output+','+count+')" class=" remove-field btn-remove-customer btn btn-sm btn-inverse-secondary btn-block btn-round"><span class="mdi mdi-window-close"></span> Remove PR</button>');
+                    $('.customer_records_dynamic'+count+' > .single').attr("class", "remove");
                     document.getElementById("rd_id"+count).value=output;
                     var loc= document.getElementById("baseurl").value;
                    
@@ -108,10 +108,23 @@ $('.addPR').click(function() {
   
 });
 
-$(document).on('click', '.remove-field', function(e) {
+function remove_pr(rd_id,count){
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"receive/removePR";
+    $.ajax({
+        data: 'rd_id='+rd_id,
+        type: "POST",
+        url: redirect,
+        success: function(output){
+            $('.customer_records_dynamic'+count).load(loc+"receive/add_receive_head .customer_records_dynamic"+count+"");
+        }
+    });  
+}
+
+/*$(document).on('click', '.remove-field', function(e) {
   $(this).parent('.remove').remove();
   e.preventDefault();
-});
+});*/
 
 
 function proceed(){
@@ -274,4 +287,17 @@ function savePR(loc, receive_id){
       
     });
 
+}
+
+function delete_receive_item(ri_id,count){
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"receive/delete_item";
+    $.ajax({
+        data: 'ri_id='+ri_id,
+        type: "POST",
+        url: redirect,
+        success: function(output){
+            $('#load_data'+count).load(loc+"receive/add_receive_head #load_data"+count+"");
+        }
+    });  
 }

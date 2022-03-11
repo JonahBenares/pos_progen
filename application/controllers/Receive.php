@@ -219,6 +219,7 @@ class Receive extends CI_Controller {
             $this->super_model->insert_into("fifo_in", $data_fifo);
 
             $x=1;
+            $count_item = $this->super_model->count_rows_where("receive_items","receive_id",$receive_id);
             foreach($this->super_model->custom_query("SELECT * FROM receive_items WHERE rd_id='$rd_id' ORDER BY ri_id DESC LIMIT 1") AS $app){
                 if($app->local_mnl == 1){
                     $mode = 'Local';
@@ -229,9 +230,15 @@ class Receive extends CI_Controller {
                 $item_name = $this->super_model->select_column_where("items","item_name","item_id",$app->item_id);
                 $supplier = $this->super_model->select_column_where("supplier","supplier_name","supplier_id",$app->supplier_id);
           
-                echo '<tr><td>'.$item_name.'</td><td>'.$supplier.'</td><td>'.$app->brand.'</td><td>'.$app->serial_no.'</td><td>'.$app->catalog_no.'</td><td>'.$app->item_cost.'</td><td>'.$app->expected_qty.'</td><td>'.$app->received_qty.'</td><td>'.$app->shipping_fee.'</td><td>'.$app->expiration_date.'</td><td>'.$mode.'</td>  <td><a href="" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
+                echo '<tr id="load_data'.$count_item.'"><td>'.$item_name.'</td><td>'.$supplier.'</td><td>'.$app->brand.'</td><td>'.$app->serial_no.'</td><td>'.$app->catalog_no.'</td><td>'.$app->item_cost.'</td><td>'.$app->expected_qty.'</td><td>'.$app->received_qty.'</td><td>'.$app->shipping_fee.'</td><td>'.$app->expiration_date.'</td><td>'.$mode.'</td>  <td><a onclick="delete_receive_item('.$app->ri_id.','.$count_item.')" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
+                $count_item++;
             }
         
+    }
+
+    public function delete_item(){
+        $ri_id = $this->input->post('ri_id');
+        $this->super_model->delete_where("receive_items", "ri_id", $ri_id);
     }
 
     public function removePR(){
