@@ -7,6 +7,7 @@
         <script src="<?php echo base_url(); ?>assets/js/receive.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/reports.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/sales.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/return.js"></script>
         <script src="<?php echo base_url(); ?>assets/vendors/js/vendor.bundle.base.js"></script>
         <!-- endinject -->
         <!-- Plugin js for this page -->

@@ -96,8 +96,9 @@ function save_item(){
 	        url: redirect, //Where form data is sent on submission
 	        data:data, //Form variables
 	        success:function(response){
+                //alert(response);
 	        	if (window.opener != null && !window.opener.closed) {
-	        		window.opener.$("#append_data").append(response);
+                    window.opener.$("#append_data").append(response);
 	        		//window.opener.document.getElementById("append_data").append(response);
 				}
 				window.close();
@@ -107,11 +108,15 @@ function save_item(){
 }
 
 function item_append(){
-    var item_id = document.getElementById("item").value;
+    var item_id = $('select#item option:selected').attr('mytag');
+    var in_id = document.getElementById("item").value;
+    /*var exp = explode.split(",");
+    var in_id = exp[0];
+    var item_id = exp[1];*/
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+"sales/item_info";
     $.ajax({
-        data: 'item_id='+item_id,
+        data: 'in_id='+in_id+'&item_id='+item_id,
         type: "POST",
         url: redirect,
         dataType: "json",
@@ -120,9 +125,29 @@ function item_append(){
             //document.getElementById("unit_cost").value = response.unit_cost;
             //document.getElementById("quantity").value = response.quantity;
             document.getElementById("uom").value = response.unit;
+            document.getElementById("item_id").value = response.item_id;
             document.getElementById("group_id").value = response.group_id;
         }
     });  
+}
+
+function qty_append(){
+    var item_id = $('select#item option:selected').attr('mytag');
+	var in_id = document.getElementById("item").value;
+    /*var exp = explode.split(",");
+    var in_id = exp[0];
+    var item_id = exp[1];*/
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/qty_info";
+    $.ajax({
+        data: 'in_id='+in_id+'&item_id='+item_id,
+        type: "POST",
+        url: redirect,
+        success: function(output){
+        	//alert(output);
+            document.getElementById("unit_cost").value = output;
+        }
+    }); 
 }
 
 function delete_sales_item(sales_good_det_id,count,quantity,in_id){

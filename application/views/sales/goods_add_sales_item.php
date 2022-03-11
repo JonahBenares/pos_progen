@@ -13,10 +13,10 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label >Item Description</label>
-                                        <select class="form-control" name="item" id="item" onclick="item_append();">
+                                        <select class="form-control" name="item" id="item" onchange="item_append();">
                                             <option value="">-Select Item-</option>
                                             <?php foreach($fifo_in AS $fi){ ?>
-                                                <option value="<?php echo $fi['in_id']; ?>"><?php echo $fi['item_name']; ?></option>
+                                                <option value="<?php echo $fi['in_id']; ?>" myTag='<?php echo $fi['item_id']; ?>'><?php echo $fi['item_name']; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -24,7 +24,7 @@
                                         <div class="col-lg-6 col-sm-6 col-md-6">
                                             <div class="form-group">
                                                 <label >Qty</label>
-                                                <input type="text" class="form-control amount-txt" name="quantity" id="quantity" placeholder="00">
+                                                <input type="text" class="form-control amount-txt" onblur='qty_append();' onkeyup='changePrice()' name="quantity" id="quantity" placeholder="00">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-sm-6 col-md-6">
@@ -68,6 +68,7 @@
                                     <div class="pull-risght">
                                         <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
                                         <input type="hidden" name="group_id" id="group_id">
+                                        <input type="hidden" name="item_id" id="item_id">
                                         <input type="hidden" name="discount_amount" id="discount_amount">
                                         <input type="hidden" name="sales_good_head_id" value="<?php echo $sales_good_head_id; ?>">
                                         <input type="button" class="btn btn-gradient-primary btn-md btn-block" value="Add Item" onclick="save_item();">

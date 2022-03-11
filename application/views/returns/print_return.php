@@ -70,10 +70,11 @@
                         <br>
                     </td>
                 </tr>
+                <?php foreach($head AS $h){ ?>
                 <tr>
                     <td></td>
                     <td colspan="2">JOR/PR No:</td>
-                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="8" class="bor-btm1"><?php echo $h['pr_no']; ?></td>
                     <td></td>
                     <td colspan="3"></td>
                     <td colspan="4"></td>
@@ -82,22 +83,23 @@
                 <tr>
                     <td></td>
                     <td colspan="2">Purpose:</td>
-                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="8" class="bor-btm1"><?php echo $h['purpose']; ?></td>
                     <td></td>
                     <td colspan="3">Date:</td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1"><?php echo $h['date']; ?></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td colspan="2">Department:</td>
-                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="8" class="bor-btm1"><?php echo $h['department']; ?></td>
                     <td></td>
                     <td colspan="3">DR No. :</td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1"><?php echo $h['dr_no']; ?></td>
                     <td></td>
                 </tr>
-                <tr>
+                <?php } ?>
+                <!-- <tr>
                     <td></td>
                     <td colspan="2">Enduse:</td>
                     <td colspan="8" class="bor-btm1"></td>
@@ -105,7 +107,7 @@
                     <td colspan="3"></td>
                     <td colspan="4" class=""></td>
                     <td></td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td colspan="20" align="center"><br><br></td>
                 </tr>
@@ -126,84 +128,21 @@
                                 <td width="5%" align="center">Total Cost</td>
                                 <td width="10%" align="center">Inv. Balance</td>
                             </tr>
+                            <?php $x=1; foreach($details AS $d){ ?>
                             <tr>
-                                <td align="center">1</td>
-                                <td align="center">2.00</td>
-                                <td align="center">pc/s</td>
-                                <td align="center">PRO-PF 5-23</td>
-                                <td align="left">&nbsp;Compression Ring, PF 5-23</td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center">0.00</td>
-                                <td align="center">0.00</td>
-                                <td align="center">26</td>
-                            </tr>   
-                            <tr>
-                                <td align="center"><br></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                            </tr>  
-                            <tr>
-                                <td align="center"><br></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                            </tr>  
-                            <tr>
-                                <td align="center"><br></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                            </tr>  
-                            <tr>
-                                <td align="center"><br></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                            </tr>  
-                            <tr>
-                                <td align="center"><br></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                            </tr>   
+                                <td align="center"><?php echo $x; ?></td>
+                                <td align="center"><?php echo $d['quantity']; ?></td>
+                                <td align="center"><?php echo $d['unit']; ?></td>
+                                <td align="center"><?php echo $d['original_pn']; ?></td>
+                                <td align="left">&nbsp;<?php echo $d['item']; ?></td>
+                                <td align="center"><?php echo $d['brand']; ?></td>
+                                <td align="center"><?php echo $d['serial_no']; ?></td>
+                                <td align="center"><?php echo $d['remarks']; ?></td>
+                                <td align="center"><?php echo number_format($d['unit_cost'],2); ?></td>
+                                <td align="center"><?php echo number_format($d['total'],2); ?></td>
+                                <td align="center"><?php echo $d['remaining_qty']; ?></td>
+                            </tr>
+                            <?php $x++; } ?>
                         </table>
                     </td>
                     <td></td>
@@ -243,11 +182,11 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td colspan="5">Mary Grace Bugna</td>
+                    <td colspan="5"></td>
                     <td></td>
-                    <td colspan="5">Jordan T. Yap</td>
+                    <td colspan="5"></td>
                     <td></td>
-                    <td colspan="6">Merry Michelle D. Dato</td>
+                    <td colspan="6"></td>
                     <td></td>
                 </tr>
                 <tr>
