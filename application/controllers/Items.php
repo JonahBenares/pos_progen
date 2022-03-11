@@ -464,13 +464,42 @@ class Items extends CI_Controller {
          }
      }
 
+    public function transactions($itemid,$supplierid,$catalogno){
+        $fifo_in= $this->super_model->select_sum_where("fifo_in", "quantity", "item_id='$itemid' AND catalog_no = '$catalogno'");
+
+         $balance=$fifo_in;
+         return $balance;
+    }
+
     public function view_item(){
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $row=$this->super_model->count_rows("items");
-        
+        $row1=$this->super_model->count_rows_where("fifo_in","item_id",$id);
+        if($row1!=0){
+          
+
+            foreach($this->super_model->select_row_where('fifo_in','item_id', $id) AS $in){
+                $balance= $this->transactions($id,$in->supplier_id,$in->catalog_no);
+
+                        $data['fifo_in'][] = array( 
+                            'item_id'=>$in->item_id,
+                            'supplier_id'=>$in->supplier_id,
+                            'catalog_no'=>$in->catalog_no,
+                            'brand'=>$in->brand,
+                            'serial_no'=>$in->serial_no,
+                            'item_cost'=>$in->item_cost,
+                            'quantity'=>$balance,
+                            'supplier'=>$this->super_model->select_column_where('supplier', 'supplier_name','supplier_id', $in->supplier_id),
+                        );
+                } 
+            } 
+        else{
+            $data['fifo_in'] = array();
+        }
+
         if($row!=0){
             foreach($this->super_model->select_row_where('items', 'item_id', $id) AS $det){
                 $highest_cost=$this->super_model->get_max_where("fifo_in", "item_cost","item_id=$det->item_id");

@@ -157,7 +157,7 @@
         </div>
         <div class="row">
             <div class="col-lg-5"><br><hr></div>
-            <div class="col-lg-2"><center><br><span style="color:#aeaeae;font-size: 13px;">CROSS REFERENCE</span></center></div>
+            <div class="col-lg-2"><center><br><span style="color:#aeaeae;font-size: 13px;">RECEIVE TRANSACTIONS</span></center></div>
             <div class="col-lg-5"><br><hr></div>
         </div>
         <div class="row">
@@ -171,7 +171,7 @@
                                         <button type="button" class="btn btn-gradient-warning btn-icon">
                                             <i class="mdi mdi-swap-horizontal"></i>
                                         </button> 
-                                        Cross Reference
+                                        Receive Transactions
                                     </h3>
                                 </div>
                                 <hr>
@@ -196,93 +196,29 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                            <?php 
+                                                if(!empty($fifo_in)) {
+                                                foreach($fifo_in AS $in){ ?>
                                                 <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <!-- <td></td>
-                                                    <td></td> -->
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td><?php echo $in['supplier'];?></td>
+                                                    <td><?php echo $in['catalog_no'];?></td>
+                                                    <td><?php echo $in['brand'];?></td>
+                                                    <td><?php echo $in['serial_no'];?></td>
+                                                    <td><?php echo $in['item_cost'];?></td>
+                                                    <td><?php echo $in['quantity'];?></td>
                                                     <td></td>
                                                     <td align="center">
                                                         <a href="<?php echo base_url(); ?>reports/stock_card" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
                                                     </td>
                                                 </tr>
+                                            <?php } } else { ?>
                                                 <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <!-- <td></td>
-                                                    <td></td> -->
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td align="center">
-                                                        <a href="<?php echo base_url(); ?>reports/stock_card" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
-                                                    </td>
+                                                <td colspan='10'><center>No data available.</center></td>
                                                 </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                   <!--  <td></td>
-                                                    <td></td> -->
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td align="center">
-                                                        <a href="<?php echo base_url(); ?>reports/stock_card" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <!-- <td></td>
-                                                    <td></td> -->
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td align="center">
-                                                        <a href="<?php echo base_url(); ?>reports/stock_card" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <!-- <td></td>
-                                                    <td></td> -->
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td align="center">
-                                                        <a href="<?php echo base_url(); ?>reports/stock_card" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <!-- <td></td>
-                                                    <td></td> -->
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td align="center">
-                                                        <a href="<?php echo base_url(); ?>reports/stock_card" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>                            
+                                            <?php } ?>
+                                            </tbody>                          
                                         </table>
-                                        <?php } ?>
+                                         <?php } ?>
                                     </div>
                                 </div>
                             </div>                            
