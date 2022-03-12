@@ -99,20 +99,20 @@ class Sales extends CI_Controller {
    
     public function goods_add_sales_item(){
         $data['sales_good_head_id']=$this->uri->segment(3);
-        foreach($this->super_model->select_custom_where("fifo_in","remaining_qty!='0' ORDER BY receive_date ASC") AS $fi){
+        foreach($this->super_model->select_custom_where("fifo_in","remaining_qty!='0' GROUP BY item_id ORDER BY receive_date ASC") AS $fi){
             $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$fi->item_id);
             $item_name = $this->super_model->select_column_where("items","item_name","item_id",$fi->item_id);
-            $unit_cost = $this->super_model->select_column_custom_where("receive_items","item_cost","item_id='$fi->item_id' AND ri_id = '$fi->ri_id'");
             $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$fi->item_id);
             $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
             $expire = date("Y-m-d",strtotime($fi->expiry_date));
             $today = date("Y-m-d");
             if($expire > $today || $fi->expiry_date==''){
                 $data['fifo_in'][]= array(
+                    'item_id'=>$fi->item_id,
                     'in_id'=>$fi->in_id,
                     'original_pn'=>$original_pn,
                     'item_name'=>$item_name,
-                    'unit_cost'=>$unit_cost,
+                    'unit_cost'=>$fi->item_cost,
                     'unit'=>$unit,
                     'serial_no'=>$fi->serial_no,
                     'remaining_qty'=>$fi->remaining_qty,
@@ -125,15 +125,24 @@ class Sales extends CI_Controller {
     }
 
     public function item_info(){
+        $in_id=$this->input->post('in_id');
         $item_id=$this->input->post('item_id');
-        foreach($this->super_model->select_row_where("fifo_in","in_id",$item_id) AS $itm){
-            $unit_cost = $this->super_model->select_column_custom_where("receive_items","item_cost","item_id='$itm->item_id' AND ri_id = '$itm->ri_id'");
+        foreach($this->super_model->select_row_where("fifo_in","in_id",$in_id) AS $itm){
             $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$itm->item_id);
             $group_id = $this->super_model->select_column_where("items","group_id","item_id",$itm->item_id);
             $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
-            $return = array('serial_no'=>$itm->serial_no, 'unit_cost'=>$unit_cost, 'quantity'=>$itm->remaining_qty, 'unit'=>$unit, 'group_id'=>$group_id);
+            $return = array('serial_no'=>$itm->serial_no, 'unit_cost'=>$itm->item_cost, 'quantity'=>$itm->remaining_qty, 'unit'=>$unit, 'group_id'=>$group_id, 'item_id'=>$item_id);
         }
         echo json_encode($return);
+    }
+
+    public function qty_info(){
+        $item_id=$this->input->post('item_id');
+        $in_id=$this->input->post('in_id');
+        foreach($this->super_model->select_custom_where("fifo_in","item_id = '$item_id' AND in_id='$in_id'") AS $itm){
+            $max_cost = $this->super_model->get_max_where("fifo_in", "item_cost","item_id=$itm->item_id");;
+            echo $max_cost;
+        }
     }
 
     public function insert_items(){
