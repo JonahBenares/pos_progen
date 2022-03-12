@@ -181,18 +181,20 @@
                                             <thead>
                                                 <tr>                               
                                                                           
+                                                    <th width="10%"> Receive Date </th>
                                                     <th width="25%"> Supplier </th>
+                                                    <th width="15%"> PR No. </th>
                                                     <th width="10%"> Catalog No. </th>
                                                     <!-- <th width="5%"> NKK No. </th>
                                                     <th width="5%"> SEMT No. </th> -->
                                                     <th width="10%"> Brand </th>
                                                     <th width="10%"> Serial No </th>
-                                                    <th width="10%"> Average Cost per Supplier </th>
+                                                    <th width="10%"> Expiration Date </th>
+                                                    <th width="10%"> Item Cost</th>
                                                     <th width="5%"> Qty </th>
-                                                    <th width="10%"> Last Item received </th>
-                                                    <th width="5%">
+                                                    <!-- <th width="5%">
                                                         <center><span class="mdi mdi-menu"></span></center>
-                                                    </th>
+                                                    </th> -->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -200,16 +202,18 @@
                                                 if(!empty($fifo_in)) {
                                                 foreach($fifo_in AS $in){ ?>
                                                 <tr>
+                                                    <td><?php echo date("M j, Y",strtotime($in['receive_date']));?></td>
                                                     <td><?php echo $in['supplier'];?></td>
+                                                    <td><?php echo $in['pr_no'];?></td>
                                                     <td><?php echo $in['catalog_no'];?></td>
                                                     <td><?php echo $in['brand'];?></td>
                                                     <td><?php echo $in['serial_no'];?></td>
+                                                    <td><?php echo date("M j, Y",strtotime($in['expiry_date']));?></td>
                                                     <td><?php echo $in['item_cost'];?></td>
                                                     <td><?php echo $in['quantity'];?></td>
-                                                    <td></td>
-                                                    <td align="center">
+                                                    <!-- <td align="center">
                                                         <a href="<?php echo base_url(); ?>reports/stock_card" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
-                                                    </td>
+                                                    </td> -->
                                                 </tr>
                                             <?php } } else { ?>
                                                 <tr>

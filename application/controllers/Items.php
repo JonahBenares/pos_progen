@@ -464,13 +464,6 @@ class Items extends CI_Controller {
          }
      }
 
-    public function transactions($itemid,$supplierid,$catalogno){
-        $fifo_in= $this->super_model->select_sum_where("fifo_in", "quantity", "item_id='$itemid' AND catalog_no = '$catalogno'");
-
-         $balance=$fifo_in;
-         return $balance;
-    }
-
     public function view_item(){
         $data['id']=$this->uri->segment(3);
         $id=$this->uri->segment(3);
@@ -482,16 +475,17 @@ class Items extends CI_Controller {
           
 
             foreach($this->super_model->select_row_where('fifo_in','item_id', $id) AS $in){
-                $balance= $this->transactions($id,$in->supplier_id,$in->catalog_no);
-
                         $data['fifo_in'][] = array( 
                             'item_id'=>$in->item_id,
+                            'receive_date'=>$in->receive_date,
                             'supplier_id'=>$in->supplier_id,
+                            'pr_no'=>$in->pr_no,
                             'catalog_no'=>$in->catalog_no,
                             'brand'=>$in->brand,
                             'serial_no'=>$in->serial_no,
+                            'expiry_date'=>$in->expiry_date,
                             'item_cost'=>$in->item_cost,
-                            'quantity'=>$balance,
+                            'quantity'=>$in->quantity,
                             'supplier'=>$this->super_model->select_column_where('supplier', 'supplier_name','supplier_id', $in->supplier_id),
                         );
                 } 
