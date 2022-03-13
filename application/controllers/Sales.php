@@ -99,7 +99,7 @@ class Sales extends CI_Controller {
    
     public function goods_add_sales_item(){
         $data['sales_good_head_id']=$this->uri->segment(3);
-        foreach($this->super_model->select_custom_where("fifo_in","remaining_qty!='0' GROUP BY item_id ORDER BY receive_date ASC") AS $fi){
+        foreach($this->super_model->select_custom_where("fifo_in","remaining_qty!='0' GROUP BY item_id") AS $fi){
             $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$fi->item_id);
             $item_name = $this->super_model->select_column_where("items","item_name","item_id",$fi->item_id);
             $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$fi->item_id);
@@ -138,19 +138,59 @@ class Sales extends CI_Controller {
 
     public function qty_info(){
         $item_id=$this->input->post('item_id');
-        $in_id=$this->input->post('in_id');
-        foreach($this->super_model->select_custom_where("fifo_in","item_id = '$item_id' AND in_id='$in_id'") AS $itm){
-            $max_cost = $this->super_model->get_max_where("fifo_in", "item_cost","item_id=$itm->item_id");;
-            echo $max_cost;
+        $qty=$this->input->post('qty');
+       
+        $now =date("Y-m-d");
+      
+        $fifo=array();
+        $deduct_temp=0;
+        $temp_qty=$qty;
+        $trigger=1;
+        $in_qty = $this->super_model->select_sum_where("fifo_in", "remaining_qty", "item_id = '$item_id' AND (expiry_date ='' or expiry_date >= '$now')"); 
+        $deduct_temp = $this->super_model->select_sum_where("temp_sales_out", "quantity", "item_id = '$item_id'");
+
+        $total_qty = $in_qty - $deduct_temp;
+        if($total_qty >= $qty){
+            foreach($this->super_model->select_custom_where("fifo_in","item_id = '$item_id' AND (expiry_date ='' or expiry_date >= '$now') ORDER BY receive_date ASC") AS $itm){
+                  
+                 if($temp_qty > 0){
+
+                    $temp_qty = $temp_qty - $itm->remaining_qty;
+                
+                    if($temp_qty>0){
+                        $quantity = $itm->remaining_qty;
+                    } else {
+                        $quantity = $itm->remaining_qty + $temp_qty;
+                    }
+                      $fifo[] = array(
+                        'in_id'=>$itm->in_id,
+                        'cost'=>$itm->item_cost,
+                        'temp_qty'=>$quantity
+                    );
+                   
+                  }
+                
+            }
+            $highest_cost = max(array_column($fifo, 'cost'));
+            echo $highest_cost;
+        } else {
+            echo 'error';
         }
+
+        //print_r($fifo);
     }
 
     public function insert_items(){
         $sales_good_head_id = $this->input->post('sales_good_head_id');
-        $in_id = $this->input->post('item');
-        $quantity = $this->input->post('quantity');
-        $remaining_qty = $this->super_model->select_column_where("fifo_in","remaining_qty","in_id",$in_id);
-        $new_qty = $remaining_qty - $quantity;
+         $in_id = $this->input->post('item');
+         $quantity = $this->input->post('quantity');
+         $now =date("Y-m-d");
+    /*   $sales_good_head_id = 1;
+        $in_id = 1;
+        $quantity = 7;*/
+        $temp_qty=$quantity;
+        $item_id = $this->super_model->select_column_where("fifo_in","item_id","in_id",$in_id);
+        //$new_qty = $remaining_qty - $quantity;
         $data=array(
             "sales_good_head_id"=>$sales_good_head_id,
             "in_id"=>$in_id,
@@ -162,7 +202,8 @@ class Sales extends CI_Controller {
             "total"=>$this->input->post('total_cost'),
             "quantity"=>$this->input->post('quantity'),
         );
-        if($this->super_model->insert_into("sales_good_details", $data)){
+        $details_id = $this->super_model->insert_return_id("sales_good_details", $data);
+
             $count_item = $this->super_model->count_rows_where("sales_good_details","sales_good_head_id",$sales_good_head_id);
             foreach($this->super_model->custom_query("SELECT * FROM sales_good_details WHERE sales_good_head_id='$sales_good_head_id' ORDER BY sales_good_det_id DESC LIMIT 1") AS $app){
                 $item_id = $this->super_model->select_column_where("fifo_in","item_id","in_id",$app->in_id);
@@ -175,41 +216,73 @@ class Sales extends CI_Controller {
                 $count_item++;
             } 
 
-            $dataup=array(
-                "remaining_qty"=>$new_qty,
-            );
-            $this->super_model->update_where("fifo_in", $dataup, "in_id", $in_id);
-        }
+           foreach($this->super_model->select_custom_where("fifo_in","item_id = '$item_id' AND (expiry_date ='' or expiry_date >= '$now') ORDER BY receive_date ASC") AS $itm){
+                  
+               
+                   if($temp_qty > 0){
+
+                        $temp_qty = $temp_qty - $itm->remaining_qty;
+                
+                        if($temp_qty>0){
+                            $q = $itm->remaining_qty;
+                        } else {
+                            $q = $itm->remaining_qty + $temp_qty;
+                        }
+                 
+                     
+                              $data_temp = array(
+                                'user_id'=>$_SESSION['user_id'],
+                                'sales_id'=>$sales_good_head_id,
+                                'sales_details_id'=>$details_id,
+                                'item_id'=>$item_id,
+                                'in_id'=>$itm->in_id,
+                                'quantity'=>$q
+                            );
+                          
+                        if($q!=0){
+                          $this->super_model->insert_into("temp_sales_out", $data_temp);
+                        }
+                   
+                  }
+                     
+            }
+          
+        
     }
 
     public function save_sales(){
         $sales_good_head_id = $this->input->post('sales_good_head_id');
-        foreach($this->super_model->select_custom_where("sales_good_details","sales_good_head_id='$sales_good_head_id'") AS $av){
-            $item_id = $this->super_model->select_column_where("fifo_in","item_id", "in_id", $av->in_id);
-            $sumcost = $this->super_model->select_sum_where("fifo_in", "item_cost", "item_id = '$item_id'");
-            $rowcount=$this->super_model->count_custom_where("fifo_in","item_id = '$item_id'");
-            $count_item=$rowcount;
-            $ave = $sumcost/$count_item;
-            $dataup=array(
-                "ave_cost"=>$ave,
+        $user_id = $_SESSION['user_id'];
+        foreach($this->super_model->select_custom_where("temp_sales_out","sales_id = '$sales_good_head_id' AND user_id = '$user_id'") AS $tmp){
+            $data = array(
+                'in_id'=>$tmp->in_id,
+                'item_id'=>$tmp->item_id,
+                'transaction_type'=>'Sales Goods',
+                'sales_id'=>$sales_good_head_id,
+                'sales_details_id'=>$tmp->sales_details_id,
+                'damage_id'=>0,
+                'quantity'=>$tmp->quantity,
+            );   
+
+            $this->super_model->insert_into("fifo_out",$data);
+
+            $rem_qty = $this->super_model->select_column_where("fifo_in", "remaining_qty", "in_id", $tmp->in_id);
+
+            $new_rem_qty = $rem_qty- $tmp->quantity;
+
+            $data_update = array(
+                'remaining_qty'=>$new_rem_qty
             );
-            if($this->super_model->update_where("sales_good_details", $dataup, "sales_good_det_id", $av->sales_good_det_id)){
-                $datasave=array(
-                    "saved"=>1,
-                );
-                if($this->super_model->update_where("sales_good_head", $datasave, "sales_good_head_id", $sales_good_head_id)){
-                    $dataout=array(
-                        'in_id'=>$av->in_id,
-                        'transaction_type'=>'Goods',
-                        'sales_id'=>$av->sales_good_head_id,
-                        'damage_id'=>0,
-                        'quantity'=>$av->quantity,
-                    );
-                    $this->super_model->insert_into("fifo_out", $dataout);
-                }
-            }
+            $this->super_model->update_where("fifo_in",$data_update, "in_id", $tmp->in_id);
+
+            $data_head = array(
+                'saved'=>1
+            );
+            $this->super_model->update_where("sales_good_head",$data_head, "sales_good_head_id", $sales_good_head_id);
         }
-        echo $sales_good_head_id;
+
+        $this->super_model->delete_custom_where("temp_sales_out","sales_id = '$sales_good_head_id' AND user_id = '$user_id'");
+       
     }
 
     public function delete_item(){

@@ -199,25 +199,7 @@ class Receive extends CI_Controller {
 
         $ri_id = $this->super_model->insert_return_id("receive_items", $data);
             
-            $data_fifo = array(
-                "receive_id"=>$receive_id,
-                "rd_id"=>$rd_id,
-                "ri_id"=>$ri_id,
-                "receive_date"=>$this->super_model->select_column_where("receive_head", "receive_date", "receive_id", $receive_id),
-                "pr_no"=>$this->super_model->select_column_where("receive_details", "pr_no", "rd_id", $rd_id),
-                "item_id"=>$this->input->post('item'),
-                "supplier_id"=>$this->input->post('supplier'),
-                "brand"=>$this->input->post('brand'),
-                "catalog_no"=>$this->input->post('catalog_no'),
-                "serial_no"=>$this->input->post('serial_no'),
-                "expiry_date"=>$this->input->post('expiry'),
-                "item_cost"=>$this->input->post('net_cost'),
-                "quantity"=>$this->input->post('received_qty'),
-                "remaining_qty"=>$this->input->post('received_qty')
-            );
-
-            $this->super_model->insert_into("fifo_in", $data_fifo);
-
+        
             $x=1;
             $count_item = $this->super_model->count_rows_where("receive_items","receive_id",$receive_id);
             foreach($this->super_model->custom_query("SELECT * FROM receive_items WHERE rd_id='$rd_id' ORDER BY ri_id DESC LIMIT 1") AS $app){
@@ -252,6 +234,29 @@ class Receive extends CI_Controller {
         $data =array(
             "saved"=>1
         );
+
+        foreach($this->super_model->select_row_where("receive_items", "receive_id", $receive_id) AS $it){
+            $data_fifo = array(
+                "receive_id"=>$receive_id,
+                "rd_id"=>$it->rd_id,
+                "ri_id"=>$it->ri_id,
+                "receive_date"=>$this->super_model->select_column_where("receive_head", "receive_date", "receive_id", $receive_id),
+                "pr_no"=>$this->super_model->select_column_where("receive_details", "pr_no", "rd_id", $it->rd_id),
+                "item_id"=>$it->item_id,
+                "supplier_id"=>$it->supplier_id,
+                "brand"=>$it->brand,
+                "catalog_no"=>$it->catalog_no,
+                "serial_no"=>$it->serial_no,
+                "expiry_date"=>$it->expiration_date,
+                "item_cost"=>$it->item_cost,
+                "quantity"=>$it->received_qty,
+                "remaining_qty"=>$it->received_qty
+            );
+
+            $this->super_model->insert_into("fifo_in", $data_fifo);
+
+        }
+
         $this->super_model->update_where("receive_head", $data, "receive_id", $receive_id);
     }
 

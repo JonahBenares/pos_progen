@@ -245,19 +245,19 @@ function save_item_receive(){
     var counter = document.getElementById("counter").value; 
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+"receive/insert_items";
-   
-   $.ajax({
-        type: "POST", 
-        url: redirect, 
-        data:data, 
-        success:function(response){
-           
-            if (window.opener != null && !window.opener.closed) {
-                window.opener.$("#append_data"+counter).append(response); 
+  
+       $.ajax({
+            type: "POST", 
+            url: redirect, 
+            data:data, 
+            success:function(response){
+               
+                if (window.opener != null && !window.opener.closed) {
+                    window.opener.$("#append_data"+counter).append(response); 
+                }
+                window.close();
             }
-            window.close();
-        }
-    });
+        });
 }
 
 function update_receive_items(baseurl) {
@@ -277,15 +277,18 @@ function removePR(loc, rdid){
 
 function savePR(loc, receive_id){
   var redirect = loc+"receive/savePR"
-    $.ajax({
-        type: "POST", 
-        url: redirect, 
-        data:"receive_id="+receive_id, 
-          success:function(response){
-            window.location.href = loc+"receive/print_receive/"+receive_id;
-          }
-      
-    });
+    var conf = confirm('Are you sure you want to save and print this transaction?');
+        if(conf){
+        $.ajax({
+            type: "POST", 
+            url: redirect, 
+            data:"receive_id="+receive_id, 
+              success:function(response){
+                window.location.href = loc+"receive/print_receive/"+receive_id;
+              }
+          
+        });
+    }
 
 }
 

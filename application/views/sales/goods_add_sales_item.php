@@ -1,3 +1,4 @@
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/sales.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
@@ -24,13 +25,13 @@
                                         <div class="col-lg-6 col-sm-6 col-md-6">
                                             <div class="form-group">
                                                 <label >Qty</label>
-                                                <input type="text" class="form-control amount-txt" onblur='qty_append();' onkeyup='changePrice()' name="quantity" id="quantity" placeholder="00">
+                                                <input type="text" class="form-control amount-txt" onblur='qty_append();' name="quantity" id="quantity" placeholder="00">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-sm-6 col-md-6">
                                             <div class="form-group">
                                                 <label>Unit Cost</label>
-                                                <input type="text" class="form-control" name="unit_cost" id="unit_cost" placeholder="Unit Cost">
+                                                <input type="text" class="form-control" name="unit_cost" id="unit_cost" placeholder="Unit Cost" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -71,7 +72,7 @@
                                         <input type="hidden" name="item_id" id="item_id">
                                         <input type="hidden" name="discount_amount" id="discount_amount">
                                         <input type="hidden" name="sales_good_head_id" value="<?php echo $sales_good_head_id; ?>">
-                                        <input type="button" class="btn btn-gradient-primary btn-md btn-block" value="Add Item" onclick="save_item();">
+                                        <input type="button" class="btn btn-gradient-primary btn-md btn-block" value="Add Item"  id='saveitem' onclick="save_item();">
                                         <!-- <button class="btn btn-gradient-primary btn-md" id="save_sales" onclick="save_item();">Add Item</button> -->
                                     </div>
                                 </div>

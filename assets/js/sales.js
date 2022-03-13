@@ -134,18 +134,25 @@ function item_append(){
 function qty_append(){
     var item_id = $('select#item option:selected').attr('mytag');
 	var in_id = document.getElementById("item").value;
+    var qty = document.getElementById("quantity").value;
     /*var exp = explode.split(",");
     var in_id = exp[0];
     var item_id = exp[1];*/
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+"sales/qty_info";
     $.ajax({
-        data: 'in_id='+in_id+'&item_id='+item_id,
+        data: 'in_id='+in_id+'&item_id='+item_id+'&qty='+qty,
         type: "POST",
         url: redirect,
         success: function(output){
-        	//alert(output);
-            document.getElementById("unit_cost").value = output;
+           // console.log(output);
+            if(output!='error'){
+                document.getElementById("unit_cost").value = output;
+                 document.getElementById("saveitem").disabled = false;
+            } else {
+                alert('Quantity requested exceeds available quantity!');
+                document.getElementById("saveitem").disabled = true;
+            }       
         }
     }); 
 }
@@ -171,8 +178,9 @@ function changePrice(){
     var discount = document.getElementById("discount").value;
     var percent=discount/100;
     var new_discount = parseFloat(percent)*parseFloat(tprice);
+    var total = (parseFloat(selling_price) * parseFloat(qty))-parseFloat(new_discount);
     document.getElementById("discount_amount").value = parseFloat(new_discount);
-    document.getElementById("grandtotal").value  =(parseFloat(selling_price) * parseFloat(qty))-parseFloat(new_discount);
+    document.getElementById("grandtotal").value  = parseFloat(total);
 }
 
 function isNumberKey(txt, evt){
