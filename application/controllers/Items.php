@@ -486,6 +486,7 @@ class Items extends CI_Controller {
                             'expiry_date'=>$in->expiry_date,
                             'item_cost'=>$in->item_cost,
                             'quantity'=>$in->quantity,
+                            'remaining_qty'=>$in->remaining_qty,
                             'supplier'=>$this->super_model->select_column_where('supplier', 'supplier_name','supplier_id', $in->supplier_id),
                         );
                 } 

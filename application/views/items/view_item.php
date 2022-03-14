@@ -192,6 +192,7 @@
                                                     <th width="10%"> Expiration Date </th>
                                                     <th width="10%"> Item Cost</th>
                                                     <th width="5%"> Qty </th>
+                                                    <th width="15%"> Remaining Qty </th>
                                                     <!-- <th width="5%">
                                                         <center><span class="mdi mdi-menu"></span></center>
                                                     </th> -->
@@ -211,6 +212,7 @@
                                                     <td><?php echo date("M j, Y",strtotime($in['expiry_date']));?></td>
                                                     <td><?php echo $in['item_cost'];?></td>
                                                     <td><?php echo $in['quantity'];?></td>
+                                                    <td><?php echo $in['remaining_qty'];?></td>
                                                     <!-- <td align="center">
                                                         <a href="<?php echo base_url(); ?>reports/stock_card" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
                                                     </td> -->
