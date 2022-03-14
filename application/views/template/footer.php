@@ -79,16 +79,7 @@
                 );
             });
         </script>
-        <script>
-            function loadTransactions() {
-                var x = document.getElementById("loadTransactions");
-                if (x.style.display === "block") {
-                    x.style.display = "none";
-                } else {
-                    x.style.display = "block";
-                }
-            }
-        </script>
+      
         <!-- <script type="text/javascript">
             $('.extra-fields-customer').click(function() {
 
