@@ -29,11 +29,23 @@ class Sales extends CI_Controller {
     } 
 
 
-    public function goods_sales_list()
-    {
+    public function goods_sales_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('sales/goods_sales_list');
+        foreach($this->super_model->select_all_order_by("sales_good_head","sales_date","DESC") AS $sh){
+            $client_name = $this->super_model->select_column_where("client","buyer_name","client_id",$sh->client_id);
+            $address = $this->super_model->select_column_where("client","address","client_id",$sh->client_id);
+            $data['sales'][]=array(
+                "sales_good_head_id"=>$sh->sales_good_head_id,
+                "client"=>$client_name,
+                "address"=>$address,
+                "sales_date"=>$sh->sales_date,
+                "dr_no"=>$sh->dr_no,
+                "pr_no"=>$sh->pr_no,
+                "po_no"=>$sh->po_no,
+            );
+        }
+        $this->load->view('sales/goods_sales_list',$data);
         $this->load->view('template/footer');
     }
 
@@ -282,7 +294,7 @@ class Sales extends CI_Controller {
         }
 
         $this->super_model->delete_custom_where("temp_sales_out","sales_id = '$sales_good_head_id' AND user_id = '$user_id'");
-       
+        echo $sales_good_head_id;
     }
 
     public function delete_item(){

@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="card-body">                        
-                        <table class="table table-bordered table-hover" id="myTable" width="100%">
+                        <table class="table table-bordered table-hover" id="saleslist" width="100%">
                             <thead>
                                 <tr>
                                     <td width="10%">DR Date</td>
@@ -52,17 +52,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>   
-                                <td></td>
-                                <td></td>
-                                <td align="center">
-                                    <a href="<?php echo base_url(); ?>sales/goods_update_sales_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a>
-                                    <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteSales"><span class="mdi mdi-delete"></span></a>
-                                    <a href="<?php echo base_url(); ?>sales/goods_print_sales" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
-                                </td>
+                                <?php foreach($sales AS $s){ ?>
+                                <tr>
+                                    <td><?php echo $s['sales_date'];?></td>
+                                    <td><?php echo $s['dr_no'];?></td>
+                                    <td><?php echo $s['client'];?></td>
+                                    <td><?php echo $s['address'];?></td>   
+                                    <td><?php echo $s['pr_no'];?></td>
+                                    <td><?php echo $s['po_no'];?></td>
+                                    <td align="center">
+                                        <a href="<?php echo base_url(); ?>sales/goods_update_sales_head/<?php echo $s['sales_good_head_id'];?>" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a>
+                                        <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteSales"><span class="mdi mdi-delete"></span></a>
+                                        <a href="<?php echo base_url(); ?>sales/goods_print_sales" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
+                                    </td>
+                                </tr>
+                                <?php } ?>
                             </tbody>                            
                         </table>
                     </div>
