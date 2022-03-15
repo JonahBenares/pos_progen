@@ -1,3 +1,4 @@
+<?php $ci =& get_instance(); ?>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -42,27 +43,29 @@
                         <table class="table table-bordered table-hover" id="myTable" width="100%">
                             <thead>
                                 <tr>
-                                    <td width="10%">DR Date</td>
+                                    <td width="10%">Sales Date</td>
                                     <td width="10%">DR No.</td>
                                     <td width="10%">Client</td>
-                                    <td width="10%">Address</td>
                                     <td width="10%">PGC PR No.</td>   
                                     <td width="10%">PGC PO No.</td> 
                                     <th width="8%"><center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>   
-                                <td></td>
-                                <td></td>
-                                <td align="center">
-                                    <a href="<?php echo base_url(); ?>sales/goods_update_sales_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a>
-                                    <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteSales"><span class="mdi mdi-delete"></span></a>
-                                    <a href="<?php echo base_url(); ?>sales/goods_print_sales" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
-                                </td>
+                                <?php foreach($list AS $l){ ?>
+                                <tr>
+                                    <td><?php echo date('M j, Y', strtotime($l->sales_date)); ?></td>
+                                    <td><?php echo $l->dr_no; ?></td>
+                                    <td><?php echo $ci->get_name("client", "buyer_name", "client_id", $l->client_id); ?></td> 
+                                    <td><?php echo $l->pr_no; ?></td>
+                                    <td><?php echo $l->po_no; ?></td>
+                                    <td align="center">
+                                      <!--   <a href="<?php echo base_url(); ?>sales/goods_update_sales_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a> -->
+                                       <!--  <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteSales"><span class="mdi mdi-delete"></span></a> -->
+                                        <a href="<?php echo base_url(); ?>sales/goods_print_sales/<?php echo $l->sales_good_head_id; ?>" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
+                                    </td>
+                                </tr>
+                                <?php } ?>
                             </tbody>                            
                         </table>
                     </div>

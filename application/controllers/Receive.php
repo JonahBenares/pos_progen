@@ -30,10 +30,11 @@ class Receive extends CI_Controller {
 
 
     public function receive_list()
-    {
+    {   
+        $data['list'] = $this->super_model->select_row_where("receive_head", "saved", "1");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('receive/receive_list');
+        $this->load->view('receive/receive_list',$data);
         $this->load->view('template/footer');
     }
 

@@ -45,20 +45,22 @@
                                     <th width="20%"> Receive Date</th>
                                     <th width="20%"> DR No </th>
                                     <th width="25%"> Mrecf_no </th>
-                                    <th width="25%"> PR No </th>
                                     <th width="10%"><center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td align="center">
-                                    <a href="<?php echo base_url(); ?>receive/update_receive_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a>
-                                    <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteReceive"><span class="mdi mdi-delete"></span></a>
-                                    <a href="<?php echo base_url(); ?>receive/print_receive" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>                                    
-                                </td>
+                                <?php foreach($list as $l){ ?>
+                                <tr>
+                                    <td><?php echo date('M j, Y', strtotime($l->receive_date)); ?></td>
+                                    <td><?php echo $l->dr_no; ?></td>
+                                    <td><?php echo $l->mrecf_no; ?></td>
+                                    <td align="center">
+                                      <!--   <a href="<?php echo base_url(); ?>receive/update_receive_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a> -->
+                                   <!--      <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteReceive"><span class="mdi mdi-delete"></span></a> -->
+                                        <a href="<?php echo base_url(); ?>receive/print_receive/<?php echo $l->receive_id; ?>" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>                                    
+                                    </td>
+                                </tr>
+                                 <?php } ?>
                             </tbody>                            
                         </table>
                     </div>

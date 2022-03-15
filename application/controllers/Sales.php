@@ -31,12 +31,17 @@ class Sales extends CI_Controller {
 
     public function goods_sales_list()
     {
+        $data['list'] = $this->super_model->select_row_where("sales_good_head", "saved", "1");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('sales/goods_sales_list');
+        $this->load->view('sales/goods_sales_list', $data);
         $this->load->view('template/footer');
     }
 
+    public function get_name($table, $name, $column, $value){
+        $val = $this->super_model->select_column_where($table, $name, $column, $value);
+        return $val;
+    }
     public function goods_add_sales_head(){
         $sales_good_head_id = $this->uri->segment(3);
         $data['sales_good_head_id'] = $this->uri->segment(3);
@@ -228,7 +233,6 @@ class Sales extends CI_Controller {
                         } else {
                             $q = $itm->remaining_qty + $temp_qty;
                         }
-                 
                      
                               $data_temp = array(
                                 'user_id'=>$_SESSION['user_id'],
