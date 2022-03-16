@@ -1,3 +1,4 @@
+<script src="<?php echo base_url(); ?>assets/js/repair.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">

@@ -230,6 +230,14 @@ class super_model extends CI_Model
         }
     }
 
+    public function count_custom_query($query)
+    {
+       
+        $query =  $this->db->query($query);
+        $rows=$query->num_rows();
+        return $rows;
+    }
+
     public function custom_query($q){
         $query = $this->db->query($q);
          return $query->result();
