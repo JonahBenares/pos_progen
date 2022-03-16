@@ -34,7 +34,6 @@ class Damage extends CI_Controller {
         $now = date("Y-m-d");
         $data['item'] = $this->super_model->select_all('items');
         $item_id = $this->uri->segment(3);
-        echo "**".$item_id;
         $data['transactions'] = $this->super_model->select_custom_where('fifo_in','item_id = "'.$item_id.'" AND (expiry_date ="" or expiry_date >= "'.$now.'") AND remaining_qty != 0');
         $this->load->view('template/header');
         $this->load->view('template/navbar');
@@ -48,13 +47,13 @@ class Damage extends CI_Controller {
         $now = date("Y-m-d");
     
         $str="";
-        $str .= '<tr>
+        $str .= '<tr id="load_data'.$count.'">
             <td width="45%">
                 <div class="form-group">
                     <select class="form-control" name="transaction'.$count.'" id="transaction'.$count.'">
                         <option>-Select Transaction-</option>';
                         foreach($this->super_model->select_custom_where('fifo_in','item_id = "'.$item_id.'" AND (expiry_date ="" or expiry_date >= "'.$now.'") AND remaining_qty != 0') AS $in){ 
-                            $str.='<option value='.$in->in_id.'>'.$in->receive_date. ', '. $in->pr_no.'</option>';
+                            $str.='<option value='.$in->in_id.' myTag='.$in->remaining_qty.'>'.$in->receive_date. ', '. $in->pr_no.'</option>';
                         }
                     $str.= '</select>
                 </div>
@@ -62,7 +61,7 @@ class Damage extends CI_Controller {
             <td width="2%"></td>
             <td width="15%">
                 <div class="form-group">
-                    <input type="number" class="form-control" placeholder="00" name="qty'.$count.'" id="qty'.$count.'">
+                    <input type="number" class="form-control" placeholder="00" name="qty'.$count.'" id="qty'.$count.'" onkeyup="check_rem_qty('.$count.')">
                 </div>
             </td>
             <td width="2%"></td>
@@ -71,7 +70,7 @@ class Damage extends CI_Controller {
                     <textarea class="form-control" rows="1"  name="remarks'.$count.'" id="remarks'.$count.'"></textarea>
                 </div>
             </td>
-            <td width="2%"></td>
+            <td width="2%"><a class="btn btn-gradient-danger btn-sm" id="remove_item'.$count.'" onclick="delete_damage_item('.$count.')"><span class="mdi mdi-close"></span></a></td>
             <td width="9%">
                
             </td>
@@ -79,6 +78,11 @@ class Damage extends CI_Controller {
 
         echo $str;
                                      
+    }
+
+    public function cancel_damage(){
+        $id = $this->input->post('id');
+        $this->super_model->delete_where("damage_head", "damage_id", $id);
     }
 
     public function add_damage(){

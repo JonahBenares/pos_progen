@@ -46,7 +46,8 @@
                                         <label for="exampleTextarea1"></label>
                                         <div class="form-group">
                                             <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
-                                            <input type='button' class="btn btn-gradient-success btn-fw pull-right btn-sm" value="Proceed" onclick="loadTransactions()">
+                                            <input type='button' id="proceed_damage" class="btn btn-gradient-success btn-fw pull-right btn-sm" value="Proceed" onclick="loadTransactions()">
+                                            <input type='button' class="btn btn-gradient-danger btn-fw pull-right btn-sm" id="cancel_damage" onclick="canceled_damage()" value="Cancel Transaction" style='display: none;font-size: 10px;'>
                                         </div>
                                     </div>
                                 </div>  
@@ -63,9 +64,9 @@
                                                     <a class="btn btn-gradient-info btn-sm" onclick="add_transaction()">
                                                         <span class="mdi mdi-plus"></span>
                                                     </a>
-                                                    <a class="btn btn-gradient-danger btn-sm">
+                                                    <!-- <a class="btn btn-gradient-danger btn-sm">
                                                         <span class="mdi mdi-close"></span>
-                                                    </a>
+                                                    </a> -->
                                                 </div>
                                                   <table width="100%" id='damage'>
                                                     <tr>
@@ -143,7 +144,8 @@
         <div class="row">
             <div class="col-lg-4"></div>
             <div class="col-lg-4">
-                <input type='button' class="btn btn-gradient-success btn-md btn-block" value='Save Transaction' onclick='saveDamage()'>
+                <input type='hidden' name='baseurl' id='baseurl' value='<?php echo base_url(); ?>'>
+                <input type='button' id="savedamage" class="btn btn-gradient-success btn-md btn-block" value='Save Transaction' onclick='saveDamage()'>
             </div>
             <div class="col-lg-4"></div>
         </div>
