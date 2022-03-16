@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="card-body">                        
-                        <table class="table table-bordered table-hover" id="myTable" width="100%">
+                        <table class="table table-bordered table-hover" id="saleslist" width="100%">
                             <thead>
                                 <tr>
                                     <td width="10%">Sales Date</td>
@@ -52,6 +52,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+
                                 <?php foreach($list AS $l){ ?>
                                 <tr>
                                     <td><?php echo date('M j, Y', strtotime($l->sales_date)); ?></td>
@@ -63,7 +64,7 @@
                                       <!--   <a href="<?php echo base_url(); ?>sales/goods_update_sales_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a> -->
                                        <!--  <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteSales"><span class="mdi mdi-delete"></span></a> -->
                                         <a href="<?php echo base_url(); ?>sales/goods_print_sales/<?php echo $l->sales_good_head_id; ?>" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
-                                    </td>
+
                                 </tr>
                                 <?php } ?>
                             </tbody>                            

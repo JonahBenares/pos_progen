@@ -36,7 +36,11 @@
         <script type="text/javascript">
             $(document).ready( function () {
                 $('#myTable').DataTable();
-            } );
+
+                $('#saleslist').DataTable({
+                    "aaSorting": [[ 0, "desc" ]]
+                });
+            });
 
             $(document).ready(function() {
                 $('#example').DataTable( {

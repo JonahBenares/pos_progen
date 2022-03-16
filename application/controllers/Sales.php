@@ -35,7 +35,6 @@ class Sales extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('sales/goods_sales_list', $data);
-        $this->load->view('template/footer');
     }
 
     public function get_name($table, $name, $column, $value){
@@ -286,7 +285,7 @@ class Sales extends CI_Controller {
         }
 
         $this->super_model->delete_custom_where("temp_sales_out","sales_id = '$sales_good_head_id' AND user_id = '$user_id'");
-       
+        echo $sales_good_head_id;
     }
 
     public function delete_item(){

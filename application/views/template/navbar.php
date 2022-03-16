@@ -241,12 +241,12 @@
                     </a>
                 </li> -->
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="collapse" href="#reportlist" aria-expanded="false" aria-controls="reportlist">
+                    <a class="nav-link" data-toggle="collapse" href="#sales_list" aria-expanded="false" aria-controls="sales_list">
                         <span class="menu-title">Sales</span>
                         <i class="menu-arrow"></i>
                         <i class="mdi mdi-chart-areaspline menu-icon"></i>
                     </a>
-                    <div class="collapse" id="reportlist">
+                    <div class="collapse" id="sales_list">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> 
                                 <a class="nav-link" href="<?php echo base_url(); ?>sales/goods_sales_list">Goods</a>
