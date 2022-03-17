@@ -278,7 +278,7 @@ class Sales extends CI_Controller {
         $sales_good_head_id = $this->input->post('sales_good_head_id');
         $user_id = $_SESSION['user_id'];
         foreach($this->super_model->select_custom_where("temp_sales_out","sales_id = '$sales_good_head_id' AND user_id = '$user_id'") AS $tmp){
-            $sumcost = $this->super_model->select_sum_where("fifo_in", "item_cost", "item_id = '$tmp->item_id'");
+           /* $sumcost = $this->super_model->select_sum_where("fifo_in", "item_cost", "item_id = '$tmp->item_id'");
             $rowcount=$this->super_model->count_custom_where("fifo_in","item_id = '$tmp->item_id'");
             $count_item=$rowcount;
             $ave = $sumcost/$count_item;
@@ -286,7 +286,7 @@ class Sales extends CI_Controller {
                 "ave_cost"=>$ave,
             );
             $this->super_model->update_where("sales_good_details", $dataup, "sales_good_det_id", $tmp->sales_details_id);
-
+*/
             $data = array(
                 'in_id'=>$tmp->in_id,
                 'item_id'=>$tmp->item_id,
