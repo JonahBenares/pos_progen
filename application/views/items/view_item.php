@@ -80,7 +80,7 @@
                                     <div class="col-lg-2 offset-lg-1">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">Highest Cost</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['highest_cost'];?></p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo number_format($det['highest_cost'],2);?></p>
                                         </div>                                         
                                     </div>
                                     <div class="col-lg-3 offset-lg-1">
@@ -209,10 +209,10 @@
                                                     <td><?php echo $in['catalog_no'];?></td>
                                                     <td><?php echo $in['brand'];?></td>
                                                     <td><?php echo $in['serial_no'];?></td>
-                                                    <td><?php echo date("M j, Y",strtotime($in['expiry_date']));?></td>
-                                                    <td><?php echo $in['item_cost'];?></td>
-                                                    <td><?php echo $in['quantity'];?></td>
-                                                    <td><?php echo $in['remaining_qty'];?></td>
+                                                    <td><?php echo ($in['expiry_date']!='') ? date("M j, Y",strtotime($in['expiry_date'])) : '' ;?></td>
+                                                    <td><?php echo number_format($in['item_cost'],2);?></td>
+                                                    <td><?php echo number_format($in['quantity'],2);?></td>
+                                                    <td><?php echo number_format($in['remaining_qty'],2);?></td>
                                                     <!-- <td align="center">
                                                         <a href="<?php echo base_url(); ?>reports/stock_card" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
                                                     </td> -->

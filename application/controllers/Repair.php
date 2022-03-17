@@ -33,9 +33,9 @@ class Repair extends CI_Controller {
     {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $row_avail=$this->super_model->count_custom_query("SELECT * FROM damage_details where repair='0'");
+        $row_avail=$this->super_model->count_custom_query("SELECT * FROM damage_details where repaired='0'");
         if($row_avail!=0){
-             foreach($this->super_model->custom_query("SELECT * FROM damage_details where repair='0'") AS $repair){ 
+             foreach($this->super_model->custom_query("SELECT * FROM damage_details where repaired='0'") AS $repair){ 
                 $item_id=$this->super_model->select_column_where("fifo_in","item_id","in_id",$repair->in_id);
                 $in_id=$this->super_model->select_column_where("fifo_in","in_id","in_id",$repair->in_id);
                 $receive_date=$this->super_model->select_column_where("fifo_in","receive_date","in_id",$repair->in_id);
@@ -116,9 +116,9 @@ class Repair extends CI_Controller {
                     }
                     $this->super_model->update_where("fifo_in", $in_data, "in_id", $inid);
                     $damage_data = array(
-                        'repair'=>1,
+                        'repaired'=>1,
                     ); 
-                    $this->super_model->update_where("damage_details", $damage_data, "damage_det_id", $inid);
+                    $this->super_model->update_where("damage_details", $damage_data, "in_id", $inid);
                 }
             }
         }

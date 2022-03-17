@@ -310,6 +310,63 @@ class Masterfile extends CI_Controller {
         }
     }
 
+   public function equipment_list(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $data['equipment']=$this->super_model->select_all_order_by("equipment","equipment_name","ASC");
+        $this->load->view('masterfile/equipment_list',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function add_equipment(){
+        $equipment_name = $this->input->post('equipment_name');
+        $acquisition_cost = $this->input->post('acquisition_cost');
+        $daily_rate = $this->input->post('daily_rate');
+        $hourly_rate = $this->input->post('hourly_rate');
+        $data = array(
+            'equipment_name'=>$equipment_name,
+            'acquisition_cost'=>$acquisition_cost,
+            'daily_rate'=>$daily_rate,
+            'hourly_rate'=>$hourly_rate,
+        );
+        if($this->super_model->insert_into("equipment", $data)){
+            echo "<script>alert('Equipment Successfully Added!'); 
+                window.location ='".base_url()."masterfile/equipment_list'; </script>";
+        }
+    }
+
+    public function update_equipment(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $data['id']=$this->uri->segment(3);
+        $id=$this->uri->segment(3);
+        $data['update_equipment'] = $this->super_model->select_row_where('equipment', 'equipment_id', $id);
+        $this->load->view('masterfile/update_equipment',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function edit_equipment(){
+        $data = array(
+            'equipment_name'=>$this->input->post('equipment_name'),
+            'acquisition_cost'=>$this->input->post('acquisition_cost'),
+            'daily_rate'=>$this->input->post('daily_rate'),
+            'hourly_rate'=>$this->input->post('hourly_rate'),
+        );
+        $equipment_id = $this->input->post('equipment_id');
+        if($this->super_model->update_where('equipment', $data, 'equipment_id', $equipment_id)){
+            echo "<script>alert('Equipment Successfully Updated!'); 
+                window.location ='".base_url()."masterfile/equipment_list'; </script>";
+        }
+    }
+
+    public function delete_equipment(){
+        $id=$this->uri->segment(3);
+        if($this->super_model->delete_where('equipment', 'equipment_id', $id)){
+            echo "<script>alert('Succesfully Deleted'); 
+                window.location ='".base_url()."masterfile/equipment_list'; </script>";
+        }
+    }
+
    public function group_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
@@ -317,6 +374,7 @@ class Masterfile extends CI_Controller {
         $this->load->view('masterfile/group_list',$data);
         $this->load->view('template/footer');
     }
+
     public function add_group(){
         $group_name = $this->input->post('group_name');
         $data = array(
@@ -521,7 +579,61 @@ class Masterfile extends CI_Controller {
         }
     }
 
-    public function enduse_list(){
+   public function manpower_list(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $data['manpower']=$this->super_model->select_all_order_by("manpower","employee_name","ASC");
+        $this->load->view('masterfile/manpower_list',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function add_manpower(){
+        $employee_name = $this->input->post('employee_name');
+        $position = $this->input->post('position');
+        $daily_rate = $this->input->post('daily_rate');
+        $data = array(
+            'employee_name'=>$employee_name,
+            'position'=>$position,
+            'daily_rate'=>$daily_rate,
+        );
+        if($this->super_model->insert_into("manpower", $data)){
+            echo "<script>alert('Manpower Successfully Added!'); 
+                window.location ='".base_url()."masterfile/manpower_list'; </script>";
+        }
+    }
+
+    public function update_manpower(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $data['id']=$this->uri->segment(3);
+        $id=$this->uri->segment(3);
+        $data['update_manpower'] = $this->super_model->select_row_where('manpower', 'manpower_id', $id);
+        $this->load->view('masterfile/update_manpower',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function edit_manpower(){
+        $data = array(
+            'employee_name'=>$this->input->post('employee_name'),
+            'position'=>$this->input->post('position'),
+            'daily_rate'=>$this->input->post('daily_rate'),
+        );
+        $manpower_id = $this->input->post('manpower_id');
+        if($this->super_model->update_where('manpower', $data, 'manpower_id', $manpower_id)){
+            echo "<script>alert('Manpower Successfully Updated!'); 
+                window.location ='".base_url()."masterfile/manpower_list'; </script>";
+        }
+    }
+
+    public function delete_manpower(){
+        $id=$this->uri->segment(3);
+        if($this->super_model->delete_where('manpower', 'manpower_id', $id)){
+            echo "<script>alert('Succesfully Deleted'); 
+                window.location ='".base_url()."masterfile/manpower_list'; </script>";
+        }
+    }
+
+/*    public function enduse_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $data['enduse']=$this->super_model->select_all_order_by("enduse","enduse_name","ASC");
@@ -570,7 +682,7 @@ class Masterfile extends CI_Controller {
             echo "<script>alert('Succesfully Deleted'); 
                 window.location ='".base_url()."masterfile/enduse_list'; </script>";
         }
-    }
+    }*/
 
     public function purpose_list(){
         $this->load->view('template/header');

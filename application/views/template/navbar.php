@@ -184,6 +184,9 @@
                                 <a class="nav-link" href="<?php echo base_url(); ?>masterfile/employee_list">Employees</a>
                             </li>
                             <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/equipment_list">Equipment</a>
+                            </li>
+                            <li class="nav-item"> 
                                 <a class="nav-link" href="<?php echo base_url(); ?>masterfile/group_list">Group</a>
                             </li>
                             <li class="nav-item"> 
@@ -191,6 +194,9 @@
                             </li>
                             <li class="nav-item"> 
                                 <a class="nav-link" href="<?php echo base_url(); ?>masterfile/location_list">Location</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/manpower_list">Manpower</a>
                             </li>
                             <li class="nav-item"> 
                                 <a class="nav-link" href="<?php echo base_url(); ?>masterfile/purpose_list">Purpose</a>
