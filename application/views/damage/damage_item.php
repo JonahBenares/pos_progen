@@ -57,81 +57,36 @@
                         <div id="loadTransactions">
                             <hr>
                             <br>
+                            <form id='damageDetails'>
                             <div class="row">
-                                <form id='damageDetails'>
                                 <div class="col-lg-12">
-                                       <div class="form-group">
-                                                    <a class="btn btn-gradient-info btn-sm" onclick="add_transaction()">
-                                                        <span class="mdi mdi-plus"></span>
-                                                    </a>
-                                                    <!-- <a class="btn btn-gradient-danger btn-sm">
-                                                        <span class="mdi mdi-close"></span>
-                                                    </a> -->
-                                                </div>
-                                                  <table width="100%" id='damage'>
-                                                    <tr>
-                                                        <td width="45%">
-                                                            <div class="form-group">
-                                                                <label>Transactions</label>
-                                                            </div>
-                                                        </td>
-                                                        <td width="2%"></td>
-                                                        <td width="15%">
-                                                            <div class="form-group">
-                                                                <label>Quantity</label>
-                                                            </div>
-                                                        </td>
-                                                        <td width="2%"></td>
-                                                        <td width="25%">
-                                                            <div class="form-group">
-                                                                <label>Remarks</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                  <!--   <table width="100%" id='damage'>
+                                   <div class="form-group">
+                                        
+                                        <!-- <a class="btn btn-gradient-danger btn-sm">
+                                            <span class="mdi mdi-close"></span>
+                                        </a> -->
+                                    </div>
+                                    <table width="100%" class="tadble-bordered" id='damage'>
                                         <tr>
                                             <td width="45%">
-                                                <div class="form-group">
-                                                    <label>Transactions</label>
-                                                    <select class="form-control" name='transaction1' id='transaction1'>
-                                                        <option>-Select Transaction-</option>
-                                                        <?php foreach($transactions AS $t){ ?>
-                                                             <option value="<?php echo $t->in_id; ?>"><?php echo $t->receive_date. ', '. $t->pr_no; ?>-</option>
-                                                        <?php } ?>
-                                                    </select>
-                                                </div>
+                                                <label>Transactions</label>
                                             </td>
                                             <td width="2%"></td>
                                             <td width="15%">
-                                                <div class="form-group">
-                                                    <label>Quantity</label>
-                                                    <input type="number" class="form-control" placeholder="00" name='qty1' id='qty1'>
-                                                </div>
+                                                <label>Quantity</label>
                                             </td>
                                             <td width="2%"></td>
-                                            <td width="25%">
-                                                <div class="form-group">
-                                                    <label>Remarks</label>
-                                                    <textarea class="form-control" rows="1" name='remarks1' id='remarks1'></textarea>
-                                                </div>
+                                            <td width="34%">
+                                                <label>Remarks</label>
                                             </td>
-                                            <td width="2%"></td>
-                                            <td width="9%">
-                                                <label><br></label>
-                                                <div class="form-group">
-                                                    <a href="#" class="btn btn-gradient-info btn-sm" onclick="add_transaction()">
-                                                        <span class="mdi mdi-plus"></span>
-                                                    </a>
-                                                    <a href="" class="btn btn-gradient-danger btn-sm">
-                                                        <span class="mdi mdi-close"></span>
-                                                    </a>
-                                                </div>
-                                            </td>
+                                            <td width="2%">
+                                            <a class="btn btn-gradient-info btn-sm mb-3" onclick="add_transaction()">
+                                                <span class="mdi mdi-plus"></span>
+                                            </a>
+                                        </td>
                                         </tr>
-                                       
-                                    </table> -->
-                                     <input type='hidden' name='count' id='count' value='0'>
+                                    </table>
+                                    <input type='hidden' name='count' id='count' value='0'>
                                     <input type='hidden' name='damage_id' id='damage_id' >
                                 </div>
                             </div> 

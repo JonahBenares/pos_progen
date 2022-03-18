@@ -65,16 +65,17 @@ class Damage extends CI_Controller {
                 </div>
             </td>
             <td width="2%"></td>
-            <td width="25%">
+            <td width="34%">
                 <div class="form-group">
                     <textarea class="form-control" rows="1"  name="remarks'.$count.'" id="remarks'.$count.'"></textarea>
                 </div>
             </td>
-            <td width="2%"><a class="btn btn-gradient-danger btn-sm" id="remove_item'.$count.'" onclick="delete_damage_item('.$count.')"><span class="mdi mdi-close"></span></a></td>
-            <td width="9%">
-               
-            </td>
-        </tr>';
+                <td width="2%" style="vertical-align:top">
+                    <a class="btn btn-gradient-danger btn-sm mt-2" id="remove_item'.$count.'" onclick="delete_damage_item('.$count.')">
+                        <span class="mdi mdi-close"></span>
+                    </a>
+                </td>
+            </tr>';
 
         echo $str;
                                      

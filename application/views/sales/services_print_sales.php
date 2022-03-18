@@ -61,7 +61,6 @@
                         <br>
                         <b>DELIVERY RECEIPT - SERVICES</b>
                         <br>
-                        <br>
                     </td>
                 </tr>
                 <?php foreach($service_head AS $sh){ ?>
@@ -122,18 +121,18 @@
                 <tr>
                     <td colspan="20" align="center"><br><br></td>
                 </tr>
-                <tr>
+                <tr style="border-top:1px solid #aeaeae">
                     <td colspan="20">
                         <table class="table-bordered" width="100%">
                             <tr> 
-                                <td width="7%">Part No.</td>
-                                <td width="30%">Item Description</td>
-                                <td width="15%">Serial No.</td>
-                                <td width="5%">Qty</td>
-                                <td width="5%">UOM</td>
-                                <td width="10%">Selling Price</td>
-                                <td width="8%">Discount</td>
-                                <td width="12%">Total Price</td>
+                                <td style="background:#efefef" width="7%">Part No.</td>
+                                <td style="background:#efefef" width="30%">Item Description</td>
+                                <td style="background:#efefef" width="15%">Serial No.</td>
+                                <td style="background:#efefef" width="5%">Qty</td>
+                                <td style="background:#efefef" width="5%">UOM</td>
+                                <td style="background:#efefef" width="10%">Selling Price</td>
+                                <td style="background:#efefef" width="8%">Discount</td>
+                                <td style="background:#efefef" width="12%">Total Price</td>
                             </tr>
                              <?php foreach($service_details AS $sd){ ?>
                             <tr>
@@ -147,6 +146,192 @@
                                 <td><?php echo number_format($sd['total'],2);?></td>
                             </tr>
                             <?php } ?>
+                            <tr>
+                                <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
+                                <td style="background:#efefef" colspan="5" align="center"><b>Engine Parts Cost Incurred</b></td>
+                                <td style="background:#efefef" align="right"><b></b></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="20" align="center"><br></td>
+                </tr>
+                <tr style="border-top:1px solid #aeaeae">
+                    <td colspan="20" align="center" style="background:#efefef"><b>Consumables and Other Materials</b></td>
+                </tr>
+                <tr>
+                    <td colspan="20">
+                        <table class="table-bordered" width="100%">
+                            <tr> 
+                                <td style="background:#efefef" width="5%">No.</td>
+                                <td style="background:#efefef" width="45%">Item Description</td>
+                                <td style="background:#efefef" width="8%">Qty</td>
+                                <td style="background:#efefef" width="8%">UOM</td>
+                                <td style="background:#efefef" width="14%">Unit Cost</td>
+                                <td style="background:#efefef" width="12%">Total Cost</td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
+                                <td style="background:#efefef" colspan="3" align="center"><b>Material Cost Incurred</b></td>
+                                <td style="background:#efefef" align="right"><b></b></td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="20" align="center"><br></td>
+                </tr>
+                <tr style="border-top:1px solid #aeaeae">
+                    <td colspan="20" align="center" style="background:#efefef"><b>Manpower</b></td>
+                </tr>
+                <tr>
+                    <td colspan="20">
+                        <table class="table-bordered" width="100%">
+                            <tr> 
+                                <td style="background:#efefef" width="5%">No.</td>
+                                <td style="background:#efefef" width="45%">Item Description</td>
+                                <td style="background:#efefef" width="8%">Days</td>
+                                <td style="background:#efefef" width="8%">Rate</td>
+                                <td style="background:#efefef" width="14%">Overtime</td>
+                                <td style="background:#efefef" width="12%">Total</td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
+                                <td style="background:#efefef" colspan="3" align="center"><b>Labor Cost Incurred</b></td>
+                                <td style="background:#efefef" align="right"><b></b></td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="20" align="center"><br></td>
+                </tr>
+                <tr style="border-top:1px solid #aeaeae">
+                    <td colspan="20" align="center" style="background:#efefef"><b>Equipments</b></td>
+                </tr>
+                <tr>
+                    <td colspan="20">
+                        <table class="table-bordered" width="100%">
+                            <tr> 
+                                <td style="background:#efefef" width="5%">No.</td>
+                                <td style="background:#efefef" width="45%">Item Description</td>
+                                <td style="background:#efefef" width="8%">Rate</td>
+                                <td style="background:#efefef" width="8%">Unit</td>
+                                <td style="background:#efefef" width="14%">Days</td>
+                                <td style="background:#efefef" width="12%">Total Cost</td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><br></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
+                                <td style="background:#efefef" colspan="3" align="center"><b>Rental Cost</b></td>
+                                <td style="background:#efefef" align="right"><b></b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" style="background:#efefef"><br></td>
+                            </tr>
+                            <tr>
+                                <td style="background:#fff700" colspan="2" align="center"><b>GRAND TOTAL</b></td>
+                                <td style="background:#fff700" colspan="3" align="center"><b>Actual Project Cost</b></td>
+                                <td style="background:#fff700" align="right"><b></b></td>
+                            </tr>
                         </table>
                     </td>
                 </tr>
@@ -154,9 +339,57 @@
                     <td colspan="20"><br></td>
                 </tr>
                 <tr>
+                    <td colspan="5"></td>  
+                    <td colspan="10">
+                        <table class="table-bordered" width="100%">
+                            <tr>
+                                <td style="background:#efefef" colspan="2"><center><b>SUMMARY</b></center></td>
+                            </tr>
+                            <tr> 
+                                <td width="60%">Engine Parts</td>
+                                <td width="40%"></td>
+                            </tr>
+                            <tr>
+                                <td>Material</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Manpower</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Equipment</td>
+                                <td></td>
+                            </tr>
+                            <tr style="background:#fff700">
+                                <td>TOTAL</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Add: Service Fee</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Add: Vat 12%</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Withholding Tax 1%</td>
+                                <td></td>
+                            </tr>
+                            <tr style="background:#00ff2b">
+                                <td>TOTAL</td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </td>  
+                    <td colspan="5"></td>  
+                </tr>
+                
+                <!-- <tr>
                     <td colspan="2">Remarks:</td>
                     <td colspan="18" class="bor-btm1"></td>
-                </tr>
+                </tr> -->
                 <!-- <tr>
                     <td colspan="2">Shipped via:</td>
                     <td colspan="8" class="bor-btm1"></td>
