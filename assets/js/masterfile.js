@@ -14,6 +14,10 @@ function updateEmployee(baseurl,id) {
     window.open(baseurl+"index.php/masterfile/update_employee/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
 
+function updateEquipment(baseurl,id) {
+    window.open(baseurl+"index.php/masterfile/update_equipment/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+}
+
 function updateGroup(baseurl,id) {
     window.open(baseurl+"index.php/masterfile/update_group/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
@@ -24,6 +28,10 @@ function updateCategory(baseurl,id) {
 
 function updateLocation(baseurl,id) {
     window.open(baseurl+"index.php/masterfile/update_location/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+}
+
+function updateManpower(baseurl,id) {
+    window.open(baseurl+"index.php/masterfile/update_manpower/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
 
 function updatePurpose(baseurl,id) {
