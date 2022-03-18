@@ -10,7 +10,6 @@ function add_transaction(){
         type: "POST",
         url: redirect,
         success: function(output){
-         
              document.getElementById("count").value = nc;
              $("#damage").append(output); 
          }
@@ -21,6 +20,7 @@ function add_transaction(){
 function delete_damage_item(count){
     var loc= document.getElementById("baseurl").value;
     $('#load_data'+count).remove();
+    document.getElementById("count").value=0;
     $('#load_data'+count).load(loc+"damage/damage_item #load_data"+count+"");
 }
 

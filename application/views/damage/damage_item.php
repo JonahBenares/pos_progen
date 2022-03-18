@@ -131,7 +131,7 @@
                                         </tr>
                                        
                                     </table> -->
-                                     <input type='hidden' name='count' id='count' value='0'>
+                                     <input type='text' name='count' id='count' value='0'>
                                     <input type='hidden' name='damage_id' id='damage_id' >
                                 </div>
                             </div> 
