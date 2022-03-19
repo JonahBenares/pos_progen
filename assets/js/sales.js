@@ -1,18 +1,42 @@
 function goods_add_sales_items(baseurl,sales_head_id) {
-    window.open(baseurl+"index.php/sales/goods_add_sales_item/"+sales_head_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+    window.open(baseurl+"sales/goods_add_sales_item/"+sales_head_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
 
 function goods_update_sales_items(baseurl) {
-    window.open(baseurl+"index.php/sales/goods_update_sales_item", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+    window.open(baseurl+"sales/goods_update_sales_item", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
 
 function services_add_sales_items(baseurl,sales_serv_head_id) {
-    window.open(baseurl+"index.php/sales/services_add_sales_item/"+sales_serv_head_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+    window.open(baseurl+"sales/services_add_sales_item/"+sales_serv_head_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
 
-function services_update_sales_items(baseurl) {
-    window.open(baseurl+"index.php/sales/services_update_sales_item", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+function services_add_consumable(baseurl) {
+    window.open(baseurl+"sales/services_add_consumable/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
+
+function services_add_manpower(baseurl) {
+    window.open(baseurl+"sales/services_add_manpower/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+}
+
+function services_add_rental(baseurl) {
+    window.open(baseurl+"sales/services_add_rental/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+}
+
+// function services_update_sales_items(baseurl) {
+//     window.open(baseurl+"sales/services_update_sales_items", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+// }
+
+// function services_update_consumable(baseurl) {
+//     window.open(baseurl+"sales/services_update_consumable/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+// }
+
+// function services_update_manpower(baseurl) {
+//     window.open(baseurl+"sales/services_update_manpower/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+// }
+
+// function services_update_rental(baseurl) {
+//     window.open(baseurl+"sales/services_update_rental/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+// }
 
 function proceed_sales(){
     var data = $("#salesHead").serialize();
@@ -246,7 +270,10 @@ function proceed_sales_service(){
                     cancel.style.display = "none";
                 }
                 document.getElementById("sales_serv_head_id").value  = response.sales_serv_head_id;
-                $("#myButton2").append('<button class="btn btn-gradient-primary btn-xs pull-right " onclick="services_add_sales_items(\''+loc+'\','+response.sales_serv_head_id+')" name=""><span class="mdi mdi-plus"></span> Add Item</button>'); 
+                $("#myButton2").append('<button class="btn btn-gradient-primary btn-xs mr-1 ml-1" onclick="services_add_sales_items(\''+loc+'\','+response.sales_serv_head_id+')" name=""><span class="mdi mdi-plus"></span> Add Item</button>'); 
+                $("#myButton2").append('<button class="btn btn-gradient-primary btn-xs mr-1 ml-1" onclick="services_add_consumable(\''+loc+'\')" name=""><span class="mdi mdi-plus"></span> Add Consumable</button>'); 
+                $("#myButton2").append('<button class="btn btn-gradient-primary btn-xs mr-1 ml-1" onclick="services_add_manpower(\''+loc+'\')" name=""><span class="mdi mdi-plus"></span> Add Manpower</button>'); 
+                $("#myButton2").append('<button class="btn btn-gradient-primary btn-xs mr-1 ml-1" onclick="services_add_rental(\''+loc+'\')" name=""><span class="mdi mdi-plus"></span> Add Rental</button>'); 
             }
         });  
     }

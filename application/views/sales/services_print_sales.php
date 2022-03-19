@@ -223,7 +223,7 @@
                         <table class="table-bordered" width="100%">
                             <tr> 
                                 <td style="background:#efefef" width="5%">No.</td>
-                                <td style="background:#efefef" width="45%">Item Description</td>
+                                <td style="background:#efefef" width="45%">Employee</td>
                                 <td style="background:#efefef" width="8%">Days</td>
                                 <td style="background:#efefef" width="8%">Rate</td>
                                 <td style="background:#efefef" width="14%">Overtime</td>
@@ -274,14 +274,14 @@
                     <td colspan="20" align="center"><br></td>
                 </tr>
                 <tr style="border-top:1px solid #aeaeae">
-                    <td colspan="20" align="center" style="background:#efefef"><b>Equipments</b></td>
+                    <td colspan="20" align="center" style="background:#efefef"><b>Actual Rental Cost</b></td>
                 </tr>
                 <tr>
                     <td colspan="20">
                         <table class="table-bordered" width="100%">
                             <tr> 
                                 <td style="background:#efefef" width="5%">No.</td>
-                                <td style="background:#efefef" width="45%">Item Description</td>
+                                <td style="background:#efefef" width="45%">Equipment</td>
                                 <td style="background:#efefef" width="8%">Rate</td>
                                 <td style="background:#efefef" width="8%">Unit</td>
                                 <td style="background:#efefef" width="14%">Days</td>

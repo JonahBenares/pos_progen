@@ -35,6 +35,8 @@ class Sales extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('sales/goods_sales_list', $data);
+        $this->load->view('template/footer');
+
     }
 
     public function get_name($table, $name, $column, $value){
@@ -486,7 +488,7 @@ class Sales extends CI_Controller {
             $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$item_id);
             $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
             $serial_no = $this->super_model->select_column_where("fifo_in","serial_no","in_id",$app->in_id);
-            echo '<tr id="load_data'.$count_item.'"><td>'.$count_item.'</td><td>'.$original_pn.'</td><td>'.$item_name.'</td><td>'.$serial_no.'</td><td>'.$app->quantity.'</td><td>'.$unit.'</td><td>'.number_format($app->selling_price,2).'</td><td>'.number_format($app->discount_percent,0)."%".'</td><td>'.number_format($app->total,2).'</td>  <td><a onclick="delete_service_item('.$app->sales_serv_items_id.','.$count_item.','.$app->quantity.','.$app->in_id.')" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
+            echo '<tr id="load_data'.$count_item.'"><td>'.$count_item.'</td><td>'.$original_pn.'</td><td>'.$item_name.'</td><td>'.$serial_no.'</td><td>'.$app->quantity.'</td><td>'.$unit.'</td><td>'.number_format($app->selling_price,2).'</td><td>'.number_format($app->discount_percent,0)."%".'</td><td>'.number_format($app->total,2).'</td>  <td><a onclick="delete_service_item('.$app->sales_serv_items_id.','.$count_item.','.$app->quantity.','.$app->in_id.')" class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
             $count_item++;
         } 
 
@@ -654,6 +656,27 @@ class Sales extends CI_Controller {
         }
         $this->load->view('template/navbar');
         $this->load->view('sales/services_print_sales',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function services_add_consumable()
+    {
+        $this->load->view('template/header');
+        $this->load->view('sales/services_add_consumable');
+        $this->load->view('template/footer');
+    }
+
+    public function services_add_manpower()
+    {
+        $this->load->view('template/header');
+        $this->load->view('sales/services_add_manpower');
+        $this->load->view('template/footer');
+    }
+
+    public function services_add_rental()
+    {
+        $this->load->view('template/header');
+        $this->load->view('sales/services_add_rental');
         $this->load->view('template/footer');
     }
 

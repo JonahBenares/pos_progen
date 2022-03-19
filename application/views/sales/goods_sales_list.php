@@ -28,10 +28,7 @@
                                 <div class="pull-right">
                                     <a href="<?php echo base_url(); ?>sales/goods_add_sales_head" class="btn btn-gradient-primary btn-sm btn-rounded">
                                         <b><span class="mdi mdi-plus"></span> Add</b>
-                                    </a>
-                                    <!-- <button type="button" class="btn btn-gradient-success btn-sm btn-rounded" data-toggle="modal" data-target="#filterSales">
-                                        <b><span class="mdi mdi-filter"></span> Filter</b>
-                                    </button>   -->                          
+                                    </a>                         
                                     <button type="button" class="btn btn-gradient-warning btn-sm btn-rounded" data-toggle="modal" data-target="#updateSales">
                                         <b><span class="mdi mdi-export"></span> Export</b>
                                     </button>
@@ -61,10 +58,8 @@
                                     <td><?php echo $l->pr_no; ?></td>
                                     <td><?php echo $l->po_no; ?></td>
                                     <td align="center">
-                                      <!--   <a href="<?php echo base_url(); ?>sales/goods_update_sales_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a> -->
-                                       <!--  <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteSales"><span class="mdi mdi-delete"></span></a> -->
                                         <a href="<?php echo base_url(); ?>sales/goods_print_sales/<?php echo $l->sales_good_head_id; ?>" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
-
+                                    </td>
                                 </tr>
                                 <?php } ?>
                             </tbody>                            
@@ -79,4 +74,5 @@
 
 
 
-
+<!--   <a href="<?php echo base_url(); ?>sales/goods_update_sales_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a> -->
+<!--  <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteSales"><span class="mdi mdi-delete"></span></a> -->

@@ -165,10 +165,11 @@
                                         <!-- <button class="btn btn-gradient-primary btn-xs pull-right " onclick="goods_add_sales_items('<?php echo base_url(); ?>')" name="">
                                             <span class="mdi mdi-plus"></span> Add Item
                                         </button>   -->
-                                        <div id ="myButton2"></div>
+                                        <center>
+                                            <div id ="myButton2"></div>
+                                        </center>
                                     </div>      
-                                    <br>
-                                    <br>                        
+                                    <br>                     
                                     <table id="table-alt" class="table-bordered" width="100%">
                                         <tr>
                                             <td class="td-head" width="1%">#</td>
@@ -185,6 +186,96 @@
                                             </td>
                                         </tr>
                                         <tbody id="append_data2"></tbody>
+                                    </table>
+                                    <br>
+                                    <table id="table-alt"  class="table-bordered" width="100%">
+                                        <tr>
+                                            <td class="td-head" colspan="7"><center><b>Consumables and Other Materials</b></center></td> 
+                                        </tr>
+                                        <tr>
+                                            <td class="td-head" width="5%">No.</td>
+                                            <td class="td-head" width="45%">Item Description</td>
+                                            <td class="td-head" width="8%">Qty</td>
+                                            <td class="td-head" width="8%">UOM</td>
+                                            <td class="td-head" width="14%">Unit Cost</td>
+                                            <td class="td-head" width="12%">Total Cost</td>
+                                            <td class="td-head" width="2%">
+                                                <span class="mdi mdi-menu"></span>
+                                            </td>
+                                        </tr>
+                                        <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><br></td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                    <table id="table-alt"  class="table-bordered" width="100%">
+                                        <tr >
+                                            <td class="td-head" colspan="7"><center><b>Manpower</b></center></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="td-head" width="5%">No.</td>
+                                            <td class="td-head" width="45%">Employee</td>
+                                            <td class="td-head" width="8%">Days</td>
+                                            <td class="td-head" width="8%">Rate</td>
+                                            <td class="td-head" width="14%">Overtime</td>
+                                            <td class="td-head" width="12%">Total</td>
+                                            <td class="td-head" width="2%">
+                                                <span class="mdi mdi-menu"></span>
+                                            </td>
+                                        </tr>
+                                        <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><br></td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                    <table id="table-alt"  class="table-bordered" width="100%">
+                                        <tr>
+                                            <td class="td-head" colspan="7"><center><b>Actual Rental Cost</b></center></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="td-head" width="5%">No.</td>
+                                            <td class="td-head" width="45%">Equipment</td>
+                                            <td class="td-head" width="8%">Rate</td>
+                                            <td class="td-head" width="8%">Unit</td>
+                                            <td class="td-head" width="14%">Days</td>
+                                            <td class="td-head" width="12%">Total Cost</td>
+                                            <td class="td-head" width="2%">
+                                                <span class="mdi mdi-menu"></span>
+                                            </td>
+                                        </tr>
+                                        <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><br></td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
                                     </table>
                                 </div>  
                             </div>     
