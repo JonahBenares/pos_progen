@@ -36,41 +36,31 @@ class Returns extends CI_Controller {
         $this->load->view('template/navbar');
         $data['dr_no']=$this->super_model->select_all_order_by("sales_good_head","dr_no","ASC");
         foreach($this->super_model->select_row_where("sales_good_head","sales_good_head_id",$sales_good_head_id) AS $sh){
-            $in_id = $this->super_model->select_column_where("sales_good_details","in_id","sales_good_head_id",$sh->sales_good_head_id);
-            $receive_id=$this->super_model->select_column_where("fifo_in","receive_id","in_id",$in_id);
-            $department_id = $this->super_model->select_column_where("receive_details","department_id","receive_id",$receive_id);
-            $department = $this->super_model->select_column_where("department","department_name","department_id",$department_id);
-            $purpose_id = $this->super_model->select_column_where("receive_details","purpose_id","receive_id",$receive_id);
-            $purpose = $this->super_model->select_column_where("purpose","purpose_desc","purpose_id",$purpose_id);
+         
+        
             $data["head"][]=array(
+                "pr_no"=>$sh->pr_no,
+                "pr_date"=>$sh->pr_date,
+                "client"=>$this->super_model->select_column_where("client","buyer_name","client_id",$sh->client_id),
+                "po_no"=>$sh->po_no,
+                "po_date"=>$sh->po_date,
+                "sales_date"=>date('F d,Y',strtotime($sh->sales_date)),
                 "dr_no"=>$sh->dr_no,
-                "department"=>$department,
-                "purpose"=>$purpose,
-                "pr_no"=>$sh->sales_date,
-                "date"=>date('F d,Y',strtotime($sh->sales_date)),
+                "vat"=>$sh->vat,
+                "remarks"=>$sh->remarks
             );
-            foreach($this->super_model->select_row_where("sales_good_details","sales_good_head_id",$sh->sales_good_head_id) AS $itm){
-                $ri_id=$this->super_model->select_column_where("fifo_in","ri_id","in_id",$itm->in_id);
-                $remaining_qty=$this->super_model->select_column_where("fifo_in","remaining_qty","in_id",$itm->in_id);
-                $item_id=$this->super_model->select_column_where("fifo_in","item_id","in_id",$itm->in_id);
-                $item_name = $this->super_model->select_column_where("items","item_name","item_id",$item_id);
-                $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$item_id);
-                $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
-                $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$item_id);
-                $brand=$this->super_model->select_column_where("fifo_in","brand","in_id",$itm->in_id);
-                $supplier_id=$this->super_model->select_column_where("fifo_in","supplier_id","in_id",$itm->in_id);
-                $supplier_name = $this->super_model->select_column_where("supplier","supplier_name","supplier_id",$supplier_id);
-                $serial_no=$this->super_model->select_column_where("fifo_in","serial_no","in_id",$itm->in_id);
+            foreach($this->super_model->select_row_where("fifo_out","sales_id",$sh->sales_good_head_id) AS $itm){
+                $supplier_id = $this->super_model->select_column_where("fifo_in","supplier_id","in_id",$itm->in_id);
+             
                 $data['item'][]=array(
-                    "ri_id"=>$ri_id,
                     "in_id"=>$itm->in_id,
-                    "item"=>$item_name,
-                    "remaining_qty"=>$remaining_qty,
-                    "supplier"=>$supplier_name,
-                    "brand"=>$brand,
-                    "original_pn"=>$original_pn,
-                    "serial_no"=>$serial_no,
-                    "unit"=>$unit,
+                    "item"=>$this->super_model->select_column_where("items","item_name","item_id",$itm->item_id),
+                    "item_id"=>$itm->item_id,
+                    "qty"=>$itm->quantity,
+                    "supplier"=>$this->super_model->select_column_where("supplier","supplier_name","supplier_id",$supplier_id),
+                    "brand"=>$this->super_model->select_column_where("fifo_in","brand","in_id",$itm->in_id),
+                    "catalog_no"=>$this->super_model->select_column_where("fifo_in","catalog_no","in_id",$itm->in_id),
+                    "serial_no"=>$this->super_model->select_column_where("fifo_in","serial_no","in_id",$itm->in_id),
                 );
             }
         }
@@ -88,6 +78,7 @@ class Returns extends CI_Controller {
 
     public function save_return(){
         $head_rows = $this->super_model->count_rows("return_head");
+          $count=$this->input->post('count');
         if($head_rows==0){
             $return_id=1;
         } else {
@@ -102,31 +93,35 @@ class Returns extends CI_Controller {
             "create_date"=>date("Y-m-d H:i:s"),
             "user_id"=>$_SESSION['user_id'],
         );
-        if($this->super_model->insert_into("return_head",$datains)){
-            $count=$this->input->post('count');
-            $in_id=$this->input->post('in_id');
-            $ri_id=$this->input->post('ri_id');
-            $remaining_qty=$this->input->post('remaining_qty');
-            $return_qty=$this->input->post('return_qty');
-            $remarks=$this->input->post('remarks');
-            for($x=0;$x<$count;$x++){
-                $datadet=array(
-                    "return_id"=>$return_id,
-                    "ri_id"=>$ri_id[$x],
-                    "in_id"=>$in_id[$x],
-                    "return_qty"=>$return_qty[$x],
-                    "remarks"=>$remarks[$x],
-                );
-                if($this->super_model->insert_into("return_details",$datadet)){
-                    $new_qty = $remaining_qty[$x]+$return_qty[$x];
-                    $dataup=array(
-                        'remaining_qty'=>$new_qty
+        $this->super_model->insert_into("return_head",$datains);
+
+          
+          
+            for($x=1;$x<$count;$x++){
+                $in_id= $this->input->post('in_id'.$x);
+                $qty =$this->input->post('return_qty'.$x);
+                $item_id =$this->input->post('item_id'.$x);
+                if( $qty !=0){
+                  
+                    $datadet=array(
+                        "return_id"=>$return_id,
+                        "item_id"=>$item_id,
+                        "in_id"=>$in_id,
+                        "return_qty"=>$qty,
+                        "remarks"=>$this->input->post('remarks'.$x)
                     );
-                    $this->super_model->update_where("fifo_in", $dataup, "in_id", $in_id[$x]);
+                    if($this->super_model->insert_into("return_details",$datadet)){
+                        $rem_qty = $this->super_model->select_column_where("fifo_in","remaining_qty","in_id",$in_id);
+                        $new_qty = $rem_qty + $qty;
+                        $dataup=array(
+                            'remaining_qty'=>$new_qty
+                        );
+                        $this->super_model->update_where("fifo_in", $dataup, "in_id", $in_id);
+                    }
                 }
-            }
+            
             echo $return_id;
-        }
+            }
     }
 
     public function print_return(){

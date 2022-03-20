@@ -43,16 +43,27 @@
                                     <h3><b><?php echo $h['dr_no']; ?></h3></b>
                                     <table width="100%">
                                         <tr>
-                                            <td width="10%">Department:</td>
-                                            <td width="40%"> <?php echo $h['department']; ?></td>
-                                            <td width="10%" align="right">JO/PR No:</td>
+                                            <td width="10%">Sales Date:</td>
+                                            <td width="40%" align='left'> <?php echo $h['sales_date']; ?></td>
+                                            <td align="right">VAT:</td>
+                                            <td>&nbsp; <?php echo (($h['vat'] == 1) ? 'Yes' : 'No'); ?></td>
+                                           
+                                        </tr>
+                                        <tr>
+                                            <td width="10%" >PR Date:</td>
+                                            <td width="40%"  >&nbsp; <?php echo $h['pr_date']; ?></td>
+                                            <td width="10%" align="right">PR No:</td>
                                             <td width="40%">&nbsp; <?php echo $h['pr_no']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td>Purpose:</td>
-                                            <td> <?php echo $h['purpose']; ?></td>
-                                            <td align="right"> Date:</td>
-                                            <td>&nbsp; <input type="date" name="return_date" id="return_date" value="<?php echo date("Y-m-d");?>"></td>
+                                            <td width="10%">PO Date:</td>
+                                            <td>&nbsp; <?php echo $h['po_date']; ?></td>
+                                            <td align="right">PO No:</td>
+                                            <td>&nbsp; <?php echo $h['po_no']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Remarks:</td>
+                                            <td colspan="3"><?php echo $h['remarks']; ?></td>
                                         </tr>
                                         <!-- <tr>
                                             <td>Enduse:</td>
@@ -69,12 +80,10 @@
                                     <tr>
                                         <th width="6%">Return Qty</th>
                                         <th width="20%">Item Description</th>
-                                        <th width="6%">PR Balance </th>
                                         <th width="20%">Supplier</th>
                                         <th width="10%">Brand</th>
                                         <th width="10%">Part No.</th>
                                         <th width="10%">Serial No.</th>
-                                        <th width="5%">UOM</th>
                                         <th width="13%">Remarks</th>
                                     </tr>
                                 </thead>
@@ -82,24 +91,21 @@
                                     <?php if(!empty($item)){ $x=1; foreach($item AS $i){ ?>
                                     <tr>
                                         <td class="p-0">
-                                            <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" placeholder="00" name="return_qty[]" id = "return_qty<?php echo $x; ?>">
+                                            <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="return_qty<?php echo $x; ?>" id = "return_qty<?php echo $x; ?>" max="<?php echo $i['qty']; ?>" placeholder="<?php echo number_format($i['qty']); ?>">
                                         </td>
                                         <td><?php echo $i['item'];?></td>
-                                        <td><?php echo $i['remaining_qty'];?></td>
                                         <td><?php echo $i['supplier'];?></td>
                                         <td><?php echo $i['brand'];?></td>
-                                        <td><?php echo $i['original_pn'];?></td>
+                                        <td><?php echo $i['catalog_no'];?></td>
                                         <td class="p-0"><?php echo $i['serial_no'];?></td>
-                                        <td><?php echo $i['unit'];?></td>
                                         <td class="p-0">
-                                            <textarea style="padding: 5px 10px;" rows="2" class="form-control" name="remarks[]" id="remarks"></textarea>
+                                            <textarea style="padding: 5px 10px;" rows="2" class="form-control" name="remarks<?php echo $x; ?>" id="remarks"></textarea>
                                         </td>
                                     </tr>
-                                    <input type='hidden' name='in_id[]' value="<?php echo $i['in_id']; ?>">
-                                    <input type='hidden' name='ri_id[]' value="<?php echo $i['ri_id']; ?>">
-                                    <input type='hidden' name='remaining_qty[]' value="<?php echo $i['remaining_qty']; ?>">
-                                    <?php $x++; } $count = $x-1;  ?>
-                                    <input type="hidden" name="count" id="count" value="<?php echo $count; ?>">
+                                    <input type='hidden' name='in_id<?php echo $x; ?>' value="<?php echo $i['in_id']; ?>">
+                                     <input type='hidden' name='item_id<?php echo $x; ?>' value="<?php echo $i['item_id']; ?>">
+                                    <?php $x++; }  ?>
+                                    <input type="hidden" name="count" id="count" value="<?php echo $x; ?>">
                                     <?php } ?>
                                    
                                 </tbody>                            
