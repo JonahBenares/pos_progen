@@ -23,14 +23,18 @@ function loadReturn(){
 
 function saveReturn(){
 	var returndata = $("#returnSave").serialize();
+
 	var loc= document.getElementById("baseurl").value;
 	var redirect = loc+'returns/save_return';
-	$.ajax({
-		type: "POST",
-		url: redirect,
-		data: returndata,
-		success: function(output){
-			window.location.href = loc+'returns/print_return/'+output;
-		}
-	});
+	if(confirm('Are you sure you want to return items?')){
+		$.ajax({
+			type: "POST",
+			url: redirect,
+			data: returndata,
+			success: function(output){
+				//alert(output);
+				window.location.href = loc+'returns/print_return/'+output;
+			}
+		});
+	}
 }

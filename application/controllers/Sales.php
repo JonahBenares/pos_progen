@@ -174,7 +174,6 @@ class Sales extends CI_Controller {
 
     public function insert_items(){
         $sales_good_head_id = $this->input->post('sales_good_head_id');
-        $in_id = $this->input->post('item');
         $quantity = $this->input->post('quantity');
         $now =date("Y-m-d");
         /*$sales_good_head_id = 1;
@@ -185,12 +184,10 @@ class Sales extends CI_Controller {
         //$new_qty = $remaining_qty - $quantity;
         $data=array(
             "sales_good_head_id"=>$sales_good_head_id,
-            "in_id"=>$in_id,
             "unit_cost"=>$this->input->post('unit_cost'),
             "selling_price"=>$this->input->post('selling_price'),
             "discount_percent"=>$this->input->post('discount'),
             "discount_amount"=>$this->input->post('discount_amount'),
-            "group_id"=>$this->input->post('group_id'),
             "total"=>$this->input->post('total_cost'),
             "quantity"=>$this->input->post('quantity'),
         );
