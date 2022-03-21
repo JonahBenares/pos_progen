@@ -215,6 +215,13 @@
                                                     <a class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a>
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td class="td-head" colspan="2" align="center"><b>Sub-Total</b></td>
+                                                <td class="td-head" colspan="3" align="center"><b>Material Cost Incurred</b></td>
+                                                <td class="td-head" align="right"><b></b></td>
+                                                <td class="td-head" align="right"><b></b></td>
+                                            </tr>
+
                                         </tbody>
                                     </table>
                                     <br>
@@ -245,6 +252,12 @@
                                                     <a class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a>
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td class="td-head" colspan="2" align="center"><b>Sub-Total</b></td>
+                                                <td class="td-head" colspan="3" align="center"><b>Labor Cost Incurred</b></td>
+                                                <td class="td-head" align="right"><b></b></td>
+                                                <td class="td-head" align="right"><b></b></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                     <br>
@@ -274,6 +287,12 @@
                                                 <td>
                                                     <a class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a>
                                                 </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-head" colspan="2" align="center"><b>Sub-Total</b></td>
+                                                <td class="td-head" colspan="3" align="center"><b>Rental Cost</b></td>
+                                                <td class="td-head" align="right"><b></b></td>
+                                                <td class="td-head" align="right"><b></b></td>
                                             </tr>
                                         </tbody>
                                     </table>
