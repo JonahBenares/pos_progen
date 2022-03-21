@@ -49,7 +49,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="pull-right">
-                                        <input type="button" class="btn btn-gradient-primary btn-md" value="Add Manpower"  >
+                                        <input type="button" class="btn btn-gradient-primary btn-md" value="Add Rental" >
                                     </div>
                                 </div>
                             </div>
