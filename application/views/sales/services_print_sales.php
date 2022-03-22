@@ -17,7 +17,7 @@
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
                 <center>
-                    <a href="#" class="btn btn-gradient-success btn-md btn-rounded">
+                    <a href="#" class="btn btn-gradient-success btn-md btn-rounded" onclick="printDiv('printableArea')">
                         <b><span class="mdi mdi-printer"></span> Print</b>
                     </a>
                 </center>
@@ -28,7 +28,7 @@
         <style type="text/css">
             
         </style>
-        <page size="A4">
+        <page size="A4" id="printableArea">
             <table class="page-A4 table-borsdered" width="100%">
                 <tr>
                     <td width="5%"><br></td>

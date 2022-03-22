@@ -9,7 +9,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>returns/return_form">Return Form</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Print Return</li>
+                    <li class="breadcrumb-item active" aria-current="page" onclick="printDiv('printableArea')">Print Return</li>
                 </ol>
             </nav>
         </div>
@@ -20,7 +20,7 @@
                     <!-- <a href="<?php echo base_url(); ?>billing/add_billing_head" class="btn btn-gradient-primary btn-sm btn-rounded">
                         <b><span class="mdi mdi-plus"></span> Add New</b>
                     </a> -->
-                    <a href="#" class="btn btn-gradient-success btn-md btn-rounded">
+                    <a href="#" class="btn btn-gradient-success btn-md btn-rounded" onclick="printDiv('printableArea')">
                         <b><span class="mdi mdi-printer"></span> Print</b>
                     </a>
                     <!-- <a href="<?php echo base_url(); ?>billing/update_billing_head" class="btn btn-gradient-info btn-sm btn-rounded">
@@ -34,7 +34,7 @@
         <style type="text/css">
             
         </style>
-        <page size="A4">
+        <page size="A4" id="printableArea">
             <table class="page-A4 table-bordsered" width="100%">
                 <tr>
                     <td width="5%"><br></td>
