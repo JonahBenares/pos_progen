@@ -105,7 +105,7 @@ class Returns extends CI_Controller {
                   
                     $datadet=array(
                         "return_id"=>$return_id,
-                        "item_id"=>$item_id,
+                        /*"item_id"=>$item_id,*/
                         "in_id"=>$in_id,
                         "return_qty"=>$qty,
                         "remarks"=>$this->input->post('remarks'.$x)
