@@ -10,16 +10,16 @@ function services_add_sales_items(baseurl,sales_serv_head_id) {
     window.open(baseurl+"sales/services_add_sales_item/"+sales_serv_head_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
 
-function services_add_consumable(baseurl) {
-    window.open(baseurl+"sales/services_add_consumable/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+function services_add_consumable(baseurl,sales_serv_head_id) {
+    window.open(baseurl+"sales/services_add_consumable/"+sales_serv_head_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
 
-function services_add_manpower(baseurl) {
-    window.open(baseurl+"sales/services_add_manpower/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+function services_add_manpower(baseurl,sales_serv_head_id) {
+    window.open(baseurl+"sales/services_add_manpower/"+sales_serv_head_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
 
-function services_add_rental(baseurl) {
-    window.open(baseurl+"sales/services_add_rental/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+function services_add_rental(baseurl,sales_serv_head_id) {
+    window.open(baseurl+"sales/services_add_rental/"+sales_serv_head_id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
 
 // function services_update_sales_items(baseurl) {
@@ -271,9 +271,9 @@ function proceed_sales_service(){
                 }
                 document.getElementById("sales_serv_head_id").value  = response.sales_serv_head_id;
                 $("#myButton2").append('<button class="btn btn-gradient-primary btn-xs mr-1 ml-1" onclick="services_add_sales_items(\''+loc+'\','+response.sales_serv_head_id+')" name=""><span class="mdi mdi-plus"></span> Add Item</button>'); 
-                $("#myButton2").append('<button class="btn btn-gradient-primary btn-xs mr-1 ml-1" onclick="services_add_consumable(\''+loc+'\')" name=""><span class="mdi mdi-plus"></span> Add Consumable</button>'); 
-                $("#myButton2").append('<button class="btn btn-gradient-primary btn-xs mr-1 ml-1" onclick="services_add_manpower(\''+loc+'\')" name=""><span class="mdi mdi-plus"></span> Add Manpower</button>'); 
-                $("#myButton2").append('<button class="btn btn-gradient-primary btn-xs mr-1 ml-1" onclick="services_add_rental(\''+loc+'\')" name=""><span class="mdi mdi-plus"></span> Add Rental</button>'); 
+                $("#myButton2").append('<button class="btn btn-gradient-primary btn-xs mr-1 ml-1" onclick="services_add_consumable(\''+loc+'\','+response.sales_serv_head_id+')" name=""><span class="mdi mdi-plus"></span> Add Consumable</button>'); 
+                $("#myButton2").append('<button class="btn btn-gradient-primary btn-xs mr-1 ml-1" onclick="services_add_manpower(\''+loc+'\','+response.sales_serv_head_id+')" name=""><span class="mdi mdi-plus"></span> Add Manpower</button>'); 
+                $("#myButton2").append('<button class="btn btn-gradient-primary btn-xs mr-1 ml-1" onclick="services_add_rental(\''+loc+'\','+response.sales_serv_head_id+')" name=""><span class="mdi mdi-plus"></span> Add Rental</button>'); 
             }
         });  
     }
@@ -302,6 +302,7 @@ function save_service_item(){
     var data = $("#service_item").serialize();
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+"sales/insert_service_items";
+    var total = loc+"sales/sum_serv_price";
     var conf = confirm('Are you sure you want to save this item?');
     if(conf){
         $.ajax({
@@ -313,8 +314,16 @@ function save_service_item(){
                 if (window.opener != null && !window.opener.closed) {
                     window.opener.$("#append_data2").append(response);
                     //window.opener.document.getElementById("append_data").append(response);
+                    $.ajax({
+                        type: "POST", 
+                        url: total,
+                        data:data,
+                        success:function(output){
+                            window.opener.document.getElementById("subtotal").innerHTML = output;
+                            window.close();
+                        }
+                    });
                 }
-                window.close();
             }
         });
     }
@@ -331,6 +340,204 @@ function delete_service_item(sales_serv_items_id,count){
             $('#load_data'+count).load(loc+"sales/services_add_sales_head #load_data"+count+"");
         }
     });  
+}
+
+function save_service_materials(){
+    var data = $("#service_materials").serialize();
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/insert_service_materials";
+    var total = loc+"sales/sum_materials_price";
+    var conf = confirm('Are you sure you want to save this materials?');
+    if(conf){
+        $.ajax({
+            type: "POST", // Post / Get method
+            url: redirect, //Where form data is sent on submission
+            data:data, //Form variables
+            success:function(response){
+                if (window.opener != null && !window.opener.closed) {
+                    window.opener.$("#append_data3").append(response);
+                    $.ajax({
+                        type: "POST", 
+                        url: total,
+                        data:data,
+                        success:function(output){
+                            window.opener.document.getElementById("subtotal2").innerHTML = output;
+                            window.close();
+                        }
+                    });
+                }
+            }
+        });
+    }
+}
+
+function delete_service_materials(sales_serv_mat_id,count){
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/delete_service_materials";
+    $.ajax({
+        data: 'sales_serv_mat_id='+sales_serv_mat_id,
+        type: "POST",
+        url: redirect,
+        success: function(output){
+            $('#load_material'+count).load(loc+"sales/services_add_sales_head #load_material"+count+"");
+        }
+    });  
+}
+
+function materials_price(){
+    var qty = document.getElementById("quantity").value;
+    var unit_cost = document.getElementById("unit_cost").value;
+    var total = parseFloat(unit_cost) * parseFloat(qty);
+    document.getElementById("grandtotal").value  = parseFloat(total);
+}
+
+function save_service_manpower(){
+    var data = $("#service_manpower").serialize();
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/insert_service_manpower";
+    var total = loc+"sales/sum_manpower_price"
+    var conf = confirm('Are you sure you want to save this manpower?');
+    if(conf){
+        $.ajax({
+            type: "POST", // Post / Get method
+            url: redirect, //Where form data is sent on submission
+            data:data, //Form variables
+            success:function(response){
+                if (window.opener != null && !window.opener.closed) {
+                    window.opener.$("#append_data4").append(response);
+                    $.ajax({
+                        type: "POST", 
+                        url: total,
+                        data:data,
+                        success:function(output){
+                            window.opener.document.getElementById("subtotal3").innerHTML = output;
+                            window.close();
+                        }
+                    });
+                }
+            }
+        });
+    }
+}
+
+function delete_service_manpower(sales_serv_manpower_id,count){
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/delete_service_manpower";
+    $.ajax({
+        data: 'sales_serv_manpower_id='+sales_serv_manpower_id,
+        type: "POST",
+        url: redirect,
+        success: function(output){
+            $('#load_manpower'+count).load(loc+"sales/services_add_sales_head #load_manpower"+count+"");
+        }
+    });  
+}
+
+function manpower_append(){
+    var manpower_id = document.getElementById("manpower").value;
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/manpower_info";
+    $.ajax({
+        data: 'manpower_id='+manpower_id,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById("rate").value = response.rate;
+        }
+    });  
+}
+
+function manpower_total(){
+    var days = document.getElementById("days").value;
+    var rate = document.getElementById("rate").value;
+    var overtime = document.getElementById("overtime").value;
+    if(overtime!=''){
+        var total = parseFloat(days) * (parseFloat(rate)+parseFloat(overtime));
+    }else{
+        var total = parseFloat(days) * parseFloat(rate);
+    }
+    document.getElementById("grandtotal").value  = parseFloat(total);
+}
+
+function save_service_equipment(){
+    var data = $("#service_equipment").serialize();
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/insert_service_equipment";
+    var total = loc+"sales/sum_equipment_price";
+    var conf = confirm('Are you sure you want to save this equipment?');
+    if(conf){
+        $.ajax({
+            type: "POST", // Post / Get method
+            url: redirect, //Where form data is sent on submission
+            data:data, //Form variables
+            success:function(response){
+                if (window.opener != null && !window.opener.closed) {
+                    window.opener.$("#append_data5").append(response);
+                    $.ajax({
+                        type: "POST", 
+                        url: total,
+                        data:data,
+                        success:function(output){
+                            window.opener.document.getElementById("subtotal4").innerHTML = output;
+                            window.close();
+                        }
+                    });
+                }
+            }
+        });
+    }
+}
+
+function delete_service_equipment(sales_serv_equipment_id,count){
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/delete_service_equipment";
+    $.ajax({
+        data: 'sales_serv_equipment_id='+sales_serv_equipment_id,
+        type: "POST",
+        url: redirect,
+        success: function(output){
+            $('#load_equipment'+count).load(loc+"sales/services_add_sales_head #load_equipment"+count+"");
+        }
+    });  
+}
+
+function equipment_append(){
+    var equipment_id = document.getElementById("equipment").value;
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/equipment_info";
+    $.ajax({
+        data: 'equipment_id='+equipment_id,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById("rate").value = response.rate;
+            document.getElementById("rate_solve").value = response.rate;
+        }
+    });  
+}
+
+function equipment_total(){
+    var days = document.getElementById("days").value;
+    var rate = document.getElementById("rate").value;
+    var total = parseFloat(days) * parseFloat(rate);
+    if(days!=''){
+        document.getElementById("grandtotal").value  = parseFloat(total);
+    }else{
+        ocument.getElementById("grandtotal").value  = 0;
+    }
+}
+
+function rental_rate_total(){
+    var quantity = document.getElementById("quantity").value;
+    var rate = document.getElementById("rate_solve").value;
+    var total = parseFloat(quantity) * parseFloat(rate);
+    if(quantity!=''){
+        document.getElementById("rate").value  = parseFloat(total);
+    }else{
+        document.getElementById("rate").value  = 0;
+    }
 }
 
 function saveAllservice(){

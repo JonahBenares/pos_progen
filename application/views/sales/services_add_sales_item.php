@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label >UOM</label>
-                                        <input type="number" class="form-control" name="uom" id="uom" placeholder="Unit of Measurement">
+                                        <input type="text" class="form-control" name="uom" id="uom" placeholder="Unit of Measurement">
                                     </div>                                
                                 </div>
                                 <div class="col-md-6 col-sm-6">                                

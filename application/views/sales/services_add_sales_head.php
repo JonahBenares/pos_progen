@@ -186,6 +186,12 @@
                                             </td>
                                         </tr>
                                         <tbody id="append_data2"></tbody>
+                                        <tr id = "total_cost">
+                                            <td class="td-head" colspan="3" align="center"><b>Sub-Total</b></td>
+                                            <td class="td-head" colspan="4" align="center"><b>Engine Parts Cost Incurred</b></td>
+                                            <td class="td-head" colspan="2" align="right"><b><div id="subtotal"></div></b></td>
+                                            <td class="td-head" align="right"><b></b></td>
+                                        </tr>
                                     </table>
                                     <br>
                                     <table id="table-alt"  class="table-bordered" width="100%">
@@ -203,26 +209,13 @@
                                                 <span class="mdi mdi-menu"></span>
                                             </td>
                                         </tr>
-                                        <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td><br></td>
-                                                <td>
-                                                    <a class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="td-head" colspan="2" align="center"><b>Sub-Total</b></td>
-                                                <td class="td-head" colspan="3" align="center"><b>Material Cost Incurred</b></td>
-                                                <td class="td-head" align="right"><b></b></td>
-                                                <td class="td-head" align="right"><b></b></td>
-                                            </tr>
-
-                                        </tbody>
+                                        <tbody id = "append_data3"></tbody>
+                                        <tr>
+                                            <td class="td-head" colspan="2" align="center"><b>Sub-Total</b></td>
+                                            <td class="td-head" colspan="3" align="center"><b>Material Cost Incurred</b></td>
+                                            <td class="td-head" align="right"><b><div id="subtotal2"></div></b></td>
+                                            <td class="td-head" align="right"><b></b></td>
+                                        </tr>
                                     </table>
                                     <br>
                                     <table id="table-alt"  class="table-bordered" width="100%">
@@ -240,25 +233,13 @@
                                                 <span class="mdi mdi-menu"></span>
                                             </td>
                                         </tr>
-                                        <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td><br></td>
-                                                <td>
-                                                    <a class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="td-head" colspan="2" align="center"><b>Sub-Total</b></td>
-                                                <td class="td-head" colspan="3" align="center"><b>Labor Cost Incurred</b></td>
-                                                <td class="td-head" align="right"><b></b></td>
-                                                <td class="td-head" align="right"><b></b></td>
-                                            </tr>
-                                        </tbody>
+                                        <tbody id="append_data4"></tbody>
+                                        <tr>
+                                            <td class="td-head" colspan="2" align="center"><b>Sub-Total</b></td>
+                                            <td class="td-head" colspan="3" align="center"><b>Labor Cost Incurred</b></td>
+                                            <td class="td-head" align="right"><b><div id="subtotal3"></div></b></td>
+                                            <td class="td-head" align="right"><b></b></td>
+                                        </tr>
                                     </table>
                                     <br>
                                     <table id="table-alt"  class="table-bordered" width="100%">
@@ -268,6 +249,7 @@
                                         <tr>
                                             <td class="td-head" width="5%">No.</td>
                                             <td class="td-head" width="45%">Equipment</td>
+                                            <td class="td-head" width="8%">Qty</td>
                                             <td class="td-head" width="8%">Rate</td>
                                             <td class="td-head" width="8%">Unit</td>
                                             <td class="td-head" width="14%">Days</td>
@@ -276,25 +258,13 @@
                                                 <span class="mdi mdi-menu"></span>
                                             </td>
                                         </tr>
-                                        <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td><br></td>
-                                                <td>
-                                                    <a class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="td-head" colspan="2" align="center"><b>Sub-Total</b></td>
-                                                <td class="td-head" colspan="3" align="center"><b>Rental Cost</b></td>
-                                                <td class="td-head" align="right"><b></b></td>
-                                                <td class="td-head" align="right"><b></b></td>
-                                            </tr>
-                                        </tbody>
+                                        <tbody id="append_data5"></tbody>
+                                        <tr>
+                                            <td class="td-head" colspan="2" align="center"><b>Sub-Total</b></td>
+                                            <td class="td-head" colspan="4" align="center"><b>Rental Cost</b></td>
+                                            <td class="td-head" align="right"><b><div id="subtotal4"></div></b></td>
+                                            <td class="td-head" align="right"><b></b></td>
+                                        </tr>
                                     </table>
                                 </div>  
                             </div>     
@@ -311,6 +281,7 @@
                 <!-- <a href="<?php echo base_url(); ?>sales/goods_print_sales" class="btn btn-gradient-success btn-md btn-block">Save and Print</a> -->
                 <div id='alert' style="font-weight:bold"></div>
                 <input type="button" id="submit_services" class="btn btn-gradient-success btn-md btn-block" onclick="saveAllservice();" value="Save and Print">
+
             </div>
             <div class="col-lg-4"></div>
         </div>
