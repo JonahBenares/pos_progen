@@ -52,17 +52,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>   
-                                <td></td>
-                                <td></td>
-                                <td align="center">
-                                    <a href="<?php echo base_url(); ?>sales/services_update_sales_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a>
-                                    <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteSales"><span class="mdi mdi-delete"></span></a>
-                                    <a href="<?php echo base_url(); ?>sales/services_print_sales" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
-                                </td>
+                                <?php if(!empty($service_head)){ foreach($service_head AS $sh){ ?>
+                                <tr>
+                                    <td><?php echo $sh['sales_date'];?></td>
+                                    <td><?php echo $sh['dr_no'];?></td>
+                                    <td><?php echo $sh['client'];?></td>
+                                    <td><?php echo $sh['address'];?></td>   
+                                    <td><?php echo $sh['jor_no'];?></td>
+                                    <td><?php echo $sh['joi_no'];?></td>
+                                    <td align="center">
+                                        <!-- <a href="<?php echo base_url(); ?>sales/services_update_sales_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a>
+                                        <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteSales"><span class="mdi mdi-delete"></span></a> -->
+                                        <a href="<?php echo base_url(); ?>sales/services_print_sales/<?php echo $sh['sales_serv_head_id']?>" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
+                                    </td>
+                                </tr>
+                                <?php } } ?>
                             </tbody>                            
                         </table>
                     </div>

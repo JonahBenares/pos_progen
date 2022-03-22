@@ -134,7 +134,11 @@
                                 <td style="background:#efefef" width="8%">Discount</td>
                                 <td style="background:#efefef" width="12%">Total Price</td>
                             </tr>
-                             <?php foreach($service_details AS $sd){ ?>
+                             <?php 
+                                $itmtotal[]=0;
+                                foreach($service_details AS $sd){ 
+                                    $itmtotal[] = $sd['total'];
+                            ?>
                             <tr>
                                 <td><?php echo $sd['original_pn'];?></td>
                                 <td><?php echo $sd['item'];?></td>
@@ -145,11 +149,11 @@
                                 <td align="center"><?php echo number_format($sd['discount'],0)."%";?></td>
                                 <td><?php echo number_format($sd['total'],2);?></td>
                             </tr>
-                            <?php } ?>
+                            <?php $itemtotal =array_sum($itmtotal); } ?>
                             <tr>
                                 <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
                                 <td style="background:#efefef" colspan="5" align="center"><b>Engine Parts Cost Incurred</b></td>
-                                <td style="background:#efefef" align="right"><b></b></td>
+                                <td style="background:#efefef" align="left"><b><?php echo number_format($itemtotal,2);?></b></td>
                             </tr>
                         </table>
                     </td>
@@ -171,42 +175,28 @@
                                 <td style="background:#efefef" width="14%">Unit Cost</td>
                                 <td style="background:#efefef" width="12%">Total Cost</td>
                             </tr>
+                            <?php 
+                                $x=1;
+                                $mattotal[]=0;
+                                foreach($service_materials AS $sm){
+                                    $mattotal[] = $sm['total_cost'];
+                            ?>
                             <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td><?php echo $x; ?></td>
+                                <td><?php echo $sm['item_description'];?></td>
+                                <td><?php echo $sm['quantity'];?></td>
+                                <td><?php echo $sm['uom'];?></td>
+                                <td><?php echo $sm['unit_cost'];?></td>
+                                <td><?php echo $sm['total_cost'];?></td>
                             </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            <?php 
+                                $x++; } 
+                                $mtotal =array_sum($mattotal);
+                            ?>
                             <tr>
                                 <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
                                 <td style="background:#efefef" colspan="3" align="center"><b>Material Cost Incurred</b></td>
-                                <td style="background:#efefef" align="right"><b></b></td>
+                                <td style="background:#efefef" align="left"><b><?php echo number_format($mtotal,2); ?></b></td>
                             </tr>
 
                         </table>
@@ -229,42 +219,28 @@
                                 <td style="background:#efefef" width="14%">Overtime</td>
                                 <td style="background:#efefef" width="12%">Total</td>
                             </tr>
+                            <?php 
+                                $x=1;
+                                $mantotal[]=0;
+                                foreach($service_manpower AS $sman){
+                                    $mantotal[] = $sman['total_cost'];
+                            ?>
                             <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td><?php echo $x; ?></td>
+                                <td><?php echo $sman['employee_name']; ?></td>
+                                <td><?php echo $sman['days']; ?></td>
+                                <td><?php echo $sman['rate']; ?></td>
+                                <td><?php echo $sman['overtime']; ?></td>
+                                <td><?php echo $sman['total_cost']; ?></td>
                             </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            <?php 
+                                $x++; }
+                                $mntotal =array_sum($mantotal);
+                            ?>
                             <tr>
                                 <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
                                 <td style="background:#efefef" colspan="3" align="center"><b>Labor Cost Incurred</b></td>
-                                <td style="background:#efefef" align="right"><b></b></td>
+                                <td style="background:#efefef" align="left"><b><?php echo number_format($mntotal,2); ?></b></td>
                             </tr>
 
                         </table>
@@ -287,50 +263,39 @@
                                 <td style="background:#efefef" width="14%">Days</td>
                                 <td style="background:#efefef" width="12%">Total Cost</td>
                             </tr>
+                            <?php 
+                                $x=1;
+                                $eqptotal[]=0;
+                                foreach($service_equipment AS $se){
+                                    $eqptotal[] = $se['total_cost'];
+                            ?>
                             <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td><?php echo $x; ?></td>
+                                <td><?php echo $se['equipment_name']; ?></td>
+                                <td><?php echo $se['rate']; ?></td>
+                                <td><?php echo $se['uom']; ?></td>
+                                <td><?php echo $se['days']; ?></td>
+                                <td><?php echo $se['total_cost']; ?></td>
                             </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            <?php 
+                                $x++; }
+                                $eqtotal =array_sum($eqptotal);
+                            ?>
                             <tr>
                                 <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
                                 <td style="background:#efefef" colspan="3" align="center"><b>Rental Cost</b></td>
-                                <td style="background:#efefef" align="right"><b></b></td>
+                                <td style="background:#efefef" align="left"><b><?php echo number_format($eqtotal,2); ?></b></td>
                             </tr>
                             <tr>
                                 <td colspan="6" style="background:#efefef"><br></td>
                             </tr>
+                            <?php 
+                                $grand_total = $itemtotal + $mtotal + $mntotal + $eqtotal;
+                            ?>
                             <tr>
                                 <td style="background:#fff700" colspan="2" align="center"><b>GRAND TOTAL</b></td>
                                 <td style="background:#fff700" colspan="3" align="center"><b>Actual Project Cost</b></td>
-                                <td style="background:#fff700" align="right"><b></b></td>
+                                <td style="background:#fff700" align="left"><b><?php echo number_format($grand_total,2); ?></b></td>
                             </tr>
                         </table>
                     </td>
@@ -347,23 +312,23 @@
                             </tr>
                             <tr> 
                                 <td width="60%">Engine Parts</td>
-                                <td width="40%"></td>
+                                <td width="40%"><?php echo number_format($itemtotal,2); ?></td>
                             </tr>
                             <tr>
                                 <td>Material</td>
-                                <td></td>
+                                <td><?php echo number_format($mtotal,2); ?></td>
                             </tr>
                             <tr>
                                 <td>Manpower</td>
-                                <td></td>
+                                <td><?php echo number_format($mntotal,2); ?></td>
                             </tr>
                             <tr>
                                 <td>Equipment</td>
-                                <td></td>
+                                <td><?php echo number_format($eqtotal,2); ?></td>
                             </tr>
                             <tr style="background:#fff700">
                                 <td>TOTAL</td>
-                                <td></td>
+                                <td><b><?php echo number_format($grand_total,2); ?></b></td>
                             </tr>
                             <tr>
                                 <td>Add: Service Fee</td>
