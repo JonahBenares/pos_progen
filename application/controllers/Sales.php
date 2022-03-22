@@ -176,6 +176,7 @@ class Sales extends CI_Controller {
         $sales_good_head_id = $this->input->post('sales_good_head_id');
         $quantity = $this->input->post('quantity');
         $now =date("Y-m-d");
+         $in_id = $this->input->post('item');
         /*$sales_good_head_id = 1;
         $in_id = 1;
         $quantity = 7;*/
@@ -186,6 +187,7 @@ class Sales extends CI_Controller {
             "sales_good_head_id"=>$sales_good_head_id,
             "unit_cost"=>$this->input->post('unit_cost'),
             "selling_price"=>$this->input->post('selling_price'),
+            "item_id"=>$item_id,
             "discount_percent"=>$this->input->post('discount'),
             "discount_amount"=>$this->input->post('discount_amount'),
             "total"=>$this->input->post('total_cost'),
@@ -196,13 +198,14 @@ class Sales extends CI_Controller {
 
             $count_item = $this->super_model->count_rows_where("sales_good_details","sales_good_head_id",$sales_good_head_id);
             foreach($this->super_model->custom_query("SELECT * FROM sales_good_details WHERE sales_good_head_id='$sales_good_head_id' ORDER BY sales_good_det_id DESC LIMIT 1") AS $app){
-                $item_id = $this->super_model->select_column_where("fifo_in","item_id","in_id",$app->in_id);
+                $item_id = $this->super_model->select_column_where("fifo_in","item_id","in_id",$in_id);
+               // $item_id = $this->super_model->select_column_where("fifo_in","item_id","in_id",$app->in_id);
                 $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$item_id);
                 $item_name = $this->super_model->select_column_where("items","item_name","item_id",$item_id);
                 $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$item_id);
                 $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
-                $serial_no = $this->super_model->select_column_where("fifo_in","serial_no","in_id",$app->in_id);
-                echo '<tr id="load_data'.$count_item.'"><td>'.$count_item.'</td><td>'.$original_pn.'</td><td>'.$item_name.'</td><td>'.$serial_no.'</td><td>'.$app->quantity.'</td><td>'.$unit.'</td><td>'.number_format($app->selling_price,2).'</td><td>'.number_format($app->discount_percent,0)."%".'</td><td>'.number_format($app->total,2).'</td>  <td><a onclick="delete_sales_item('.$app->sales_good_det_id.','.$count_item.','.$app->quantity.','.$app->in_id.')" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
+                $serial_no = $this->super_model->select_column_where("fifo_in","serial_no","in_id",$in_id);
+                echo '<tr id="load_data'.$count_item.'"><td>'.$count_item.'</td><td>'.$original_pn.'</td><td>'.$item_name.'</td><td>'.$serial_no.'</td><td>'.$app->quantity.'</td><td>'.$unit.'</td><td>'.number_format($app->selling_price,2).'</td><td>'.number_format($app->discount_percent,0)."%".'</td><td>'.number_format($app->total,2).'</td>  <td><a onclick="delete_sales_item('.$app->sales_good_det_id.','.$count_item.')" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
                 $count_item++;
             } 
 
@@ -382,12 +385,13 @@ class Sales extends CI_Controller {
                 'remarks'=>$sh->remarks,
             );
             foreach($this->super_model->select_custom_where("sales_good_details","sales_good_head_id='$sh->sales_good_head_id'") AS $sd){
-                $item_id = $this->super_model->select_column_where("fifo_in","item_id","in_id",$sd->in_id);
-                $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$item_id);
-                $item_name = $this->super_model->select_column_where("items","item_name","item_id",$item_id);
-                $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$item_id);
+                $serial_no = $this->get_serial($sd->sales_good_det_id);
+                $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$sd->item_id);
+                $item_name = $this->super_model->select_column_where("items","item_name","item_id",$sd->item_id);
+                $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$sd->item_id);
                 $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
-                $serial_no = $this->super_model->select_column_where("fifo_in","serial_no","in_id",$sd->in_id);
+                //$serial_no = $this->super_model->select_column_where("fifo_in","serial_no","in_id",$sd->in_id);
+               
                 $data['sales_details'][]=array(
                     'original_pn'=>$original_pn,
                     'item'=>$item_name,
@@ -404,6 +408,13 @@ class Sales extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function get_serial($sales_details_id){
+        $serial="";
+        foreach($this->super_model->select_row_where("fifo_out", "sales_details_id", $sales_details_id) AS $out){
+            $serial.=$this->super_model->select_column_where("fifo_in", "serial_no", "in_id", $out->in_id) . ", ";
+        }
+        return substr($serial,0,-2);
+    }
     public function add_sales_service_process(){
         $data=array(
             "client_id"=>$this->input->post('client'),

@@ -51,12 +51,13 @@ class Returns extends CI_Controller {
             );
             foreach($this->super_model->select_row_where("fifo_out","sales_id",$sh->sales_good_head_id) AS $itm){
                 $supplier_id = $this->super_model->select_column_where("fifo_in","supplier_id","in_id",$itm->in_id);
-             
+                $returned_qty = $this->super_model->select_sum("return_details", "return_qty", "in_id", $itm->in_id);
+                $qty = $itm->quantity - $returned_qty;
                 $data['item'][]=array(
                     "in_id"=>$itm->in_id,
                     "item"=>$this->super_model->select_column_where("items","item_name","item_id",$itm->item_id),
                     "item_id"=>$itm->item_id,
-                    "qty"=>$itm->quantity,
+                    "qty"=>$qty,
                     "supplier"=>$this->super_model->select_column_where("supplier","supplier_name","supplier_id",$supplier_id),
                     "brand"=>$this->super_model->select_column_where("fifo_in","brand","in_id",$itm->in_id),
                     "catalog_no"=>$this->super_model->select_column_where("fifo_in","catalog_no","in_id",$itm->in_id),
@@ -120,8 +121,10 @@ class Returns extends CI_Controller {
                     }
                 }
             
-            echo $return_id;
+           
             }
+
+             echo $return_id;
     }
 
     public function print_return(){

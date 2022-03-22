@@ -42,7 +42,7 @@ function proceed_sales(){
     var data = $("#salesHead").serialize();
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+"sales/add_sales_head_process";
-    var redirect2 = loc+"sales/load_button";
+    //var redirect2 = loc+"sales/load_button";
     var conf = confirm('Are you sure you want to proceed?');
     if(conf){
           $.ajax({
@@ -181,12 +181,12 @@ function qty_append(){
     }); 
 }
 
-function delete_sales_item(sales_good_det_id,count,quantity,in_id){
+function delete_sales_item(sales_good_det_id,count){
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+"sales/delete_item";
     var load = loc+"sales/goods_add_sales_head";
     $.ajax({
-        data: 'sales_good_det_id='+sales_good_det_id+"&quantity="+quantity+"&in_id="+in_id,
+        data: 'sales_good_det_id='+sales_good_det_id,
         type: "POST",
         url: redirect,
         success: function(output){
