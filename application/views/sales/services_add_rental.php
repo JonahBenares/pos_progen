@@ -63,7 +63,7 @@
                                         <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
                                         <input type="hidden" name="sales_serv_head_id" value="<?php echo $sales_serv_head_id; ?>">
                                         <input type="hidden" name="rate_solve" id="rate_solve">
-                                        <input type="button" class="btn btn-gradient-primary btn-md" value="Add Equipment" id='saveitem' onclick="save_service_equipment();">
+                                        <input type="button" class="btn btn-gradient-primary btn-md" value="Add Rental" id='saveitem' onclick="save_service_equipment();">
                                     </div>
                                 </div>
                             </div>
