@@ -107,6 +107,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputName1">Qty</label>
                                     <input type="text" class="form-control" id="qty" name="qty<?php echo $z;?>" placeholder="00">
+                                    <!-- <input type="text" class="form-control" id="qty" name="qty<?php echo $z;?>" placeholder="<?php echo number_format($d['avail_qty']); ?>"> -->
                                 </div>                 
                             </div>     
                             <div class="col-lg-3">

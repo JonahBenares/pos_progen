@@ -98,7 +98,7 @@ function saveDamage(){
 function check_rem_qty(count){
   var remaining_qty = $('select#transaction'+count+' option:selected').attr('mytag');
   var quantity= document.getElementById("qty"+count).value;
-  if(quantity>remaining_qty){
+  if (parseInt(quantity) >parseInt(remaining_qty)){
     document.getElementById("savedamage").disabled = true;
     alert("Quantity requested exceeds available quantity!");
   }else{

@@ -25,9 +25,19 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <?php foreach($details AS $det) { ?>
-                                <div class="form-group">
-                                    <p class="text-muted mb-0">Item Description</p>
-                                    <h3 class="mb-0 font-weight-medium"><?php echo $det['item_name'];?></h3>
+                                <div class="row">
+                                    <div class="col-lg-5">
+                                        <div class="form-group">
+                                            <p class="text-muted mb-0">Item Description</p>
+                                            <h3 class="mb-0 font-weight-medium"><?php echo $det['item_name'];?></h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 offset-lg-1">
+                                        <div class="form-group">
+                                            <p class="text-muted mb-0">Available Quantity</p>
+                                            <p class="mb-0 font-weight-medium"><?php echo number_format($det['totalqty'],2);?></p>
+                                        </div> 
+                                    </div>
                                 </div>
                                 <hr>
                                 <div class="row">
