@@ -499,6 +499,7 @@ class Items extends CI_Controller {
         if($row!=0){
             foreach($this->super_model->select_row_where('items', 'item_id', $id) AS $det){
                 $highest_cost=$this->super_model->get_max_where("fifo_in", "item_cost","item_id=$det->item_id");
+                $totalqty= $this->super_model->select_sum_where("fifo_in", "remaining_qty", "item_id=$det->item_id");
                 $data['details'][] = array(
                     'item_id'=>$det->item_id,
                     'original_pn'=>$det->original_pn,
@@ -516,6 +517,7 @@ class Items extends CI_Controller {
                     'rack'=>$this->super_model->select_column_where('rack', 'rack_name','rack_id', $det->rack_id),
                     'barcode'=>$det->barcode,
                     'highest_cost'=>$highest_cost,
+                    'totalqty'=>$totalqty,
                     'weight'=>$det->weight,
                     'nkk_no'=>$det->nkk_no,
                     'semt_no'=>$det->semt_no,

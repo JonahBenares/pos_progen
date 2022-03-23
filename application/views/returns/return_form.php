@@ -91,8 +91,9 @@
                                     <?php if(!empty($item)){ $x=1; foreach($item AS $i){ ?>
                                     <tr>
                                         <td class="p-0">
-                                            <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="return_qty<?php echo $x; ?>" id = "return_qty<?php echo $x; ?>" max="<?php echo $i['qty']; ?>" placeholder="<?php echo number_format($i['qty']); ?>">
+                                            <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="return_qty<?php echo $x; ?>" onkeyup="check_return_qty('<?php echo $x; ?>')" id = "retqty<?php echo $x; ?>" max="<?php echo $i['qty']; ?>" placeholder="<?php echo number_format($i['qty']); ?>">
                                         </td>
+                                        <input type='hidden' name='qty' id='qty<?php echo $x; ?>' value="<?php echo number_format($i['qty']); ?>">
                                         <td><?php echo $i['item'];?></td>
                                         <td><?php echo $i['supplier'];?></td>
                                         <td><?php echo $i['brand'];?></td>
