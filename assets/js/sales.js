@@ -145,7 +145,7 @@ function item_append(){
         url: redirect,
         dataType: "json",
         success: function(response){
-            document.getElementById("serial_no").value = response.serial_no;
+            //document.getElementById("serial_no").value = response.serial_no;
             //document.getElementById("unit_cost").value = response.unit_cost;
             //document.getElementById("quantity").value = response.quantity;
             document.getElementById("uom").value = response.unit;
@@ -168,10 +168,13 @@ function qty_append(){
         data: 'in_id='+in_id+'&item_id='+item_id+'&qty='+qty,
         type: "POST",
         url: redirect,
-        success: function(output){
-           // console.log(output);
-            if(output!='error'){
-                document.getElementById("unit_cost").value = output;
+        dataType: "json",
+        success: function(response){
+          
+            console.log(response);
+            if(response.status!='error'){
+                document.getElementById("unit_cost").value = response.cost;
+                document.getElementById("serial_no").value = response.serial_no;
                  document.getElementById("saveitem").disabled = false;
             } else {
                 alert('Quantity requested exceeds available quantity!');
