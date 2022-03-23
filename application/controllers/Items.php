@@ -28,6 +28,13 @@ class Items extends CI_Controller {
         }
     } 
 
+    public function balance($itemid){
+        $fifo_in= $this->super_model->select_sum_where("fifo_in", "quantity", "item_id='$itemid'");
+        $fifo_out= $this->super_model->select_sum_where("fifo_out", "quantity", "item_id='$itemid'");
+        $balance=$fifo_in-$fifo_out;
+        return $balance;
+    }
+
 
     public function item_list()
     {
@@ -51,7 +58,7 @@ class Items extends CI_Controller {
                 $location = $this->super_model->select_column_where('location', 'location_name', 
                     'location_id', $itm->location_id);
                 $unit = $this->super_model->select_column_where('uom', 'unit_name', 'unit_id', $itm->unit_id);
-
+                $totalqty=$this->balance($itm->item_id);
                 $data['items'][] = array(
                     'item_id'=>$itm->item_id,
                     'original_pn'=>$itm->original_pn,
@@ -62,6 +69,7 @@ class Items extends CI_Controller {
                     'subcat_id', $itm->subcat_id),
                     'bin'=>$bin,
                     'rack'=>$rack,
+                    'quantity'=>$totalqty,
                     'warehouse'=>$warehouse,
                     'location'=>$location,                
                     'highest_cost'=>$highest_cost,

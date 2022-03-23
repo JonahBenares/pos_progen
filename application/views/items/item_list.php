@@ -45,7 +45,7 @@
                                 <tr>
                                     <th width="10%"> OPN </th>
                                     <th width="35%"> Item Description </th>
-                                    <!-- <th width="5%"> Qty</th> -->
+                                    <th width="5%"> Qty</th>
                                     <th width="5%"> UOM </th>
                                     <th width="10%"> Locationn </th>
                                     <th width="10%"> Rack </th>
@@ -60,7 +60,7 @@
                                 <tr>
                                     <td><?php echo $itm['original_pn'];  ?></td>
                                     <td><?php echo $itm['item_name']?></td>
-                                    <!-- <td><?php echo $itm['quantity']?></td> -->
+                                    <td><?php echo $itm['quantity']?></td>
                                     <td><?php echo $itm['uom']?></td>
                                     <td><?php echo $itm['location'];?></td>
                                     <td><?php echo $itm['rack'];?></td>
