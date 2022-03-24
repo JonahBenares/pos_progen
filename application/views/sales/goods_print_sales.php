@@ -125,6 +125,7 @@
                     <td colspan="20">
                         <table class="table-bordered" width="100%">
                             <tr> 
+                                <td width="2%">#</td>
                                 <td width="7%">Part No.</td>
                                 <td width="30%">Item Description</td>
                                 <td width="15%">Serial No.</td>
@@ -134,8 +135,11 @@
                                 <td width="8%">Discount</td>
                                 <td width="12%">Total Price</td>
                             </tr>
-                            <?php foreach($sales_details AS $sd){ ?>
+                            <?php 
+                                $x = 1;
+                                foreach($sales_details AS $sd){ ?>
                             <tr>
+                                <td><?php echo $x;?></td>
                                 <td><?php echo $sd['original_pn'];?></td>
                                 <td><?php echo $sd['item'];?></td>
                                 <td><?php echo $sd['serial_no'];?></td>
@@ -145,7 +149,7 @@
                                 <td align="center"><?php echo number_format($sd['discount'],0)."%";?></td>
                                 <td><?php echo number_format($sd['total'],2);?></td>
                             </tr>
-                            <?php } ?>
+                            <?php $x++; } ?>
                         </table>
                     </td>
                 </tr>

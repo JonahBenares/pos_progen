@@ -64,6 +64,8 @@
                                         <tr>
                                             <td>Remarks:</td>
                                             <td colspan="3"><?php echo $h['remarks']; ?></td>
+                                            <td width="10%">Date Return:</td>
+                                            <td width="40%" align="left">&nbsp;<input type="date" class="form-control" name="return_date" id = "return_date" value="<?php echo date("Y-m-d");?>"></td>
                                         </tr>
                                         <!-- <tr>
                                             <td>Enduse:</td>
