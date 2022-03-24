@@ -31,6 +31,7 @@
                                                 </center>
                                             </th>
                                             <th width="36%"><label class="label-table">Item Name</label></th>
+                                            <th><label class="label-table">Quantity</label></th>
                                             <th><label class="label-table">Receive Date</label></th>
                                             <th><label class="label-table">PR No</label></th>
                                             <th><label class="label-table">Category</label></th>
@@ -47,7 +48,8 @@
                                         <tr>
                                             <td class="p-b-10 p-t-10" align="center"><input type="hidden" class="form-control"  style="width:25px" name="in_id[]" value="<?php echo $r['in_id']; ?>"><input type="checkbox" class="form-control"  style="width:25px" name="damagedetid[]" value="<?php echo $r['damage_det_id']; ?>"></td>
                                             <td><label class="label-table"><?php echo $r['item_name'];?></label></td>
-                                            <td><label class="label-table"><?php echo $r['receive_date'];?></label></td>
+                                            <td><label class="label-table"><?php echo number_format($r['qty'],2);?></label></td>
+                                            <td><label class="label-table"><?php echo date("M j, Y",strtotime($r['receive_date']))?></label></td>
                                             <td><label class="label-table"><?php echo $r['pr_no'];?></label></td>
                                             <td><label class="label-table"><?php echo $r['category'];?></label></td>
                                             <td><label class="label-table"><?php echo $r['subcategory'];?></label></td>

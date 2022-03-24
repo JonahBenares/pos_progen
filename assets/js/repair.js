@@ -51,3 +51,13 @@ function isNumberKey(evt, obj) {
         return true;
     }
 
+function check_repair_qty(count){
+  var avail_qty= document.getElementById("avail_qty"+count).value;
+  var quantity= document.getElementById("repqty"+count).value;
+  if (parseInt(quantity) >parseInt(avail_qty)){
+    document.getElementById("saved").disabled = true;
+    alert("Quantity requested exceeds available quantity!");
+  }else{
+    document.getElementById("saved").disabled = false;
+  }
+}

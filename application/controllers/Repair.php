@@ -33,30 +33,32 @@ class Repair extends CI_Controller {
     {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $row_avail=$this->super_model->count_custom_query("SELECT * FROM damage_details where repaired='0'");
-        if($row_avail!=0){
-             foreach($this->super_model->custom_query("SELECT * FROM damage_details where repaired='0'") AS $repair){ 
+        $row_avail=$this->super_model->count_rows('damage_details');
+             foreach($this->super_model->select_all('damage_details') AS $repair){
                 $item_id=$this->super_model->select_column_where("fifo_in","item_id","in_id",$repair->in_id);
                 $in_id=$this->super_model->select_column_where("fifo_in","in_id","in_id",$repair->in_id);
                 $receive_date=$this->super_model->select_column_where("fifo_in","receive_date","in_id",$repair->in_id);
                 $pr_no=$this->super_model->select_column_where("fifo_in","pr_no","in_id",$repair->in_id);
                 $item_name = $this->super_model->select_column_where("items","item_name","item_id",$item_id);
+                $repair_qty= $this->super_model->select_sum_where("repair_details", "quantity", "damage_det_id='$repair->damage_det_id' AND saved='1' AND assessment='1'");
+                $damageqty= $repair->damage_qty-$repair_qty;
+                if($row_avail!=0 && $damageqty!='0'){
                 $data['repair_items'][] = array(
                     'damage_det_id'=>$repair->damage_det_id,
                     'in_id'=>$repair->in_id,
                     'receive_date'=>$receive_date,
+                    'qty'=>$damageqty,
                     'pr_no'=>$pr_no,
                     'category'=>$this->super_model->select_column_where('item_categories', 'cat_name', 'cat_id', $item_id),
                     'subcategory'=>$this->super_model->select_column_where('item_subcat', 'subcat_name', 'subcat_id', $item_id),
                     'item_name'=>$item_name,
 
                 );
-            }
- 
         } else {
             $data['repair_items']=array();
+        }
     }
-        $this->load->view('repair/repair_item', $data);
+        $this->load->view('repair/repair_item',$data);
         $this->load->view('template/footer');
     }
 
@@ -114,11 +116,11 @@ class Repair extends CI_Controller {
                             'remaining_qty'=>$qty,
                         ); 
                     }
-                    $this->super_model->update_where("fifo_in", $in_data, "in_id", $inid);
+                    /*$this->super_model->update_where("fifo_in", $in_data, "in_id", $inid);
                     $damage_data = array(
                         'repaired'=>1,
                     ); 
-                    $this->super_model->update_where("damage_details", $damage_data, "in_id", $inid);
+                    $this->super_model->update_where("damage_details", $damage_data, "in_id", $inid);*/
                 }
             }
         }
@@ -134,16 +136,16 @@ class Repair extends CI_Controller {
             $receive_date=$this->super_model->select_column_where("fifo_in","receive_date","in_id",$repair->in_id);
             $pr_no=$this->super_model->select_column_where("fifo_in","pr_no","in_id",$repair->in_id);
             $item_name = $this->super_model->select_column_where("items","item_name","item_id",$item_id);
-            /*$damage_det_id=$this->super_model->select_column_where("damage_details","damage_det_id","damage_det_id",$repair->damage_det_id);
+            $damage_det_id=$this->super_model->select_column_where("damage_details","damage_det_id","damage_det_id",$repair->damage_det_id);
             $damage_qty= $this->super_model->select_column_where("damage_details","damage_qty","damage_det_id",$damage_det_id);
             $repair_qty= $this->super_model->select_sum_where("repair_details", "quantity", "damage_det_id='$damage_det_id' AND saved='1' AND assessment='1'");
-            $avail_qty= $damage_qty-$repair_qty;*/
+            $avail_qty= $damage_qty-$repair_qty;
             if($repair->saved == 0 AND $repair->unsaved==1){
                 $data['rep'][]=array(
                     'repair_id'=>$repair->repair_id,
                     'damage_det_id'=>$repair->damage_det_id,
                     'in_id'=>$repair->in_id,
-                    /*'avail_qty'=>$avail_qty,*/
+                    'avail_qty'=>$avail_qty,
                 );
             }
             $data['details'][]=array(
