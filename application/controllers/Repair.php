@@ -42,7 +42,7 @@ class Repair extends CI_Controller {
                 $item_name = $this->super_model->select_column_where("items","item_name","item_id",$item_id);
                 $repair_qty= $this->super_model->select_sum_where("repair_details", "quantity", "damage_det_id='$repair->damage_det_id' AND saved='1' AND assessment='1'");
                 $damageqty= $repair->damage_qty-$repair_qty;
-                if($row_avail!=0 && $damageqty!='0'){
+                if($row_avail!=0 AND $damageqty!='0'){
                 $data['repair_items'][] = array(
                     'damage_det_id'=>$repair->damage_det_id,
                     'in_id'=>$repair->in_id,
