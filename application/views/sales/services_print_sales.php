@@ -149,7 +149,7 @@
                                 <td align="center"><?php echo number_format($sd['discount'],0)."%";?></td>
                                 <td><?php echo number_format($sd['total'],2);?></td>
                             </tr>
-                            <?php $itemtotal =array_sum($itmtotal); } ?>
+                            <?php } $itemtotal=array_sum($itmtotal); ?>
                             <tr>
                                 <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
                                 <td style="background:#efefef" colspan="5" align="center"><b>Engine Parts Cost Incurred</b></td>

@@ -145,7 +145,7 @@ function item_append(){
         url: redirect,
         dataType: "json",
         success: function(response){
-            document.getElementById("serial_no").value = response.serial_no;
+            //document.getElementById("serial_no").value = response.serial_no;
             //document.getElementById("unit_cost").value = response.unit_cost;
             //document.getElementById("quantity").value = response.quantity;
             document.getElementById("uom").value = response.unit;
@@ -168,10 +168,13 @@ function qty_append(){
         data: 'in_id='+in_id+'&item_id='+item_id+'&qty='+qty,
         type: "POST",
         url: redirect,
-        success: function(output){
-           // console.log(output);
-            if(output!='error'){
-                document.getElementById("unit_cost").value = output;
+        dataType: "json",
+        success: function(response){
+          
+            console.log(response);
+            if(response.status!='error'){
+                document.getElementById("unit_cost").value = response.cost;
+                document.getElementById("serial_no").value = response.serial_no;
                  document.getElementById("saveitem").disabled = false;
             } else {
                 alert('Quantity requested exceeds available quantity!');
@@ -190,6 +193,7 @@ function delete_sales_item(sales_good_det_id,count){
         type: "POST",
         url: redirect,
         success: function(output){
+            $('#load_data'+count).remove();
         	$('#load_data'+count).load(loc+"sales/goods_add_sales_head #load_data"+count+"");
         }
     });  
@@ -337,6 +341,8 @@ function delete_service_item(sales_serv_items_id,count){
         type: "POST",
         url: redirect,
         success: function(output){
+            $('#load_data'+count).remove();
+            $('#subtotal').load(loc+"sales/services_add_sales_head #subtotal");
             $('#load_data'+count).load(loc+"sales/services_add_sales_head #load_data"+count+"");
         }
     });  
@@ -379,6 +385,7 @@ function delete_service_materials(sales_serv_mat_id,count){
         type: "POST",
         url: redirect,
         success: function(output){
+            $('#load_material'+count).remove();
             $('#load_material'+count).load(loc+"sales/services_add_sales_head #load_material"+count+"");
         }
     });  
@@ -428,6 +435,7 @@ function delete_service_manpower(sales_serv_manpower_id,count){
         type: "POST",
         url: redirect,
         success: function(output){
+            $('#load_manpower'+count).remove();
             $('#load_manpower'+count).load(loc+"sales/services_add_sales_head #load_manpower"+count+"");
         }
     });  
@@ -453,7 +461,7 @@ function manpower_total(){
     var rate = document.getElementById("rate").value;
     var overtime = document.getElementById("overtime").value;
     if(overtime!=''){
-        var total = parseFloat(days) * (parseFloat(rate)+parseFloat(overtime));
+        var total = (parseFloat(days) * parseFloat(rate))+parseFloat(overtime);
     }else{
         var total = parseFloat(days) * parseFloat(rate);
     }
@@ -497,6 +505,7 @@ function delete_service_equipment(sales_serv_equipment_id,count){
         type: "POST",
         url: redirect,
         success: function(output){
+            $('#load_equipment'+count).remove();
             $('#load_equipment'+count).load(loc+"sales/services_add_sales_head #load_equipment"+count+"");
         }
     });  
