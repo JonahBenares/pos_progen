@@ -126,7 +126,7 @@
                                 <td width="10%" align="center">Notes</td>
                                 <td width="5%" align="center">Unit Cost</td>
                                 <td width="5%" align="center">Total Cost</td>
-                                <td width="10%" align="center">Inv. Balance</td>
+                             
                             </tr>
                             <?php $x=1; foreach($details AS $d){ ?>
                             <tr>
@@ -140,7 +140,7 @@
                                 <td align="center"><?php echo $d['remarks']; ?></td>
                                 <td align="center"><?php echo number_format($d['unit_cost'],2); ?></td>
                                 <td align="center"><?php echo number_format($d['total'],2); ?></td>
-                                <td align="center"><?php echo $d['remaining_qty']; ?></td>
+                              
                             </tr>
                             <?php $x++; } ?>
                         </table>

@@ -149,7 +149,7 @@ class Sales extends CI_Controller {
         $total_qty = $in_qty - $deduct_temp;
         $serial="";
         if($total_qty >= $qty){
-            foreach($this->super_model->select_custom_where("fifo_in","item_id = '$item_id' AND (expiry_date ='' or expiry_date >= '$now') ORDER BY receive_date ASC") AS $itm){
+            foreach($this->super_model->select_custom_where("fifo_in","item_id = '$item_id' AND (expiry_date ='' or expiry_date >= '$now') AND remaining_qty !='0' ORDER BY receive_date ASC") AS $itm){
                   
                 if($temp_qty > 0){
                     $temp_qty = $temp_qty - $itm->remaining_qty;

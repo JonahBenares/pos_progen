@@ -79,6 +79,7 @@ function saveDamage(){
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+"damage/save_damage";
     var conf = confirm('Are you sure you want to save to this transaction?');
+   
      if(conf){
          $.ajax({
             data: data,
@@ -100,7 +101,7 @@ function check_rem_qty(count){
   var quantity= document.getElementById("qty"+count).value;
   if (parseInt(quantity) >parseInt(remaining_qty)){
     document.getElementById("savedamage").disabled = true;
-    alert("Quantity requested exceeds available quantity!");
+    alert("Quantity encoded exceeds available quantity!");
   }else{
     document.getElementById("savedamage").disabled = false;
   }

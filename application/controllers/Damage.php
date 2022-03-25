@@ -53,7 +53,7 @@ class Damage extends CI_Controller {
                     <select class="form-control" name="transaction'.$count.'" id="transaction'.$count.'">
                         <option>-Select Transaction-</option>';
                         foreach($this->super_model->select_custom_where('fifo_in','item_id = "'.$item_id.'" AND (expiry_date ="" or expiry_date >= "'.$now.'") AND remaining_qty != 0') AS $in){ 
-                            $str.='<option value='.$in->in_id.' myTag='.$in->remaining_qty.'>'.$in->receive_date. ', '. $in->pr_no.'</option>';
+                            $str.='<option value='.$in->in_id.' myTag='.$in->remaining_qty.'>'.$in->receive_date. ', '. $in->pr_no.', '.$in->brand.'</option>';
                         }
                     $str.= '</select>
                 </div>

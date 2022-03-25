@@ -72,11 +72,11 @@
                                 <div class="form-group">
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="local" id="local" value="1" checked=""> Local <i class="input-helper"></i></label>
+                                        <input type="radio" class="form-check-input" name="local" value="1" checked=""> Local <i class="input-helper"></i></label>
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="manila" id="manila" value="2" > Manila <i class="input-helper"></i></label>
+                                        <input type="radio" class="form-check-input" name="local"  value="2" > Manila <i class="input-helper"></i></label>
                                     </div>
                                 </div>
                             </div>

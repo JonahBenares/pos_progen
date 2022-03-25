@@ -41,7 +41,7 @@
                                 <div class="col-md-6 col-sm-6">
                                     <div class="form-group">
                                         <label >Serial No.</label>
-                                        <input type="text" class="form-control" name="serial_no" id="serial_no" placeholder="Serial No.">
+                                        <input type="text" class="form-control" name="serial_no" id="serial_no" placeholder="Serial No." readonly>
                                     </div>
                                     <div class="form-group">
                                         <label >UOM</label>

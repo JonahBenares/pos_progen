@@ -56,7 +56,7 @@ function check_repair_qty(count){
   var quantity= document.getElementById("repqty"+count).value;
   if (parseInt(quantity) >parseInt(avail_qty)){
     document.getElementById("saved").disabled = true;
-    alert("Quantity requested exceeds available quantity!");
+    alert("Quantity encoded exceeds damaged quantity!");
   }else{
     document.getElementById("saved").disabled = false;
   }

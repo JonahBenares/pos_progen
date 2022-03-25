@@ -29,15 +29,29 @@
                                             <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Quantity"  onkeypress="return isNumberKey(this, event)">
                                         </div>
                                     </div>
+
+
                                     <div class="row">
-                                        <div class="col-lg-6 col-sm-6 col-md-6">
+                                        <div class="col-lg-12 col-sm-12 col-md-12">
                                             <div class="form-group">
                                                 <label >
-                                                    <select name="rate_selection" id="rate_selection" onchange="rate_select();">
+                                                    Type
+                                                </label>
+                                                <select name="rate_selection" id="rate_selection" class="form-control"  onchange="rate_select();">
                                                         <option value="">--Select Rate--</option>
                                                         <option value="1">Daily</option>
                                                         <option value="2">Hourly</option>
                                                     </select>
+                                            </div>
+                                        </div>
+                                      
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label >
+                                                   
                                                     Rate 
                                                 </label>
                                                 <input type="text" class="form-control amount-txt" name="rate" id="rate" placeholder="Rate" readonly="">

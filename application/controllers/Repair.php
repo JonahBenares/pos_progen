@@ -34,30 +34,34 @@ class Repair extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $row_avail=$this->super_model->count_rows('damage_details');
-             foreach($this->super_model->select_all('damage_details') AS $repair){
+        if($row_avail!=0){
+            foreach($this->super_model->select_all('damage_details') AS $repair){
                 $item_id=$this->super_model->select_column_where("fifo_in","item_id","in_id",$repair->in_id);
                 $in_id=$this->super_model->select_column_where("fifo_in","in_id","in_id",$repair->in_id);
                 $receive_date=$this->super_model->select_column_where("fifo_in","receive_date","in_id",$repair->in_id);
                 $pr_no=$this->super_model->select_column_where("fifo_in","pr_no","in_id",$repair->in_id);
                 $item_name = $this->super_model->select_column_where("items","item_name","item_id",$item_id);
-                $repair_qty= $this->super_model->select_sum_where("repair_details", "quantity", "damage_det_id='$repair->damage_det_id' AND saved='1' AND assessment='1'");
+                $repair_qty= $this->super_model->select_sum_where("repair_details", "quantity", "damage_det_id='$repair->damage_det_id' AND saved='1' AND (assessment='1' OR assessment='2')");
                 $damageqty= $repair->damage_qty-$repair_qty;
-                if($row_avail!=0 AND $damageqty!='0'){
-                $data['repair_items'][] = array(
-                    'damage_det_id'=>$repair->damage_det_id,
-                    'in_id'=>$repair->in_id,
-                    'receive_date'=>$receive_date,
-                    'qty'=>$damageqty,
-                    'pr_no'=>$pr_no,
-                    'category'=>$this->super_model->select_column_where('item_categories', 'cat_name', 'cat_id', $item_id),
-                    'subcategory'=>$this->super_model->select_column_where('item_subcat', 'subcat_name', 'subcat_id', $item_id),
-                    'item_name'=>$item_name,
+                if($damageqty!='0'){
+                    $data['repair_items'][] = array(
+                        'damage_det_id'=>$repair->damage_det_id,
+                        'in_id'=>$repair->in_id,
+                        'receive_date'=>$receive_date,
+                        'qty'=>$damageqty,
+                        'pr_no'=>$pr_no,
+                        'category'=>$this->super_model->select_column_where('item_categories', 'cat_name', 'cat_id', $item_id),
+                        'subcategory'=>$this->super_model->select_column_where('item_subcat', 'subcat_name', 'subcat_id', $item_id),
+                        'item_name'=>$item_name,
 
-                );
+                    );
+                } else {
+                    $data['repair_items']=array();
+                }
+            }
         } else {
-            $data['repair_items']=array();
-        }
-    }
+                $data['repair_items']=array();
+            }
         $this->load->view('repair/repair_item',$data);
         $this->load->view('template/footer');
     }
@@ -108,21 +112,24 @@ class Repair extends CI_Controller {
                 'saved'=>1,
                 'unsaved'=>0,
             );
-            if($this->super_model->update_where("repair_details", $rep_data, "repair_id", $repair_id)){
-                foreach($this->super_model->select_row_where('fifo_in', 'in_id', $inid) AS $in){
+            $this->super_model->update_where("repair_details", $rep_data, "repair_id", $repair_id);
+
+               // foreach($this->super_model->select_row_where('fifo_in', 'in_id', $inid) AS $in){
                     if($radio=='1'){
                         $qty=$in->remaining_qty+$quantity;
                         $in_data = array(
                             'remaining_qty'=>$qty,
                         ); 
+                        $this->super_model->update_where("fifo_in", $in_data, "in_id", $inid);
                     }
-                    /*$this->super_model->update_where("fifo_in", $in_data, "in_id", $inid);
-                    $damage_data = array(
+                   // }
+                    
+                   /* $damage_data = array(
                         'repaired'=>1,
                     ); 
                     $this->super_model->update_where("damage_details", $damage_data, "in_id", $inid);*/
-                }
-            }
+                //}
+           // }
         }
     }
 
@@ -131,7 +138,7 @@ class Repair extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $data['receive'] = $this->super_model->select_all('employees');
-        foreach($this->super_model->custom_query("SELECT * FROM repair_details") AS $repair){
+        foreach($this->super_model->custom_query("SELECT * FROM repair_details WHERE saved = '0'") AS $repair){
             $item_id=$this->super_model->select_column_where("fifo_in","item_id","in_id",$repair->in_id);
             $receive_date=$this->super_model->select_column_where("fifo_in","receive_date","in_id",$repair->in_id);
             $pr_no=$this->super_model->select_column_where("fifo_in","pr_no","in_id",$repair->in_id);
@@ -140,14 +147,14 @@ class Repair extends CI_Controller {
             $damage_qty= $this->super_model->select_column_where("damage_details","damage_qty","damage_det_id",$damage_det_id);
             $repair_qty= $this->super_model->select_sum_where("repair_details", "quantity", "damage_det_id='$damage_det_id' AND saved='1' AND assessment='1'");
             $avail_qty= $damage_qty-$repair_qty;
-            if($repair->saved == 0 AND $repair->unsaved==1){
+           // if($repair->saved == 0 AND $repair->unsaved==1){
                 $data['rep'][]=array(
                     'repair_id'=>$repair->repair_id,
                     'damage_det_id'=>$repair->damage_det_id,
                     'in_id'=>$repair->in_id,
                     'avail_qty'=>$avail_qty,
                 );
-            }
+           // }
             $data['details'][]=array(
                 'in_id'=>$repair->in_id,
                 'damage_det_id'=>$repair->damage_det_id,

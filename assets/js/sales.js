@@ -171,7 +171,7 @@ function qty_append(){
         dataType: "json",
         success: function(response){
           
-            console.log(response);
+          
             if(response.status!='error'){
                 document.getElementById("unit_cost").value = response.cost;
                 document.getElementById("serial_no").value = response.serial_no;
