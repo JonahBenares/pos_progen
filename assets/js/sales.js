@@ -386,6 +386,7 @@ function delete_service_materials(sales_serv_mat_id,count){
         url: redirect,
         success: function(output){
             $('#load_material'+count).remove();
+            $('#subtotal2').load(loc+"sales/services_add_sales_head #subtotal2");
             $('#load_material'+count).load(loc+"sales/services_add_sales_head #load_material"+count+"");
         }
     });  
@@ -436,6 +437,7 @@ function delete_service_manpower(sales_serv_manpower_id,count){
         url: redirect,
         success: function(output){
             $('#load_manpower'+count).remove();
+            $('#subtotal3').load(loc+"sales/services_add_sales_head #subtotal3");
             $('#load_manpower'+count).load(loc+"sales/services_add_sales_head #load_manpower"+count+"");
         }
     });  
@@ -506,6 +508,7 @@ function delete_service_equipment(sales_serv_equipment_id,count){
         url: redirect,
         success: function(output){
             $('#load_equipment'+count).remove();
+            $('#subtotal4').load(loc+"sales/services_add_sales_head #subtotal4");
             $('#load_equipment'+count).load(loc+"sales/services_add_sales_head #load_equipment"+count+"");
         }
     });  
@@ -538,15 +541,37 @@ function equipment_total(){
     }
 }
 
-function rental_rate_total(){
+/*function rental_rate_total(){
     var quantity = document.getElementById("quantity").value;
     var rate = document.getElementById("rate_solve").value;
     var total = parseFloat(quantity) * parseFloat(rate);
-    if(quantity!=''){
+    if(quantity!='' && rate!=''){
         document.getElementById("rate").value  = parseFloat(total);
     }else{
         document.getElementById("rate").value  = 0;
     }
+}*/
+
+function rate_select(){
+    var equipment_id = document.getElementById("equipment").value;
+    var rate_selection = document.getElementById("rate_selection").value;
+    var quantity = document.getElementById("quantity").value;
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/rate_selection";
+    $.ajax({
+        data: 'rate_selection='+rate_selection+'&equipment_id='+equipment_id+'&quantity='+quantity,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            if(response.rate_selection=='1'){
+                document.getElementById("rate_display").innerHTML = "Days";
+            }else{
+                document.getElementById("rate_display").innerHTML = "Hours";
+            }
+            document.getElementById("rate").value = response.rate;
+        }
+    });  
 }
 
 function saveAllservice(){

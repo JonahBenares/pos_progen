@@ -437,10 +437,16 @@ class Sales extends CI_Controller {
        return substr($serial,0,-2);
     }
 
-    public function get_serial_services($sales_serv_items_id){
+    public function get_serial_services($sales_serv_items_id,$status){
         $serial="";
-        foreach($this->super_model->select_row_where("fifo_out", "sales_serv_items_id", $sales_serv_items_id) AS $out){
-            $serial.=$this->super_model->select_column_where("fifo_in", "serial_no", "in_id", $out->in_id) . ", ";
+        if($status=='final') {
+            foreach($this->super_model->select_row_where("fifo_out", "sales_serv_items_id", $sales_serv_items_id) AS $out){
+                $serial.=$this->super_model->select_column_where("fifo_in", "serial_no", "in_id", $out->in_id) . ", ";
+            }
+        }else if($status =='temp') {
+           foreach($this->super_model->select_row_where("temp_sales_out", "sales_serv_items_id", $sales_serv_items_id) AS $out){
+                $serial.=$this->super_model->select_column_where("fifo_in", "serial_no", "in_id", $out->in_id) . ", ";
+            }
         }
         return substr($serial,0,-2);
     }
@@ -530,7 +536,8 @@ class Sales extends CI_Controller {
             $item_name = $this->super_model->select_column_where("items","item_name","item_id",$item_id);
             $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$item_id);
             $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
-            $serial_no = $this->super_model->select_column_where("fifo_in","serial_no","in_id",$in_id);
+            $serial_no = $this->get_serial_services($app->sales_serv_items_id,'temp');
+            //$serial_no = $this->super_model->select_column_where("fifo_in","serial_no","in_id",$in_id);
             echo '<tr id="load_data'.$count_item.'"><td>'.$count_item.'</td><td>'.$original_pn.'</td><td>'.$item_name.'</td><td>'.$serial_no.'</td><td>'.$app->quantity.'</td><td>'.$unit.'</td><td>'.number_format($app->selling_price,2).'</td><td>'.number_format($app->discount_percent,0)."%".'</td><td>'.number_format($app->total,2).'</td>  <td><a onclick="delete_service_item('.$app->sales_serv_items_id.','.$count_item.')" class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
             $count_item++;
         } 
@@ -676,6 +683,7 @@ class Sales extends CI_Controller {
             "uom"=>$this->input->post('uom'),
             "days"=>$this->input->post('days'),
             "total_cost"=>$this->input->post('total_cost'),
+            "rate_flag"=>$this->input->post('rate_selection'),
         );
         $details_id = $this->super_model->insert_return_id("sales_serv_equipment", $data);
         $count_item = $this->super_model->count_rows_where("sales_serv_equipment","sales_serv_head_id",$sales_serv_head_id);
@@ -699,18 +707,34 @@ class Sales extends CI_Controller {
         echo json_encode($return);
     }
 
+    public function rate_selection(){
+        $rate_selection=$this->input->post('rate_selection');
+        $equipment_id=$this->input->post('equipment_id');
+        $quantity=$this->input->post('quantity');
+        foreach($this->super_model->select_row_where("equipment","equipment_id",$equipment_id) AS $man){
+            if($rate_selection=='1'){
+                $total = $quantity * $man->daily_rate;
+                $return = array('rate'=>$total,'rate_selection'=>$rate_selection);
+            }else{
+                $total = $quantity * $man->hourly_rate;
+                $return = array('rate'=>$total,'rate_selection'=>$rate_selection);
+            }
+        }
+        echo json_encode($return);
+    }
+
     public function save_services(){
         $sales_serv_head_id = $this->input->post('sales_serv_head_id');
         $user_id = $_SESSION['user_id'];
         foreach($this->super_model->select_custom_where("temp_sales_out","sales_id = '$sales_serv_head_id' AND user_id = '$user_id'") AS $tmp){
-            $sumcost = $this->super_model->select_sum_where("fifo_in", "item_cost", "item_id = '$tmp->item_id'");
+            /*$sumcost = $this->super_model->select_sum_where("fifo_in", "item_cost", "item_id = '$tmp->item_id'");
             $rowcount=$this->super_model->count_custom_where("fifo_in","item_id = '$tmp->item_id'");
             $count_item=$rowcount;
             $ave = $sumcost/$count_item;
             $dataup=array(
                 "ave_cost"=>$ave,
             );
-            $this->super_model->update_where("sales_serv_items", $dataup, "sales_serv_items_id", $tmp->sales_serv_items_id);
+            $this->super_model->update_where("sales_serv_items", $dataup, "sales_serv_items_id", $tmp->sales_serv_items_id);*/
 
             $data = array(
                 'in_id'=>$tmp->in_id,
@@ -776,7 +800,7 @@ class Sales extends CI_Controller {
                     $item_name = $this->super_model->select_column_where("items","item_name","item_id",$sd->item_id);
                     $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$sd->item_id);
                     $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
-                    $serial_no = $this->get_serial_services($sd->sales_serv_items_id);
+                    $serial_no = $this->get_serial_services($sd->sales_serv_items_id,"final");
                     //$serial_no = $this->super_model->select_column_where("fifo_in","serial_no","in_id",$sd->in_id);
                     $data['service_details'][]=array(
                         'original_pn'=>$original_pn,

@@ -252,7 +252,7 @@
                                             <td class="td-head" width="8%">Qty</td>
                                             <td class="td-head" width="8%">Rate</td>
                                             <td class="td-head" width="8%">Unit</td>
-                                            <td class="td-head" width="14%">Days</td>
+                                            <td class="td-head" width="14%">Days/Hours</td>
                                             <td class="td-head" width="12%">Total Cost</td>
                                             <td class="td-head" width="2%">
                                                 <span class="mdi mdi-menu"></span>

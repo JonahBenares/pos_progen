@@ -14,7 +14,8 @@
                                         <div class="col-lg-6 col-sm-6 col-md-6">
                                             <div class="form-group">
                                                 <label >Equipment</label>
-                                                <select class="form-control" name="equipment" id="equipment" onchange="equipment_append();">
+                                               <!--  <select class="form-control" name="equipment" id="equipment" onchange="equipment_append();"> -->
+                                                <select class="form-control" name="equipment" id="equipment">
                                                     <option value="">-Select Equipment-</option>
                                                     <?php foreach($equipment AS $e){ ?>
                                                         <option value="<?php echo $e->equipment_id; ?>"><?php echo $e->equipment_name; ?></option>
@@ -24,13 +25,21 @@
                                         </div>
                                         <div class="col-lg-6 col-sm-6 col-md-6">
                                             <label >Quantity</label>
-                                            <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Quantity"  onkeypress="return isNumberKey(this, event)" onkeyup="rental_rate_total();">
+                                            <!-- <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Quantity"  onkeypress="return isNumberKey(this, event)" onkeyup="rental_rate_total();"> -->
+                                            <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Quantity"  onkeypress="return isNumberKey(this, event)">
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 col-sm-6 col-md-6">
                                             <div class="form-group">
-                                                <label >Rate</label>
+                                                <label >
+                                                    <select name="rate_selection" id="rate_selection" onchange="rate_select();">
+                                                        <option value="">--Select Rate--</option>
+                                                        <option value="1">Daily</option>
+                                                        <option value="2">Hourly</option>
+                                                    </select>
+                                                    Rate 
+                                                </label>
                                                 <input type="text" class="form-control amount-txt" name="rate" id="rate" placeholder="Rate" readonly="">
                                             </div>
                                         </div>
@@ -46,8 +55,8 @@
                             <div class="row">
                                 <div class="col-md-6 col-sm-6">
                                     <div class="form-group">
-                                        <label >Days</label>
-                                        <input type="text" class="form-control" name="days" id="days" placeholder="Days"  onkeypress="return isNumberKey(this, event)" onkeyup="equipment_total();">
+                                        <label id='rate_display'>Days</label>
+                                        <input type="text" class="form-control" name="days" id="days" placeholder="Days/Hours"  onkeypress="return isNumberKey(this, event)" onkeyup="equipment_total();">
                                     </div>                               
                                 </div>
                                 <div class="col-md-6 col-sm-6">   
