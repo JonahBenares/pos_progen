@@ -41,9 +41,10 @@ class Items extends CI_Controller {
         $data['bin'] = $this->super_model->select_all('bin');
         $data['rack'] = $this->super_model->select_all('rack');
         $row=$this->super_model->count_rows("items");
+        $now = date("Y-m-d");
         if($row!=0){
             foreach($this->super_model->select_all('items') AS $itm){
-                $highest_cost=$this->super_model->get_max_where("fifo_in", "item_cost","item_id='$itm->item_id'");
+                $highest_cost=$this->super_model->get_max_where("fifo_in", "item_cost","item_id='$itm->item_id' AND (expiry_date='' OR expiry_date > '$now')");
                 $bin = $this->super_model->select_column_where('bin', 'bin_name', 'bin_id', $itm->bin_id);
                 $rack = $this->super_model->select_column_where('rack', 'rack_name', 'rack_id', $itm->rack_id);
                 $warehouse = $this->super_model->select_column_where('warehouse', 'warehouse_name', 
@@ -51,7 +52,7 @@ class Items extends CI_Controller {
                 $location = $this->super_model->select_column_where('location', 'location_name', 
                     'location_id', $itm->location_id);
                 $unit = $this->super_model->select_column_where('uom', 'unit_name', 'unit_id', $itm->unit_id);
-                $totalqty= $this->super_model->select_sum_where("fifo_in", "remaining_qty", "item_id='$itm->item_id'");
+                $totalqty= $this->super_model->select_sum_where("fifo_in", "remaining_qty", "item_id='$itm->item_id' AND (expiry_date='' OR expiry_date > '$now')");
                 $data['items'][] = array(
                     'item_id'=>$itm->item_id,
                     'original_pn'=>$itm->original_pn,

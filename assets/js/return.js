@@ -44,7 +44,7 @@ function check_return_qty(count){
   var quantity= document.getElementById("retqty"+count).value;
   if (parseInt(quantity) >parseInt(total_qty)){
     document.getElementById("savedata").disabled = true;
-    alert("Quantity requested exceeds available quantity!");
+    alert("Quantity to be returned exceeds quantity bought!");
   }else{
     document.getElementById("savedata").disabled = false;
   }

@@ -1,5 +1,6 @@
 <?php
     $ci =& get_instance();
+    $now = date("Y-m-d");
 ?>
 
 <div class="main-panel">
@@ -201,7 +202,7 @@
                                                     <th width="10%"> Serial No </th>
                                                     <th width="10%"> Expiration Date </th>
                                                     <th width="10%"> Item Cost</th>
-                                                    <th width="5%"> Qty </th>
+                                                    <th width="5%"> Orig Qty </th>
                                                     <th width="15%"> Remaining Qty </th>
                                                     <!-- <th width="5%">
                                                         <center><span class="mdi mdi-menu"></span></center>
@@ -211,8 +212,13 @@
                                             <tbody>
                                             <?php 
                                                 if(!empty($fifo_in)) {
-                                                foreach($fifo_in AS $in){ ?>
-                                                <tr>
+                                                foreach($fifo_in AS $in){ 
+                                                    if($in['expiry_date'] != "" && $in['expiry_date'] < $now){
+                                                        $background = " style='background-color:#f1948a'";
+                                                    } else {
+                                                        $background ="";
+                                                    } ?>
+                                                <tr <?php echo $background; ?>>
                                                     <td><?php echo date("M j, Y",strtotime($in['receive_date']));?></td>
                                                     <td><?php echo $in['supplier'];?></td>
                                                     <td><?php echo $in['pr_no'];?></td>

@@ -33,7 +33,7 @@ function InsertRepair(){
 	        url: redirect,
 	        success: function(output){
 	        	//alert(output);
-	        	window.location=loc+'repair/repair_item/'+output;  
+	        	window.location=loc+'repair/repair_item';  
 	        }
 	    }); 
     }
