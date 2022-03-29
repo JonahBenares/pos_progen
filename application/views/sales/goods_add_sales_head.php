@@ -112,7 +112,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>DR No.</label>
-                                                <input type="text" class="form-control" name = "dr_no" placeholder="DR No">
+                                                <input type="text" class="form-control" name = "dr_no" placeholder="DR No" value="<?php echo $dr_no; ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
