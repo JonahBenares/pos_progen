@@ -1,3 +1,33 @@
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<?php 
+    if(!empty($stockcard)){
+        foreach ($stockcard as $key => $row) {
+            $date[$key]  = $row['date'];
+            $series[$key] = $row['series'];
+            $cdate[$key] = $row['create_date'];
+        }
+        array_multisort($date, SORT_ASC,  $cdate, SORT_ASC, $stockcard);
+    }
+    if(!empty($stockcard)){
+        foreach ($balance as $key => $row) {
+            $date[$key]  = $row['date'];
+            $series[$key] = $row['series'];
+            $cdate[$key] = $row['create_date'];
+        }
+
+        array_multisort($date, SORT_ASC, $cdate, SORT_ASC, $balance);
+        $total_bal=0;
+        foreach($balance AS $sc){
+            if($sc['method'] == 'Receive' || $sc['method'] == 'Returned' || $sc['method'] == 'Repaired'){ 
+                $total_bal += $sc['quantity'];
+            } else if($sc['method'] == 'Sales Good' || $sc['method'] == 'Sales Services' || $sc['method'] == 'Damaged' || $sc['method'] == 'Expired') {
+                $total_bal -= $sc['quantity'];
+            } 
+        }
+    }else {
+        $total_bal=0;
+    }
+?>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -36,40 +66,59 @@
                         </div>
                     </div>
                     <div class="card-body">   
-                        <div class="row">
-                            <div class="col-lg-4 offset-lg-3">
-                                <!-- <input type="" class="form-control" name="" placeholder="Customer"> -->
-                                <select class="form-control">
-                                    <option>--Select an Item--</option>
-                                </select>
+                        <form method="POST">
+                            <div class="row">
+                                <div class="col-lg-4 offset-lg-3">
+                                    <!-- <input type="" class="form-control" name="" placeholder="Customer"> -->
+                                    <select class="form-control" id="item_id" name="item_id">
+                                        <option value="">--Select an Item--</option>
+                                        <?php foreach($items AS $it){ ?>
+                                            <option value="<?php echo $it->item_id; ?>"><?php echo $it->item_name; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2">
+                                    <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
+                                    <input type="button" class="btn btn-md btn-gradient-success btn-block" name="submit" id="filter" value="Filter">
+                                </div>
                             </div>
-                            <div class="col-lg-2">
-                                <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="" value="Filter">
-                            </div>
-                        </div>
+                        </form>
                         <hr>   
                         <br>
                         <div class="row">
                             <div class="col-lg-6">
                                 <h3 class="mb-0 font-weight-medium">
-                                    Tape, Fiber Glass,  1" 013 mills, 30mtrs lengths, without adhesive 
+                                    <?php echo $item_name; ?> 
                                 </h3>
                             </div>
                             <div class="col-lg-6">
                                 <div style="display: flex;" class="pull-right">
                                     <button type="button" class="btn btn-inverse-info btn-fw">
                                         <small>Running Balance</small>
-                                        <h3 class="m-0">10029</h3>
+                                        <h3 class="m-0"><?php echo $total_bal; ?></h3>
                                     </button>
                                 </div>
                             </div>
                         </div>     
                         <br>
+                        <?php 
+                            if(!empty($stockcard)){
+                                $run_bal=0;
+                                foreach($balance AS $s){
+                                    if($s['method'] == 'Receive' || $s['method'] == 'Returned' || $s['method'] == 'Repaired' ){ 
+                                        $run_bal += $s['quantity'];
+                                    } else if($s['method'] == 'Sales Good' || $s['method'] == 'Sales Services' || $s['method'] == 'Damaged' || $s['method'] == 'Expired') {
+                                        $run_bal -= $s['quantity'];
+                                    } 
+                                    $bal[] = $run_bal;
+                                }
+                            }
+                        ?>
                         <table class="table table-bordered table-hover" width="100%" id="myTdable">
                             <thead>
                                 <tr>
                                     <td width="10%" class="td-head">Date</td>
-                                    <td width="20%" class="td-head">Supplier </td>
+                                    <td width="20%" class="td-head">Supplier / Client</td>
                                     <td width="15%" class="td-head">PR #</td>
                                     <td width="15%" class="td-head">PO #</td>
                                     <td width="15%" class="td-head">Catalog No. </td>
@@ -80,36 +129,43 @@
                                     <td width="10%" class="td-head">Running Balance</td>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="stockcard-list">
+                                <?php 
+                                    if(!empty($stockcard)){
+                                        $count = count($stockcard)-1;
+                                        $run_bal=0;
+                                        for($x=$count; $x>=0;$x--){ 
+                                            if($stockcard[$x]['method']=='Receive'){
+                                                $badge = 'badge-primary';
+                                            }else if($stockcard[$x]['method']=='Sales Good'){
+                                                $badge = 'badge-warning';
+                                            }else if($stockcard[$x]['method']=='Sales Services'){
+                                                $badge = 'badge-info';
+                                            }else if($stockcard[$x]['method']=='Returned'){
+                                                $badge = 'badge-success';
+                                            }else if($stockcard[$x]['method']=='Repaired'){
+                                                $badge = 'badge-primary';
+                                            }else if($stockcard[$x]['method']=='Damaged'){
+                                                $badge = 'badge-danger';
+                                            }else if($stockcard[$x]['method']=='Expired'){
+                                                $badge = 'badge-danger';
+                                            }
+                                ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><?php echo $stockcard[$x]['date']; ?></td>
+                                    <td><?php echo $stockcard[$x]['supplier']; ?></td>
+                                    <td><?php echo $stockcard[$x]['pr_no']; ?></td>
+                                    <td><?php echo $stockcard[$x]['po_no']; ?></td>
+                                    <td><?php echo $stockcard[$x]['catalog_no']; ?></td>
+                                    <td><?php echo $stockcard[$x]['brand']; ?></td>
                                     <td>
-                                        <!-- <div class="badge badge-primary badge-pill">Receive</div> -->
+                                        <div class="badge <?php echo $badge; ?> badge-pill"><?php echo $stockcard[$x]['method']; ?></div>
                                     </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-
+                                    <td><?php echo $stockcard[$x]['item_cost']; ?></td>
+                                    <td><?php echo (($stockcard[$x]['method']== 'Sales Good' || $stockcard[$x]['method'] == 'Sales Services' || $stockcard[$x]['method'] == 'Damaged' || $stockcard[$x]['method'] == 'Expired') ? "-" : "") .$stockcard[$x]['quantity']; ?></td>
+                                    <td><?php echo $bal[$x]; ?></td>
                                 </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <!-- <div class="badge badge-info badge-pill">Sales</div> -->
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <?php } } ?>
                             </tbody>                            
                         </table>
                     </div>

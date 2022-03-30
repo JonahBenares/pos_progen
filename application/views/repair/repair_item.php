@@ -46,7 +46,7 @@
                                     <tbody>
                                          <?php $x=''; if(!empty($repair_items)){ $x=0; foreach($repair_items as $r){ ?>
                                         <tr>
-                                            <td class="p-b-10 p-t-10" align="center"><input type="hidden" class="form-control"  style="width:25px" name="in_id[]" value="<?php echo $r['in_id']; ?>"><input type="checkbox" class="form-control"  style="width:25px" name="damagedetid[]" value="<?php echo $r['damage_det_id']; ?>"></td>
+                                            <td class="p-b-10 p-t-10" align="center"><input type="hidden" class="form-control"  style="width:25px" name="in_id[]" value="<?php echo $r['in_id']; ?>"><input type="hidden" class="form-control"  style="width:25px" name="item_id[]" value="<?php echo $r['item_id']; ?>"><input type="checkbox" class="form-control"  style="width:25px" name="damagedetid[]" value="<?php echo $r['damage_det_id']; ?>"></td>
                                             <td><label class="label-table"><?php echo $r['item_name'];?></label></td>
                                             <td><label class="label-table"><?php echo number_format($r['qty'],2);?></label></td>
                                             <td><label class="label-table"><?php echo date("M j, Y",strtotime($r['receive_date']))?></label></td>

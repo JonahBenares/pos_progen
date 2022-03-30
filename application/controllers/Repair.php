@@ -47,6 +47,7 @@ class Repair extends CI_Controller {
                     $data['repair_items'][] = array(
                         'damage_det_id'=>$repair->damage_det_id,
                         'in_id'=>$repair->in_id,
+                        'item_id'=>$item_id,
                         'receive_date'=>$receive_date,
                         'qty'=>$damageqty,
                         'pr_no'=>$pr_no,
@@ -70,12 +71,14 @@ class Repair extends CI_Controller {
         $count = $this->input->post('count');
         $damagedetid = $this->input->post('damagedetid');
         $in_id = $this->input->post('in_id');
+        $item_id = $this->input->post('item_id');
         $checked =count($damagedetid);
         for($x=0;$x<$checked;$x++){
             foreach($this->super_model->select_row_where('damage_details', 'damage_det_id', $damagedetid[$x]) AS $rep){
                 $rep_data = array(
                     'damage_det_id'=>$damagedetid[$x],
                     'in_id'=>$in_id[$x],
+                    'item_id'=>$item_id[$x],
                     "user_id"=>$_SESSION['user_id'],
                     'unsaved'=>1,
                 );
