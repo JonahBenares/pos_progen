@@ -25,9 +25,6 @@
             <div class="col-lg-3"></div>
         </div>
         <br>
-        <style type="text/css">
-            
-        </style>
         <page size="A4" id="printableArea">
             <table class="page-A4 table-bsordered" width="100%">
                 <tr>
@@ -64,33 +61,33 @@
                         <br>
                     </td>
                 </tr>
-                    <tr>
-                        <td colspan="2">Date:</td>
-                        <td colspan="8" class="bor-btm1"></td>
-                        <td colspan="2" align="right">MRF NO.:</td>
-                        <td colspan="8" class="bor-btm1"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">DR NO.:</td>
-                        <td colspan="8" class="bor-btm1"></td>
-                        <td colspan="2" align="right">PO:</td>
-                        <td colspan="8" class="bor-btm1"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">SI NO.:</td>
-                        <td colspan="8" class="bor-btm1"></td>
-                        <td colspan="2" align="right">PCF:</td>
-                        <td colspan="8" class="bor-btm1"></td>
-                    </tr>
-                   
-                    <tr>
-                        <td colspan="3">Overall Remarks:</td>
-                        <td colspan="17" class="bor-btm1"> </td>
-                    </tr>
-                    <tr>
-                        <td colspan="20" align="center"><br><br></td>
-                    </tr>
-                
+                <tr>
+                    <td colspan="2">Date:</td>
+                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="2" align="right">MRF NO.:</td>
+                    <td colspan="8" class="bor-btm1"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">DR NO.:</td>
+                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="2" align="right">PO:</td>
+                    <td colspan="8" class="bor-btm1"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">SI NO.:</td>
+                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="2" align="right">PCF:</td>
+                    <td colspan="8" class="bor-btm1"></td>
+                </tr>
+               
+                <tr>
+                    <td colspan="3">Overall Remarks:</td>
+                    <td colspan="17" class="bor-btm1"> </td>
+                </tr>
+                <tr>
+                    <td colspan="20" align="center"><br><br></td>
+                </tr>
+            
                 <tr>
                     <td colspan="20">
                         <fieldset>
@@ -197,8 +194,6 @@
                         </fieldset>
                     </td>
                 </tr>
-
-
                 <tr>
                     <td colspan="20"><br></td>
                 </tr>

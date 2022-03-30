@@ -59,7 +59,7 @@
                                 <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="" value="Filter">
                             </div>
                             <div class="col-lg-3 offset-lg-1">
-                                <small class="pull-right">Overall Total Amount</small>
+                                <small class="pull-right">Overall Total Amount</small><br>
                                 <h2 class="pull-right">P 225,545,555</h2>
                             </div>
                         </div>
