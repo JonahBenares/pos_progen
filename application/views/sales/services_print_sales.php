@@ -304,8 +304,32 @@
                     <td colspan="20"><br></td>
                 </tr>
                 <tr>
+                    <?php foreach($service_head AS $sh){ ?>
                     <td colspan="5"></td>  
                     <td colspan="10">
+                        <?php 
+                                $service_fee = $mtotal + $mntotal + $eqtotal;
+
+                                if($service_fee>100000){
+                                    $total_service_fee = $service_fee * 0.20;
+                                }else if($service_fee<100000){
+                                    $total_service_fee = $service_fee * 0.25;
+                                }
+
+                                if($sh['vat']==1){
+                                    $vat = ($grand_total + $total_service_fee)*0.12;
+                                }else{
+                                    $vat = '';
+                                }
+
+                                if($sh['wht']==1){
+                                    $tax = $grand_total * 0.01;
+                                }else{
+                                    $tax = '';
+                                }
+
+                                $total = ($grand_total + $total_service_fee + $vat)-$tax
+                        ?>
                         <table class="table-bordered" width="100%">
                             <tr>
                                 <td style="background:#efefef" colspan="2"><center><b>SUMMARY</b></center></td>
@@ -332,25 +356,29 @@
                             </tr>
                             <tr>
                                 <td>Add: Service Fee</td>
-                                <td></td>
+                                <td><?php echo number_format($total_service_fee,2); ?></td>
                             </tr>
+                            <?php if($sh['vat']==1){?>
                             <tr>
                                 <td>Add: Vat 12%</td>
-                                <td></td>
+                                <td><?php echo number_format($vat,2); ?></td>
                             </tr>
+                            <?php } ?>
+                            <?php if($sh['wht']==1){?>
                             <tr>
                                 <td>Withholding Tax 1%</td>
-                                <td></td>
+                                <td><?php echo number_format($tax,2); ?></td>
                             </tr>
+                            <?php } ?>
                             <tr style="background:#00ff2b">
                                 <td>TOTAL</td>
-                                <td></td>
+                                <td><?php echo number_format($total,2); ?></td>
                             </tr>
                         </table>
                     </td>  
                     <td colspan="5"></td>  
                 </tr>
-                
+                <?php } ?>
                 <!-- <tr>
                     <td colspan="2">Remarks:</td>
                     <td colspan="18" class="bor-btm1"></td>

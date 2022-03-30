@@ -820,12 +820,14 @@ class Sales extends CI_Controller {
             $contact_person = $this->super_model->select_column_where("client","contact_person","client_id",$sh->client_id);
             $contact_no = $this->super_model->select_column_where("client","contact_no","client_id",$sh->client_id);
             $tin = $this->super_model->select_column_where("client","tin","client_id",$sh->client_id);
+            $wht = $this->super_model->select_column_where("client","wht","client_id",$sh->client_id);
             $data['service_head'][]=array(
                 'client'=>$client,
                 'address'=>$address,
                 'contact_person'=>$contact_person,
                 'contact_no'=>$contact_no,
                 'tin'=>$tin,
+                'wht'=>$wht,
                 'sales_date'=>$sh->sales_date,
                 'vat'=>$sh->vat,
                 'jor_no'=>$sh->jor_no,

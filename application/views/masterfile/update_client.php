@@ -42,6 +42,24 @@
                                 <label for="exampleInputConfirmPassword1">Tin Number</label>
                                 <input type="text" class="form-control" name="tin" value = "<?php echo $b->tin; ?>">
                             </div>
+                            <div class="row">                                 
+                                <div class="col-lg-1 col-md-1 col-sm-1">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="wht" value="1" <?php echo ($b->wht == '1') ? 'checked' : '';?>> Yes <i class="input-helper"></i></label>
+                                        </div>
+                                    </div>
+                                </div>    
+                                <div class="col-lg-1 col-md-1 col-sm-1">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="wht"  value="0" <?php echo ($b->wht == '0') ? 'checked' : '';?>> No <i class="input-helper"></i></label>
+                                        </div>
+                                    </div>
+                                </div>                    
+                            </div>
                             <input type = "hidden" name = "client_id" value="<?php echo $id; ?>">
                             <center><button type="submit" class="btn btn-primary">Update</button></center>
                             <?php } ?>

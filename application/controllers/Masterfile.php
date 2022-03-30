@@ -144,12 +144,14 @@ class Masterfile extends CI_Controller {
         $contact_person = $this->input->post('contact_person');
         $contact_no = $this->input->post('contact_no');
         $tin = $this->input->post('tin');
+        $wht = $this->input->post('wht');
         $data = array(
             'buyer_name'=>$buyer_name,
             'address'=>$address,
             'contact_person'=>$contact_person,
             'contact_no'=>$contact_no,
-            'tin'=>$tin
+            'tin'=>$tin,
+            'wht'=>$wht
         );
         if($this->super_model->insert_into("client", $data)){
             echo "<script>alert('Client Successfully Added!'); 
@@ -174,11 +176,12 @@ class Masterfile extends CI_Controller {
             'contact_person'=>$this->input->post('contact_person'),
             'contact_no'=>$this->input->post('contact_no'),
             'tin'=>$this->input->post('tin'),
+            'wht'=>$this->input->post('wht'),
         );
         $client_id = $this->input->post('client_id');
         if($this->super_model->update_where('client', $data, 'client_id', $client_id)){
             echo "<script>alert('Client Successfully Updated!'); 
-                window.location ='".base_url()."masterfile/update_client/$client_id'; </script>";
+                window.location ='".base_url()."masterfile/client_list/$client_id'; </script>";
         }
     }
 

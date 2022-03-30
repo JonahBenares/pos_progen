@@ -73,11 +73,11 @@
                 <?php foreach($head AS $h){ ?>
                 <tr>
                     <td></td>
-                    <td colspan="2">JOR/PR No:</td>
-                    <td colspan="8" class="bor-btm1"><?php echo $h['pr_no']; ?></td>
+                    <td colspan="2">Returned by:</td>
+                    <td colspan="8" class="bor-btm1"><?php echo $h['client']; ?></td>
                     <td></td>
-                    <td colspan="3"></td>
-                    <td colspan="4"></td>
+                    <td colspan="3">JOR/PR No:</td>
+                    <td colspan="4" class="bor-btm1"><?php echo $h['pr_no']; ?></td>
                     <td></td>
                 </tr>
                 <tr>
