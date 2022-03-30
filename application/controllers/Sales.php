@@ -47,6 +47,24 @@ class Sales extends CI_Controller {
         $sales_good_head_id = $this->uri->segment(3);
         $data['sales_good_head_id'] = $this->uri->segment(3);
         $data['buyer']=$this->super_model->select_all_order_by("client","buyer_name","ASC");
+        $year_series=date('Y');
+        $rows=$this->super_model->count_custom_where("sales_good_head","create_date LIKE '$year_series%'");
+        if($rows==0){
+             $data['dr_no'] = "PROBCD-".$year_series."-DR-0001";
+        } else {
+            $maxdr_no=$this->super_model->get_max_where("sales_good_head", "dr_no","create_date LIKE '$year_series%'");
+            $drno = explode('-',$maxdr_no);
+            $series = $drno[3]+1;
+            if(strlen($series)==1){
+                $data['dr_no'] = "PROBCD-".$year_series."-DR-000".$series;
+            } else if(strlen($series)==2){
+                 $data['dr_no'] = "PROBCD-".$year_series."-DR-00".$series;
+            } else if(strlen($series)==3){
+                 $data['dr_no'] = "PROBCD-".$year_series."-DR-0".$series;
+            } else if(strlen($series)==4){
+                 $data['dr_no'] = "PROBCD-".$year_series."-DR-".$series;
+            }
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('sales/goods_add_sales_head',$data);
@@ -449,6 +467,32 @@ class Sales extends CI_Controller {
             }
         }
         return substr($serial,0,-2);
+    }
+
+    public function services_add_sales_head(){
+        $data['buyer']=$this->super_model->select_all_order_by("client","buyer_name","ASC");
+        $year_series=date('Y');
+        $rows=$this->super_model->count_custom_where("sales_services_head","create_date LIKE '$year_series%'");
+        if($rows==0){
+             $data['dr_no'] = "PROBCD-".$year_series."-AR-0001";
+        } else {
+            $maxdr_no=$this->super_model->get_max_where("sales_services_head", "dr_no","create_date LIKE '$year_series%'");
+            $drno = explode('-',$maxdr_no);
+            $series = $drno[3]+1;
+            if(strlen($series)==1){
+                $data['dr_no'] = "PROBCD-".$year_series."-AR-000".$series;
+            } else if(strlen($series)==2){
+                 $data['dr_no'] = "PROBCD-".$year_series."-AR-00".$series;
+            } else if(strlen($series)==3){
+                 $data['dr_no'] = "PROBCD-".$year_series."-AR-0".$series;
+            } else if(strlen($series)==4){
+                 $data['dr_no'] = "PROBCD-".$year_series."-AR-".$series;
+            }
+        }
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('sales/services_add_sales_head',$data);
+        $this->load->view('template/footer');
     }
 
     public function add_sales_service_process(){
@@ -904,14 +948,6 @@ class Sales extends CI_Controller {
             $data['service_head']=array();
         }
         $this->load->view('sales/services_sales_list',$data);
-        $this->load->view('template/footer');
-    }
-
-    public function services_add_sales_head(){
-        $data['buyer']=$this->super_model->select_all_order_by("client","buyer_name","ASC");
-        $this->load->view('template/header');
-        $this->load->view('template/navbar');
-        $this->load->view('sales/services_add_sales_head',$data);
         $this->load->view('template/footer');
     }
 
