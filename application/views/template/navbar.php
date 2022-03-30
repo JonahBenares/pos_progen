@@ -270,6 +270,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url(); ?>back_order/backorder_form">
+                        <span class="menu-title">Back Order</span>
+                        <i class="mdi mdi-backup-restore menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#reportlist" aria-expanded="false" aria-controls="reportlist">
                         <span class="menu-title">Reports</span>
                         <i class="menu-arrow"></i>
