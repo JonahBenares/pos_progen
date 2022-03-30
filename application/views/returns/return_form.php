@@ -43,6 +43,10 @@
                                     <h3><b><?php echo $h['dr_no']; ?></h3></b>
                                     <table class="table-borsdered" width="100%">
                                         <tr>
+                                            <td>Returned by:</td>
+                                            <td ><?php echo $h['client']; ?></td>
+                                        </tr>
+                                        <tr>
                                             <td width="10%">Sales Date:</td>
                                             <td width="40%" align='left'> <?php echo $h['sales_date']; ?></td>
                                             <td align="right">VAT:</td>
@@ -63,7 +67,7 @@
                                         </tr>
                                         <tr>
                                             <td>Remarks:</td>
-                                            <td ><?php echo $h['remarks']; ?>asdasdasd</td>
+                                            <td ><?php echo $h['remarks']; ?></td>
                                             <td width="10%" align="right">Date Return:</td>
                                             <td width="40%" align="left"><input type="date" class="ml-2 form-control" name="return_date" id = "return_date" value="<?php echo date("Y-m-d");?>"style="width:50%;"></td>
                                         </tr>

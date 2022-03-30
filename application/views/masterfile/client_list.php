@@ -41,6 +41,7 @@
                                     <th width="10%"> Contact Person </th>
                                     <th width="10%"> Contact No. </th>
                                     <th width="10%"> Tin No. </th>
+                                    <th width="10%"> With Holding Tax </th>
                                     <th width="8%"> <center><span class="mdi mdi-menu"></span> </center> </th>
                                 </tr>
                             </thead>
@@ -54,6 +55,7 @@
                                         <td><?php echo $buy->contact_person;?></td>
                                         <td><?php echo $buy->contact_no;?></td>
                                         <td><?php echo $buy->tin;?></td>
+                                        <td><?php echo ($buy->wht=='1') ? "YES"  : 'No' ;?></td>
                                         <td align="center">
                                             <a href="<?php echo base_url(); ?>masterfile/update_client/<?php echo $buy->client_id; ?>" class="btn btn-gradient-info btn-rounded btn-xs" data-toggle="tooltip" data-placement="top" title="Update">
                                                 <span class="mdi mdi-pencil"></span>
@@ -131,6 +133,24 @@
                                 <label >TIN</label>
                                 <input type="text" class="form-control" name="tin" placeholder="TIN">
                             </div>
+                            <div class="row">                                 
+                                <div class="col-lg-2 col-md-2 col-sm-2">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="wht" value="1" checked=""> Yes <i class="input-helper"></i></label>
+                                        </div>
+                                    </div>
+                                </div>    
+                                <div class="col-lg-2 col-md-2 col-sm-2">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="wht"  value="0" checked=""> No <i class="input-helper"></i></label>
+                                        </div>
+                                    </div>
+                                </div>                    
+                        </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>

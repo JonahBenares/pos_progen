@@ -141,11 +141,14 @@ class Returns extends CI_Controller {
             $purpose = $this->super_model->select_column_where("purpose","purpose_desc","purpose_id",$purpose_id);
             $dr_no = $this->super_model->select_column_where("sales_good_head","dr_no","dr_no",$rh->dr_no);
             $pr_no = $this->super_model->select_column_where("sales_good_head","pr_no","dr_no",$rh->dr_no);
+            $client_id = $this->super_model->select_column_where("sales_good_head","client_id","dr_no",$rh->dr_no);
+            $client = $this->super_model->select_column_where("client", "buyer_name", "client_id", $client_id);
             $data['head'][]=array(
                 "dr_no"=>$dr_no,
                 "pr_no"=>$pr_no,
                 "purpose"=>$purpose,
                 "department"=>$department,
+                "client"=>$client,
                 "date"=>date("F d,Y",strtotime($rh->return_date))
             );
             foreach($this->super_model->select_row_where("return_details","return_id",$rh->return_id) AS $rd){
