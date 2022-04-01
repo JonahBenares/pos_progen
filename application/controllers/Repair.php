@@ -118,8 +118,9 @@ class Repair extends CI_Controller {
             $this->super_model->update_where("repair_details", $rep_data, "repair_id", $repair_id);
 
                // foreach($this->super_model->select_row_where('fifo_in', 'in_id', $inid) AS $in){
+                    $remaining_qty = $this->super_model->select_column_where("fifo_in","remaining_qty","in_id",$inid);
                     if($radio=='1'){
-                        $qty=$in->remaining_qty+$quantity;
+                        $qty=$remaining_qty+$quantity;
                         $in_data = array(
                             'remaining_qty'=>$qty,
                         ); 

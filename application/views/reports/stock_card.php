@@ -18,9 +18,13 @@
         array_multisort($date, SORT_ASC, $cdate, SORT_ASC, $balance);
         $total_bal=0;
         foreach($balance AS $sc){
-            if($sc['method'] == 'Receive' || $sc['method'] == 'Returned' || $sc['method'] == 'Repaired'){ 
+            if($sc['method'] == 'Receive' || $sc['method'] == 'Repaired'){ 
                 $total_bal += $sc['quantity'];
-            } else if($sc['method'] == 'Sales Good' || $sc['method'] == 'Sales Services' || $sc['method'] == 'Damaged' || $sc['method'] == 'Expired') {
+            }else if($sc['method'] == 'Return'){
+                $total_bal = number_format($sc['quantity'],0);
+            }else if($sc['method'] == 'Expired'){
+                $total_bal -= $sc['remaining_qty'];
+            }else if($sc['method'] == 'Sales Good' || $sc['method'] == 'Sales Services' || $sc['method'] == 'Damaged') {
                 $total_bal -= $sc['quantity'];
             } 
         }
@@ -105,9 +109,13 @@
                             if(!empty($stockcard)){
                                 $run_bal=0;
                                 foreach($balance AS $s){
-                                    if($s['method'] == 'Receive' || $s['method'] == 'Returned' || $s['method'] == 'Repaired' ){ 
+                                    if($s['method'] == 'Receive' || $s['method'] == 'Repaired'){ 
                                         $run_bal += $s['quantity'];
-                                    } else if($s['method'] == 'Sales Good' || $s['method'] == 'Sales Services' || $s['method'] == 'Damaged' || $s['method'] == 'Expired') {
+                                    }else if($s['method'] == 'Return'){
+                                        $run_bal = number_format($s['quantity'],0);
+                                    }else if($s['method'] == 'Expired'){
+                                        $run_bal -= number_format($s['remaining_qty'],0);
+                                    }else if($s['method'] == 'Sales Good' || $s['method'] == 'Sales Services' || $s['method'] == 'Damaged') {
                                         $run_bal -= $s['quantity'];
                                     } 
                                     $bal[] = $run_bal;
@@ -141,7 +149,7 @@
                                                 $badge = 'badge-warning';
                                             }else if($stockcard[$x]['method']=='Sales Services'){
                                                 $badge = 'badge-info';
-                                            }else if($stockcard[$x]['method']=='Returned'){
+                                            }else if($stockcard[$x]['method']=='Return'){
                                                 $badge = 'badge-success';
                                             }else if($stockcard[$x]['method']=='Repaired'){
                                                 $badge = 'badge-primary';
@@ -162,7 +170,15 @@
                                         <div class="badge <?php echo $badge; ?> badge-pill"><?php echo $stockcard[$x]['method']; ?></div>
                                     </td>
                                     <td><?php echo $stockcard[$x]['item_cost']; ?></td>
-                                    <td><?php echo (($stockcard[$x]['method']== 'Sales Good' || $stockcard[$x]['method'] == 'Sales Services' || $stockcard[$x]['method'] == 'Damaged' || $stockcard[$x]['method'] == 'Expired') ? "-" : "") .$stockcard[$x]['quantity']; ?></td>
+                                    <?php if($stockcard[$x]['method']!= 'Expired'){ ?>
+                                    <td>
+                                        <?php echo (($stockcard[$x]['method']== 'Sales Good' || $stockcard[$x]['method'] == 'Sales Services' || $stockcard[$x]['method'] == 'Damaged' || $stockcard[$x]['method'] == 'Expired') ? "-" : "") .$stockcard[$x]['quantity']; ?>    
+                                    </td>
+                                    <?php } else { ?>
+                                    <td>
+                                        <?php echo (($stockcard[$x]['method']== 'Sales Good' || $stockcard[$x]['method'] == 'Sales Services' || $stockcard[$x]['method'] == 'Damaged' || $stockcard[$x]['method'] == 'Expired') ? "-" : "") .$stockcard[$x]['remaining_qty']; ?>    
+                                    </td>
+                                    <?php } ?>
                                     <td><?php echo $bal[$x]; ?></td>
                                 </tr>
                                 <?php } } ?>

@@ -96,47 +96,77 @@ class Reports extends CI_Controller {
         $data['items']=$this->super_model->select_all_order_by("items","item_name","ASC");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        foreach($this->super_model->custom_query("SELECT rh.receive_id,rh.receive_date, ri.supplier_id, ri.brand, ri.catalog_no, ri.received_qty, ri.item_cost, ri.rd_id, ri.ri_id, rh.create_date, ri.shipping_fee, rh.po_no FROM receive_head rh INNER JOIN receive_items ri ON rh.receive_id = ri.receive_id WHERE item_id = '$item_id' AND saved='1'") AS $stk){
+        foreach($this->super_model->custom_query("SELECT rh.receive_id,rh.receive_date, ri.supplier_id, ri.brand, ri.catalog_no, ri.received_qty, ri.item_cost, ri.rd_id, ri.ri_id, rh.create_date, ri.shipping_fee, rh.po_no,ri.expiration_date FROM receive_head rh INNER JOIN receive_items ri ON rh.receive_id = ri.receive_id WHERE item_id = '$item_id' AND saved='1'") AS $stk){
             $pr_no = $this->super_model->select_column_where("receive_details", "pr_no", "rd_id", $stk->rd_id);
             $supplier = $this->super_model->select_column_where("supplier", "supplier_name", "supplier_id", $stk->supplier_id);
             $total_cost = $stk->received_qty*$stk->item_cost;
-            $data['stockcard'][]=array(
-                'date'=>$stk->receive_date,
-                'create_date'=>$stk->create_date,
-                'supplier'=>$supplier,
-                'pr_no'=>$pr_no,
-                'po_no'=>$stk->po_no,
-                'catalog_no'=>$stk->catalog_no,
-                'brand'=>$stk->brand,
-                'item_cost'=>$total_cost,
-                'quantity'=>$stk->received_qty,
-                'series'=>'1',
-                'method'=>'Receive',
-            );
+            //if($stk->expiration_date=='' || $stk->expiration_date >= $now){
+                $data['stockcard'][]=array(
+                    'date'=>$stk->receive_date,
+                    'create_date'=>$stk->create_date,
+                    'supplier'=>$supplier,
+                    'pr_no'=>$pr_no,
+                    'po_no'=>$stk->po_no,
+                    'catalog_no'=>$stk->catalog_no,
+                    'brand'=>$stk->brand,
+                    'item_cost'=>$total_cost,
+                    'quantity'=>$stk->received_qty,
+                    'remaining_qty'=>'',
+                    'series'=>'1',
+                    'method'=>'Receive',
+                );
 
-            $data['balance'][] = array(
-                'series'=>'1',
-                'method'=>'Receive',
-                'quantity'=>$stk->received_qty,
-                'date'=>$stk->receive_date,
-                'create_date'=>$stk->create_date
-            );
+                $data['balance'][] = array(
+                    'series'=>'1',
+                    'method'=>'Receive',
+                    'quantity'=>$stk->received_qty,
+                    'remaining_qty'=>'',
+                    'date'=>$stk->receive_date,
+                    'create_date'=>$stk->create_date
+                );
+            //}
+
+            /*if($stk->expiration_date <= $now && $stk->expiration_date!=''){
+                $data['stockcard'][]=array(
+                    'date'=>$stk->receive_date,
+                    'create_date'=>$stk->create_date,
+                    'supplier'=>$supplier,
+                    'pr_no'=>$pr_no,
+                    'po_no'=>$stk->po_no,
+                    'catalog_no'=>$stk->catalog_no,
+                    'brand'=>$stk->brand,
+                    'item_cost'=>$total_cost,
+                    'quantity'=>$stk->received_qty,
+                    'series'=>'2',
+                    'method'=>'Expired',
+                );
+
+                $data['balance'][] = array(
+                    'series'=>'2',
+                    'method'=>'Expired',
+                    'quantity'=>$stk->received_qty,
+                    'date'=>$stk->receive_date,
+                    'create_date'=>$stk->create_date
+                );
+            }*/
         }
 
-        foreach($this->super_model->custom_query("SELECT rh.receive_id,rh.receive_date, ri.supplier_id, ri.brand, ri.catalog_no, ri.received_qty, ri.item_cost, ri.rd_id, ri.ri_id, rh.create_date, ri.shipping_fee, rh.po_no FROM receive_head rh INNER JOIN receive_items ri ON rh.receive_id = ri.receive_id WHERE item_id = '$item_id' AND expiration_date <= '$now' AND saved='1'") AS $stk){
-            $pr_no = $this->super_model->select_column_where("receive_details", "pr_no", "rd_id", $stk->rd_id);
-            $supplier = $this->super_model->select_column_where("supplier", "supplier_name", "supplier_id", $stk->supplier_id);
-            $total_cost = $stk->received_qty*$stk->item_cost;
+        foreach($this->super_model->custom_query("SELECT rh.receive_id,rh.receive_date, ri.supplier_id, ri.brand, ri.catalog_no, ri.received_qty, ri.item_cost, ri.rd_id, ri.ri_id, rh.create_date, ri.shipping_fee, rh.po_no, ri.item_id,ri.serial_no FROM receive_head rh INNER JOIN receive_items ri ON rh.receive_id = ri.receive_id WHERE item_id = '$item_id' AND (expiration_date <= '$now' AND expiration_date!='') AND saved='1'") AS $rec){
+            $pr_no = $this->super_model->select_column_where("receive_details", "pr_no", "rd_id", $rec->rd_id);
+            $supplier = $this->super_model->select_column_where("supplier", "supplier_name", "supplier_id", $rec->supplier_id);
+            $remaining_qty = $this->super_model->select_column_custom_where("fifo_in",'remaining_qty',"item_id = '$rec->item_id' AND brand='$rec->brand' AND catalog_no='$rec->catalog_no' AND serial_no='$rec->serial_no' AND (expiry_date <= '$now' AND expiry_date!='')");
+            $total_cost = $rec->received_qty*$rec->item_cost;
             $data['stockcard'][]=array(
-                'date'=>$stk->receive_date,
-                'create_date'=>$stk->create_date,
+                'date'=>$rec->receive_date,
+                'create_date'=>$rec->create_date,
                 'supplier'=>$supplier,
                 'pr_no'=>$pr_no,
-                'po_no'=>$stk->po_no,
-                'catalog_no'=>$stk->catalog_no,
-                'brand'=>$stk->brand,
+                'po_no'=>$rec->po_no,
+                'catalog_no'=>$rec->catalog_no,
+                'brand'=>$rec->brand,
                 'item_cost'=>$total_cost,
-                'quantity'=>$stk->received_qty,
+                'quantity'=>$rec->received_qty,
+                'remaining_qty'=>$remaining_qty,
                 'series'=>'2',
                 'method'=>'Expired',
             );
@@ -144,13 +174,17 @@ class Reports extends CI_Controller {
             $data['balance'][] = array(
                 'series'=>'2',
                 'method'=>'Expired',
-                'quantity'=>$stk->received_qty,
-                'date'=>$stk->receive_date,
-                'create_date'=>$stk->create_date
+                'quantity'=>$rec->received_qty,
+                'remaining_qty'=>$remaining_qty,
+                'date'=>$rec->receive_date,
+                'create_date'=>$rec->create_date
             );
         }
 
         foreach($this->super_model->custom_query("SELECT * FROM sales_good_head sh INNER JOIN sales_good_details sd ON sh.sales_good_head_id = sd.sales_good_head_id WHERE item_id = '$item_id' AND saved='1'") AS $sal){
+            $in_id = $this->super_model->select_column_where("fifo_out","in_id","sales_details_id",$sal->sales_good_det_id);
+            $brand = $this->super_model->select_column_where("fifo_in","brand","in_id",$in_id);
+            $catalog_no = $this->super_model->select_column_where("fifo_in","catalog_no","in_id",$in_id);
             $client = $this->super_model->select_column_where("client", "buyer_name", "client_id", $sal->client_id);
             $total_cost = $sal->quantity*$sal->unit_cost;
             $data['stockcard'][]=array(
@@ -159,10 +193,11 @@ class Reports extends CI_Controller {
                 'supplier'=>$client,
                 'pr_no'=>$sal->pr_no,
                 'po_no'=>$sal->po_no,
-                'catalog_no'=>'',
-                'brand'=>'',
+                'catalog_no'=>$catalog_no,
+                'brand'=>$brand,
                 'item_cost'=>$total_cost,
                 'quantity'=>$sal->quantity,
+                'remaining_qty'=>'',
                 'series'=>'3',
                 'method'=>'Sales Good',
             );
@@ -171,12 +206,16 @@ class Reports extends CI_Controller {
                 'series'=>'3',
                 'method'=>'Sales Good',
                 'quantity'=>$sal->quantity,
+                'remaining_qty'=>'',
                 'date'=>$sal->sales_date,
                 'create_date'=>$sal->create_date
             );
         }
 
         foreach($this->super_model->custom_query("SELECT * FROM sales_services_head sh INNER JOIN sales_serv_items si ON sh.sales_serv_head_id = si.sales_serv_head_id WHERE item_id = '$item_id' AND saved='1'") AS $sas){
+            $in_id = $this->super_model->select_column_where("fifo_out","in_id","sales_serv_items_id",$sas->sales_serv_items_id);
+            $brand = $this->super_model->select_column_where("fifo_in","brand","in_id",$in_id);
+            $catalog_no = $this->super_model->select_column_where("fifo_in","catalog_no","in_id",$in_id);
             $client = $this->super_model->select_column_where("client", "buyer_name", "client_id", $sas->client_id);
             $total_cost = $sas->quantity*$sas->unit_cost;
             $data['stockcard'][]=array(
@@ -185,10 +224,11 @@ class Reports extends CI_Controller {
                 'supplier'=>$client,
                 'pr_no'=>$sas->jor_no,
                 'po_no'=>$sas->joi_no,
-                'catalog_no'=>'',
-                'brand'=>'',
+                'catalog_no'=>$catalog_no,
+                'brand'=>$brand,
                 'item_cost'=>$total_cost,
                 'quantity'=>$sas->quantity,
+                'remaining_qty'=>'',
                 'series'=>'4',
                 'method'=>'Sales Services',
             );
@@ -197,6 +237,7 @@ class Reports extends CI_Controller {
                 'series'=>'4',
                 'method'=>'Sales Services',
                 'quantity'=>$sas->quantity,
+                'remaining_qty'=>'',
                 'date'=>$sas->sales_date,
                 'create_date'=>$sas->create_date
             );
@@ -222,6 +263,7 @@ class Reports extends CI_Controller {
                 'brand'=>$brand,
                 'item_cost'=>$total_cost,
                 'quantity'=>$dam->damage_qty,
+                'remaining_qty'=>'',
                 'series'=>'5',
                 'method'=>'Damaged',
             );
@@ -230,6 +272,7 @@ class Reports extends CI_Controller {
                 'series'=>'5',
                 'method'=>'Damaged',
                 'quantity'=>$dam->damage_qty,
+                'remaining_qty'=>'',
                 'date'=>$dam->damage_date,
                 'create_date'=>$dam->create_date
             );
@@ -255,6 +298,7 @@ class Reports extends CI_Controller {
                 'brand'=>$brand,
                 'item_cost'=>$total_cost,
                 'quantity'=>$rep->quantity,
+                'remaining_qty'=>'',
                 'series'=>'6',
                 'method'=>'Repaired',
             );
@@ -263,6 +307,7 @@ class Reports extends CI_Controller {
                 'series'=>'6',
                 'method'=>'Repaired',
                 'quantity'=>$rep->quantity,
+                'remaining_qty'=>'',
                 'date'=>$rep->repair_date,
                 'create_date'=>$rep->create_date
             );
@@ -288,14 +333,16 @@ class Reports extends CI_Controller {
                 'brand'=>$brand,
                 'item_cost'=>$total_cost,
                 'quantity'=>$ret->return_qty,
+                'remaining_qty'=>'',
                 'series'=>'7',
-                'method'=>'Returned',
+                'method'=>'Return',
             );
 
             $data['balance'][] = array(
                 'series'=>'7',
-                'method'=>'Returned',
+                'method'=>'Return',
                 'quantity'=>$ret->return_qty,
+                'remaining_qty'=>'',
                 'date'=>$ret->return_date,
                 'create_date'=>$ret->create_date
             );
