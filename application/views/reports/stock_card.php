@@ -18,12 +18,8 @@
         array_multisort($date, SORT_ASC, $cdate, SORT_ASC, $balance);
         $total_bal=0;
         foreach($balance AS $sc){
-            if($sc['method'] == 'Receive' || $sc['method'] == 'Repaired'){ 
+            if($sc['method'] == 'Receive' || $sc['method'] == 'Repaired' || $sc['method'] == 'Return'){ 
                 $total_bal += $sc['quantity'];
-            }else if($sc['method'] == 'Return'){
-                $total_bal = number_format($sc['quantity'],0);
-            }else if($sc['method'] == 'Expired'){
-                $total_bal -= $sc['remaining_qty'];
             }else if($sc['method'] == 'Sales Good' || $sc['method'] == 'Sales Services' || $sc['method'] == 'Damaged') {
                 $total_bal -= $sc['quantity'];
             } 
@@ -109,12 +105,8 @@
                             if(!empty($stockcard)){
                                 $run_bal=0;
                                 foreach($balance AS $s){
-                                    if($s['method'] == 'Receive' || $s['method'] == 'Repaired'){ 
+                                    if($s['method'] == 'Receive' || $s['method'] == 'Repaired' || $s['method'] == 'Return'){ 
                                         $run_bal += $s['quantity'];
-                                    }else if($s['method'] == 'Return'){
-                                        $run_bal = number_format($s['quantity'],0);
-                                    }else if($s['method'] == 'Expired'){
-                                        $run_bal -= number_format($s['remaining_qty'],0);
                                     }else if($s['method'] == 'Sales Good' || $s['method'] == 'Sales Services' || $s['method'] == 'Damaged') {
                                         $run_bal -= $s['quantity'];
                                     } 
@@ -170,15 +162,9 @@
                                         <div class="badge <?php echo $badge; ?> badge-pill"><?php echo $stockcard[$x]['method']; ?></div>
                                     </td>
                                     <td><?php echo $stockcard[$x]['item_cost']; ?></td>
-                                    <?php if($stockcard[$x]['method']!= 'Expired'){ ?>
                                     <td>
                                         <?php echo (($stockcard[$x]['method']== 'Sales Good' || $stockcard[$x]['method'] == 'Sales Services' || $stockcard[$x]['method'] == 'Damaged' || $stockcard[$x]['method'] == 'Expired') ? "-" : "") .$stockcard[$x]['quantity']; ?>    
                                     </td>
-                                    <?php } else { ?>
-                                    <td>
-                                        <?php echo (($stockcard[$x]['method']== 'Sales Good' || $stockcard[$x]['method'] == 'Sales Services' || $stockcard[$x]['method'] == 'Damaged' || $stockcard[$x]['method'] == 'Expired') ? "-" : "") .$stockcard[$x]['remaining_qty']; ?>    
-                                    </td>
-                                    <?php } ?>
                                     <td><?php echo $bal[$x]; ?></td>
                                 </tr>
                                 <?php } } ?>

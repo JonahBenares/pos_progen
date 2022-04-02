@@ -100,6 +100,11 @@ class Reports extends CI_Controller {
             $pr_no = $this->super_model->select_column_where("receive_details", "pr_no", "rd_id", $stk->rd_id);
             $supplier = $this->super_model->select_column_where("supplier", "supplier_name", "supplier_id", $stk->supplier_id);
             $total_cost = $stk->received_qty*$stk->item_cost;
+            if($stk->expiration_date=='' || $stk->expiration_date > $now){
+                $method = 'Receive';
+            }else {
+                $method = 'Expired';
+            }
             //if($stk->expiration_date=='' || $stk->expiration_date >= $now){
                 $data['stockcard'][]=array(
                     'date'=>$stk->receive_date,
@@ -113,12 +118,12 @@ class Reports extends CI_Controller {
                     'quantity'=>$stk->received_qty,
                     'remaining_qty'=>'',
                     'series'=>'1',
-                    'method'=>'Receive',
+                    'method'=>$method,
                 );
 
                 $data['balance'][] = array(
                     'series'=>'1',
-                    'method'=>'Receive',
+                    'method'=>$method,
                     'quantity'=>$stk->received_qty,
                     'remaining_qty'=>'',
                     'date'=>$stk->receive_date,
@@ -151,7 +156,7 @@ class Reports extends CI_Controller {
             }*/
         }
 
-        foreach($this->super_model->custom_query("SELECT rh.receive_id,rh.receive_date, ri.supplier_id, ri.brand, ri.catalog_no, ri.received_qty, ri.item_cost, ri.rd_id, ri.ri_id, rh.create_date, ri.shipping_fee, rh.po_no, ri.item_id,ri.serial_no FROM receive_head rh INNER JOIN receive_items ri ON rh.receive_id = ri.receive_id WHERE item_id = '$item_id' AND (expiration_date <= '$now' AND expiration_date!='') AND saved='1'") AS $rec){
+        /*foreach($this->super_model->custom_query("SELECT rh.receive_id,rh.receive_date, ri.supplier_id, ri.brand, ri.catalog_no, ri.received_qty, ri.item_cost, ri.rd_id, ri.ri_id, rh.create_date, ri.shipping_fee, rh.po_no, ri.item_id,ri.serial_no FROM receive_head rh INNER JOIN receive_items ri ON rh.receive_id = ri.receive_id WHERE item_id = '$item_id' AND (expiration_date <= '$now' AND expiration_date!='') AND saved='1'") AS $rec){
             $pr_no = $this->super_model->select_column_where("receive_details", "pr_no", "rd_id", $rec->rd_id);
             $supplier = $this->super_model->select_column_where("supplier", "supplier_name", "supplier_id", $rec->supplier_id);
             $remaining_qty = $this->super_model->select_column_custom_where("fifo_in",'remaining_qty',"item_id = '$rec->item_id' AND brand='$rec->brand' AND catalog_no='$rec->catalog_no' AND serial_no='$rec->serial_no' AND (expiry_date <= '$now' AND expiry_date!='')");
@@ -179,7 +184,7 @@ class Reports extends CI_Controller {
                 'date'=>$rec->receive_date,
                 'create_date'=>$rec->create_date
             );
-        }
+        }*/
 
         foreach($this->super_model->custom_query("SELECT * FROM sales_good_head sh INNER JOIN sales_good_details sd ON sh.sales_good_head_id = sd.sales_good_head_id WHERE item_id = '$item_id' AND saved='1'") AS $sal){
             $in_id = $this->super_model->select_column_where("fifo_out","in_id","sales_details_id",$sal->sales_good_det_id);

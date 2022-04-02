@@ -117,14 +117,14 @@ class Sales extends CI_Controller {
    
     public function goods_add_sales_item(){
         $data['sales_good_head_id']=$this->uri->segment(3);
-        foreach($this->super_model->select_custom_where("fifo_in","remaining_qty!='0' GROUP BY item_id") AS $fi){
+        $today = date("Y-m-d");
+        foreach($this->super_model->select_custom_where("fifo_in","remaining_qty!='0' AND (expiry_date ='' OR expiry_date >= '$today') GROUP BY item_id") AS $fi){
             $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$fi->item_id);
             $item_name = $this->super_model->select_column_where("items","item_name","item_id",$fi->item_id);
             $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$fi->item_id);
             $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
-            $expire = date("Y-m-d",strtotime($fi->expiry_date));
-            $today = date("Y-m-d");
-            if($expire > $today || $fi->expiry_date==''){
+            //$expire = date("Y-m-d",strtotime($fi->expiry_date));
+            //if($expire > $today || $fi->expiry_date==''){
                 $data['fifo_in'][]= array(
                     'item_id'=>$fi->item_id,
                     'in_id'=>$fi->in_id,
@@ -135,7 +135,7 @@ class Sales extends CI_Controller {
                     'serial_no'=>$fi->serial_no,
                     'remaining_qty'=>$fi->remaining_qty,
                 );
-            }
+            //}
         }
         $this->load->view('template/header');
         $this->load->view('sales/goods_add_sales_item',$data);
@@ -162,12 +162,12 @@ class Sales extends CI_Controller {
         $deduct_temp=0;
         $temp_qty=$qty;
         $trigger=1;
-        $in_qty = $this->super_model->select_sum_where("fifo_in", "remaining_qty", "item_id = '$item_id' AND (expiry_date ='' or expiry_date >= '$now')"); 
+        $in_qty = $this->super_model->select_sum_where("fifo_in", "remaining_qty", "item_id = '$item_id' AND (expiry_date ='' or expiry_date > '$now')"); 
         $deduct_temp = $this->super_model->select_sum_where("temp_sales_out", "quantity", "item_id = '$item_id'");
         $total_qty = $in_qty - $deduct_temp;
         $serial="";
         if($total_qty >= $qty){
-            foreach($this->super_model->select_custom_where("fifo_in","item_id = '$item_id' AND (expiry_date ='' or expiry_date >= '$now') AND remaining_qty !='0' ORDER BY receive_date ASC") AS $itm){
+            foreach($this->super_model->select_custom_where("fifo_in","item_id = '$item_id' AND (expiry_date ='' or expiry_date > '$now') AND remaining_qty !='0' ORDER BY receive_date ASC") AS $itm){
                   
                 if($temp_qty > 0){
                     $temp_qty = $temp_qty - $itm->remaining_qty;
@@ -221,7 +221,7 @@ class Sales extends CI_Controller {
 
 
 
-           foreach($this->super_model->select_custom_where("fifo_in","item_id = '$item_id' AND (expiry_date ='' or expiry_date >= '$now') ORDER BY receive_date ASC") AS $itm){
+           foreach($this->super_model->select_custom_where("fifo_in","item_id = '$item_id' AND (expiry_date ='' or expiry_date > '$now') ORDER BY receive_date ASC") AS $itm){
                   
                
                    if($temp_qty > 0){
@@ -530,14 +530,14 @@ class Sales extends CI_Controller {
     public function services_add_sales_item(){
         $this->load->view('template/header');
         $data['sales_serv_head_id']=$this->uri->segment(3);
-        foreach($this->super_model->select_custom_where("fifo_in","remaining_qty!='0' GROUP BY item_id") AS $fi){
+        $today = date("Y-m-d");
+        foreach($this->super_model->select_custom_where("fifo_in","remaining_qty!='0' AND (expiry_date ='' OR expiry_date >= '$today') GROUP BY item_id") AS $fi){
             $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$fi->item_id);
             $item_name = $this->super_model->select_column_where("items","item_name","item_id",$fi->item_id);
             $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$fi->item_id);
             $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
-            $expire = date("Y-m-d",strtotime($fi->expiry_date));
-            $today = date("Y-m-d");
-            if($expire > $today || $fi->expiry_date==''){
+            //$expire = date("Y-m-d",strtotime($fi->expiry_date));
+            //if($expire > $today || $fi->expiry_date==''){
                 $data['fifo_in'][]= array(
                     'item_id'=>$fi->item_id,
                     'in_id'=>$fi->in_id,
@@ -548,7 +548,7 @@ class Sales extends CI_Controller {
                     'serial_no'=>$fi->serial_no,
                     'remaining_qty'=>$fi->remaining_qty,
                 );
-            }
+            //}
         }
         $this->load->view('sales/services_add_sales_item',$data);
         $this->load->view('template/footer');
