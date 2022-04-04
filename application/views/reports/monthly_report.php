@@ -1,3 +1,4 @@
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -36,77 +37,76 @@
                         </div>
                     </div>
                     <div class="card-body"> 
-                        <div class="row">
-                            <div class="col-lg-5">
-                                <select class="form-control">
-                                    <option>-Choose Month-</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-5">
-                                <select class="form-control">
-                                    <option>-Choose Buyer-</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-2">
-                                <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="" value="Filter">
-                            </div>
-                        </div>    
+                        <form method="POST">
+                            <div class="row">
+                                <div class="col-lg-5">
+                                     <select class="form-control" name="month" id="month">
+                                        <option value='' selected="selected">-Select Month-</option>
+                                        <option value='01'>January</option>
+                                        <option value='02'>February</option>
+                                        <option value='03'>March</option>
+                                        <option value='04'>April</option>
+                                        <option value='05'>May</option>
+                                        <option value='06'>June</option>
+                                        <option value='07'>July</option>
+                                        <option value='08'>August</option>
+                                        <option value='09'>September</option>
+                                        <option value='10'>October</option>
+                                        <option value='11'>November</option>
+                                        <option value='12'>December</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-5">
+                                    <select class="form-control" id="client_id" name="client_id">
+                                        <option value="">-Choose Buyer-</option>
+                                        <?php foreach($client AS $c){ ?>
+                                            <option value="<?php echo $c->client_id; ?>"><?php echo $c->buyer_name; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2">
+                                    <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
+                                    <input type="button" class="btn btn-md btn-gradient-success btn-block" name="save" id="filter_sales" value="Filter">
+                                </div>
+                            </div>   
+                        </form> 
                         <hr>       
                         <table class="table table-bordered table-hover" width="100%">
                             <thead>
                                 <tr>
                                     <td class="td-head" width="1%">#</td>
                                     <td class="td-head">Date</td>
-                                    <td class="td-head">DR No</td>
+                                    <td class="td-head">DR No. / AR No.</td>
                                     <td class="td-head">Part Number</td>
                                     <td class="td-head">Item Description</td>
                                     <td class="td-head">Serial No.</td>
                                     <td class="td-head">Qty</td>        
                                     <td class="td-head">UOM</td>        
-                                    <td class="td-head">PGC PR No/ PO No</td>        
-                                    <td class="td-head">Requestor</td>        
+                                    <td class="td-head">PGC PR No/ PO No</td>     
                                     <td class="td-head">Buyer</td>        
                                     <td class="td-head">Unit Cost </td>        
                                     <td class="td-head">Total Amt </td>        
-                                    <td class="td-head">SI No.</td>     
                                     <td class="td-head">Remarks</td>     
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php if(!empty($sales)){ $x=1; foreach($sales AS $s){ ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><?php echo $x;?></td>
+                                    <td><?php echo $s['sales_date'];?></td>
+                                    <td><?php echo $s['dr_no'];?></td>
+                                    <td><?php echo $s['original_pn'];?></td>
+                                    <td><?php echo $s['item'];?></td>
+                                    <td><?php echo $s['serial_no'];?></td>
+                                    <td><?php echo $s['quantity'];?></td>
+                                    <td><?php echo $s['uom'];?></td>
+                                    <td><?php echo $s['pr_no']." / ".$s['po_no'];?></td>
+                                    <td><?php echo $s['client'];?></td>
+                                    <td><?php echo $s['unit_cost'];?></td>
+                                    <td><?php echo $s['total'];?></td>
+                                    <td><?php echo $s['remarks'];?></td>
                                 </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <?php $x++; } } ?>
                             </tbody>                            
                         </table>
                     </div>

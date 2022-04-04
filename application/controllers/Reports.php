@@ -29,11 +29,74 @@ class Reports extends CI_Controller {
     } 
 
 
-    public function monthly_report()
-    {
+    public function monthly_report(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('reports/monthly_report');
+        $data['client']=$this->super_model->select_all_order_by("client","buyer_name","buyer_name","ASC");
+        $month = $this->uri->segment(3);
+        $client_id = $this->uri->segment(4);
+        $sql="";
+        if($month!='null'){
+            $sql.= " AND EXTRACT(MONTH from sales_date) = '$month' AND";
+        }
+
+        if($client_id!='null' && $month=='null'){
+            $sql.= " AND client_id = '$client_id' AND";
+        }else if($month!='null' && $client_id!='null'){
+            $sql.= " client_id = '$client_id' AND";
+        }
+
+        $query=substr($sql,0,-3);
+        foreach($this->super_model->custom_query("SELECT * FROM sales_good_head sh INNER JOIN sales_good_details sd ON sh.sales_good_head_id=sd.sales_good_head_id WHERE saved='1' ".$query) AS $sg){
+            $item=$this->super_model->select_column_where("items","item_name","item_id",$sg->item_id);
+            $original_pn=$this->super_model->select_column_where("items","original_pn","item_id",$sg->item_id);
+            $unit_id=$this->super_model->select_column_where("items","unit_id","item_id",$sg->item_id);
+            $uom=$this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
+            $client=$this->super_model->select_column_where("client","buyer_name","client_id",$sg->client_id);
+            $in_id=$this->super_model->select_column_where("fifo_out","in_id","sales_details_id",$sg->sales_good_det_id);
+            $serial_no=$this->super_model->select_column_where("fifo_in","serial_no","in_id",$in_id);
+            $data['sales'][]=array(
+                "sales_date"=>$sg->sales_date,
+                "dr_no"=>$sg->dr_no,
+                "original_pn"=>$original_pn,
+                "item"=>$item,
+                "serial_no"=>$serial_no,
+                "quantity"=>$sg->quantity,
+                "uom"=>$uom,
+                "pr_no"=>$sg->pr_no,
+                "po_no"=>$sg->po_no,
+                "client"=>$client,
+                "unit_cost"=>$sg->unit_cost,
+                "total"=>$sg->total,
+                "remarks"=>$sg->remarks,
+            );
+        }
+
+        foreach($this->super_model->custom_query("SELECT * FROM sales_services_head sh INNER JOIN sales_serv_items si ON sh.sales_serv_head_id=si.sales_serv_head_id WHERE saved='1' ".$query) AS $sid){
+            $item=$this->super_model->select_column_where("items","item_name","item_id",$sid->item_id);
+            $original_pn=$this->super_model->select_column_where("items","original_pn","item_id",$sid->item_id);
+            $unit_id=$this->super_model->select_column_where("items","unit_id","item_id",$sid->item_id);
+            $uom=$this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
+            $client=$this->super_model->select_column_where("client","buyer_name","client_id",$sid->client_id);
+            $in_id=$this->super_model->select_column_where("fifo_out","in_id","sales_serv_items_id",$sid->sales_serv_items_id);
+            $serial_no=$this->super_model->select_column_where("fifo_in","serial_no","in_id",$in_id);
+            $data['sales'][]=array(
+                "sales_date"=>$sid->sales_date,
+                "dr_no"=>$sid->dr_no,
+                "original_pn"=>$original_pn,
+                "item"=>$item,
+                "serial_no"=>$serial_no,
+                "quantity"=>$sid->quantity,
+                "uom"=>$uom,
+                "pr_no"=>$sid->jor_no,
+                "po_no"=>$sid->joi_no,
+                "client"=>$client,
+                "unit_cost"=>$sid->unit_cost,
+                "total"=>$sid->total,
+                "remarks"=>$sid->remarks,
+            );
+        }
+        $this->load->view('reports/monthly_report',$data);
         $this->load->view('template/footer');
     }
 
@@ -364,11 +427,27 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function item_pr()
-    {
+    public function item_pr(){
+        $item_id = $this->uri->segment(3);
+        $data['item_name']=$this->super_model->select_column_where("items","item_name","item_id",$item_id);
+        $data['item']=$this->super_model->select_all_order_by("items","item_name","ASC");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('reports/item_pr');
+        foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id FROM fifo_in WHERE item_id = '$item_id'") AS $head){
+            foreach($this->super_model->custom_query("SELECT quantity,in_id FROM fifo_out WHERE in_id = '$head->in_id'") AS $fi){
+                $return_qty= $this->super_model->select_column_where("return_details","return_qty","in_id",$fi->in_id);
+                $in_balance = $head->quantity - $fi->quantity;
+                $data['item_pr'][] = array(
+                    "prno"=>$head->pr_no,
+                    "recqty"=>$head->quantity,
+                    "sales_quantity"=>$fi->quantity,
+                    "returnqty"=>$return_qty,
+                    "in_balance"=>$in_balance,
+                    "final_balance"=>$head->remaining_qty
+                );
+            }
+        }
+        $this->load->view('reports/item_pr',$data);
         $this->load->view('template/footer');
     }
 
