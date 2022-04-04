@@ -72,10 +72,11 @@
                         <br>
                     </td>
                 </tr>
+                <?php foreach($head AS $h){ ?>
                 <tr>
                     <td></td>
                     <td colspan="2">No:</td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1"><?php echo $h['billing_no']; ?></td>
                     <td colspan="4"></td>
                     <td></td>
                     <td colspan="3"></td>
@@ -85,17 +86,17 @@
                 <tr>
                     <td></td>
                     <td colspan="2">Date:</td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1"><?php echo $h['date']; ?></td>
                     <td colspan="4"></td>
                     <td></td>
                     <td colspan="3">TIN:</td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1"><?php echo $h['tin']; ?></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td colspan="2">Customer:</td>
-                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="8" class="bor-btm1"><?php echo $h['client']; ?></td>
                     <td></td>
                     <td colspan="3">PO/JO No.:</td>
                     <td colspan="4" class="bor-btm1"></td>
@@ -104,7 +105,7 @@
                 <tr>
                     <td></td>
                     <td colspan="2">Address:</td>
-                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="8" class="bor-btm1"><?php echo $h['address']; ?></td>
                     <td></td>
                     <td colspan="3">PO/JO Date:</td>
                     <td colspan="4" class="bor-btm1"></td>
@@ -113,6 +114,7 @@
                 <tr>
                     <td colspan="20" align="center"><br><br></td>
                 </tr>
+            <?php } ?>
                 <tr>
                     <td></td>
                     <td colspan="18">
@@ -122,96 +124,21 @@
                                 <td width="40%" class="td-head">DR No.</td>
                                 <td width="30%" class="td-head" align="right">Total Amount</td>
                             </tr>
+                            <?php 
+                            $total=array();
+                            foreach($details AS $d){ 
+                                $total[] = $d->remaining_amount;?>
                             <tr>
-                                <td>November 11, 2002</td>
-                                <td>DR2002-2255655454-10</td>
-                                <td align="right">225,299.00</td>
+                                <td><?php echo date("F d, Y", strtotime($d->dr_date)); ?></td>
+                                <td><?php echo $d->dr_no; ?></td>
+                                <td align="right"><?php echo number_format($d->remaining_amount,2); ?></td>
                             </tr>
-                            <tr>
-                                <td>April 11, 2022</td>
-                                <td>DR2002-2255655454-10</td>
-                                <td align="right">225,299.00</td>
-                            </tr>
-                            <tr>
-                                <td>December 11, 2019</td>
-                                <td>DR2002-2255655454-10</td>
-                                <td align="right">225,299.00</td>
-                            </tr>
-                            <tr>
-                                <td>March 11, 2001</td>
-                                <td>DR2002-2255655454-10</td>
-                                <td align="right">225,299.00</td>
-                            </tr>
-                            <tr>
-                                <td>November 11, 2002</td>
-                                <td>DR2002-2255655454-10</td>
-                                <td align="right">225,299.00</td>
-                            </tr>
-                            <tr>
-                                <td>June 11, 2004</td>
-                                <td>DR2002-2255655454-10</td>
-                                <td align="right">225,299.00</td>
-                            </tr>
-                            <tr>
-                                <td>March 11, 2202</td>
-                                <td>DR2002-2255655454-10</td>
-                                <td align="right">225,299.00</td>
-                            </tr>
-                            <tr>
-                                <td>July 11, 2003</td>
-                                <td>DR2002-2255655454-10</td>
-                                <td align="right">225,299.00</td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            <?php } ?>
                             <tr>
                                 <td colspan="2">
                                     <span class="pull-right">Total Amount Due:</span>
                                 </td>
-                                <td class="bor-btm2" align="right"> <b>1,802,392.00</b></td>
+                                <td class="bor-btm2" align="right"> <b><?php echo number_format(array_sum($total),2); ?></b></td>
                             </tr>
                         </table>
                     </td>

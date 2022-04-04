@@ -1,3 +1,6 @@
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/reports.js"></script>
+
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -43,28 +46,38 @@
                         <div class="row">
                             <div class="col-lg-3">
                                 <!-- <input type="" class="form-control" name="" placeholder="Customer"> -->
-                                <select class="form-control">
-                                    <option>--Select Customer--</option>
+                                <form method="POST"> 
+                                <select class="form-control" id='client'>
+                                    <option value="">--Select Client--</option>
+                                    <?php foreach($clients AS $c){ ?>
+                                        <option value='<?php echo $c->client_id; ?>'><?php echo $c->buyer_name; ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="col-lg-3">
                                 <!-- <input type="" class="form-control" name="" placeholder="Customer"> -->
-                                <select class="form-control">
-                                    <option>--Type--</option>
-                                    <option>Delivery Reciept - Goods</option>
-                                    <option>Delivery Reciept - Services</option>
+                                <select class="form-control" id='type'>
+                                    <option value="">--Type--</option>
+                                    <option value='1'>Delivery Reciept - Goods</option>
+                                    <option value='2'>Delivery Reciept - Services</option>
                                 </select>
                             </div>
                             <div class="col-lg-2">
-                                <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="" value="Filter">
+                                 <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
+                                <input type="button" class="btn btn-md btn-gradient-success btn-block" name="pending_filter" value="Filter" id='pendingFilter'>
                             </div>
-                            <div class="col-lg-3 offset-lg-1">
-                                <small class="pull-right">Overall Total Amount</small><br>
-                                <h2 class="pull-right">P 225,545,555</h2>
-                            </div>
+                           </form>
+                            <?php if(!empty($client)){ ?>
+                                <div class="col-lg-3 offset-lg-1">
+                                    <small class="pull-right">Overall Total Amount</small><br>
+                                    <h2 class="pull-right">P <?php echo number_format($grand_total,2); ?></h2>
+                                </div>
+                            <?php } ?>
                         </div>
-                        <hr>   
-                        <form>     
+                        <hr>  
+                         <?php if(!empty($client)){ ?>   
+                        <form id='pendingTable'>   
+
                             <table class=" table-hover table-bordered" width="100%">
                                 <thead>
                                     <tr>
@@ -78,98 +91,65 @@
                                         <th width="31"><label class="label-table pull-right">Total Amount &nbsp;</label></th>         
                                     </tr>
                                 </thead>
-                                <tbody>
+                                 <tbody>
+                                <?php if($type=='1'){ ?>
+                              
+                                    <?php foreach($sales_goods AS $sg){ ?>
                                     <tr>
                                         <td>
                                             <center>
-                                                <input type="checkbox" class="form-control" style="width:25px">
+                                                <input type="checkbox" name="sales_id" value="<?php echo $sg['sales_id']; ?>" class="form-control" style="width:25px">
                                             </center>
                                         </td>
-                                        <td> &nbsp; October 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 1255525 &nbsp;</td>
+                                        <td> &nbsp; <?php echo date('F d, Y', strtotime($sg['dr_date'])); ?></td>
+                                        <td> &nbsp; <?php echo $sg['dr_no']; ?></td>
+                                        <td align="right">P <?php echo number_format($sg['total'],2); ?> &nbsp;</td>
                                     </tr>
+                                    <?php } ?>
+                                
+                                <?php } else if($type=='2') { ?>
+                                       <?php foreach($sales_services AS $ss){ ?>
                                     <tr>
                                         <td>
                                             <center>
-                                                <input type="checkbox" class="form-control" style="width:25px">
+                                                <input type="checkbox" name="sales_id" value="<?php echo $ss['sales_id']; ?>" class="form-control" style="width:25px">
                                             </center>
                                         </td>
-                                        <td> &nbsp; October 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 45455 &nbsp;</td>
+                                        <td> &nbsp; <?php echo date('F d, Y', strtotime($ss['dr_date'])); ?></td>
+                                        <td> &nbsp; <?php echo $ss['dr_no']; ?></td>
+                                        <td align="right">P <?php echo number_format($ss['total'],2); ?> &nbsp;</td>
                                     </tr>
+                                    <?php } ?>
+
+                                <?php } else if(empty($type)) { ?>
+                                     <?php foreach($sales_combined AS $sc){ ?>
                                     <tr>
                                         <td>
                                             <center>
-                                                <input type="checkbox" class="form-control" style="width:25px">
+                                                <input type="checkbox" name="sales_id" value="<?php echo $sc['sales_id']; ?>" class="form-control" style="width:25px">
                                             </center>
                                         </td>
-                                        <td> &nbsp; October 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 6777 &nbsp;</td>
+                                        <td> &nbsp; <?php echo date('F d, Y', strtotime($sc['dr_date'])); ?></td>
+                                        <td> &nbsp; <?php echo $sc['dr_no']; ?></td>
+                                        <td align="right">P <?php echo number_format($sc['total'],2); ?> &nbsp;</td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <center>
-                                                <input type="checkbox" class="form-control" style="width:25px">
-                                            </center>
-                                        </td>
-                                        <td> &nbsp; July 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 67775 &nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <center>
-                                                <input type="checkbox" class="form-control" style="width:25px">
-                                            </center>
-                                        </td>
-                                        <td> &nbsp; November 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 688885 &nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <center>
-                                                <input type="checkbox" class="form-control" style="width:25px">
-                                            </center>
-                                        </td>
-                                        <td> &nbsp; January 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 67556 &nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <center>
-                                                <input type="checkbox" class="form-control" style="width:25px">
-                                            </center>
-                                        </td>
-                                        <td> &nbsp; December 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 567765 &nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <center>
-                                                <input type="checkbox" class="form-control" style="width:25px">
-                                            </center>
-                                        </td>
-                                        <td> &nbsp; November 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 56777 &nbsp;</td>
-                                    </tr>
+                                <?php }  ?>
+
+                            <?php } ?>
                                 </tbody>
                             </table>
                             <br> 
                             <div class="row">
                                 <div class="col-lg-4"></div>
                                 <div class="col-lg-4">
-                                    <button onclick="pending_popup('<?php echo base_url(); ?>')" class="btn btn-gradient-success btn-md btn-block">Bill</button>
+                                    <input type='hidden' name='client_id' id='client_id' value='<?php echo $client; ?>'>
+                                    <input type='hidden' name='salestype' id='salestype' value='<?php echo $type; ?>'>
+                                    <input type='button' onclick="bill_pending('<?php echo base_url(); ?>')" class="btn btn-gradient-success btn-md btn-block" value='Bill'>
                                 </div>
                                 <div class="col-lg-4"></div>
                             </div>
                         </form>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

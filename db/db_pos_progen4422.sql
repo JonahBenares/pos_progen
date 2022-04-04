@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2022 at 02:13 PM
+-- Generation Time: Apr 04, 2022 at 03:53 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -29,10 +29,13 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `billing_details` (
 `billing_detail_id` int(11) NOT NULL,
   `billing_id` int(11) NOT NULL DEFAULT '0',
-  `dr_no` int(11) NOT NULL DEFAULT '0',
+  `sales_type` varchar(50) DEFAULT NULL,
+  `sales_id` int(11) NOT NULL DEFAULT '0',
+  `dr_no` varchar(50) DEFAULT NULL,
   `dr_date` varchar(20) DEFAULT NULL,
-  `total_amount` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `total_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `remaining_amount` decimal(10,2) NOT NULL DEFAULT '0.00'
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -42,13 +45,14 @@ CREATE TABLE IF NOT EXISTS `billing_details` (
 
 CREATE TABLE IF NOT EXISTS `billing_head` (
 `billing_id` int(11) NOT NULL,
-  `billing_no` int(11) NOT NULL DEFAULT '0',
+  `billing_no` varchar(50) DEFAULT NULL,
   `billing_date` varchar(20) DEFAULT NULL,
   `total_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
   `client_id` int(11) NOT NULL DEFAULT '0',
   `create_date` varchar(20) DEFAULT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '0=pending, 1=billed, 2=paid'
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -146,15 +150,16 @@ CREATE TABLE IF NOT EXISTS `client` (
   `buyer_name` varchar(100) DEFAULT NULL,
   `contact_person` varchar(100) DEFAULT NULL,
   `contact_no` varchar(50) DEFAULT NULL,
-  `tin` varchar(50) DEFAULT NULL
+  `tin` varchar(50) DEFAULT NULL,
+  `wht` int(11) NOT NULL DEFAULT '0' COMMENT '1=YES, 0=No'
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `client`
 --
 
-INSERT INTO `client` (`client_id`, `address`, `buyer_name`, `contact_person`, `contact_no`, `tin`) VALUES
-(1, 'Purok San Jose, Brgy. Calumangan, Bago City, Negros Occidental, 6101', 'Central Negros Power Reliability, Inc.', 'Ms. Julyn May', '(034)4351932', '1234');
+INSERT INTO `client` (`client_id`, `address`, `buyer_name`, `contact_person`, `contact_no`, `tin`, `wht`) VALUES
+(1, 'Purok San Jose, Brgy. Calumangan, Bago City, Negros Occidental, 6101', 'Central Negros Power Reliability, Inc.', 'Ms. Julyn May', '(034)4351932', '1234', 1);
 
 -- --------------------------------------------------------
 
@@ -168,15 +173,16 @@ CREATE TABLE IF NOT EXISTS `damage_details` (
   `in_id` int(11) NOT NULL DEFAULT '0',
   `damage_qty` decimal(10,2) NOT NULL DEFAULT '0.00',
   `remarks` text,
-  `repair` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `repaired` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `damage_details`
 --
 
-INSERT INTO `damage_details` (`damage_det_id`, `damage_id`, `in_id`, `damage_qty`, `remarks`, `repair`) VALUES
-(1, 1, 2, '3.00', 'sfsdfsdf', 0);
+INSERT INTO `damage_details` (`damage_det_id`, `damage_id`, `in_id`, `damage_qty`, `remarks`, `repaired`) VALUES
+(1, 1, 1, '1.00', '', 0),
+(2, 2, 1, '1.00', '', 0);
 
 -- --------------------------------------------------------
 
@@ -191,14 +197,15 @@ CREATE TABLE IF NOT EXISTS `damage_head` (
   `item_id` int(11) NOT NULL DEFAULT '0',
   `create_date` varchar(20) DEFAULT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `damage_head`
 --
 
 INSERT INTO `damage_head` (`damage_id`, `damage_date`, `remarks`, `item_id`, `create_date`, `user_id`) VALUES
-(1, '2022-03-16', '456456', 2, '2022-03-16 21:10:32', 1);
+(1, '2022-04-02', 'testing damage', 1, '2022-04-02 13:07:29', 1),
+(2, '2022-04-02', 'gfhfgh', 1, '2022-04-02 13:08:36', 1);
 
 -- --------------------------------------------------------
 
@@ -253,7 +260,7 @@ INSERT INTO `department` (`department_id`, `department_name`) VALUES
 CREATE TABLE IF NOT EXISTS `employees` (
 `employee_id` int(11) NOT NULL,
   `employee_name` varchar(255) DEFAULT NULL,
-  `department` varchar(255) DEFAULT NULL,
+  `department_id` int(11) NOT NULL,
   `position` varchar(255) DEFAULT NULL,
   `contact_no` varchar(255) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL
@@ -263,111 +270,111 @@ CREATE TABLE IF NOT EXISTS `employees` (
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`employee_id`, `employee_name`, `department`, `position`, `contact_no`, `email`) VALUES
-(1, 'Ma. Milagros Arana', 'Management', 'General Manager', '0917-5924080', NULL),
-(2, 'Rhea Arsenio', 'Trading', 'Trader', '0920-6398529', NULL),
-(3, 'Jonah Faye Benares', 'IT Department', 'Software Development Supervisor', '0932-4515369', NULL),
-(4, 'Kervic Biñas', 'Purchasing', 'Procurement Assistant', '0930-2357794', NULL),
-(5, 'Joemarie Calibjo', 'Admin', 'Service Vehicle Driver', '0950-2900419', NULL),
-(6, 'Maylen Cabaylo', 'Purchasing', 'Purchasing Officer', '09099491894/09234597487', NULL),
-(7, 'Rey  Carbaquil', 'Admin', 'Service Vehicle Driver', '0912 5905319', NULL),
-(8, 'Cristy Cesar', 'Accounting', 'Accounting Associate', '0916-3961389', NULL),
-(9, 'Gretchen Danoy', 'Accounting', 'Accounting Supervisor', '0922-4386979', NULL),
-(10, 'Merry Michelle Dato', 'Warehouse Department', 'Projects and Assets Management', '0920-5205418', 'merrydioso.epiic2020@gmail.com'),
-(11, 'Joemar De Los Santos', 'Trading', 'Lead Trader', '0923-4187139', NULL),
-(12, 'Imelda Espera', 'Accounting / Finance', 'A/P & Credit Supervisor', '0918-6760758', NULL),
-(13, 'Elaisa Jane Febrio', 'HR/Admin', 'HR Assistant', '0917-9941917', NULL),
-(14, 'Jason Flor', 'IT Department', 'Software Development Assistant', '0939-6488141', NULL),
-(15, 'Zara Joy Gabales', 'EMG-Billing', 'Billing Assistant', '0939-1159164', NULL),
-(16, 'Relsie Gallo', '0', '0', '0', NULL),
-(17, 'Celina Marie Grabillo', 'EMG-Billing', 'Billing & Settlement Officer', '0907-4494479', NULL),
-(18, 'Nazario Shyde Jr. Ibañez', 'Trading', 'Trader', '0922-3271576', NULL),
-(19, 'Gebby Jalandoni', 'Accounting', 'Accounting Assistant', '0909-9579077', NULL),
-(20, 'Caesariane Jo', 'Trading', 'Trader', '0927-8212228', NULL),
-(21, 'Lloyd Jamero', 'IT Department', 'IT Specialist', '0908-7636105', NULL),
-(22, 'Annavi Lacambra', 'Accounting', 'Corporate Accountant', '0932-3649978', NULL),
-(23, 'Ma. Erika Oquiana', 'Trading', 'Trader', '0912-4746470/09773640452', NULL),
-(24, 'Charmaine Rei Plaza', 'Trading', 'Energy Market Analyst', '0948-9285185', NULL),
-(25, 'Cresilda Mae Ramirez', 'Accounting', 'Internal Auditor', '0977-8215247', NULL),
-(26, 'Melanie Rocha', 'Admin', 'Utility', '0910-4526879', NULL),
-(27, 'Zyndyryn Rosales', 'Finance', 'Finance Supervisor', '0932-8737196', NULL),
-(28, 'Genie Saludo', 'HR/Admin', 'HR Assistant', '09272257127/09454569188', NULL),
-(29, 'Daisy Jane Sanchez', 'Trading', 'EMG Manager / WESM Compliance Officer', '0932-8773754', NULL),
-(30, 'Rosemarie Sarroza', 'Trading', 'Trader', '0917-9512950', NULL),
-(31, 'Stephine David Severino', 'IT Department', 'Software Development Assistant', '0977-7106914', NULL),
-(32, 'Henry Sia', 'Engineering Dept.', 'Grid Integration Manager', '9177996939', NULL),
-(33, 'Syndey Sinoro', 'HR/Admin', 'HR Supervisor', '0923-2802343', NULL),
-(34, 'Marianita Tabilla', 'Finance', 'Finance Assistant', '0917-7793318', NULL),
-(35, 'Krystal Gayle Tagalog', 'HR/Admin', 'Payroll Assistant', '0946-3348559', NULL),
-(36, 'Hennelen Tanan', 'IT Department', 'IT Encoder ', '0945-5743745', NULL),
-(37, 'Teresa Tan', 'Contracts & Compliance', 'Contracts & Compliance Asst.', '0923-6828813', NULL),
-(38, 'Dary Mae Villas', 'Trading', 'Trader', '0930-7871989', NULL),
-(39, 'Marlon Adorio', 'Electrical & Instrumentation', 'E & IC Technician', '0912-5896720', NULL),
-(40, 'John Ezequiel Alejandro', 'Operations', 'Auxiliary Operator ', '0916-5321090', NULL),
-(41, 'Carlito Alevio', 'Mechanical Maintenance', 'Plant Mechanic', '0926-8161359', NULL),
-(42, 'Regina Alova', 'Trading', 'Operations Analyst', '09235607021 / 09485342153', NULL),
-(43, 'Rebecca Alunan ', 'Trading', 'Performance Monitoring Supervisor', '0906-3425996', NULL),
-(44, 'Fleur de Liz Ambong', 'Fuel Management', 'Fuel Management Asst.', '0909-4620177', NULL),
-(45, 'Beverly  Ampog', 'Operations', 'Operations Analyst', '0995-3634548', NULL),
-(46, 'Genaro Angulo', 'Electrical & Instrumentation', 'Electrical Supervisor', '09196745918', NULL),
-(47, 'Rey Argawanon', 'Electrical & Instrumentation', 'Power Delivery & Technical Manager', '0917-8653566', NULL),
-(48, 'Alona Arroyo', 'Operations', 'Operations Planner', '0919-3725318', NULL),
-(49, 'Joemillan Baculio', 'Operations', 'Auxiliary Operator', '0906-8802652', NULL),
-(50, 'Rashelle Joy Bating', 'Special Projects', 'Projects Coordinator Assistant', '0910-1980348', NULL),
-(51, 'Gener Bawar', 'Machine Shop and Reconditioning', 'Machine Shop & Reconditioning Supervisor', '0920-2128998', NULL),
-(52, 'Ruel Beato', 'Mechanical Maintenance', 'Plant Mechanic', '0939-2369794', NULL),
-(53, 'Mary Grace Bugna', 'Progen Sales', 'Commercial Asst. & Parts Analyst', '0915-2631219', 'marygracefortaleza.cenpri@gmail.com'),
-(54, 'Vency Cababat', 'Electrical & Instrumentation', ' E&IC Technician', '09267932911 / 09265638526', NULL),
-(55, 'Rusty Canama', 'Mechanical Maintenance', 'Plant Mechanic', '0949-1547358', NULL),
-(56, 'Exequil Corino', 'Operations', 'Engine Room Operator', '0920-6995646', NULL),
-(57, 'Juanito Dagupan', 'Operations', 'Operation Shift Supervisor', '0918-6438993', NULL),
-(58, 'Julyn May Divinagracia', 'HR/Admin', 'Admin Assistant', '0930-1553296/0916-6984461', NULL),
-(59, 'Melfa Duis', 'Purchasing', 'Purchasing Assistant', '0927-4597157', NULL),
-(60, 'Jerson Factolerin', 'HR/Admin', 'Utility', '0932-5420679', NULL),
-(61, 'Julius Fernandez', 'Operations', 'Auxiliary Operator', '0918-2685507', NULL),
-(62, 'Luisito Fortuno', 'Operations', 'Auxiliary Operator', '0908-3317408', NULL),
-(63, 'Donna Gellada', 'Warehouse', 'Parts Inventory  Assistant', '0916-2779697', 'donna7.cenpri@gmail.com'),
-(64, 'Felipe, III Globert', 'Warehouse', 'Warehouse Assistant', '0948-7024664', NULL),
-(65, 'Mikko Golvio', 'Electrical & Instrumentation', 'E&IC Technician', '0930-9363013', NULL),
-(66, 'Eric Jabiniar', 'Management', 'Plant Director', '0917-8607244', NULL),
-(67, 'Jushkyle Jambongana', 'IT Department', 'IT Assistant', '0912-3867454', NULL),
-(68, 'Bobby  Jardiniano', 'HR/Admin', 'Service Vehicle Driver', '0933-3388374', NULL),
-(69, 'Stephen Jardinico', 'Warehouse', 'Warehouse Assistant', '0912 922 1944', NULL),
-(70, 'Joey Labanon', 'Operations', 'Auxiliary Operator Trainee', '0910-5787327', NULL),
-(71, 'Roan Renz Liao', 'Warehouse', 'Parts Engineer', '0925-4887286', NULL),
-(72, 'Gino Lovico', 'Machine Shop and Reconditioning', 'Foreman (Machine Shop & Recon)', '0999-8143307', NULL),
-(73, 'Ricky Madeja', 'Admin', 'Safety Officer', '0918-6268028', NULL),
-(74, 'Danilo Maglinte', 'Operations', 'Engine Room Operator', '0935-4046632', NULL),
-(75, 'Alex Manilla Jr.', 'Fuel Management', 'Fuel Tender', '0999-7353561', ''),
-(76, 'Concordio Matuod', 'Electrical Department', 'Project Consultant', '0915-326-1829', NULL),
-(77, 'Genielyne Mondejar', 'Admin', 'Pollution Control Officer  ', '0912-5356230', NULL),
-(78, 'Francis Montero', 'Mechanical Maintenance', 'Plant Mechanic', '0918-2063492', NULL),
-(79, 'Andro Ortega', 'Operations', 'Shift Supervisor Trainee', '0932-2400663', NULL),
-(80, 'Joselito Panes', 'Mechanical Maintenance', 'Plant Mechanic', '0929-2629467', NULL),
-(81, 'Nonito Pocong', 'Operations', 'Control Room Operator', '0933-6159620', NULL),
-(82, 'Mario Dante Purisima', 'Operations', 'Shift Supervisor Trainee', '0927-1687549', NULL),
-(83, 'Romeo Quiocson Jr.', 'Special Projects', 'Technical Assistant', '0927-6537369', NULL),
-(84, 'Lawrence Vincent Roiles', 'Electrical & Instrumentation', 'E&IC Technician', '0936-6568781', NULL),
-(85, 'Roy Sabit', 'Operations', 'Control Room Operator', '0947-9916563', NULL),
-(86, 'Robert Sabando', 'Special Projects', 'Project Consultant', '0927-741-1950', NULL),
-(87, 'Godfrey Stephen Samano', 'Operations', 'O&M Superintendent', '0908-6094932', NULL),
-(88, 'Kennah Sasamoto', 'Testing Group', 'Test  Engineer', '0977-7842536', NULL),
-(89, 'Iris Sixto', 'Admin', 'Site Facilities Supervisor', '0948-2732052', NULL),
-(90, 'Kelwin Sarcauga', 'Operations', 'Engine Room Operator Trainee', '0932-1253131', NULL),
-(91, 'Ranie Tabanao', '0', '0', '0', NULL),
-(92, 'Alexander Tagarda', 'Operations', 'Control Room Operator', '0936-2138490', NULL),
-(93, 'Ariel Tandoy', 'Warehouse', 'Driver', '0915-9555253', NULL),
-(94, 'Ryan Tignero', 'Operations', 'Shift Supervisor Trainee', '0927-2885847', NULL),
-(95, 'Elmer Torrijos', 'Mechanical Maintenance', 'Mechanical Maintenance Supervisor / Equipment & Parts Engr.', '0999 677 8341', NULL),
-(96, 'Democrito Urnopia', 'Mechanical Maintenance', 'Plant Mechanic', '0930-8736393', NULL),
-(97, 'Jobelle Villarias', 'Admin', 'Company Nurse', '0917-1595665', NULL),
-(98, 'Melinda Aquino', 'Accounting', 'Accounting Assistant/ Bookkeeper', '0949-3005-813', NULL),
-(99, 'Irish Dawn Torres', 'Admin', 'Site Admin Officer', '0932-8657926', NULL),
-(100, 'Vincent Jed Depasupil', 'Operations', 'Auxiliary Operator', '', NULL),
-(101, 'William Soltes', '', '', '', NULL),
-(102, 'Jerry Matucan', 'Progen Warehouse', 'Tool Keeper', '09461380576', ''),
-(103, 'Aileen Tamaño', 'Progen Warehouse', 'Warehouse Supervisor', '', ''),
-(104, 'Edwin Bejec', '25', 'Turbo Charger Repair Supervisor', '', '');
+INSERT INTO `employees` (`employee_id`, `employee_name`, `department_id`, `position`, `contact_no`, `email`) VALUES
+(1, 'Ma. Milagros Arana', 0, 'General Manager', '0917-5924080', NULL),
+(2, 'Rhea Arsenio', 0, 'Trader', '0920-6398529', NULL),
+(3, 'Jonah Faye Benares', 0, 'Software Development Supervisor', '0932-4515369', NULL),
+(4, 'Kervic Biñas', 0, 'Procurement Assistant', '0930-2357794', NULL),
+(5, 'Joemarie Calibjo', 0, 'Service Vehicle Driver', '0950-2900419', NULL),
+(6, 'Maylen Cabaylo', 0, 'Purchasing Officer', '09099491894/09234597487', NULL),
+(7, 'Rey  Carbaquil', 0, 'Service Vehicle Driver', '0912 5905319', NULL),
+(8, 'Cristy Cesar', 0, 'Accounting Associate', '0916-3961389', NULL),
+(9, 'Gretchen Danoy', 0, 'Accounting Supervisor', '0922-4386979', NULL),
+(10, 'Merry Michelle Dato', 0, 'Projects and Assets Management', '0920-5205418', 'merrydioso.epiic2020@gmail.com'),
+(11, 'Joemar De Los Santos', 0, 'Lead Trader', '0923-4187139', NULL),
+(12, 'Imelda Espera', 0, 'A/P & Credit Supervisor', '0918-6760758', NULL),
+(13, 'Elaisa Jane Febrio', 0, 'HR Assistant', '0917-9941917', NULL),
+(14, 'Jason Flor', 0, 'Software Development Assistant', '0939-6488141', NULL),
+(15, 'Zara Joy Gabales', 0, 'Billing Assistant', '0939-1159164', NULL),
+(16, 'Relsie Gallo', 0, '0', '0', NULL),
+(17, 'Celina Marie Grabillo', 0, 'Billing & Settlement Officer', '0907-4494479', NULL),
+(18, 'Nazario Shyde Jr. Ibañez', 0, 'Trader', '0922-3271576', NULL),
+(19, 'Gebby Jalandoni', 0, 'Accounting Assistant', '0909-9579077', NULL),
+(20, 'Caesariane Jo', 0, 'Trader', '0927-8212228', NULL),
+(21, 'Lloyd Jamero', 0, 'IT Specialist', '0908-7636105', NULL),
+(22, 'Annavi Lacambra', 0, 'Corporate Accountant', '0932-3649978', NULL),
+(23, 'Ma. Erika Oquiana', 0, 'Trader', '0912-4746470/09773640452', NULL),
+(24, 'Charmaine Rei Plaza', 0, 'Energy Market Analyst', '0948-9285185', NULL),
+(25, 'Cresilda Mae Ramirez', 0, 'Internal Auditor', '0977-8215247', NULL),
+(26, 'Melanie Rocha', 0, 'Utility', '0910-4526879', NULL),
+(27, 'Zyndyryn Rosales', 0, 'Finance Supervisor', '0932-8737196', NULL),
+(28, 'Genie Saludo', 0, 'HR Assistant', '09272257127/09454569188', NULL),
+(29, 'Daisy Jane Sanchez', 0, 'EMG Manager / WESM Compliance Officer', '0932-8773754', NULL),
+(30, 'Rosemarie Sarroza', 0, 'Trader', '0917-9512950', NULL),
+(31, 'Stephine David Severino', 0, 'Software Development Assistant', '0977-7106914', NULL),
+(32, 'Henry Sia', 0, 'Grid Integration Manager', '9177996939', NULL),
+(33, 'Syndey Sinoro', 0, 'HR Supervisor', '0923-2802343', NULL),
+(34, 'Marianita Tabilla', 0, 'Finance Assistant', '0917-7793318', NULL),
+(35, 'Krystal Gayle Tagalog', 0, 'Payroll Assistant', '0946-3348559', NULL),
+(36, 'Hennelen Tanan', 0, 'IT Encoder ', '0945-5743745', NULL),
+(37, 'Teresa Tan', 0, 'Contracts & Compliance Asst.', '0923-6828813', NULL),
+(38, 'Dary Mae Villas', 0, 'Trader', '0930-7871989', NULL),
+(39, 'Marlon Adorio', 0, 'E & IC Technician', '0912-5896720', NULL),
+(40, 'John Ezequiel Alejandro', 0, 'Auxiliary Operator ', '0916-5321090', NULL),
+(41, 'Carlito Alevio', 0, 'Plant Mechanic', '0926-8161359', NULL),
+(42, 'Regina Alova', 0, 'Operations Analyst', '09235607021 / 09485342153', NULL),
+(43, 'Rebecca Alunan ', 0, 'Performance Monitoring Supervisor', '0906-3425996', NULL),
+(44, 'Fleur de Liz Ambong', 0, 'Fuel Management Asst.', '0909-4620177', NULL),
+(45, 'Beverly  Ampog', 0, 'Operations Analyst', '0995-3634548', NULL),
+(46, 'Genaro Angulo', 0, 'Electrical Supervisor', '09196745918', NULL),
+(47, 'Rey Argawanon', 0, 'Power Delivery & Technical Manager', '0917-8653566', NULL),
+(48, 'Alona Arroyo', 0, 'Operations Planner', '0919-3725318', NULL),
+(49, 'Joemillan Baculio', 0, 'Auxiliary Operator', '0906-8802652', NULL),
+(50, 'Rashelle Joy Bating', 0, 'Projects Coordinator Assistant', '0910-1980348', NULL),
+(51, 'Gener Bawar', 0, 'Machine Shop & Reconditioning Supervisor', '0920-2128998', NULL),
+(52, 'Ruel Beato', 0, 'Plant Mechanic', '0939-2369794', NULL),
+(53, 'Mary Grace Bugna', 0, 'Commercial Asst. & Parts Analyst', '0915-2631219', 'marygracefortaleza.cenpri@gmail.com'),
+(54, 'Vency Cababat', 0, ' E&IC Technician', '09267932911 / 09265638526', NULL),
+(55, 'Rusty Canama', 0, 'Plant Mechanic', '0949-1547358', NULL),
+(56, 'Exequil Corino', 0, 'Engine Room Operator', '0920-6995646', NULL),
+(57, 'Juanito Dagupan', 0, 'Operation Shift Supervisor', '0918-6438993', NULL),
+(58, 'Julyn May Divinagracia', 0, 'Admin Assistant', '0930-1553296/0916-6984461', NULL),
+(59, 'Melfa Duis', 0, 'Purchasing Assistant', '0927-4597157', NULL),
+(60, 'Jerson Factolerin', 0, 'Utility', '0932-5420679', NULL),
+(61, 'Julius Fernandez', 0, 'Auxiliary Operator', '0918-2685507', NULL),
+(62, 'Luisito Fortuno', 0, 'Auxiliary Operator', '0908-3317408', NULL),
+(63, 'Donna Gellada', 0, 'Parts Inventory  Assistant', '0916-2779697', 'donna7.cenpri@gmail.com'),
+(64, 'Felipe, III Globert', 0, 'Warehouse Assistant', '0948-7024664', NULL),
+(65, 'Mikko Golvio', 0, 'E&IC Technician', '0930-9363013', NULL),
+(66, 'Eric Jabiniar', 0, 'Plant Director', '0917-8607244', NULL),
+(67, 'Jushkyle Jambongana', 0, 'IT Assistant', '0912-3867454', NULL),
+(68, 'Bobby  Jardiniano', 0, 'Service Vehicle Driver', '0933-3388374', NULL),
+(69, 'Stephen Jardinico', 0, 'Warehouse Assistant', '0912 922 1944', NULL),
+(70, 'Joey Labanon', 0, 'Auxiliary Operator Trainee', '0910-5787327', NULL),
+(71, 'Roan Renz Liao', 0, 'Parts Engineer', '0925-4887286', NULL),
+(72, 'Gino Lovico', 0, 'Foreman (Machine Shop & Recon)', '0999-8143307', NULL),
+(73, 'Ricky Madeja', 0, 'Safety Officer', '0918-6268028', NULL),
+(74, 'Danilo Maglinte', 0, 'Engine Room Operator', '0935-4046632', NULL),
+(75, 'Alex Manilla Jr.', 0, 'Fuel Tender', '0999-7353561', ''),
+(76, 'Concordio Matuod', 0, 'Project Consultant', '0915-326-1829', NULL),
+(77, 'Genielyne Mondejar', 0, 'Pollution Control Officer  ', '0912-5356230', NULL),
+(78, 'Francis Montero', 0, 'Plant Mechanic', '0918-2063492', NULL),
+(79, 'Andro Ortega', 0, 'Shift Supervisor Trainee', '0932-2400663', NULL),
+(80, 'Joselito Panes', 0, 'Plant Mechanic', '0929-2629467', NULL),
+(81, 'Nonito Pocong', 0, 'Control Room Operator', '0933-6159620', NULL),
+(82, 'Mario Dante Purisima', 0, 'Shift Supervisor Trainee', '0927-1687549', NULL),
+(83, 'Romeo Quiocson Jr.', 0, 'Technical Assistant', '0927-6537369', NULL),
+(84, 'Lawrence Vincent Roiles', 0, 'E&IC Technician', '0936-6568781', NULL),
+(85, 'Roy Sabit', 0, 'Control Room Operator', '0947-9916563', NULL),
+(86, 'Robert Sabando', 0, 'Project Consultant', '0927-741-1950', NULL),
+(87, 'Godfrey Stephen Samano', 0, 'O&M Superintendent', '0908-6094932', NULL),
+(88, 'Kennah Sasamoto', 0, 'Test  Engineer', '0977-7842536', NULL),
+(89, 'Iris Sixto', 0, 'Site Facilities Supervisor', '0948-2732052', NULL),
+(90, 'Kelwin Sarcauga', 0, 'Engine Room Operator Trainee', '0932-1253131', NULL),
+(91, 'Ranie Tabanao', 0, '0', '0', NULL),
+(92, 'Alexander Tagarda', 0, 'Control Room Operator', '0936-2138490', NULL),
+(93, 'Ariel Tandoy', 0, 'Driver', '0915-9555253', NULL),
+(94, 'Ryan Tignero', 0, 'Shift Supervisor Trainee', '0927-2885847', NULL),
+(95, 'Elmer Torrijos', 0, 'Mechanical Maintenance Supervisor / Equipment & Parts Engr.', '0999 677 8341', NULL),
+(96, 'Democrito Urnopia', 0, 'Plant Mechanic', '0930-8736393', NULL),
+(97, 'Jobelle Villarias', 0, 'Company Nurse', '0917-1595665', NULL),
+(98, 'Melinda Aquino', 0, 'Accounting Assistant/ Bookkeeper', '0949-3005-813', NULL),
+(99, 'Irish Dawn Torres', 0, 'Site Admin Officer', '0932-8657926', NULL),
+(100, 'Vincent Jed Depasupil', 0, 'Auxiliary Operator', '', NULL),
+(101, 'William Soltes', 0, '', '', NULL),
+(102, 'Jerry Matucan', 0, 'Tool Keeper', '09461380576', ''),
+(103, 'Aileen Tamaño', 0, 'Warehouse Supervisor', '', ''),
+(104, 'Edwin Bejec', 25, 'Turbo Charger Repair Supervisor', '', '');
 
 -- --------------------------------------------------------
 
@@ -378,10 +385,17 @@ INSERT INTO `employees` (`employee_id`, `employee_name`, `department`, `position
 CREATE TABLE IF NOT EXISTS `equipment` (
 `equipment_id` int(11) NOT NULL,
   `equipment_name` varchar(250) NOT NULL,
-  `acquisitoin_cost` decimal(10,2) NOT NULL,
+  `acquisition_cost` decimal(10,2) NOT NULL,
   `daily_rate` decimal(10,2) NOT NULL,
   `hourly_rate` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `equipment`
+--
+
+INSERT INTO `equipment` (`equipment_id`, `equipment_name`, `acquisition_cost`, `daily_rate`, `hourly_rate`) VALUES
+(1, 'equipment 1', '500000.00', '500.00', '100.00');
 
 -- --------------------------------------------------------
 
@@ -405,16 +419,17 @@ CREATE TABLE IF NOT EXISTS `fifo_in` (
   `item_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
   `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
   `remaining_qty` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `fifo_in`
 --
 
 INSERT INTO `fifo_in` (`in_id`, `receive_id`, `rd_id`, `ri_id`, `receive_date`, `pr_no`, `item_id`, `supplier_id`, `brand`, `catalog_no`, `serial_no`, `expiry_date`, `item_cost`, `quantity`, `remaining_qty`) VALUES
-(1, 1, 1, 1, '2022-03-09', '345345345', 1, 4, '345345', '', '345', '', '25000.00', '10.00', '4.00'),
-(2, 1, 2, 2, '2022-03-09', '5675678', 2, 5, '', '567567', '5346456', '', '800.00', '5.00', '2.00'),
-(3, 2, 3, 3, '2022-03-17', '567567', 1, 5, '567567', '567567', '567567', '', '36000.00', '5.00', '5.00');
+(1, 1, 1, 1, '2022-03-25', '456456', 1, 6, '546', '47567', '456546', '', '50000.00', '3.00', '0.00'),
+(2, 1, 1, 2, '2022-03-25', '456456', 2, 41, '546456', '456', '456456', '', '2500.00', '5.00', '1.00'),
+(3, 2, 2, 3, '2022-03-28', '567', 1, 39, '567567', '567', '547567', '', '65000.00', '10.00', '6.00'),
+(4, 2, 3, 4, '2022-03-28', '567568', 1, 6, '56756', '567', '7567', '2022-02-15', '45000.00', '5.00', '5.00');
 
 -- --------------------------------------------------------
 
@@ -432,15 +447,20 @@ CREATE TABLE IF NOT EXISTS `fifo_out` (
   `sales_serv_items_id` int(11) NOT NULL DEFAULT '0',
   `damage_id` int(11) NOT NULL DEFAULT '0',
   `quantity` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `fifo_out`
 --
 
 INSERT INTO `fifo_out` (`out_id`, `in_id`, `item_id`, `transaction_type`, `sales_id`, `sales_details_id`, `sales_serv_items_id`, `damage_id`, `quantity`) VALUES
-(1, 1, 1, 'Sales Goods', 1, 1, 0, 0, '6.00'),
-(2, 2, 2, 'Damage', 0, 0, 0, 1, '3.00');
+(3, 1, 1, 'Sales Goods', 1, 1, 0, 0, '3.00'),
+(4, 3, 1, 'Sales Goods', 1, 1, 0, 0, '3.00'),
+(5, 1, 1, 'Damage', 0, 0, 0, 1, '1.00'),
+(6, 1, 1, 'Damage', 0, 0, 0, 2, '1.00'),
+(7, 1, 1, 'Sales Services', 1, 0, 1, 0, '1.00'),
+(8, 3, 1, 'Sales Services', 1, 0, 1, 0, '1.00'),
+(9, 2, 2, 'Sales Goods', 2, 2, 0, 0, '4.00');
 
 -- --------------------------------------------------------
 
@@ -941,7 +961,14 @@ CREATE TABLE IF NOT EXISTS `manpower` (
   `employee_name` varchar(150) DEFAULT NULL,
   `position` varchar(150) DEFAULT NULL,
   `daily_rate` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `manpower`
+--
+
+INSERT INTO `manpower` (`manpower_id`, `employee_name`, `position`, `daily_rate`) VALUES
+(2, 'Jonah Benares', 'IT', '36.00');
 
 -- --------------------------------------------------------
 
@@ -999,7 +1026,7 @@ INSERT INTO `pn_series` (`pn_id`, `subcat_prefix`, `series`) VALUES
 CREATE TABLE IF NOT EXISTS `purpose` (
 `purpose_id` int(11) NOT NULL,
   `purpose_desc` text
-) ENGINE=InnoDB AUTO_INCREMENT=196 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purpose`
@@ -1198,7 +1225,8 @@ INSERT INTO `purpose` (`purpose_id`, `purpose_desc`) VALUES
 (192, 'Consumables of Cleaning and Clearing'),
 (193, 'Replacement of Allocated Corrugated Sheets for Engine Block Shed'),
 (194, 'Official Use'),
-(195, '');
+(195, ''),
+(196, 'rtyfhfghfgh');
 
 -- --------------------------------------------------------
 
@@ -1617,9 +1645,9 @@ CREATE TABLE IF NOT EXISTS `receive_details` (
 --
 
 INSERT INTO `receive_details` (`rd_id`, `receive_id`, `pr_no`, `department_id`, `purpose_id`, `inspected_by`) VALUES
-(1, 1, '345345345', 18, 14, 13),
-(2, 1, '5675678', 17, 14, 8),
-(3, 2, '567567', 23, 13, 12);
+(1, 1, '456456', 17, 16, 64),
+(2, 2, '567', 18, 16, 13),
+(3, 2, '567568', 14, 13, 13);
 
 -- --------------------------------------------------------
 
@@ -1650,8 +1678,8 @@ CREATE TABLE IF NOT EXISTS `receive_head` (
 --
 
 INSERT INTO `receive_head` (`receive_id`, `mrecf_no`, `create_date`, `receive_date`, `dr_no`, `po_no`, `si_no`, `user_id`, `pcf`, `saved`, `delivered_by`, `received_by`, `acknowledged_by`, `noted_by`, `overall_remarks`) VALUES
-(1, 'MRIF-2022-03-0001', '2022-03-16 21:05:16', '2022-03-09', '43563466', '435345', '345345', 1, 1, 1, NULL, 0, 0, 0, 'fdgdgdfg'),
-(2, 'MRIF-2022-03-0002', '2022-03-16 21:06:46', '2022-03-17', '567567', '567567', '567567', 1, 1, 1, NULL, 0, 0, 0, '');
+(1, 'MRIF-2022-03-0001', '2022-03-30 22:02:56', '2022-03-25', '345345', '45645', '6456', 1, 1, 1, NULL, 0, 0, 0, 'dgfdg'),
+(2, 'MRIF-2022-03-0002', '2022-03-30 22:04:14', '2022-03-28', '57567', '567', '567', 1, 1, 1, NULL, 0, 0, 0, '567');
 
 -- --------------------------------------------------------
 
@@ -1674,16 +1702,17 @@ CREATE TABLE IF NOT EXISTS `receive_items` (
   `local_mnl` int(11) NOT NULL DEFAULT '0',
   `shipping_fee` decimal(10,2) NOT NULL DEFAULT '0.00',
   `expiration_date` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `receive_items`
 --
 
 INSERT INTO `receive_items` (`ri_id`, `rd_id`, `receive_id`, `supplier_id`, `item_id`, `brand`, `catalog_no`, `serial_no`, `item_cost`, `expected_qty`, `received_qty`, `local_mnl`, `shipping_fee`, `expiration_date`) VALUES
-(1, 1, 1, 4, 1, '345345', '', '345', '25000.00', '10.00', '10.00', 1, '0.00', ''),
-(2, 2, 1, 5, 2, '', '567567', '5346456', '800.00', '5.00', '5.00', 1, '0.00', ''),
-(3, 3, 2, 5, 1, '567567', '567567', '567567', '36000.00', '5.00', '5.00', 1, '0.00', '');
+(1, 1, 1, 6, 1, '546', '47567', '456546', '50000.00', '3.00', '3.00', 1, '0.00', ''),
+(2, 1, 1, 41, 2, '546456', '456', '456456', '2500.00', '5.00', '5.00', 1, '0.00', ''),
+(3, 2, 2, 39, 1, '567567', '567', '547567', '65000.00', '10.00', '10.00', 1, '0.00', ''),
+(4, 3, 2, 6, 1, '56756', '567', '7567', '45000.00', '5.00', '5.00', 1, '0.00', '2022-02-15');
 
 -- --------------------------------------------------------
 
@@ -1692,9 +1721,10 @@ INSERT INTO `receive_items` (`ri_id`, `rd_id`, `receive_id`, `supplier_id`, `ite
 --
 
 CREATE TABLE IF NOT EXISTS `repair_details` (
-  `repair_id` int(11) NOT NULL,
+`repair_id` int(11) NOT NULL,
   `damage_det_id` int(11) NOT NULL DEFAULT '0',
   `in_id` int(11) NOT NULL DEFAULT '0',
+  `item_id` int(11) NOT NULL DEFAULT '0',
   `repair_date` varchar(20) DEFAULT NULL,
   `jo_no` varchar(30) DEFAULT NULL,
   `assessment` int(11) NOT NULL DEFAULT '0' COMMENT '1=repair, 2=beyong repair',
@@ -1707,14 +1737,15 @@ CREATE TABLE IF NOT EXISTS `repair_details` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `saved` int(11) NOT NULL DEFAULT '0',
   `unsaved` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `repair_details`
 --
 
-INSERT INTO `repair_details` (`repair_id`, `damage_det_id`, `in_id`, `repair_date`, `jo_no`, `assessment`, `quantity`, `repaired_by`, `repair_price`, `received_by`, `remarks`, `create_date`, `user_id`, `saved`, `unsaved`) VALUES
-(0, 1, 2, '2022-03-30', '4567567567', 2, '1.00', '456456', '2000.00', 1, 'rtyrty', '2022-03-16 21:11:42', 1, 1, 0);
+INSERT INTO `repair_details` (`repair_id`, `damage_det_id`, `in_id`, `item_id`, `repair_date`, `jo_no`, `assessment`, `quantity`, `repaired_by`, `repair_price`, `received_by`, `remarks`, `create_date`, `user_id`, `saved`, `unsaved`) VALUES
+(1, 1, 1, 1, '2022-04-03', '54567', 1, '1.00', 'dfgdfg', '54645.00', 2, 'fghfghgjhd', '2022-04-02 13:09:11', 1, 1, 0),
+(2, 2, 1, 1, '2022-04-15', '547hg456', 2, '1.00', 'ghjghj', '453.00', 2, 'gfghfh', '2022-04-02 13:09:37', 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1725,11 +1756,18 @@ INSERT INTO `repair_details` (`repair_id`, `damage_det_id`, `in_id`, `repair_dat
 CREATE TABLE IF NOT EXISTS `return_details` (
 `return_details_id` int(11) NOT NULL,
   `return_id` int(11) NOT NULL DEFAULT '0',
-  `ri_id` int(11) NOT NULL DEFAULT '0',
+  `item_id` int(11) NOT NULL DEFAULT '0',
   `in_id` int(11) NOT NULL DEFAULT '0',
   `return_qty` decimal(10,2) NOT NULL DEFAULT '0.00',
   `remarks` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `return_details`
+--
+
+INSERT INTO `return_details` (`return_details_id`, `return_id`, `item_id`, `in_id`, `return_qty`, `remarks`) VALUES
+(1, 1, 1, 1, '2.00', 'dsfdfgdfg');
 
 -- --------------------------------------------------------
 
@@ -1743,7 +1781,14 @@ CREATE TABLE IF NOT EXISTS `return_head` (
   `return_date` varchar(20) DEFAULT NULL,
   `create_date` varchar(20) DEFAULT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `return_head`
+--
+
+INSERT INTO `return_head` (`return_id`, `dr_no`, `return_date`, `create_date`, `user_id`) VALUES
+(1, 'PROBCD-2022-DR-0001', '2022-04-01', '2022-04-01 22:19:57', 1);
 
 -- --------------------------------------------------------
 
@@ -1754,23 +1799,23 @@ CREATE TABLE IF NOT EXISTS `return_head` (
 CREATE TABLE IF NOT EXISTS `sales_good_details` (
 `sales_good_det_id` int(11) NOT NULL,
   `sales_good_head_id` int(11) NOT NULL DEFAULT '0',
-  `in_id` int(11) NOT NULL DEFAULT '0',
   `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `item_id` int(11) NOT NULL DEFAULT '0',
   `unit_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
   `ave_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
   `selling_price` decimal(10,2) NOT NULL DEFAULT '0.00',
   `discount_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
   `discount_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `total` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `group_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `total` decimal(10,2) NOT NULL DEFAULT '0.00'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales_good_details`
 --
 
-INSERT INTO `sales_good_details` (`sales_good_det_id`, `sales_good_head_id`, `in_id`, `quantity`, `unit_cost`, `ave_cost`, `selling_price`, `discount_percent`, `discount_amount`, `total`, `group_id`) VALUES
-(1, 1, 1, '6.00', '25000.00', '0.00', '28000.00', '0.00', '0.00', '168000.00', 1);
+INSERT INTO `sales_good_details` (`sales_good_det_id`, `sales_good_head_id`, `quantity`, `item_id`, `unit_cost`, `ave_cost`, `selling_price`, `discount_percent`, `discount_amount`, `total`) VALUES
+(1, 1, '6.00', 1, '65000.00', '0.00', '70000.00', '0.00', '0.00', '420000.00'),
+(2, 2, '4.00', 2, '2500.00', '0.00', '3000.00', '0.00', '0.00', '12000.00');
 
 -- --------------------------------------------------------
 
@@ -1791,15 +1836,17 @@ CREATE TABLE IF NOT EXISTS `sales_good_head` (
   `remarks` text,
   `create_date` varchar(20) DEFAULT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
-  `saved` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `saved` int(11) NOT NULL DEFAULT '0',
+  `billed` int(11) NOT NULL DEFAULT '0' COMMENT '1=billed'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales_good_head`
 --
 
-INSERT INTO `sales_good_head` (`sales_good_head_id`, `client_id`, `sales_date`, `pr_no`, `pr_date`, `po_no`, `po_date`, `dr_no`, `vat`, `remarks`, `create_date`, `user_id`, `saved`) VALUES
-(1, 1, '2022-03-30', '456546', '2022-03-08', '456456', '2022-03-16', '456456', 1, '456456456', '2022-03-16 21:09:35', 1, 1);
+INSERT INTO `sales_good_head` (`sales_good_head_id`, `client_id`, `sales_date`, `pr_no`, `pr_date`, `po_no`, `po_date`, `dr_no`, `vat`, `remarks`, `create_date`, `user_id`, `saved`, `billed`) VALUES
+(1, 1, '2022-03-31', '46456', '2022-04-20', '45645', '2022-04-20', 'PROBCD-2022-DR-0001', 1, 'fghfgh', '2022-04-01 22:17:35', 1, 1, 0),
+(2, 1, '2022-04-04', '546567', '2022-04-04', '567567', '2022-04-13', 'PROBCD-2022-DR-0002', 1, 'gdfg', '2022-04-04 14:32:10', 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1829,8 +1876,16 @@ CREATE TABLE IF NOT EXISTS `sales_services_head` (
   `service_fee` decimal(10,2) NOT NULL DEFAULT '0.00',
   `wht` decimal(10,2) NOT NULL DEFAULT '0.00',
   `total_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `saved` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `saved` int(11) NOT NULL DEFAULT '0',
+  `billed` int(11) NOT NULL DEFAULT '0' COMMENT '1=billed'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sales_services_head`
+--
+
+INSERT INTO `sales_services_head` (`sales_serv_head_id`, `client_id`, `sales_date`, `jor_no`, `jor_date`, `joi_no`, `joi_date`, `dr_no`, `vat`, `purpose`, `create_date`, `user_id`, `remarks`, `total_engine_parts`, `total_material`, `total_manpower`, `total_equipment`, `actual_cost`, `service_fee`, `wht`, `total_cost`, `saved`, `billed`) VALUES
+(1, 1, '2022-04-04', '456456', '2022-04-14', '456456', '2022-04-13', 'PROBCD-2022-AR-0001', 1, 'fghghjghj', '2022-04-02 13:10:22', 1, '456546', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1846,7 +1901,8 @@ CREATE TABLE IF NOT EXISTS `sales_serv_equipment` (
   `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
   `uom` varchar(30) DEFAULT NULL,
   `days` int(11) NOT NULL DEFAULT '0',
-  `total_cost` decimal(10,2) NOT NULL DEFAULT '0.00'
+  `total_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `rate_flag` int(11) NOT NULL DEFAULT '0' COMMENT '1=Daily Rate, 2=Hourly Rate'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1858,7 +1914,7 @@ CREATE TABLE IF NOT EXISTS `sales_serv_equipment` (
 CREATE TABLE IF NOT EXISTS `sales_serv_items` (
 `sales_serv_items_id` int(11) NOT NULL,
   `sales_serv_head_id` int(11) NOT NULL DEFAULT '0',
-  `in_id` int(11) NOT NULL DEFAULT '0',
+  `item_id` int(11) NOT NULL DEFAULT '0',
   `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
   `unit_cost` decimal(10,2) DEFAULT '0.00',
   `ave_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
@@ -1867,7 +1923,14 @@ CREATE TABLE IF NOT EXISTS `sales_serv_items` (
   `discount_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
   `total` decimal(10,2) NOT NULL DEFAULT '0.00',
   `group_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sales_serv_items`
+--
+
+INSERT INTO `sales_serv_items` (`sales_serv_items_id`, `sales_serv_head_id`, `item_id`, `quantity`, `unit_cost`, `ave_cost`, `selling_price`, `discount_percent`, `discount_amount`, `total`, `group_id`) VALUES
+(1, 1, 1, '2.00', '65000.00', '0.00', '75000.00', '0.00', '0.00', '150000.00', 1);
 
 -- --------------------------------------------------------
 
@@ -1883,7 +1946,14 @@ CREATE TABLE IF NOT EXISTS `sales_serv_manpower` (
   `rate` decimal(10,2) NOT NULL DEFAULT '0.00',
   `overtime` decimal(10,2) NOT NULL DEFAULT '0.00',
   `total_cost` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sales_serv_manpower`
+--
+
+INSERT INTO `sales_serv_manpower` (`sales_serv_manpower_id`, `sales_serv_head_id`, `manpower_id`, `days`, `rate`, `overtime`, `total_cost`) VALUES
+(1, 1, 2, 5, '36.00', '0.00', '180.00');
 
 -- --------------------------------------------------------
 
@@ -1900,6 +1970,30 @@ CREATE TABLE IF NOT EXISTS `sales_serv_material` (
   `unit_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
   `total_cost` decimal(10,2) NOT NULL DEFAULT '0.00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `serial_numbers`
+--
+
+CREATE TABLE IF NOT EXISTS `serial_numbers` (
+`serial_id` int(11) NOT NULL,
+  `serial_no` varchar(50) DEFAULT NULL,
+  `rd_id` int(11) NOT NULL DEFAULT '0',
+  `in_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `serial_numbers`
+--
+
+INSERT INTO `serial_numbers` (`serial_id`, `serial_no`, `rd_id`, `in_id`) VALUES
+(1, 'series1001', 1, 1),
+(2, 'series2', 1, 1),
+(3, 'series3', 1, 1),
+(4, 'series4', 1, 1),
+(5, 'series5', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -2317,7 +2411,7 @@ CREATE TABLE IF NOT EXISTS `temp_sales_out` (
   `in_id` int(11) NOT NULL DEFAULT '0',
   `item_id` int(11) NOT NULL DEFAULT '0',
   `quantity` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2566,6 +2660,12 @@ ALTER TABLE `receive_items`
  ADD PRIMARY KEY (`ri_id`);
 
 --
+-- Indexes for table `repair_details`
+--
+ALTER TABLE `repair_details`
+ ADD PRIMARY KEY (`repair_id`);
+
+--
 -- Indexes for table `return_details`
 --
 ALTER TABLE `return_details`
@@ -2620,6 +2720,12 @@ ALTER TABLE `sales_serv_material`
  ADD PRIMARY KEY (`sales_serv_mat_id`);
 
 --
+-- Indexes for table `serial_numbers`
+--
+ALTER TABLE `serial_numbers`
+ ADD PRIMARY KEY (`serial_id`);
+
+--
 -- Indexes for table `supplier`
 --
 ALTER TABLE `supplier`
@@ -2657,12 +2763,12 @@ ALTER TABLE `warehouse`
 -- AUTO_INCREMENT for table `billing_details`
 --
 ALTER TABLE `billing_details`
-MODIFY `billing_detail_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `billing_detail_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `billing_head`
 --
 ALTER TABLE `billing_head`
-MODIFY `billing_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `billing_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `bin`
 --
@@ -2682,12 +2788,12 @@ MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `damage_details`
 --
 ALTER TABLE `damage_details`
-MODIFY `damage_det_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `damage_det_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `damage_head`
 --
 ALTER TABLE `damage_head`
-MODIFY `damage_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `damage_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `department`
 --
@@ -2702,17 +2808,17 @@ MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=105;
 -- AUTO_INCREMENT for table `equipment`
 --
 ALTER TABLE `equipment`
-MODIFY `equipment_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `equipment_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `fifo_in`
 --
 ALTER TABLE `fifo_in`
-MODIFY `in_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `in_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `fifo_out`
 --
 ALTER TABLE `fifo_out`
-MODIFY `out_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `out_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `groups`
 --
@@ -2742,7 +2848,7 @@ MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=105;
 -- AUTO_INCREMENT for table `manpower`
 --
 ALTER TABLE `manpower`
-MODIFY `manpower_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `manpower_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `payment_head`
 --
@@ -2757,7 +2863,7 @@ MODIFY `pn_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 -- AUTO_INCREMENT for table `purpose`
 --
 ALTER TABLE `purpose`
-MODIFY `purpose_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=196;
+MODIFY `purpose_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=197;
 --
 -- AUTO_INCREMENT for table `rack`
 --
@@ -2777,32 +2883,37 @@ MODIFY `receive_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `receive_items`
 --
 ALTER TABLE `receive_items`
-MODIFY `ri_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `ri_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `repair_details`
+--
+ALTER TABLE `repair_details`
+MODIFY `repair_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `return_details`
 --
 ALTER TABLE `return_details`
-MODIFY `return_details_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `return_details_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `return_head`
 --
 ALTER TABLE `return_head`
-MODIFY `return_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `return_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `sales_good_details`
 --
 ALTER TABLE `sales_good_details`
-MODIFY `sales_good_det_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `sales_good_det_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `sales_good_head`
 --
 ALTER TABLE `sales_good_head`
-MODIFY `sales_good_head_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `sales_good_head_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `sales_services_head`
 --
 ALTER TABLE `sales_services_head`
-MODIFY `sales_serv_head_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `sales_serv_head_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `sales_serv_equipment`
 --
@@ -2812,17 +2923,22 @@ MODIFY `sales_serv_equipment_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `sales_serv_items`
 --
 ALTER TABLE `sales_serv_items`
-MODIFY `sales_serv_items_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `sales_serv_items_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `sales_serv_manpower`
 --
 ALTER TABLE `sales_serv_manpower`
-MODIFY `sales_serv_manpower_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `sales_serv_manpower_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `sales_serv_material`
 --
 ALTER TABLE `sales_serv_material`
 MODIFY `sales_serv_mat_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `serial_numbers`
+--
+ALTER TABLE `serial_numbers`
+MODIFY `serial_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `supplier`
 --
@@ -2832,7 +2948,7 @@ MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=380;
 -- AUTO_INCREMENT for table `temp_sales_out`
 --
 ALTER TABLE `temp_sales_out`
-MODIFY `temp_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+MODIFY `temp_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `uom`
 --

@@ -47,16 +47,120 @@ class Reports extends CI_Controller {
 
     public function pending_list()
     {
+        $data['clients'] = $this->super_model->select_all("client");
+
+        $client = $this->uri->segment(3);
+        $type = $this->uri->segment(4);
+
+        $data['client']=$client;
+        $data['type']=$type;
+        $data['sales_combined']=array();
+
+        if($type=='1'){
+             $grand_total =0;
+            $goods_count = $this->super_model->count_custom_where("sales_good_head", "client_id = '$client'");
+            if($goods_count != 0){
+              foreach($this->super_model->select_custom_where("sales_good_head", "client_id='$client' AND billed='0'") AS $goods){
+                $total_amount = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$goods->sales_good_head_id'");
+                 $grand_total += $total_amount;
+                $data['sales_goods'][]=array(
+                    "sales_id"=>$goods->sales_good_head_id,
+                    "dr_no"=>$goods->dr_no,
+                    "dr_date"=>$goods->sales_date,
+                    "total"=>$total_amount,
+
+                );
+              }
+
+              $data['grand_total'] = $grand_total;
+            } else {
+                $data['sales_goods']=array();
+            }
+        } else if($type=='2') {
+             $grand_total =0;
+            $service_count = $this->super_model->count_custom_where("sales_services_head", "client_id = '$client'");
+            if($service_count != 0){
+              foreach($this->super_model->select_custom_where("sales_services_head", "client_id='$client' AND billed='0'") AS $services){
+                $total_amount =  $this->super_model->select_sum_where("sales_serv_equipment", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'") + 
+                $this->super_model->select_sum_where("sales_serv_items", "total", "sales_serv_head_id='$services->sales_serv_head_id'") +  $this->super_model->select_sum_where("sales_serv_manpower", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'") + $this->super_model->select_sum_where("sales_serv_material", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'");
+
+                $grand_total += $total_amount;
+                $data['sales_services'][]=array(
+                    "sales_id"=>$services->sales_serv_head_id,
+                    "dr_no"=>$services->dr_no,
+                    "dr_date"=>$services->sales_date,
+                    "total"=>$total_amount
+                );
+              }
+               $data['grand_total'] = $grand_total;
+            } else {
+                $data['sales_services']=array();
+            }
+        } else if(empty($type)){
+               $grand_total =0;
+            foreach($this->super_model->select_custom_where("sales_good_head", "client_id='$client' AND billed='0'") AS $goods){
+                 $total_amount = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$goods->sales_good_head_id'");
+                  $grand_total += $total_amount;
+                $data['sales_combined'][] = array(
+                    "sales_id"=>$goods->sales_good_head_id,
+                    "type"=>'goods',
+                    "dr_no"=>$goods->dr_no,
+                    "dr_date"=>$goods->sales_date,
+                    "total"=>$total_amount
+                );
+            }
+
+            foreach($this->super_model->select_custom_where("sales_services_head", "client_id='$client' AND billed='0'") AS $services){
+                 $total_amount =  $this->super_model->select_sum_where("sales_serv_equipment", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'") + 
+                $this->super_model->select_sum_where("sales_serv_items", "total", "sales_serv_head_id='$services->sales_serv_head_id'") +  $this->super_model->select_sum_where("sales_serv_manpower", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'") + $this->super_model->select_sum_where("sales_serv_material", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'");
+                 $grand_total += $total_amount;
+                $data['sales_combined'][] = array(
+                    "sales_id"=>$services->sales_serv_head_id,
+                    "type"=>'service',
+                    "dr_no"=>$services->dr_no,
+                    "dr_date"=>$services->sales_date,
+                    "total"=>$total_amount
+                );
+            }
+
+             $data['grand_total'] = $grand_total;
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('reports/pending_list');
+        $this->load->view('reports/pending_list', $data);
         $this->load->view('template/footer');
     }
     public function pending_popup()
     {
+        $ids = $this->uri->segment(3);
+        $client_id = $this->uri->segment(4);
+        $data['type'] = $this->uri->segment(5);
+        $data['ids'] = urldecode($ids);
+        $data['client'] = $this->super_model->select_column_where("client", "buyer_name", "client_id",$client_id);
+        $data['client_id'] = $client_id;
+
+        $year_series=date('Y');
+        $rows=$this->super_model->count_custom_where("billing_head","create_date LIKE '$year_series%'");
+        if($rows==0){
+             $data['bs_no'] = "BS-".$year_series."-0001";
+        } else {
+            $maxbs_no=$this->super_model->get_max_where("billing_head", "billing_no","create_date LIKE '$year_series%'");
+            $bsno = explode('-',$maxbs_no);
+            $series = $bsno[2]+1;
+            if(strlen($series)==1){
+                $data['bs_no'] = "BS-".$year_series."-000".$series;
+            } else if(strlen($series)==2){
+                 $data['bs_no'] = "BS-".$year_series."-00".$series;
+            } else if(strlen($series)==3){
+                 $data['bs_no'] = "BS-".$year_series."-0".$series;
+            } else if(strlen($series)==4){
+                 $data['bs_no'] = "BS-".$year_series."-".$series;
+            }
+        }
+
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('reports/pending_popup');
+        $this->load->view('reports/pending_popup',$data);
         $this->load->view('template/footer');
     }
     public function billed_list()
@@ -81,11 +185,106 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function save_billing_statement(){
+        $type = $this->input->post('salestype');
+        $data = array(
+            "billing_no"=>$this->input->post('bs_no'),
+            "billing_date"=>$this->input->post('bs_date'),
+            "client_id"=>$this->input->post('client_id'),
+            "create_date"=>date("Y-m-d H:i:s"),
+            "user_id"=>$_SESSION['user_id'],
+        );
+        $id= $this->super_model->insert_return_id("billing_head", $data);
+
+        $sales_id = $this->input->post('sales_id');
+        $sales = explode(",", $sales_id);
+      
+       if($type==1){
+            $grand_total = 0;
+            foreach($sales AS $sid){
+                $total_amount = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$sid'");
+                $grand_total +=$total_amount;
+                $data_details = array(
+                    "billing_id"=>$id,
+                    "sales_type"=>"goods",
+                    "sales_id"=>$sid,
+                    "dr_no"=>$this->super_model->select_column_where("sales_good_head", "dr_no", "sales_good_head_id", $sid),
+                    "dr_date"=>$this->super_model->select_column_where("sales_good_head", "sales_date", "sales_good_head_id", $sid),
+                    "total_amount"=>$total_amount,
+                    "remaining_amount"=>$total_amount,
+                );
+
+                $this->super_model->insert_into("billing_details", $data_details);
+
+                $data_sales = array(
+                    "billed"=>'1'
+                );
+                $this->super_model->update_where("sales_good_head", $data_sales, "sales_good_head_id", $sid);
+            }
+
+            $data_total = array(
+                "total_amount"=>$grand_total
+            );
+            $this->super_model->update_where("billing_head", $data_total, "billing_id", $id);
+
+        }
+
+
+       if($type==2){
+            $grand_total = 0;
+            foreach($sales AS $sid){
+                $total_amount =  $this->super_model->select_sum_where("sales_serv_equipment", "total_cost", "sales_serv_head_id='$sid'") + 
+                $this->super_model->select_sum_where("sales_serv_items", "total", "sales_serv_head_id='$sid'") +  $this->super_model->select_sum_where("sales_serv_manpower", "total_cost", "sales_serv_head_id='$sid'") + $this->super_model->select_sum_where("sales_serv_material", "total_cost", "sales_serv_head_id='$sid'");
+
+                $grand_total +=$total_amount;
+                $data_details = array(
+                    "billing_id"=>$id,
+                    "sales_type"=>"services",
+                    "sales_id"=>$sid,
+                    "dr_no"=>$this->super_model->select_column_where("sales_services_head", "dr_no", "sales_serv_head_id", $sid),
+                    "dr_date"=>$this->super_model->select_column_where("sales_services_head", "sales_date", "sales_serv_head_id", $sid),
+                    "total_amount"=>$total_amount,
+                    "remaining_amount"=>$total_amount,
+                );
+
+                $this->super_model->insert_into("billing_details", $data_details);
+
+                $data_sales = array(
+                    "billed"=>'1'
+                );
+                $this->super_model->update_where("sales_services_head", $data_sales, "sales_serv_head_id", $sid);
+            }
+
+            $data_total = array(
+                "total_amount"=>$grand_total
+            );
+            $this->super_model->update_where("billing_head", $data_total, "billing_id", $id);
+
+
+        }
+
+        echo $id;
+    }
+
     public function print_billing()
     {
+        $bsid = $this->uri->segment(3);
+
+        foreach($this->super_model->select_row_where("billing_head", "billing_id", $bsid) AS $bs){
+            $data['head'][] = array(
+                "billing_no"=>$bs->billing_no,
+                "date"=>$bs->billing_date,
+                "client"=>$this->super_model->select_column_where("client", "buyer_name", "client_id", $bs->client_id),
+                "address"=>$this->super_model->select_column_where("client", "address", "client_id", $bs->client_id),
+                "tin"=>$this->super_model->select_column_where("client", "tin", "client_id", $bs->client_id),
+            );
+        }
+
+        $data['details']=$this->super_model->select_custom_where("billing_details", "billing_id='$bsid' AND remaining_amount != '0' ORDER BY dr_date DESC");
+
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('reports/print_billing');
+        $this->load->view('reports/print_billing',$data);
         $this->load->view('template/footer');
     }
 
