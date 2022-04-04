@@ -12,6 +12,7 @@ $('#filter').click(function(e){
     })
 })
 
+<<<<<<< HEAD
 $('#pendingFilter').click(function(e){
 
     var client = document.getElementById("client").value;
@@ -64,3 +65,43 @@ function save_billing(){
            
     }
 }
+=======
+$('#filter_sales').click(function(e){
+    var month = document.getElementById("month").value;
+    if(month!=''){
+        var month_url = document.getElementById("month").value;
+    }else{
+        var month_url = 'null';
+    }
+    var client_id = document.getElementById("client_id").value;
+    if(client_id!=''){
+        var client_id_url = document.getElementById("client_id").value;
+    }else{
+        var client_id_url = 'null';
+    }
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"reports/monthly_report";
+    $.ajax({
+        url:redirect,
+        data: 'month='+month+'&client_id='+client_id,
+        type: "POST",
+        success:function(output){
+             window.location.href = loc+"reports/monthly_report/"+month_url+'/'+client_id_url;
+        }
+    })
+})
+
+$('#filter_itpr').click(function(e){
+    var item = document.getElementById("item").value;
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"reports/item_pr";
+    $.ajax({
+        url:redirect,
+        data: 'item_id='+item,
+        type: "POST",
+        success:function(output){
+             window.location.href = loc+"reports/item_pr/"+item;
+        }
+    })
+})
+>>>>>>> 71683a60f948eef05a1da3d94c8603f492c68dd4
