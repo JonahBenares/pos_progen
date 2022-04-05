@@ -161,7 +161,7 @@
                                     <td>
                                         <div class="badge <?php echo $badge; ?> badge-pill"><?php echo $stockcard[$x]['method']; ?></div>
                                     </td>
-                                    <td><?php echo $stockcard[$x]['item_cost']; ?></td>
+                                    <td><?php echo number_format($stockcard[$x]['item_cost'],2); ?></td>
                                     <td>
                                         <?php echo (($stockcard[$x]['method']== 'Sales Good' || $stockcard[$x]['method'] == 'Sales Services' || $stockcard[$x]['method'] == 'Damaged' || $stockcard[$x]['method'] == 'Expired') ? "-" : "") .$stockcard[$x]['quantity']; ?>    
                                     </td>

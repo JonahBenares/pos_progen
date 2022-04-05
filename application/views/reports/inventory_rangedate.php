@@ -1,3 +1,4 @@
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -9,7 +10,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active" aria-current="page">
-                        <span></span>Item PR Report &nbsp;
+                        <span></span>Inventory Range of Date &nbsp;
                         <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                     </li>
                 </ol>
@@ -21,7 +22,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-lg-6">
-                                <h4 class="m-0">Item PR Report</h4>
+                                <h4 class="m-0">Inventory Range of Date</h4>
                             </div>
                             <div class="col-lg-6">
                                 <div class="pull-right">
@@ -36,27 +37,31 @@
                         </div>
                     </div>
                     <div class="card-body"> 
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <input style="padding:10px " type="text" onfocus="(this.type='date')" placeholder="From" class="form-control" name="">
-                            </div>
-                            <div class="col-lg-2">
-                                <input style="padding:10px " type="text" onfocus="(this.type='date')" placeholder="To" class="form-control" name="">
-                            </div>
-                            <div class="col-lg-3">
-                                <select class="form-control">
-                                    <option>-- Select Category --</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-3">
-                                <select class="form-control">
-                                    <option>-- Select Sub Category --</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-2">
-                                <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="" value="Filter">
-                            </div>
-                        </div>    
+                        <form method="POST">
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <input style="padding:10px " type="text" name="from" id="from" onfocus="(this.type='date')" placeholder="From" class="form-control" name="">
+                                </div>
+                                <div class="col-lg-2">
+                                    <input style="padding:10px " type="text" name="to" id="to" onfocus="(this.type='date')" placeholder="To" class="form-control" name="">
+                                </div>
+                                <div class="col-lg-3">
+                                    <select class="form-control select2" name="category" id="category" onchange="chooseSubcat();">
+                                        <option value="">-- Select Category --</option>
+                                        <?php foreach($category AS $c){ ?>
+                                            <option value="<?php echo $c->cat_id; ?>"><?php echo $c->cat_name; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="col-lg-3">
+                                    <select class="form-control select2" name="subcat" id="subcat"></select>
+                                </div>
+                                <div class="col-lg-2">
+                                    <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
+                                    <input type="button" class="btn btn-md btn-gradient-success btn-block" id="filter_range" name="filter_range" value="Filter">
+                                </div>
+                            </div>  
+                        </form>  
                         <hr> 
                         <table class="table table-bordered table-hover" width="100%">
                             <thead>
@@ -67,36 +72,13 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php if(!empty($head)){ foreach($head AS $h){ ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><?php echo $h['pn'];?></td>
+                                    <td><?php echo $h['item'];?></td>
+                                    <td><?php echo $h['total'];?></td>
                                 </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <?php } } ?>
                             </tbody>                            
                         </table>
                     </div>

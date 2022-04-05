@@ -12,7 +12,10 @@ $('#filter').click(function(e){
     })
 })
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 52b167d4381616c1801c2534249d9164083ba40c
 $('#pendingFilter').click(function(e){
 
     var client = document.getElementById("client").value;
@@ -132,6 +135,7 @@ $('#filter_itpr').click(function(e){
     })
 })
 
+<<<<<<< HEAD
 function bill_pay(baseurl){
     var client = document.getElementById("client_id").value;
     var conf = confirm('Are you sure you want to save to proceed?');
@@ -178,3 +182,58 @@ function submit_payment(baseurl){
         }
     }
 }
+=======
+$('#filter_range').click(function(e){
+    var from = document.getElementById("from").value;
+    var to = document.getElementById("to").value;
+    var category = document.getElementById("category").value;
+    var subcat = document.getElementById("subcat").value;
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"reports/inventory_rangedate";
+    if(from!=''){
+        var from_url = from;
+    }else{
+        var from_url = 'null';
+    }
+
+    if(to!=''){
+        var to_url = to;
+    }else{
+        var to_url = 'null';
+    }
+
+    if(category!=''){
+        var category_url = category;
+    }else{
+        var category_url = 'null';
+    }
+
+     if(subcat!=''){
+        var subcat_url = subcat;
+    }else{
+        var subcat_url = 'null';
+    }
+    $.ajax({
+        url:redirect,
+        data: 'from='+from+"&to="+to+"&category="+category+"&subcat="+subcat,
+        type: "POST",
+        success:function(output){
+             window.location.href = loc+"reports/inventory_rangedate/"+from_url+"/"+to_url+"/"+category_url+"/"+subcat_url;
+        }
+    })
+})
+
+function chooseSubcat(){
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+'reports/get_subcat';
+    var category = document.getElementById("category").value;
+    $.ajax({
+            type: 'POST',
+            url: redirect,
+            data: 'category='+category,
+            success: function(data){
+                $("#subcat").html(data);
+           }
+    }); 
+}
+>>>>>>> 52b167d4381616c1801c2534249d9164083ba40c
