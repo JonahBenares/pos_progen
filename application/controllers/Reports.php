@@ -433,19 +433,32 @@ class Reports extends CI_Controller {
         $data['item']=$this->super_model->select_all_order_by("items","item_name","ASC");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id FROM fifo_in WHERE item_id = '$item_id'") AS $head){
-            foreach($this->super_model->custom_query("SELECT quantity,in_id FROM fifo_out WHERE in_id = '$head->in_id'") AS $fi){
-                $return_qty= $this->super_model->select_column_where("return_details","return_qty","in_id",$fi->in_id);
-                $in_balance = $head->quantity - $fi->quantity;
-                $data['item_pr'][] = array(
-                    "prno"=>$head->pr_no,
-                    "recqty"=>$head->quantity,
-                    "sales_quantity"=>$fi->quantity,
-                    "returnqty"=>$return_qty,
-                    "in_balance"=>$in_balance,
-                    "final_balance"=>$head->remaining_qty
-                );
+        foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id FROM fifo_in WHERE item_id = '$item_id' GROUP BY pr_no") AS $head){
+            //$sales_serv_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type='Sales Services'");
+            $sales_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
+            $return_qty= $this->super_model->select_sum_where("return_details","return_qty","in_id='$head->in_id'");
+            $damageqty= $this->super_model->select_sum_where("damage_details","damage_qty","in_id='$head->in_id'");
+            $in_balance = $head->quantity - $sales_qty;
+            if($sales_qty ==0 && $return_qty==0 && $damageqty==0){
+                $final_balance = $head->quantity;
+            } else if($sales_qty!=0  && $return_qty==0 && $damageqty==0){
+                $final_balance = $head->quantity - $sales_qty;
+            } else if($sales_qty!=0  && $return_qty!=0 && $damageqty==0){
+                $final_balance =  $in_balance + $return_qty; 
+            }else if($sales_qty!=0 && $return_qty!=0 && $damageqty!=0){
+                $final_balance =  $head->quantity - $damageqty; 
+            } else if(($sales_qty!=0 && $return_qty!=0 && $damageqty==0) || ($sales_qty!=0 && $return_qty==0 && $damageqty==0)){
+                $final_balance = ($head->quantity + $return_qty) - $sales_qty; 
             }
+            $data['item_pr'][] = array(
+                "prno"=>$head->pr_no,
+                "recqty"=>$head->quantity,
+                "sales_quantity"=>$sales_qty,
+                "returnqty"=>$return_qty,
+                "damageqty"=>$damageqty,
+                "in_balance"=>$in_balance,
+                "final_balance"=>$final_balance
+            );
         }
         $this->load->view('reports/item_pr',$data);
         $this->load->view('template/footer');
@@ -458,14 +471,61 @@ class Reports extends CI_Controller {
         $this->load->view('reports/aging_report');
         $this->load->view('template/footer');
     }
-    public function inventory_rangedate()
-    {
+
+    public function inventory_balance($itemid){
+        $recqty= $this->super_model->select_sum_join("received_qty","receive_items","receive_head", "item_id='$itemid' AND saved='1'","receive_id");
+        $sales_good_qty= $this->super_model->select_sum_join("quantity","sales_good_details","sales_good_head", "item_id='$itemid' AND saved='1'","sales_good_head_id");
+        $sales_services_qty= $this->super_model->select_sum_join("quantity","sales_serv_items","sales_services_head", "item_id='$itemid' AND saved='1'","sales_serv_head_id");
+        $return_qty= $this->super_model->select_sum_where("return_details","return_qty","item_id='$itemid'");
+        $damage_qty= $this->super_model->select_sum_join("damage_qty","damage_details","damage_head", "item_id='$itemid'","damage_id");
+        $balance=($recqty+$return_qty)-$sales_good_qty-$sales_services_qty-$damage_qty;
+        return $balance;
+    }
+
+    public function inventory_rangedate(){
+        $data['category']=$this->super_model->select_all_order_by("item_categories","cat_name","ASC");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('reports/inventory_rangedate');
+        $from = $this->uri->segment(3);
+        $to = $this->uri->segment(4);
+        $cat = $this->uri->segment(5);
+        $subcat = $this->uri->segment(6);
+        $sql="";
+        if($from!='null' && $to!='null'){
+           $sql.= " rh.receive_date BETWEEN '$from' AND '$to' AND";
+        }
+
+        if($cat!='null'){
+            $sql.= " i.category_id = '$cat' AND";
+        }
+
+        if($subcat!='null'){
+            $sql.= " i.subcat_id = '$subcat' AND";
+        }
+
+        $query=substr($sql,0,-3);
+        $data['head']=array();
+        foreach($this->super_model->custom_query("SELECT DISTINCT rh.*,i.item_id  FROM receive_head rh INNER JOIN receive_items ri ON rh.receive_id = ri.receive_id INNER JOIN items i ON ri.item_id = i.item_id WHERE rh.saved='1' AND ".$query." GROUP BY item_name ORDER BY i.item_name ASC") AS $head){
+            $item = $this->super_model->select_column_where('items', 'item_name', 'item_id', $head->item_id);
+            $pn = $this->super_model->select_column_where('items', 'original_pn', 'item_id', $head->item_id);
+            $totalqty=$this->inventory_balance($head->item_id);
+            $data['head'][] = array(
+                'item'=>$item,
+                'pn'=>$pn,
+                'total'=>$totalqty
+            );          
+        }
+        $this->load->view('reports/inventory_rangedate',$data);
         $this->load->view('template/footer');
     }
 
-
+    public function get_subcat(){
+        $cat = $this->input->post('category');
+        echo '<option value="">-Select Sub Category-</option>';
+        foreach($this->super_model->select_custom_where('item_subcat', "cat_id='$cat' ORDER BY subcat_name ASC") AS $row){
+            echo '<option value="'. $row->subcat_id .'">'. $row->subcat_name .'</option>';
+      
+         }
+    }
 
 }

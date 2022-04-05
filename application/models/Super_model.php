@@ -230,6 +230,19 @@ class super_model extends CI_Model
         }
     }
 
+    public function select_sum_join($column,$table1,$table2, $where,$group_id)
+    {
+        $this->db->select('SUM('.$column.') as sumtotal');
+        $this->db->from($table1);
+        $this->db->join($table2, $table1.'.'.$group_id .' = '.$table2.'.'.$group_id, 'left');
+        $this->db->where($where);
+        $query = $this->db->get();
+        foreach($query->result() as $result)
+        {
+            return $result->sumtotal;
+        }
+    }
+
     public function count_custom_query($query)
     {
        

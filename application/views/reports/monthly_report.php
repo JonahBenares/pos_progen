@@ -102,8 +102,8 @@
                                     <td><?php echo $s['uom'];?></td>
                                     <td><?php echo $s['pr_no']." / ".$s['po_no'];?></td>
                                     <td><?php echo $s['client'];?></td>
-                                    <td><?php echo $s['unit_cost'];?></td>
-                                    <td><?php echo $s['total'];?></td>
+                                    <td><?php echo number_format($s['unit_cost'],2);?></td>
+                                    <td><?php echo number_format($s['total'],2);?></td>
                                     <td><?php echo $s['remarks'];?></td>
                                 </tr>
                                 <?php $x++; } } ?>
