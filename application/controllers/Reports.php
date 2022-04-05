@@ -228,23 +228,79 @@ class Reports extends CI_Controller {
     }
     public function billed_list()
     {
+        $data['clients'] = $this->super_model->select_all("client");
+
+        $client = $this->uri->segment(3);
+        $data['client']=$client;
+        $grand_total =0;
+        foreach($this->super_model->select_custom_where("billing_head", "client_id= '$client' AND status='0'") AS $bill){
+            $total_amount = $this->super_model->select_sum_where("billing_details", "remaining_amount", "billing_id='$bill->billing_id'");
+            $grand_total += $total_amount;
+            $data['billed'][]= array(
+                "billing_id"=>$bill->billing_id,
+                "billing_no"=>$bill->billing_no,
+                "billing_date"=>$bill->billing_date,
+                "total_amount"=>$total_amount
+            );
+        }
+
+        $data['grand_total'] = $grand_total;
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('reports/billed_list');
+        $this->load->view('reports/billed_list', $data);
         $this->load->view('template/footer');
     }
     public function bill_pay()
     {
+        $billing = $this->uri->segment(3);
+        $id = urldecode($billing);
+        $data['ids']=$id;
+        $bs = explode(",",$id);
+        foreach($bs AS $b){
+            $total_amount = $this->super_model->select_sum_where("billing_details", "remaining_amount", "billing_id='$b'");
+            $data['statement'][] = array(
+                "billing_id"=>$b,
+                "billing_date"=>$this->super_model->select_column_where("billing_head", "billing_date", "billing_id",$b),
+                "billing_no"=>$this->super_model->select_column_where("billing_head", "billing_no", "billing_id",$b),
+                "total_amount"=>$total_amount
+            );
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('reports/bill_pay');
+        $this->load->view('reports/bill_pay',$data);
         $this->load->view('template/footer');
     }
     public function paid_list()
     {
+        $data['clients'] = $this->super_model->select_all("client");
+
+        $client = $this->uri->segment(3);
+        $data['client']=$client;
+        $gtotal=0;
+        foreach($this->super_model->select_all("billing_payment") AS $p){
+
+           $billing_id = explode(",",$p->billing_id);
+          
+           $billing_no = "";
+           foreach($billing_id AS $bid){
+
+                $billing_no .= $this->super_model->select_column_where("billing_head", "billing_no", "billing_id", $bid) . ", ";
+           }
+           $bill_no = substr($billing_no,0,-2);
+           $gtotal += $p->amount;
+            $data['payment'][] = array(
+                'payment_date'=>$p->payment_date,
+                'billing_no'=>$bill_no,
+                'payment_type'=>$p->payment_type,
+                'check_no'=>$p->check_no,
+                'receipt_no'=>$p->receipt_no,
+                'amount'=>$p->amount
+            );
+        }
+        $data['grand_total'] = $gtotal;
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('reports/paid_list');
+        $this->load->view('reports/paid_list',$data);
         $this->load->view('template/footer');
     }
 
@@ -349,6 +405,70 @@ class Reports extends CI_Controller {
         $this->load->view('template/navbar');
         $this->load->view('reports/print_billing',$data);
         $this->load->view('template/footer');
+    }
+
+    public function submit_payment(){
+        $billing_id = $this->input->post('billing_id');
+        $amount=$this->input->post('amount');
+        $bill_id = explode(",",$billing_id);
+        $data=array(
+           "billing_id"=>$billing_id,
+           "payment_date"=>$this->input->post('payment_date'),
+           "payment_type"=>$this->input->post('payment_type'),
+           "check_no"=>$this->input->post('check_no'),
+           "receipt_no"=>$this->input->post('receipt_no'),
+           "amount"=>$amount,
+           "create_date"=>date("Y-m-d H:i:s"),
+           "user_id"=>$_SESSION['user_id'],
+        );
+
+        $this->super_model->insert_into("billing_payment", $data);
+        $query="";
+        foreach($bill_id AS $bid){
+            $query .= " billing_id = '$bid' OR";
+        }
+
+        $q=substr($query, 0, -3);
+        $tmpamount=$amount;
+        foreach($this->super_model->custom_query("SELECT * FROM billing_details WHERE $q ORDER BY dr_date ASC") AS $bill){
+           
+                   if($tmpamount > 0){
+
+                        $tmpamount = $tmpamount - $bill->remaining_amount;
+                
+                        if($tmpamount>0){
+                            $am = $bill->remaining_amount;
+
+                            $data_rem= array(
+                                'remaining_amount'=>0
+                            );
+                           $this->super_model->update_where("billing_details", $data_rem, 'billing_detail_id', $bill->billing_detail_id);
+
+                        } else {
+                            $am = $bill->remaining_amount + $tmpamount;
+                            $newam = $bill->remaining_amount -  $am;
+
+                            $data_rem= array(
+                                'remaining_amount'=>$newam
+                            );
+                           $this->super_model->update_where("billing_details", $data_rem, 'billing_detail_id', $bill->billing_detail_id);
+                        }     
+                   
+                  }
+
+        }
+
+        foreach($bill_id AS $bid){
+            $check_full_paid = $this->super_model->select_sum_where("billing_details", "remaining_amount", "billing_id='$bid'");
+                if($check_full_paid == 0){
+                    $data_status=array(
+                        "status"=>1
+                    );
+                    $this->super_model->update_where("billing_head", $data_status, 'billing_id', $bid);
+                }
+        }
+
+
     }
 
     public function stock_card(){

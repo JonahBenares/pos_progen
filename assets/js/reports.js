@@ -12,7 +12,7 @@ $('#filter').click(function(e){
     })
 })
 
-<<<<<<< HEAD
+
 $('#pendingFilter').click(function(e){
 
     var client = document.getElementById("client").value;
@@ -26,6 +26,33 @@ $('#pendingFilter').click(function(e){
         window.location.href = loc+"reports/pending_list/"+client+"/"+type;
     }
 })
+
+
+$('#billedFilter').click(function(e){
+
+    var client = document.getElementById("client").value;
+    if(client==""){
+        alert('Client must not be empty!');
+    }  else {
+
+         var loc= document.getElementById("baseurl").value;
+        window.location.href = loc+"reports/billed_list/"+client;
+    }
+})
+
+$('#paidFilter').click(function(e){
+
+    var client = document.getElementById("client").value;
+    if(client==""){
+        alert('Client must not be empty!');
+    }  else {
+
+         var loc= document.getElementById("baseurl").value;
+        window.location.href = loc+"reports/paid_list/"+client;
+    }
+})
+
+
 
 function bill_pending(baseurl){
     
@@ -65,7 +92,7 @@ function save_billing(){
            
     }
 }
-=======
+
 $('#filter_sales').click(function(e){
     var month = document.getElementById("month").value;
     if(month!=''){
@@ -104,4 +131,50 @@ $('#filter_itpr').click(function(e){
         }
     })
 })
->>>>>>> 71683a60f948eef05a1da3d94c8603f492c68dd4
+
+function bill_pay(baseurl){
+    var client = document.getElementById("client_id").value;
+    var conf = confirm('Are you sure you want to save to proceed?');
+    if(conf){
+        var values = [];
+         $.each($("input[name='billing_id']:checked"), function(){
+                values.push($(this).val());
+        });
+        var id=values.join();
+        if(id==""){
+            alert("You have not chosen any Billing Statement. Please choose at least one (1) Billing Statement to proceed.");
+        } else {
+            window.location.href = baseurl+"reports/bill_pay/"+encodeURIComponent(id);
+           
+       }
+   }
+}
+
+function submit_payment(baseurl){
+
+    var pdate = document.getElementById("payment_date").value;
+    var amount = document.getElementById("amount").value;
+    var payment_type = document.getElementById("payment_type").value;
+    var check_no = document.getElementById("check_no").value;
+    var receipt_no = document.getElementById("receipt_no").value;
+    var billing_id = document.getElementById("billing_id").value;
+     var redirect = baseurl+"reports/submit_payment";
+    var conf = confirm('Are you sure you want to save to proceed?');
+    if(conf){
+        if(pdate==""){
+            alert("Payment date must not be empty.");
+        } else if(amount==""){
+            alert("Amount must not be empty.");
+        } else {
+            $.ajax({
+                url:redirect,
+                data: 'payment_date='+pdate+'&payment_type='+payment_type+'&check_no='+check_no+'&receipt_no='+receipt_no+'&amount='+amount+'&billing_id='+billing_id,
+                type: "POST",
+                success:function(output){
+                     alert("Billing statement successfully paid!");
+                     window.location.href = baseurl+"reports/paid_list";
+                }
+            })
+        }
+    }
+}

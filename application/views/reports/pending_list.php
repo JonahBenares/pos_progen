@@ -92,8 +92,9 @@
                                     </tr>
                                 </thead>
                                  <tbody>
-                                <?php if($type=='1'){ ?>
-                              
+                                <?php if($type=='1'){ 
+                                        if(!empty($sales_goods)){?>
+                                    
                                     <?php foreach($sales_goods AS $sg){ ?>
                                     <tr>
                                         <td>
@@ -105,9 +106,11 @@
                                         <td> &nbsp; <?php echo $sg['dr_no']; ?></td>
                                         <td align="right">P <?php echo number_format($sg['total'],2); ?> &nbsp;</td>
                                     </tr>
-                                    <?php } ?>
+                                    <?php } 
+                                } ?>
                                 
-                                <?php } else if($type=='2') { ?>
+                                <?php } else if($type=='2') {
+                                    if(!empty($sales_services)){ ?>
                                        <?php foreach($sales_services AS $ss){ ?>
                                     <tr>
                                         <td>
@@ -119,22 +122,10 @@
                                         <td> &nbsp; <?php echo $ss['dr_no']; ?></td>
                                         <td align="right">P <?php echo number_format($ss['total'],2); ?> &nbsp;</td>
                                     </tr>
-                                    <?php } ?>
+                                    <?php } 
+                                } ?>
 
-                                <?php } else if(empty($type)) { ?>
-                                     <?php foreach($sales_combined AS $sc){ ?>
-                                    <tr>
-                                        <td>
-                                            <center>
-                                                <input type="checkbox" name="sales_id" value="<?php echo $sc['sales_id']; ?>" class="form-control" style="width:25px">
-                                            </center>
-                                        </td>
-                                        <td> &nbsp; <?php echo date('F d, Y', strtotime($sc['dr_date'])); ?></td>
-                                        <td> &nbsp; <?php echo $sc['dr_no']; ?></td>
-                                        <td align="right">P <?php echo number_format($sc['total'],2); ?> &nbsp;</td>
-                                    </tr>
-                                <?php }  ?>
-
+                             
                             <?php } ?>
                                 </tbody>
                             </table>

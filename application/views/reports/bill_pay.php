@@ -1,3 +1,4 @@
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         
@@ -23,80 +24,47 @@
                         <form method="POST" action = "">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <table class="table table-bordered table-hover">
+                                    <table class="table table-bordered table-hover" >
                                         <tr>
-                                            <td class="td-head">DR Date</td>
-                                            <td class="td-head">DR No</td>
+                                            <td class="td-head">Billing Date</td>
+                                            <td class="td-head">Billing Statement #</td>
                                             <td class="td-head">Total Amount</td>
                                         </tr>
+                                        <?php 
+                                        $gtotal=array();
+                                        foreach($statement AS $s){ 
+                                           $gtotal[]=$s['total_amount']; ?>
                                         <tr>
-                                            <td> &nbsp; July 20, 2022</td>
-                                            <td> &nbsp; DR-29938773-8882</td>
-                                            <td align="right">P 67775 &nbsp;</td>
+                                            <td> &nbsp; <?php echo date('F d, Y', strtotime($s['billing_date'])); ?></td>
+                                            <td> &nbsp; <a href="<?php echo base_url(); ?>reports/print_billing/<?php echo $s['billing_id']; ?>"><?php echo $s['billing_no']; ?></a></td>
+                                            <td align="right">P <?php echo number_format($s['total_amount'],2); ?> &nbsp;</td>
                                         </tr>
-                                        <tr>
-                                            <td> &nbsp; July 20, 2022</td>
-                                            <td> &nbsp; DR-29938773-8882</td>
-                                            <td align="right">P 67775 &nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td> &nbsp; July 20, 2022</td>
-                                            <td> &nbsp; DR-29938773-8882</td>
-                                            <td align="right">P 67775 &nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td> &nbsp; July 20, 2022</td>
-                                            <td> &nbsp; DR-29938773-8882</td>
-                                            <td align="right">P 67775 &nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td> &nbsp; July 20, 2022</td>
-                                            <td> &nbsp; DR-29938773-8882</td>
-                                            <td align="right">P 67775 &nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td> &nbsp; July 20, 2022</td>
-                                            <td> &nbsp; DR-29938773-8882</td>
-                                            <td align="right">P 67775 &nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td> &nbsp; July 20, 2022</td>
-                                            <td> &nbsp; DR-29938773-8882</td>
-                                            <td align="right">P 67775 &nbsp;</td>
-                                        </tr>
+                                        <?php } ?>
+                                       
                                         <tr>
                                             <td class="td-head" colspan="2" align="right">Grand Total</td>
-                                            <td class="td-head" align="right"><b>P 67775 &nbsp;</b></td>
+                                            <td class="td-head" align="right"><b>P <?php echo number_format(array_sum($gtotal),2); ?> &nbsp;</b></td>
                                         </tr>
                                     </table>
                                 </div>
                                 <div class="col-lg-3">
+                                    
                                     <br>
                                     <div class="form-group">
                                         <label for="exampleInputName1">Payment Date</label>
-                                        <input type="date" class="form-control" name="" placeholder="">
+                                        <input type="date" class="form-control" name="payment_date" id="payment_date">
                                     </div>
-                                    <div class="form-group" >
-                                        <label for="exampleInputName1">Payment</label>
-                                        <div class="form-check m-0" >
-                                            <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value=""> Partial Payment <i class="input-helper"></i></label>
-                                        </div>
-                                        <div class="form-check m-0">
-                                            <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2" checked="">Full Payment<i class="input-helper"></i></label>
-                                        </div>
-                                    </div> 
+                                   
                                     <br>
                                     <div class="form-group" >
                                         <label for="exampleInputName1">Form of Payment</label>
                                         <div class="form-check m-0" >
                                             <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value=""> Check <i class="input-helper"></i></label>
+                                            <input type="radio" class="form-check-input" name="payment_type" id="payment_type" value="check"> Check <i class="input-helper"></i></label>
                                         </div>
                                         <div class="form-check m-0">
                                             <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2" checked="">Cash <i class="input-helper"></i></label>
+                                            <input type="radio" class="form-check-input" name="payment_type" id="payment_type" value="cash" checked="">Cash <i class="input-helper"></i></label>
                                         </div>
                                     </div>
                                 </div>
@@ -104,17 +72,19 @@
                                     <br>
                                     <div class="form-group">
                                         <label for="exampleInputName1">Check No.</label>
-                                        <input type="text" class="form-control" name="" placeholder="">
+                                        <input type="text" class="form-control" name="check_no" id="check_no" >
                                     </div>  
                                     <div class="form-group">
                                         <label for="exampleInputName1">Collection Receipt No</label>
-                                        <input type="text" class="form-control" name="" placeholder="">
+                                        <input type="text" class="form-control" name="receipt_no" id="receipt_no">
                                     </div>  
                                     <div class="form-group">
                                         <label for="exampleInputName1">Amount</label>
-                                        <input type="text" class="form-control" name="" placeholder="00">
+                                        <input type="text" class="form-control" name="amount" id="amount" placeholder="00">
                                     </div> 
-                                    <button type="submit" class="btn btn-info btn-block">Pay</button>
+                                    <input type='hidden' name='billing_id' id='billing_id' value="<?php echo $ids; ?>">
+                                    <input type='button' onclick="submit_payment('<?php echo base_url(); ?>')" class="btn btn-info btn-md btn-block" value='Pay'>
+                                  
                                 </div>
                             </div>
                         </form>

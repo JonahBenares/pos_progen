@@ -1,3 +1,5 @@
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/reports.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -41,82 +43,59 @@
                     </div>
                     <div class="card-body">   
                         <div class="row">
-                            <div class="col-lg-3">
+                            <div class="col-lg-6">
                                 <!-- <input type="" class="form-control" name="" placeholder="Customer"> -->
-                                <select class="form-control">
-                                    <option>--Select Customer--</option>
+                                <select class="form-control" name='client' id='client'>
+                                     <option value="">--Select Client--</option>
+                                    <?php foreach($clients AS $c){ ?>
+                                        <option value='<?php echo $c->client_id; ?>'><?php echo $c->buyer_name; ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
-                            <div class="col-lg-3">
-                                <!-- <input type="" class="form-control" name="" placeholder="Customer"> -->
-                                <select class="form-control">
-                                    <option>--Type--</option>
-                                    <option>Delivery Reciept - Goods</option>
-                                    <option>Delivery Reciept - Services</option>
-                                </select>
-                            </div>
+                           
                             <div class="col-lg-2">
-                                <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="" value="Filter">
+                                <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
+                                <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="paidFilter" value="Filter" id='paidFilter'>
                             </div>
+                             <?php if(!empty($client)){ ?>
                             <div class="col-lg-3 offset-lg-1">
-                                <small class="pull-right">Overall Total Amount</small>
-                                <h2 class="pull-right">P 225,545,555</h2>
+                                <small class="pull-right">Overall Total Paid</small><br>
+                                <h2 class="pull-right">P <?php echo number_format($grand_total,2); ?></h2>
                             </div>
+                        <?php } ?>
                         </div>
                         <hr>   
-                        <form>     
+                      
+                         <?php if(!empty($client)){ ?>  
                             <table class="table table-hover table-bordered" width="100%" id="myTable">
                                 <thead>
                                     <tr>
-                                        <th width="30%"><label class="label-table">DR Date</label></th>
-                                        <th width="30%"><label class="label-table">DR No</label></th>
-                                        <th width="31"><label class="label-table pull-right">Total Amount &nbsp;</label></th>
+                                        <th><label class="label-table">Payment Date</label></th>
+                                        <th><label class="label-table">Billing Statement #</label></th>
+                                        <th><label class="label-table">DR #</label></th>
+                                        <th ><label class="label-table">Payment Type</label></th>
+                                        <th ><label class="label-table">Check/Receipt #</label></th>
+                                        <th ><label class="label-table">Amount Paid</label></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td> &nbsp; October 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 1255525 &nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td> &nbsp; October 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 45455 &nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td> &nbsp; October 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 6777 &nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td> &nbsp; July 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 67775 &nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td> &nbsp; November 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 688885 &nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td> &nbsp; January 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 67556 &nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td> &nbsp; December 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 567765 &nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td> &nbsp; November 20, 2022</td>
-                                        <td> &nbsp; DR-29938773-8882</td>
-                                        <td align="right">P 56777 &nbsp;</td>
-                                    </tr>
+                                    <?php 
+                                    if(!empty($payment)){
+                                        foreach($payment AS $p){ ?>
+                                        <tr>
+                                            <td> &nbsp; <?php echo date('F d, Y', strtotime($p['payment_date'])); ?></td>
+                                            <td> &nbsp; <?php echo $p['billing_no']; ?></td>
+                                            <td> &nbsp; DR-29938773-8882</td>
+                                            <td> &nbsp; <?php echo $p['payment_type']; ?> &nbsp;</td>
+                                            <td> &nbsp; <?php echo $p['check_no']. " / " .$p['receipt_no']; ?> &nbsp;</td>
+                                            <td align="right">P <?php echo number_format($p['amount'],2); ?> &nbsp;</td>
+                                        </tr>
+                                      <?php }
+                                  } ?>
                                 </tbody>
                             </table>
-                        </form>
+                        <?php } ?>
+                        
                     </div>
                 </div>
             </div>
