@@ -36,8 +36,8 @@
                             <div class="col-lg-6">
                                 <table width="100%">
                                     <tr>
-                                        <td width="20%"><h3>JO/PR No.</h3></td>
-                                        <td width="80%"><h3>: IT2019-9989388-CNPR</h3></td>
+                                        <td width="25%"><h3>JO/PR No.</h3></td>
+                                        <td width="75%"><h3>: IT2019-9989388-CNPR</h3></td>
                                     </tr>
                                     <tr>
                                         <td style="vertical-align: text-top;">Department</td>

@@ -12,10 +12,7 @@ $('#filter').click(function(e){
     })
 })
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 52b167d4381616c1801c2534249d9164083ba40c
 $('#pendingFilter').click(function(e){
 
     var client = document.getElementById("client").value;
@@ -135,7 +132,7 @@ $('#filter_itpr').click(function(e){
     })
 })
 
-<<<<<<< HEAD
+
 function bill_pay(baseurl){
     var client = document.getElementById("client_id").value;
     var conf = confirm('Are you sure you want to save to proceed?');
@@ -182,7 +179,6 @@ function submit_payment(baseurl){
         }
     }
 }
-=======
 $('#filter_range').click(function(e){
     var from = document.getElementById("from").value;
     var to = document.getElementById("to").value;
@@ -236,4 +232,3 @@ function chooseSubcat(){
            }
     }); 
 }
->>>>>>> 52b167d4381616c1801c2534249d9164083ba40c
