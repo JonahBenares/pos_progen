@@ -99,7 +99,7 @@
                                         <td class="p-0">
                                             <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="return_qty<?php echo $x; ?>" onkeyup="check_return_qty('<?php echo $x; ?>')" id = "retqty<?php echo $x; ?>" max="<?php echo $i['qty']; ?>" placeholder="<?php echo number_format($i['qty']); ?>">
                                         </td>
-                                        <input type='hidden' name='qty' id='qty<?php echo $x; ?>' value="<?php echo number_format($i['qty']); ?>">
+                                        <input type='hidden' name='qty<?php echo $x; ?>' id='qty<?php echo $x; ?>' value="<?php echo number_format($i['qty']); ?>">
                                         <td><?php echo $i['item'];?></td>
                                         <td><?php echo $i['supplier'];?></td>
                                         <td><?php echo $i['brand'];?></td>
@@ -111,6 +111,7 @@
                                     </tr>
                                     <input type='hidden' name='in_id<?php echo $x; ?>' value="<?php echo $i['in_id']; ?>">
                                      <input type='hidden' name='item_id<?php echo $x; ?>' value="<?php echo $i['item_id']; ?>">
+                                     <input type='hidden' name='sales_details_id<?php echo $x; ?>' value="<?php echo $i['sales_details_id']; ?>">
                                     <?php $x++; }  ?>
                                     <input type="hidden" name="count" id="count" value="<?php echo $x; ?>">
                                     <?php } ?>

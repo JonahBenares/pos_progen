@@ -49,14 +49,16 @@ class Returns extends CI_Controller {
                 "vat"=>$sh->vat,
                 "remarks"=>$sh->remarks
             );
-            foreach($this->super_model->select_row_where("fifo_out","sales_id",$sh->sales_good_head_id) AS $itm){
+            foreach($this->super_model->select_custom_where("fifo_out","sales_id='$sh->sales_good_head_id' AND transaction_type='Sales Goods'") AS $itm){
                 $supplier_id = $this->super_model->select_column_where("fifo_in","supplier_id","in_id",$itm->in_id);
                 $returned_qty = $this->super_model->select_sum("return_details", "return_qty", "in_id", $itm->in_id);
-                $qty = $itm->quantity - $returned_qty;
+                $qty = $itm->quantity;
+                //$qty = $itm->quantity - $returned_qty;
                 $data['item'][]=array(
                     "in_id"=>$itm->in_id,
                     "item"=>$this->super_model->select_column_where("items","item_name","item_id",$itm->item_id),
                     "item_id"=>$itm->item_id,
+                    "sales_details_id"=>$itm->sales_details_id,
                     "qty"=>$qty,
                     "supplier"=>$this->super_model->select_column_where("supplier","supplier_name","supplier_id",$supplier_id),
                     "brand"=>$this->super_model->select_column_where("fifo_in","brand","in_id",$itm->in_id),
@@ -117,7 +119,14 @@ class Returns extends CI_Controller {
                         $dataup=array(
                             'remaining_qty'=>$new_qty
                         );
-                        $this->super_model->update_where("fifo_in", $dataup, "in_id", $in_id);
+                        if($this->super_model->update_where("fifo_in", $dataup, "in_id", $in_id)){
+                            $sales_details_id = $this->input->post('sales_details_id'.$x);
+                            $new_qty_out = $this->input->post('qty'.$x) - $qty;
+                            $dataout=array(
+                                "quantity"=>$new_qty_out
+                            );
+                            $this->super_model->update_custom_where("fifo_out", $dataout, "in_id='$in_id' AND sales_details_id='$sales_details_id'");
+                        }
                     }
                 }
             

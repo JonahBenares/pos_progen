@@ -85,6 +85,7 @@
                                     <td class="td-head">Initial Balance</td>
                                     <td class="td-head">Return Qty</td>
                                     <td class="td-head">Damaged Qty</td>
+                                    <td class="td-head">Repaired Qty</td>
                                     <td class="td-head">Final Balance</td>     
                                 </tr>
                             </thead>
@@ -98,6 +99,7 @@
                                     <td><?php echo number_format($ip['in_balance'],2);?></td>
                                     <td><?php echo $ip['returnqty'];?></td>
                                     <td><?php echo $ip['damageqty'];?></td>
+                                    <td><?php echo $ip['repairqty'];?></td>
                                     <td><?php echo number_format($ip['final_balance'],2);?></td>
                                 </tr>
                                 <?php $x++; } } ?>

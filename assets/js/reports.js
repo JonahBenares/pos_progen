@@ -52,8 +52,6 @@ $('#paidFilter').click(function(e){
     }
 })
 
-
-
 function bill_pending(baseurl){
     
    var client = document.getElementById("client_id").value;
@@ -179,6 +177,7 @@ function submit_payment(baseurl){
         }
     }
 }
+
 $('#filter_range').click(function(e){
     var from = document.getElementById("from").value;
     var to = document.getElementById("to").value;
