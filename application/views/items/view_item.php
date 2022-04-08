@@ -213,7 +213,7 @@
                                             <?php 
                                                 if(!empty($fifo_in)) {
                                                 foreach($fifo_in AS $in){ 
-                                                    if($in['expiry_date'] != "" && $in['expiry_date'] < $now){
+                                                    if($in['expiry_date'] != "" && $in['expiry_date'] <= $now){
                                                         $background = " style='background-color:#f1948a'";
                                                     } else {
                                                         $background ="";

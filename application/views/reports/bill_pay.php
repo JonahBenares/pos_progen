@@ -60,11 +60,11 @@
                                         <label for="exampleInputName1">Form of Payment</label>
                                         <div class="form-check m-0" >
                                             <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="payment_type" id="payment_type" value="check"> Check <i class="input-helper"></i></label>
+                                            <input type="radio" class="form-check-input" name="payment_type" id="payment_type1" value="check"> Check <i class="input-helper"></i></label>
                                         </div>
                                         <div class="form-check m-0">
                                             <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="payment_type" id="payment_type" value="cash" checked="">Cash <i class="input-helper"></i></label>
+                                            <input type="radio" class="form-check-input" name="payment_type" id="payment_type2" value="cash" checked="">Cash <i class="input-helper"></i></label>
                                         </div>
                                     </div>
                                 </div>

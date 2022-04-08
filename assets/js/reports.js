@@ -153,7 +153,8 @@ function submit_payment(baseurl){
 
     var pdate = document.getElementById("payment_date").value;
     var amount = document.getElementById("amount").value;
-    var payment_type = document.getElementById("payment_type").value;
+    var payment_type = document.querySelector('input[name="payment_type"]:checked').value;
+  
     var check_no = document.getElementById("check_no").value;
     var receipt_no = document.getElementById("receipt_no").value;
     var billing_id = document.getElementById("billing_id").value;
@@ -218,7 +219,7 @@ $('#filter_range').click(function(e){
     })
 })
 
-function chooseSubcat(){
+/*function chooseSubcat(){
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+'reports/get_subcat';
     var category = document.getElementById("category").value;
@@ -231,3 +232,4 @@ function chooseSubcat(){
            }
     }); 
 }
+*/
