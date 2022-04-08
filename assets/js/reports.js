@@ -218,7 +218,7 @@ $('#filter_range').click(function(e){
     })
 })
 
-function chooseSubcat(){
+/*function chooseSubcat(){
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+'reports/get_subcat';
     var category = document.getElementById("category").value;
@@ -231,3 +231,4 @@ function chooseSubcat(){
            }
     }); 
 }
+*/
