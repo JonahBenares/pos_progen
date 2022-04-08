@@ -85,7 +85,7 @@
                                         <tr>
                                             <td> &nbsp; <?php echo date('F d, Y', strtotime($p['payment_date'])); ?></td>
                                             <td> &nbsp; <?php echo $p['billing_no']; ?></td>
-                                            <td> &nbsp; DR-29938773-8882</td>
+                                            <td> &nbsp; <?php echo $p['dr_no']; ?></td>
                                             <td> &nbsp; <?php echo $p['payment_type']; ?> &nbsp;</td>
                                             <td> &nbsp; <?php echo $p['check_no']. " / " .$p['receipt_no']; ?> &nbsp;</td>
                                             <td align="right">P <?php echo number_format($p['amount'],2); ?> &nbsp;</td>

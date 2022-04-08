@@ -51,7 +51,7 @@
                             <tbody>
                                 <?php foreach($list as $l){ ?>
                                 <tr>
-                                    <td><?php echo date('M j, Y', strtotime($l->receive_date)); ?></td>
+                                    <td><?php echo date('Y-m-d', strtotime($l->receive_date)); ?></td>
                                     <td><?php echo $l->dr_no; ?></td>
                                     <td><?php echo $l->mrecf_no; ?></td>
                                     <td align="center">

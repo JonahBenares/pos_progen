@@ -282,17 +282,21 @@ class Reports extends CI_Controller {
            $billing_id = explode(",",$p->billing_id);
           
            $billing_no = "";
+           $dr_no = "";
            foreach($billing_id AS $bid){
 
                 $billing_no .= $this->super_model->select_column_where("billing_head", "billing_no", "billing_id", $bid) . ", ";
+                $dr_no .= $this->super_model->select_column_where("billing_details", "dr_no", "billing_id", $bid) . ", ";
            }
            $bill_no = substr($billing_no,0,-2);
+           $dr_no = substr($dr_no,0,-2);
            $gtotal += $p->amount;
             $data['payment'][] = array(
                 'payment_date'=>$p->payment_date,
                 'billing_no'=>$bill_no,
                 'payment_type'=>$p->payment_type,
                 'check_no'=>$p->check_no,
+                'dr_no'=>$dr_no,
                 'receipt_no'=>$p->receipt_no,
                 'amount'=>$p->amount
             );
