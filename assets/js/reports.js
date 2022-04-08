@@ -52,8 +52,6 @@ $('#paidFilter').click(function(e){
     }
 })
 
-
-
 function bill_pending(baseurl){
     
    var client = document.getElementById("client_id").value;
