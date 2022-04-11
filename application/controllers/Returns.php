@@ -52,6 +52,8 @@ class Returns extends CI_Controller {
             foreach($this->super_model->select_custom_where("fifo_out","sales_id='$sh->sales_good_head_id' AND transaction_type='Sales Goods'") AS $itm){
                 $supplier_id = $this->super_model->select_column_where("fifo_in","supplier_id","in_id",$itm->in_id);
                 $returned_qty = $this->super_model->select_sum("return_details", "return_qty", "in_id", $itm->in_id);
+                $unit_cost = $this->super_model->select_column_where("fifo_in", "item_cost", "in_id", $itm->in_id);
+                $selling_price = $this->super_model->select_column_where("sales_good_details", "selling_price", "sales_good_det_id", $itm->sales_details_id);
                 $qty = $itm->quantity;
                 //$qty = $itm->quantity - $returned_qty;
                 $data['item'][]=array(
@@ -60,6 +62,8 @@ class Returns extends CI_Controller {
                     "item_id"=>$itm->item_id,
                     "sales_details_id"=>$itm->sales_details_id,
                     "qty"=>$qty,
+                    "unit_cost"=>$unit_cost,
+                    "selling_price"=>$selling_price,
                     "supplier"=>$this->super_model->select_column_where("supplier","supplier_name","supplier_id",$supplier_id),
                     "brand"=>$this->super_model->select_column_where("fifo_in","brand","in_id",$itm->in_id),
                     "catalog_no"=>$this->super_model->select_column_where("fifo_in","catalog_no","in_id",$itm->in_id),
@@ -104,6 +108,9 @@ class Returns extends CI_Controller {
                 $in_id= $this->input->post('in_id'.$x);
                 $qty =$this->input->post('return_qty'.$x);
                 $item_id =$this->input->post('item_id'.$x);
+                $unit_cost =$this->input->post('unit_cost'.$x);
+                $selling_price =$this->input->post('selling_price'.$x);
+                $total_cost =$selling_price * $qty;
                 if( $qty !=0){
                   
                     $datadet=array(
@@ -111,6 +118,9 @@ class Returns extends CI_Controller {
                         "item_id"=>$item_id,
                         "in_id"=>$in_id,
                         "return_qty"=>$qty,
+                        "unit_cost"=>$unit_cost,
+                        "selling_price"=>$selling_price,
+                        "total_amount"=>$total_cost,
                         "remarks"=>$this->input->post('remarks'.$x)
                     );
                     if($this->super_model->insert_into("return_details",$datadet)){
@@ -126,6 +136,11 @@ class Returns extends CI_Controller {
                                 "quantity"=>$new_qty_out
                             );
                             $this->super_model->update_custom_where("fifo_out", $dataout, "in_id='$in_id' AND sales_details_id='$sales_details_id'");
+
+                            $dataret=array(
+                                "return_id"=>$return_id,
+                            );
+                             $this->super_model->update_custom_where("sales_good_details", $dataret, "sales_good_det_id='$sales_details_id'");
                         }
                     }
                 }
