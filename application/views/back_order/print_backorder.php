@@ -26,6 +26,21 @@
         </div>
         <br>
         <page size="A4" id="printableArea">
+            <?php 
+               foreach($heads AS $hd){  
+                    $date=$hd->receive_date;
+                    $mrec=$hd->mrecf_no;
+                    $dr= $hd->dr_no;
+                    $po= $hd->po_no;
+                    $pcf= $hd->pcf;
+                    $si= $hd->si_no;
+                    $delivered= $hd->delivered_by;
+                    $received= $hd->received_by;
+                    $acknowledged= $hd->acknowledged_by;
+                    $noted= $hd->noted_by;
+                    $overall_remarks= $hd->overall_remarks;
+               }
+            ?>
             <table class="page-A4 table-bsordered" width="100%">
                 <tr>
                     <td width="5%"><br></td>
@@ -63,26 +78,26 @@
                 </tr>
                 <tr>
                     <td colspan="2">Date:</td>
-                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="8" class="bor-btm1"><?php echo ($date!='') ? date("M j, Y",strtotime($date)) : '' ;?></td>
                     <td colspan="2" align="right">MRF NO.:</td>
-                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="8" class="bor-btm1"><?php echo $mrec; ?></td>
                 </tr>
                 <tr>
                     <td colspan="2">DR NO.:</td>
-                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="8" class="bor-btm1"><?php echo $dr; ?></td>
                     <td colspan="2" align="right">PO:</td>
-                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="8" class="bor-btm1"><?php echo $po; ?></td>
                 </tr>
                 <tr>
                     <td colspan="2">SI NO.:</td>
-                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="8" class="bor-btm1"><?php echo $si; ?></td>
                     <td colspan="2" align="right">PCF:</td>
-                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="8" class="bor-btm1"><?php if ($pcf == 1) {echo 'Yes';};?></td>
                 </tr>
                
                 <tr>
                     <td colspan="3">Overall Remarks:</td>
-                    <td colspan="17" class="bor-btm1"> </td>
+                    <td colspan="17" class="bor-btm1"><?php echo $overall_remarks; ?></td>
                 </tr>
                 <tr>
                     <td colspan="20" align="center"><br><br></td>
@@ -91,16 +106,20 @@
                 <tr>
                     <td colspan="20">
                         <fieldset>
-                            <legend>PR/JO No.: PFLM201022-00299-CNPR</legend>
+                            <?php 
+
+                                foreach($details AS $det){ 
+                            ?>
+                            <legend>PR/JO No.: <?php echo $det['prno'];?></legend>
                             <table width="100%">
                                 <tr>
                                     <td width="10%">Department:</td>
-                                    <td width="70%" class="bor-btm1"> Progen Warehouse</td>
+                                    <td width="70%" class="bor-btm1"> <?php echo $det['department'];?></td>
                                     <td width="5%"></td>
                                 </tr>
                                 <tr>
                                     <td width="10%">Purpose:</td>
-                                    <td width="70%" class="bor-btm1">Replacement Parts for Refurbishing / Reconditioning</td>
+                                    <td width="70%" class="bor-btm1"><?php echo $det['purpose'];?></td>
                                     <td width="5%"></td>
                                 </tr>
                                 <tr>
@@ -121,62 +140,35 @@
                                     <td align="center" width="15%">Brand</td>
                                     <td align="center" width="10%">Cost</td>
                                     <td align="center" width="10%">Shipping Fee </td>
-                                </tr>
-                                <tr>
-                                    <td><br></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><br></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><br></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><br></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><br></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>                           
+                                    <td align="center" width="10%">Total Cost </td>
+                                </tr> 
+                            <?php
+                             $x =1; 
+                                foreach($items AS $it){ 
+                                    switch($it){
+                                        case($det['rdid'] == $it['rdid']):
+                                            if($it['recqty']!=0){
+                            ?>
+                            <tr>
+                                <td class="main-tab" align="center"><?php echo $x; ?></td>
+                                <td class="main-tab" align="center"><?php echo number_format($it['recqty'],2); ?></td>
+                                <td class="main-tab" align="left">&nbsp;<?php echo $it['item']; ?></td>
+                                <td class="main-tab" align="center"><?php echo $it['supplier'];?></td>
+                                <td class="main-tab" align="center"><?php echo $it['serial'];?></td>
+                                <td class="main-tab" align="center"><?php echo $it['catno'];?></td>
+                                <td class="main-tab" align="center"><?php echo $it['brand'];?></td>
+                                <td class="main-tab" align="center"><?php echo number_format($it['unitcost'],2);?></td>
+                                <td class="main-tab" align="center"><?php echo number_format($it['shipping_fee'],2);?></td>
+                                <td class="main-tab" align="center"><?php echo number_format($it['total'],2);?></td>
+                            </tr>
+                            <?php  
+                                            }
+                                $x++;
+                                break;
+                                default: 
+                                }  }  
+
+                            ?>                          
                             </table>
                             <br>
                            <!--  <table width="100%">
@@ -192,6 +184,7 @@
                                 </tr>
                             </table> -->
                         </fieldset>
+                        <?php } ?>
                     </td>
                 </tr>
                 <tr>
