@@ -130,6 +130,7 @@ $('#filter_itpr').click(function(e){
     })
 })
 
+
 function bill_pay(baseurl){
     var client = document.getElementById("client_id").value;
     var conf = confirm('Are you sure you want to save to proceed?');

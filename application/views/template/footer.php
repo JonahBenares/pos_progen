@@ -2,6 +2,7 @@
       </div>
       <!-- page-body-wrapper ends -->
         </div>
+        <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/items.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/billing.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/receive.js"></script>
@@ -9,6 +10,7 @@
         <script src="<?php echo base_url(); ?>assets/js/sales.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/return.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/backorder.js"></script>
+
         <script src="<?php echo base_url(); ?>assets/vendors/js/vendor.bundle.base.js"></script>
         <!-- endinject -->
         <!-- Plugin js for this page -->
