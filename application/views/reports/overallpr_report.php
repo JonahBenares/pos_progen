@@ -1,3 +1,5 @@
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/reports.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -35,8 +37,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body"> 
-                         <form method="POST"> 
+                    <div class="card-body">  
                         <div class="row">
                             <div class="col-lg-4 offset-lg-3">
                                 <select class="form-control select2" name="pr" id='pr'>
@@ -48,10 +49,9 @@
                             </div>
                             <div class="col-lg-2">
                                 <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
-                                <input type="button" name="search_pr" id = "search_pr" value='Filter' class="btn btn-md btn-gradient-success btn-block" >
+                                <input type="submit" name="search_pr" id = "search_pr" value='Filter' class="btn btn-md btn-gradient-success btn-block" onclick="loadPR()">
                             </div>
-                        </div>
-                        </form>    
+                        </div>   
                         <hr> 
                         <?php if(!empty($pr_no)){ ?>
                         <div class="row">

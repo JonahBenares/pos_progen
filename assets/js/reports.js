@@ -130,19 +130,12 @@ $('#filter_itpr').click(function(e){
     })
 })
 
-$('#search_pr').click(function(e){
-    var pr = document.getElementById("pr").value;
+function loadPR(){
+    var pr= document.getElementById("pr").value;     
     var loc= document.getElementById("baseurl").value;
-    var redirect = loc+"reports/overallpr_report";
-    $.ajax({
-        url:redirect,
-        data: 'pr='+pr,
-        type: "POST",
-        success:function(output){
-             window.location.href = loc+"reports/overallpr_report/"+pr;
-        }
-    })
-})
+    window.location.href = loc+'index.php/reports/overallpr_report/'+pr;
+
+}
 
 
 function bill_pay(baseurl){
