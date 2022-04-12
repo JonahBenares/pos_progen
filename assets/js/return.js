@@ -33,7 +33,7 @@ function saveReturn(){
 			data: returndata,
 			success: function(output){
 				//alert(output);
-				window.location.href = loc+'returns/print_return/'+output;
+				window.location.href = loc+'returns/print_return_goods/'+output;
 			}
 		});
 	}
