@@ -25,7 +25,7 @@
                         <div class="row">
                             <div class="col-lg-4 offset-lg-3">
                                 <select class="form-control select2" id = "pr_no" name = "pr_no">
-                                    <option value='' selected></option>
+                                    <option value='' selected>Choose PR</option>
                                     <?php 
                                         foreach($prback AS $pb){  
                                             if($pb['received']!=0){ ?>
@@ -125,7 +125,7 @@
                                             <td><?php echo $it['item']; ?></td>
                                             <td><?php echo $it['brand']; ?></td>
                                             <td align="right"><span id="total_cost"><?php echo number_format($it['total_cost'],2); ?></span></td>
-                                            <td><textarea name='remarks[]' id='remarks[]'></textarea></td>
+                                            <td class="p-0"><textarea class="form-control" name='remarks[]' id='remarks[]'></textarea></td>
                                         </tr>
                                         <input type='hidden' name='expqty[]' value="<?php echo $it['quantity']; ?>" style='width:50px' max="<?php echo $it['quantity']; ?>">
                                          <input type='hidden' name='riid[]' value="<?php echo $it['riid']; ?>">

@@ -742,11 +742,61 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function slash_replace($query){
+        $search = ["/", " / "];
+        $replace   = ["_"];
+        return str_replace($search, $replace, $query);
+    }
+
+    public function slash_unreplace($query){
+        $search = ["_"];
+        $replace   = ["/", " / "];
+        return str_replace($search, $replace, $query);
+    }
+
+    public function getPRinformation(){
+        $pr = $this->input->post('pr');
+        foreach($this->super_model->select_custom_where("receive_details", "pr_no LIKE '%$pr%' GROUP BY pr_no") AS $pr){  
+            $return = array('receive_id' => $pr->receive_id,'pr_no' => $pr->pr_no); 
+            echo json_encode($return);   
+        }
+    }
+
+    public function generateAllPRReport(){
+           $pr= $this->input->post('pr'); 
+           $p= rawurlencode($this->slash_replace($pr));
+           ?>
+           <script>
+            window.location.href ='<?php echo base_url(); ?>index.php/reports/overallpr_report/<?php echo $p; ?>'</script> <?php
+    }
+
     public function overallpr_report()
     {
+        $pr=$this->uri->segment(3);
+        $data['pr_disp']=$this->slash_unreplace(rawurldecode($pr));
+        $data['pr']=$this->slash_replace(rawurldecode($pr));
+        $pr=$this->slash_unreplace(rawurldecode($pr));
+        $data['pr_rep']=$this->super_model->custom_query("SELECT * FROM receive_details GROUP BY pr_no");
+        foreach($this->super_model->custom_query("SELECT item_id, SUM(received_qty) AS qty, ri.ri_id,rd.purpose_id,ri.supplier_id FROM receive_items ri INNER JOIN receive_details rd ON ri.rd_id = rd.rd_id WHERE rd.pr_no = '$pr' GROUP BY  ri.item_id") AS $head){
+            $data['purpose'] = $this->super_model->select_column_where("purpose", "purpose_desc", "purpose_id", $head->purpose_id);
+
+            $finalbal= $this->super_model->select_sum_where("fifo_in", "remaining_qty", "item_id='$head->item_id' AND pr_no='$pr' AND supplier_id='$head->supplier_id'");
+            $salesbal= $this->super_model->select_sum_where("fifo_out", "quantity", "item_id='$head->item_id' AND damage_id='0'");
+
+                $data['list'][] = array(
+                    "ri_id"=>$head->ri_id,
+                    "item"=>$this->super_model->select_column_where("items", "item_name", "item_id", $head->item_id),
+                    "item_id"=>$head->item_id,
+                    "recqty"=>$head->qty,
+                    "final_balance"=>$finalbal,
+                    "sales_balance"=>$salesbal,
+
+                );
+
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('reports/overallpr_report');
+        $this->load->view('reports/overallpr_report',$data);
         $this->load->view('template/footer');
     }
 

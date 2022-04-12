@@ -36,32 +36,40 @@
                         </div>
                     </div>
                     <div class="card-body"> 
+                        <form method="POST" action="<?php echo base_url(); ?>index.php/reports/generateAllPRReport">
                         <div class="row">
                             <div class="col-lg-4 offset-lg-3">
-                                <select class="form-control">
-                                    <option>-Choose PR-</option>
+                                <select class="form-control select2" name="pr" id='pr' onchange="choosePRS()">
+                                    <option value = "">-Choose PR-</option>
+                                        <?php foreach($pr_rep AS $prs){ ?>
+                                        <option value = "<?php echo $prs->pr_no;?>"><?php echo $prs->pr_no;?></option>
+                                        <?php } ?>
                                 </select>
+                                <input type="hidden" name="prid" id="prid">
                             </div>
                             <div class="col-lg-2">
-                                <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="" value="Filter">
+                                <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
+                                <input type="submit" name="search_pr" id = "submit" value='Filter' class="btn btn-md btn-gradient-success btn-block" >
                             </div>
-                        </div>    
+                        </div>
+                        </form>    
                         <hr> 
+                        <?php if(!empty($list)){ ?>
                         <div class="row">
                             <div class="col-lg-12">
                                 <small>PR No. :</small>
-                                <h3><b>PFLM2022-02-0001</h3></b>
+                                <h3><b><?php echo $pr_disp; ?></h3></b>
                                 <table width="100%">
-                                    <tr>
+                                   <!--  <tr>
                                         <td width="10%">Enduse:</td>
                                         <td width="40%"> DG1</td>
                                         <td width="10%" align="right"></td>
                                         <td width="40%">&nbsp;</td>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
-                                        <td>Purpose:</td>
-                                        <td> Reconditioning</td>
-                                        <td align="right"> </td>
+                                        <td>Purpose: <?php echo $purpose; ?></td>
+                                        <td align="left"></td>
+                                        <td align="center"></td>
                                         <td></td>
                                     </tr>
                                 </table>
@@ -82,69 +90,26 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php 
+                                    $x=1;
+                                    foreach($list AS $li){ 
+                                ?>
                                 <tr>
+                                    <td><?php echo $x; ?></td>
+                                    <td><?php echo $li['item']; ?></td>
+                                    <td><?php echo $li['recqty']; ?></td>
                                     <td></td>
+                                    <td><?php echo $li['sales_balance']; ?></td>
                                     <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><?php echo $li['final_balance']; ?></td>
                                     <td></td>
                                 </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <?php 
+                                    $x++; } ?>
                             </tbody>                            
                         </table>
                     </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>

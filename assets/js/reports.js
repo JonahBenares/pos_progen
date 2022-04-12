@@ -219,6 +219,29 @@ $('#filter_range').click(function(e){
     })
 })
 
+function choosePRS(){
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+'index.php/reports/getPRinformation';
+    var prno = document.getElementById("pr").value;
+    document.getElementById('alrt').innerHTML='<b>Please wait, Loading data...</b>'; 
+    $("#submit").hide(); 
+    setTimeout(function() {
+        document.getElementById('alrt').innerHTML=''; 
+        $("#submit").show(); 
+    },5000);
+
+    $.ajax({
+        type: 'POST',
+        url: redirect,
+        data: 'pr='+prno,
+        dataType: 'json',
+        success: function(response){
+            $("#prid").val(response.receive_id);
+            $("#pr_no").val(response.pr_no);
+        }
+    }); 
+}
+
 /*function chooseSubcat(){
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+'reports/get_subcat';
