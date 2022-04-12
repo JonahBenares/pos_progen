@@ -87,6 +87,8 @@
                                         <th width="6%">Return Qty</th>
                                         <th width="20%">Item Description</th>
                                         <th width="20%">Supplier</th>
+                                        <th width="5%">Unit Cost</th>
+                                        <th width="5%">Selling Price</th>
                                         <th width="10%">Brand</th>
                                         <th width="10%">Part No.</th>
                                         <th width="10%">Serial No.</th>
@@ -102,6 +104,8 @@
                                         <input type='hidden' name='qty<?php echo $x; ?>' id='qty<?php echo $x; ?>' value="<?php echo number_format($i['qty']); ?>">
                                         <td><?php echo $i['item'];?></td>
                                         <td><?php echo $i['supplier'];?></td>
+                                        <td><?php echo number_format($i['unit_cost'],2);?></td>
+                                        <td><?php echo number_format($i['selling_price'],2);?></td>
                                         <td><?php echo $i['brand'];?></td>
                                         <td><?php echo $i['catalog_no'];?></td>
                                         <td class="p-0"><?php echo $i['serial_no'];?></td>
@@ -109,7 +113,9 @@
                                             <textarea style="padding: 5px 10px;" rows="2" class="form-control" name="remarks<?php echo $x; ?>" id="remarks"></textarea>
                                         </td>
                                     </tr>
-                                    <input type='hidden' name='in_id<?php echo $x; ?>' value="<?php echo $i['in_id']; ?>">
+                                     <input type='hidden' name='unit_cost<?php echo $x; ?>' value="<?php echo $i['unit_cost']; ?>">
+                                     <input type='hidden' name='selling_price<?php echo $x; ?>' value="<?php echo $i['selling_price']; ?>">
+                                     <input type='hidden' name='in_id<?php echo $x; ?>' value="<?php echo $i['in_id']; ?>">
                                      <input type='hidden' name='item_id<?php echo $x; ?>' value="<?php echo $i['item_id']; ?>">
                                      <input type='hidden' name='sales_details_id<?php echo $x; ?>' value="<?php echo $i['sales_details_id']; ?>">
                                     <?php $x++; }  ?>

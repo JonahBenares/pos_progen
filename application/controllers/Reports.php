@@ -124,7 +124,17 @@ class Reports extends CI_Controller {
             $goods_count = $this->super_model->count_custom_where("sales_good_head", "client_id = '$client'");
             if($goods_count != 0){
               foreach($this->super_model->select_custom_where("sales_good_head", "client_id='$client' AND billed='0'") AS $goods){
-                $total_amount = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$goods->sales_good_head_id'");
+
+                if($this->super_model->count_custom_where("return_head","dr_no = '$goods->dr_no'") != 0){
+                    $return_id = $this->super_model->select_column_where("return_head", "return_id", "dr_no", $goods->dr_no);
+                    $returned_amount = $this->super_model->select_sum_where("return_details", "total_amount", "return_id='$return_id'");
+                    $total_sales = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$goods->sales_good_head_id'");
+
+                    $total_amount = $total_sales - $returned_amount;
+                } else {
+                    $total_amount = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$goods->sales_good_head_id'");
+                }
+                
                  $grand_total += $total_amount;
                 $data['sales_goods'][]=array(
                     "sales_id"=>$goods->sales_good_head_id,
@@ -325,7 +335,20 @@ class Reports extends CI_Controller {
        if($type==1){
             $grand_total = 0;
             foreach($sales AS $sid){
-                $total_amount = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$sid'");
+
+                $dr_no =  $this->super_model->select_column_where("sales_good_head", "dr_no", "sales_good_head_id", $sid);
+                if($this->super_model->count_custom_where("return_head","dr_no = '$dr_no'") != 0){
+                    $return_id = $this->super_model->select_column_where("return_head", "return_id", "dr_no", $dr_no);
+                    $returned_amount = $this->super_model->select_sum_where("return_details", "total_amount", "return_id='$return_id'");
+                    $total_sales = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$sid'");
+
+                    $total_amount = $total_sales - $returned_amount;
+                } else {
+                     $total_amount = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$sid'");
+                }
+                
+
+               
                 $grand_total +=$total_amount;
                 $data_details = array(
                     "billing_id"=>$id,
