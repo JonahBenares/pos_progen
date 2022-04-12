@@ -14,7 +14,7 @@ $('#filter').click(function(e){
 
 
 $('#pendingFilter').click(function(e){
-
+   
     var client = document.getElementById("client").value;
     var type = document.getElementById("type").value;
     if(client=="" || type==""){
@@ -130,6 +130,13 @@ $('#filter_itpr').click(function(e){
     })
 })
 
+function loadPR(){
+    var pr= document.getElementById("pr").value;     
+    var loc= document.getElementById("baseurl").value;
+    window.location.href = loc+'index.php/reports/overallpr_report/'+pr;
+
+}
+
 
 function bill_pay(baseurl){
     var client = document.getElementById("client_id").value;
@@ -219,28 +226,6 @@ $('#filter_range').click(function(e){
     })
 })
 
-function choosePRS(){
-    var loc= document.getElementById("baseurl").value;
-    var redirect = loc+'index.php/reports/getPRinformation';
-    var prno = document.getElementById("pr").value;
-    document.getElementById('alrt').innerHTML='<b>Please wait, Loading data...</b>'; 
-    $("#submit").hide(); 
-    setTimeout(function() {
-        document.getElementById('alrt').innerHTML=''; 
-        $("#submit").show(); 
-    },5000);
-
-    $.ajax({
-        type: 'POST',
-        url: redirect,
-        data: 'pr='+prno,
-        dataType: 'json',
-        success: function(response){
-            $("#prid").val(response.receive_id);
-            $("#pr_no").val(response.pr_no);
-        }
-    }); 
-}
 
 /*function chooseSubcat(){
     var loc= document.getElementById("baseurl").value;

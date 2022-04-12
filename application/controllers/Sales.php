@@ -316,13 +316,17 @@ class Sales extends CI_Controller {
                 "ave_cost"=>$ave,
             );
             $this->super_model->update_where("sales_good_details", $dataup, "sales_good_det_id", $tmp->sales_details_id);
-*/
+*/  
+            $unit_cost = $this->super_model->select_column_where("fifo_in", "item_cost", "in_id", $tmp->in_id);
+            $selling_price = $this->super_model->select_column_where("sales_good_details", "selling_price", "sales_good_det_id", $tmp->sales_details_id);
             $data = array(
                 'in_id'=>$tmp->in_id,
                 'item_id'=>$tmp->item_id,
                 'transaction_type'=>'Sales Goods',
                 'sales_id'=>$sales_good_head_id,
                 'sales_details_id'=>$tmp->sales_details_id,
+                'unit_cost'=>$unit_cost,
+                'selling_price'=>$selling_price,
                 'damage_id'=>0,
                 'quantity'=>$tmp->quantity,
             );   

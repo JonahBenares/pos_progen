@@ -102,6 +102,7 @@ class Reports extends CI_Controller {
 
     public function summary_scgp()
     {
+        $data['clients'] = $this->super_model->select_all("client");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('reports/summary_scgp');
@@ -334,6 +335,7 @@ class Reports extends CI_Controller {
       
        if($type==1){
             $grand_total = 0;
+            $grand_total_uc = 0;
             foreach($sales AS $sid){
 
                 $dr_no =  $this->super_model->select_column_where("sales_good_head", "dr_no", "sales_good_head_id", $sid);
@@ -347,15 +349,23 @@ class Reports extends CI_Controller {
                      $total_amount = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$sid'");
                 }
                 
-
-               
                 $grand_total +=$total_amount;
+
+                $total_unit_cost=array();
+                foreach($this->super_model->select_custom_where("fifo_out", "transaction_type='Sales Goods' AND sales_id = '$sid'") AS $uc){
+                    $total_unit_cost[] = $uc->unit_cost * $uc->quantity;
+                }
+
+                $total_uc = array_sum($total_unit_cost);
+                $grand_total_uc +=$total_uc;
+               
                 $data_details = array(
                     "billing_id"=>$id,
                     "sales_type"=>"goods",
                     "sales_id"=>$sid,
                     "dr_no"=>$this->super_model->select_column_where("sales_good_head", "dr_no", "sales_good_head_id", $sid),
                     "dr_date"=>$this->super_model->select_column_where("sales_good_head", "sales_date", "sales_good_head_id", $sid),
+                    "total_unit_cost"=>$total_uc,
                     "total_amount"=>$total_amount,
                     "remaining_amount"=>$total_amount,
                 );
@@ -369,7 +379,8 @@ class Reports extends CI_Controller {
             }
 
             $data_total = array(
-                "total_amount"=>$grand_total
+                "total_amount"=>$grand_total,
+                "total_unit_cost"=>$grand_total_uc
             );
             $this->super_model->update_where("billing_head", $data_total, "billing_id", $id);
 
@@ -777,48 +788,43 @@ class Reports extends CI_Controller {
         return str_replace($search, $replace, $query);
     }
 
-    public function getPRinformation(){
-        $pr = $this->input->post('pr');
-        foreach($this->super_model->select_custom_where("receive_details", "pr_no LIKE '%$pr%' GROUP BY pr_no") AS $pr){  
-            $return = array('receive_id' => $pr->receive_id,'pr_no' => $pr->pr_no); 
-            echo json_encode($return);   
-        }
-    }
-
-    public function generateAllPRReport(){
-           $pr= $this->input->post('pr'); 
-           $p= rawurlencode($this->slash_replace($pr));
-           ?>
-           <script>
-            window.location.href ='<?php echo base_url(); ?>index.php/reports/overallpr_report/<?php echo $p; ?>'</script> <?php
-    }
-
-    public function overallpr_report()
-    {
-        $pr=$this->uri->segment(3);
+    public function overallpr_report(){
+        $pr = $this->uri->segment(3);
         $data['pr_disp']=$this->slash_unreplace(rawurldecode($pr));
-        $data['pr']=$this->slash_replace(rawurldecode($pr));
-        $pr=$this->slash_unreplace(rawurldecode($pr));
-        $data['pr_rep']=$this->super_model->custom_query("SELECT * FROM receive_details GROUP BY pr_no");
-        foreach($this->super_model->custom_query("SELECT item_id, SUM(received_qty) AS qty, ri.ri_id,rd.purpose_id,ri.supplier_id FROM receive_items ri INNER JOIN receive_details rd ON ri.rd_id = rd.rd_id WHERE rd.pr_no = '$pr' GROUP BY  ri.item_id") AS $head){
-            $data['purpose'] = $this->super_model->select_column_where("purpose", "purpose_desc", "purpose_id", $head->purpose_id);
-
-            $finalbal= $this->super_model->select_sum_where("fifo_in", "remaining_qty", "item_id='$head->item_id' AND pr_no='$pr' AND supplier_id='$head->supplier_id'");
-            $salesbal= $this->super_model->select_sum_where("fifo_out", "quantity", "item_id='$head->item_id' AND damage_id='0'");
-
-                $data['list'][] = array(
-                    "ri_id"=>$head->ri_id,
-                    "item"=>$this->super_model->select_column_where("items", "item_name", "item_id", $head->item_id),
-                    "item_id"=>$head->item_id,
-                    "recqty"=>$head->qty,
-                    "final_balance"=>$finalbal,
-                    "sales_balance"=>$salesbal,
-
-                );
-
-        }
+        $data['pr_list']=$this->super_model->custom_query("SELECT * FROM receive_details GROUP BY pr_no");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
+        foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id,rd_id FROM fifo_in WHERE pr_no = '$pr'") AS $head){
+            $purpose_id = $this->super_model->select_column_where("receive_details","purpose_id","rd_id",$head->rd_id);
+            $data['purpose'] = $this->super_model->select_column_where("purpose", "purpose_desc", "purpose_id", $purpose_id);
+            $sales_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
+            $return_qty= $this->super_model->select_sum_where("return_details","return_qty","in_id='$head->in_id'");
+            $damageqty= $this->super_model->select_sum_where("damage_details","damage_qty","in_id='$head->in_id'");
+            $repairqty= $this->super_model->select_sum_where("repair_details","quantity","in_id='$head->in_id'");
+            $in_balance = $head->quantity - $sales_qty;
+            $final_balance=0;
+            if($sales_qty ==0 && $return_qty==0 && $damageqty==0){
+                $final_balance = $head->quantity;
+            } else if($sales_qty!=0  && $return_qty==0 && $damageqty==0){
+                $final_balance = $head->quantity - $sales_qty;
+            } else if(($sales_qty!=0 || $sales_qty==0)  && $return_qty!=0 && $damageqty==0){
+                $final_balance =  $in_balance; 
+            } else if($sales_qty!=0  && $return_qty!=0 && $damageqty!=0 && $repairqty!=0){
+                $final_balance =  ($head->quantity - $sales_qty - $damageqty) + $repairqty; 
+            } else if($sales_qty!=0  && $return_qty!=0 && $damageqty!=0 && $repairqty==0){
+                $final_balance =  $in_balance - $damageqty; 
+            } 
+            $data['pr_no'][] = array(
+                "recqty"=>$head->quantity,
+                "item"=>$this->super_model->select_column_where("items", "item_name", "item_id", $head->item_id),
+                "sales_quantity"=>$sales_qty,
+                "returnqty"=>$return_qty,
+                "damageqty"=>$damageqty,
+                "repairqty"=>$repairqty,
+                "in_balance"=>$in_balance,
+                "final_balance"=>$final_balance
+            );
+        }
         $this->load->view('reports/overallpr_report',$data);
         $this->load->view('template/footer');
     }

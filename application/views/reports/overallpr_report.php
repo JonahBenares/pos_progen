@@ -1,3 +1,5 @@
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/reports.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -35,26 +37,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body"> 
-                        <form method="POST" action="<?php echo base_url(); ?>index.php/reports/generateAllPRReport">
+                    <div class="card-body">  
                         <div class="row">
                             <div class="col-lg-4 offset-lg-3">
-                                <select class="form-control select2" name="pr" id='pr' onchange="choosePRS()">
+                                <select class="form-control select2" name="pr" id='pr'>
                                     <option value = "">-Choose PR-</option>
-                                        <?php foreach($pr_rep AS $prs){ ?>
-                                        <option value = "<?php echo $prs->pr_no;?>"><?php echo $prs->pr_no;?></option>
+                                        <?php foreach($pr_list AS $pl){ ?>
+                                             <option value="<?php echo $pl->pr_no; ?>"><?php echo $pl->pr_no; ?></option>
                                         <?php } ?>
                                 </select>
-                                <input type="hidden" name="prid" id="prid">
                             </div>
                             <div class="col-lg-2">
                                 <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
-                                <input type="submit" name="search_pr" id = "submit" value='Filter' class="btn btn-md btn-gradient-success btn-block" >
+                                <input type="submit" name="search_pr" id = "search_pr" value='Filter' class="btn btn-md btn-gradient-success btn-block" onclick="loadPR()">
                             </div>
-                        </div>
-                        </form>    
+                        </div>   
                         <hr> 
-                        <?php if(!empty($list)){ ?>
+                        <?php if(!empty($pr_no)){ ?>
                         <div class="row">
                             <div class="col-lg-12">
                                 <small>PR No. :</small>
@@ -82,30 +81,28 @@
                                     <td class="td-head" width="1%">#</td>
                                     <td class="td-head" width="40%">Item Description</td>
                                     <td class="td-head">Received Qty</td>
-                                    <td class="td-head">Initial Balance</td>
                                     <td class="td-head">Sales Qty</td>
+                                    <td class="td-head">Initial Balance</td>
                                     <td class="td-head">Return Qty</td>
-                                    <td class="td-head">Final Balance</td>
-                                    <td class="td-head" align="center"><span class="mdi mdi-menu"></span></td>       
+                                    <td class="td-head">Damaged Qty</td>
+                                    <td class="td-head">Repaired Qty</td>
+                                    <td class="td-head">Final Balance</td>        
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php 
-                                    $x=1;
-                                    foreach($list AS $li){ 
-                                ?>
+                                <?php $x=1; foreach($pr_no AS $pn){ ?>
                                 <tr>
                                     <td><?php echo $x; ?></td>
-                                    <td><?php echo $li['item']; ?></td>
-                                    <td><?php echo $li['recqty']; ?></td>
-                                    <td></td>
-                                    <td><?php echo $li['sales_balance']; ?></td>
-                                    <td></td>
-                                    <td><?php echo $li['final_balance']; ?></td>
-                                    <td></td>
+                                    <td><?php echo $pn['item']; ?></td>
+                                    <td><?php echo $pn['recqty'];?></td>
+                                    <td><?php echo $pn['sales_quantity'];?></td>
+                                    <td><?php echo number_format($pn['in_balance'],2);?></td>
+                                    <td><?php echo $pn['returnqty'];?></td>
+                                    <td><?php echo $pn['damageqty'];?></td>
+                                    <td><?php echo $pn['repairqty'];?></td>
+                                    <td><?php echo number_format($pn['final_balance'],2);?></td>
                                 </tr>
-                                <?php 
-                                    $x++; } ?>
+                                <?php $x++; }  ?>
                             </tbody>                            
                         </table>
                     </div>

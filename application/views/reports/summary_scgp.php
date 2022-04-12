@@ -1,3 +1,4 @@
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/reports.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -38,23 +39,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body"> 
+                    <div class="card-body">
+                    <form method="POST"> 
                         <div class="row">
                             <div class="col-lg-2 offset-lg-1">
-                                <input placeholder="Date From" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                <input placeholder="Date From" class="form-control" type="text" name="from" id="from" onfocus="(this.type='date')">
                             </div>
                             <div class="col-lg-2">
-                                <input placeholder="Date to" class="form-control" type="text" onfocus="(this.type='date')" id="date">
+                                <input placeholder="Date to" class="form-control" type="text" name="from" id="from" onfocus="(this.type='date')">
                             </div>
                             <div class="col-lg-4">
-                                <select class="form-control">
-                                    <option>--Select Customer--</option>
+                                <select class="form-control" id='client'>
+                                    <option value="">--Select Client--</option>
+                                    <?php foreach($clients AS $c){ ?>
+                                        <option value='<?php echo $c->client_id; ?>'><?php echo $c->buyer_name; ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="col-lg-2">
                                 <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="" value="Filter">
                             </div>
                         </div>
+                        </form>
                         <hr>          
                         <table class="table table-bordered table-hover" width="100%">
                             <thead>

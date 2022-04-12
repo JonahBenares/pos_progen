@@ -1,4 +1,5 @@
-<!-- <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script> -->
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script> 
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/reports.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="row">
