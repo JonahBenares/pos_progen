@@ -70,7 +70,7 @@ class Back_order extends CI_Controller {
         }
 
         foreach($this->super_model->select_row_where("receive_items", "rd_id", $id) AS $it){
-            /* if($it->expected_qty > $it->received_qty){*/
+            if(($it->expected_qty > $it->received_qty) OR ($it->expiration_date ='' or $it->expiration_date > '$today')){
                 $boqty=$this->backorder_qty($it->ri_id);
                 $total_cost=$boqty * $it->item_cost;
                  $data['items'][] = array(
@@ -90,16 +90,16 @@ class Back_order extends CI_Controller {
                     "serial_no"=>$it->serial_no,
                     "brand"=>$it->brand,
                  );
-             /*}*/
+             }
         }
 
-        foreach($this->super_model->custom_query("SELECT DISTINCT pr_no, item_id FROM receive_details rd INNER JOIN receive_head rh ON rh.receive_id = rd.receive_id INNER JOIN receive_items ri ON rd.rd_id = ri.rd_id WHERE (ri.expiration_date ='' or ri.expiration_date > '$today') GROUP BY pr_no") AS $prlist){
+        foreach($this->super_model->custom_query("SELECT DISTINCT pr_no, item_id FROM receive_details rd INNER JOIN receive_head rh ON rh.receive_id = rd.receive_id INNER JOIN receive_items ri ON rd.rd_id = ri.rd_id GROUP BY pr_no") AS $prlist){
             
             $expected_qty= $this->get_expected_qty($prlist->pr_no,$prlist->item_id);
             $received_qty= $this->get_received_qty($prlist->pr_no,$prlist->item_id);
             $rd_id= $this->get_rdid($prlist->pr_no,$prlist->item_id);
             $item=$this->super_model->select_column_where("items", "item_name", "item_id", $prlist->item_id);
-            /*if($expected_qty>$received_qty){*/
+            if($expected_qty>$received_qty){
                 $data['prback'][] = array(
                     "rdid"=>$rd_id,
                     "pr_no"=>$prlist->pr_no,
@@ -107,7 +107,7 @@ class Back_order extends CI_Controller {
                     "expected"=>$expected_qty,
                     "received"=>$received_qty
                 );
-           /* }*/
+           }
         }
 
         $this->load->view('template/header');
@@ -165,7 +165,8 @@ class Back_order extends CI_Controller {
                    'po_no'=> $po_no,
                    'si_no'=> $si_no,
                    'user_id'=> $userid,
-                   'saved'=>'1'
+                   'saved'=>'1',
+                   'backorder'=>'1'
 
             );
             $this->super_model->insert_into("receive_head", $data);
@@ -217,7 +218,7 @@ class Back_order extends CI_Controller {
             $this->super_model->insert_into("receive_items", $items);
             
                 $fifo_items = array(
-                'ri_id'=>$rd->ri_id,
+                'ri_id'=>$this->input->post('riid['.$a.']'),
                 'rd_id'=>$newrdid,
                 'receive_id'=> $receiveid,
                 'receive_date'=> $receivedate,

@@ -36,32 +36,39 @@
                         </div>
                     </div>
                     <div class="card-body"> 
+                         <form method="POST"> 
                         <div class="row">
                             <div class="col-lg-4 offset-lg-3">
-                                <select class="form-control">
-                                    <option>-Choose PR-</option>
+                                <select class="form-control select2" name="pr" id='pr'>
+                                    <option value = "">-Choose PR-</option>
+                                        <?php foreach($pr_list AS $pl){ ?>
+                                             <option value="<?php echo $pl->pr_no; ?>"><?php echo $pl->pr_no; ?></option>
+                                        <?php } ?>
                                 </select>
                             </div>
                             <div class="col-lg-2">
-                                <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="" value="Filter">
+                                <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
+                                <input type="button" name="search_pr" id = "search_pr" value='Filter' class="btn btn-md btn-gradient-success btn-block" >
                             </div>
-                        </div>    
+                        </div>
+                        </form>    
                         <hr> 
+                        <?php if(!empty($pr_no)){ ?>
                         <div class="row">
                             <div class="col-lg-12">
                                 <small>PR No. :</small>
-                                <h3><b>PFLM2022-02-0001</h3></b>
+                                <h3><b><?php echo $pr_disp; ?></h3></b>
                                 <table width="100%">
-                                    <tr>
+                                   <!--  <tr>
                                         <td width="10%">Enduse:</td>
                                         <td width="40%"> DG1</td>
                                         <td width="10%" align="right"></td>
                                         <td width="40%">&nbsp;</td>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
-                                        <td>Purpose:</td>
-                                        <td> Reconditioning</td>
-                                        <td align="right"> </td>
+                                        <td>Purpose: <?php echo $purpose; ?></td>
+                                        <td align="left"></td>
+                                        <td align="center"></td>
                                         <td></td>
                                     </tr>
                                 </table>
@@ -74,77 +81,32 @@
                                     <td class="td-head" width="1%">#</td>
                                     <td class="td-head" width="40%">Item Description</td>
                                     <td class="td-head">Received Qty</td>
-                                    <td class="td-head">Initial Balance</td>
                                     <td class="td-head">Sales Qty</td>
+                                    <td class="td-head">Initial Balance</td>
                                     <td class="td-head">Return Qty</td>
-                                    <td class="td-head">Final Balance</td>
-                                    <td class="td-head" align="center"><span class="mdi mdi-menu"></span></td>       
+                                    <td class="td-head">Damaged Qty</td>
+                                    <td class="td-head">Repaired Qty</td>
+                                    <td class="td-head">Final Balance</td>        
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php $x=1; foreach($pr_no AS $pn){ ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><?php echo $x; ?></td>
+                                    <td><?php echo $pn['item']; ?></td>
+                                    <td><?php echo $pn['recqty'];?></td>
+                                    <td><?php echo $pn['sales_quantity'];?></td>
+                                    <td><?php echo number_format($pn['in_balance'],2);?></td>
+                                    <td><?php echo $pn['returnqty'];?></td>
+                                    <td><?php echo $pn['damageqty'];?></td>
+                                    <td><?php echo $pn['repairqty'];?></td>
+                                    <td><?php echo number_format($pn['final_balance'],2);?></td>
                                 </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <?php $x++; }  ?>
                             </tbody>                            
                         </table>
                     </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>
