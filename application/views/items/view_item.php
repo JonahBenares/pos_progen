@@ -219,13 +219,13 @@
                                                         $background ="";
                                                     } ?>
                                                 <tr <?php echo $background; ?>>
-                                                    <td><?php echo date("M j, Y",strtotime($in['receive_date']));?></td>
+                                                    <td><?php echo date("Y-m-d",strtotime($in['receive_date']));?></td>
                                                     <td><?php echo $in['supplier'];?></td>
                                                     <td><?php echo $in['pr_no'];?></td>
                                                     <td><?php echo $in['catalog_no'];?></td>
                                                     <td><?php echo $in['brand'];?></td>
                                                     <td><?php echo $in['serial_no'];?></td>
-                                                    <td><?php echo ($in['expiry_date']!='') ? date("M j, Y",strtotime($in['expiry_date'])) : '' ;?></td>
+                                                    <td><?php echo ($in['expiry_date']!='') ? date("Y-m-d",strtotime($in['expiry_date'])) : '' ;?></td>
                                                     <td><?php echo number_format($in['item_cost'],2);?></td>
                                                     <td><?php echo number_format($in['quantity'],2);?></td>
                                                     <td><?php echo number_format($in['remaining_qty'],2);?></td>
