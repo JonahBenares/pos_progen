@@ -51,15 +51,15 @@
                                            
                                         </tr>
                                         <tr>
-                                            <td width="10%" >PR Date:</td>
+                                            <td width="10%" >JOR Date:</td>
                                             <td width="40%" >July 19, 2020</td>
-                                            <td width="10%" align="right">PR No:</td>
-                                            <td width="40%">&nbsp; PR-00393</td>
+                                            <td width="10%" align="right">JOR No:</td>
+                                            <td width="40%">&nbsp; JOR-00393</td>
                                         </tr>
                                         <tr>
-                                            <td width="10%">PO Date:</td>
+                                            <td width="10%">JOI Date:</td>
                                             <td >July 19, 2020</td>
-                                            <td align="right">PR No:</td>
+                                            <td align="right">JOI No:</td>
                                             <td >&nbsp; PR-00393</td>
                                         </tr>
                                         <tr>
