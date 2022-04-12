@@ -203,7 +203,9 @@ function changePrice(){
 	var selling_price = document.getElementById("selling_price").value;
 	var qty = document.getElementById("quantity").value;
 	var tprice = parseFloat(selling_price) * parseFloat(qty);
+     alert(tprice);
     var discount = document.getElementById("discount").value;
+   
     var percent=discount/100;
     var new_discount = parseFloat(percent)*parseFloat(tprice);
     var total = (parseFloat(selling_price) * parseFloat(qty))-parseFloat(new_discount);
