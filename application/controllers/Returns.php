@@ -150,7 +150,7 @@ class Returns extends CI_Controller {
              echo $return_id;
     }
 
-    public function print_return(){
+    public function print_return_goods(){
         $return_id=$this->uri->segment(3);
         $data['return_id']=$return_id;
         $this->load->view('template/header');
@@ -201,7 +201,7 @@ class Returns extends CI_Controller {
                 );
             }
         }
-        $this->load->view('returns/print_return',$data);
+        $this->load->view('returns/print_return_goods',$data);
         $this->load->view('template/footer');
     }
 
@@ -209,6 +209,13 @@ class Returns extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('returns/return_services');
+        $this->load->view('template/footer');
+    }
+
+    public function print_return_services(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('returns/print_return_services');
         $this->load->view('template/footer');
     }
 

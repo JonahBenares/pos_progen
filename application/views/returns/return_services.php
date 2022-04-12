@@ -185,12 +185,11 @@
                             <div class="row">
                                 <div class="col-lg-4"></div>
                                 <div class="col-lg-4">
-                                    <!-- <a href="<?php echo base_url(); ?>returns/print_return" class="btn btn-gradient-success btn-md btn-block">Save and Print</a> -->
-                                    <input type="button" name="savedata" id="savedata" onclick="saveReturn()" class="btn btn-gradient-success btn-md btn-block" value="Save and Print">
+                                    <a href="<?php echo base_url(); ?>returns/print_return_services" class="btn btn-gradient-success btn-md btn-block">Save and Print</a>
+                                    <!-- <input type="button" name="savedata" id="savedata" onclick="saveReturn()" class="btn btn-gradient-success btn-md btn-block" value="Save and Print"> -->
                                 </div>
                                 <div class="col-lg-4"></div>
                             </div>
-                             <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
                         </div>
                     </form>
                 </div>
