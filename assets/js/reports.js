@@ -14,7 +14,7 @@ $('#filter').click(function(e){
 
 
 $('#pendingFilter').click(function(e){
-
+   
     var client = document.getElementById("client").value;
     var type = document.getElementById("type").value;
     if(client=="" || type==""){

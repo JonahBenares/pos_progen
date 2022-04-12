@@ -334,6 +334,7 @@ class Reports extends CI_Controller {
       
        if($type==1){
             $grand_total = 0;
+            $grand_total_uc = 0;
             foreach($sales AS $sid){
 
                 $dr_no =  $this->super_model->select_column_where("sales_good_head", "dr_no", "sales_good_head_id", $sid);
@@ -347,15 +348,23 @@ class Reports extends CI_Controller {
                      $total_amount = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$sid'");
                 }
                 
-
-               
                 $grand_total +=$total_amount;
+
+                $total_unit_cost=array();
+                foreach($this->super_model->select_custom_where("fifo_out", "transaction_type='Sales Goods' AND sales_id = '$sid'") AS $uc){
+                    $total_unit_cost[] = $uc->unit_cost * $uc->quantity;
+                }
+
+                $total_uc = array_sum($total_unit_cost);
+                $grand_total_uc +=$total_uc;
+               
                 $data_details = array(
                     "billing_id"=>$id,
                     "sales_type"=>"goods",
                     "sales_id"=>$sid,
                     "dr_no"=>$this->super_model->select_column_where("sales_good_head", "dr_no", "sales_good_head_id", $sid),
                     "dr_date"=>$this->super_model->select_column_where("sales_good_head", "sales_date", "sales_good_head_id", $sid),
+                    "total_unit_cost"=>$total_uc,
                     "total_amount"=>$total_amount,
                     "remaining_amount"=>$total_amount,
                 );
@@ -369,7 +378,8 @@ class Reports extends CI_Controller {
             }
 
             $data_total = array(
-                "total_amount"=>$grand_total
+                "total_amount"=>$grand_total,
+                "total_unit_cost"=>$grand_total_uc
             );
             $this->super_model->update_where("billing_head", $data_total, "billing_id", $id);
 
