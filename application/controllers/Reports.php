@@ -105,7 +105,59 @@ class Reports extends CI_Controller {
         $data['clients'] = $this->super_model->select_all("client");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('reports/summary_scgp');
+        $from = $this->uri->segment(3);
+        $to = $this->uri->segment(4);
+        $client = $this->uri->segment(5);
+        $sql="";
+        if($from!='null' && $to!='null'){
+           $sql.= " bh.billing_date BETWEEN '$from' AND '$to' AND";
+        }
+
+        if($client!='null'){
+            $sql.= " bh.client_id = '$client' AND";
+        }
+
+        $query=substr($sql,0,-3);
+        $data['head']=array();
+        foreach($this->super_model->custom_query("SELECT DISTINCT * FROM billing_head bh INNER JOIN billing_details bd ON bh.billing_id = bd.billing_id INNER JOIN fifo_out fo WHERE bh.client_id='$client' AND ".$query." GROUP BY item_id ORDER BY bh.billing_date ASC") AS $head){
+            $sales_good_head_id = $this->super_model->select_column_where('sales_good_head', 'sales_good_head_id', 'sales_good_head_id', $head->sales_id);
+            $po_no = $this->super_model->select_column_where('sales_good_head', 'po_no', 'sales_good_head_id', $sales_good_head_id);
+            $sales_serv_head_id = $this->super_model->select_column_where('sales_services_head', 'sales_serv_head_id', 'sales_serv_head_id', $head->sales_id);
+            $jor_no = $this->super_model->select_column_where('sales_services_head', 'jor_no', 'sales_serv_head_id', $sales_serv_head_id);
+            $unit_id = $this->super_model->select_column_where('items', 'unit_id', 'item_id', $head->item_id);
+            $unit = $this->super_model->select_column_where('uom', 'unit_name', 'unit_id', $unit_id);
+
+
+            if($head->sales_type=='goods'){
+                $total_qty = $this->super_model->select_sum_where("fifo_out", "quantity", "sales_id='$sales_good_head_id' AND damage_id='0' AND item_id='$head->item_id'");
+                $total_cost = $this->super_model->select_sum_where("fifo_out", "unit_cost", "sales_id='$sales_good_head_id' AND damage_id='0' AND item_id='$head->item_id'");
+                $total_sales = $this->super_model->select_sum_where("fifo_out", "selling_price", "sales_id='$sales_good_head_id' AND damage_id='0' AND item_id='$head->item_id'");
+                $gross_profit = $total_sales - $total_cost;
+            }else if($head->sales_type=='services'){
+                $total_qty = $this->super_model->select_sum_where("fifo_out", "quantity", "sales_id='$sales_serv_head_id' AND damage_id='0'v item_id='$head->item_id' AND item_id='$head->item_id'");
+                $total_cost = $this->super_model->select_sum_where("fifo_out", "unit_cost", "sales_id='$sales_serv_head_id' AND damage_id='0' AND item_id='$head->item_id'");
+                $total_sales = $this->super_model->select_sum_where("fifo_out", "selling_price", "sales_id='$sales_serv_head_id' AND damage_id='0' AND item_id='$head->item_id'");
+                $gross_profit = $total_sales - $total_cost;
+            }
+
+
+            
+            $data['head'][] = array(
+                "billing_date"=>$head->billing_date,
+                "billing_no"=>$head->billing_no,
+                "type"=>$head->sales_type,
+                "quantity"=>$total_qty,
+                "total_cost"=>$total_cost,
+                "total_sales"=>$total_sales,
+                "gross_profit"=>$gross_profit,
+                "po_no"=>$po_no,
+                "jor_no"=>$jor_no,
+                "uom"=>$unit,
+                "client"=>$this->super_model->select_column_where("client", "buyer_name", "client_id", $head->client_id),
+                "item"=>$this->super_model->select_column_where("items", "item_name", "item_id", $head->item_id),
+            );          
+        }
+        $this->load->view('reports/summary_scgp',$data);
         $this->load->view('template/footer');
     }
 

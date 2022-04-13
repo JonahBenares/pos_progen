@@ -137,6 +137,42 @@ function loadPR(){
 
 }
 
+function loadSCGP(){
+    var from = document.getElementById("from").value;
+    var to = document.getElementById("to").value;
+    var client = document.getElementById("client").value;
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"reports/summary_scgp";
+    if(from!=''){
+        var from_url = from;
+    }else{
+        var from_url = 'null';
+    }
+
+    if(to!=''){
+        var to_url = to;
+    }else{
+        var to_url = 'null';
+    }
+
+    if(client!=''){
+        var client_url = client;
+
+    $.ajax({
+        url:redirect,
+        data: 'from='+from+"&to="+to+"&client="+client,
+        type: "POST",
+        success:function(output){
+             window.location.href = loc+"reports/summary_scgp/"+from_url+"/"+to_url+"/"+client_url;
+        }
+    })
+
+    }else{
+        alert('Client must not be empty!');
+    }
+    window.location.href = loc+"reports/summary_scgp/"
+}
+
 
 function bill_pay(baseurl){
     var client = document.getElementById("client_id").value;
