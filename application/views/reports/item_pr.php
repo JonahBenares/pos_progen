@@ -1,4 +1,5 @@
-<!-- <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script> -->
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/reports.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -49,7 +50,7 @@
                                 </div>
                                 <div class="col-lg-2">
                                     <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
-                                    <input type="button" class="btn btn-md btn-gradient-success btn-block" name="filter_itpr" id="filter_itpr" value="Filter">
+                                    <input type="button" class="btn btn-md btn-gradient-success btn-block" name="filter_itpr" id="filter_itpr" value="Filter" onclick="filter_prreport()">
                                 </div>
                             </div>    
                         </form>
@@ -86,6 +87,7 @@
                                     <td class="td-head">Return Qty</td>
                                     <td class="td-head">Damaged Qty</td>
                                     <td class="td-head">Repaired Qty</td>
+                                    <td class="td-head">Expired Qty</td>
                                     <td class="td-head">Final Balance</td>     
                                 </tr>
                             </thead>
@@ -100,6 +102,7 @@
                                     <td><?php echo $ip['returnqty'];?></td>
                                     <td><?php echo $ip['damageqty'];?></td>
                                     <td><?php echo $ip['repairqty'];?></td>
+                                    <td><?php echo $ip['expired_qty'];?></td>
                                     <td><?php echo number_format($ip['final_balance'],2);?></td>
                                 </tr>
                                 <?php $x++; } } ?>

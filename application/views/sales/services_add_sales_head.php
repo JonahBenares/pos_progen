@@ -1,3 +1,4 @@
+<script src="<?php echo base_url(); ?>assets/js/sales.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">

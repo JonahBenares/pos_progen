@@ -885,34 +885,37 @@ class Reports extends CI_Controller {
         $item_id = $this->uri->segment(3);
         $data['item_name']=$this->super_model->select_column_where("items","item_name","item_id",$item_id);
         $data['item']=$this->super_model->select_all_order_by("items","item_name","ASC");
+        $today = date("Y-m-d");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id FROM fifo_in WHERE item_id = '$item_id' GROUP BY pr_no") AS $head){
             //$sales_serv_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type='Sales Services'");
-            $sales_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
-            /*$sales_final_qty = $this->super_model->select_sum_where("fifo_out","returned_qty","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");*/
+            $sales_good_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type = 'Sales Goods'");
+            $sales_service_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type='Sales Services'");
+            $expired_qty = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND expiry_date >= '$today'");
             $return_qty= $this->super_model->select_sum_where("return_details","return_qty","in_id='$head->in_id'");
             $damageqty= $this->super_model->select_sum_where("damage_details","damage_qty","in_id='$head->in_id'");
             $repairqty= $this->super_model->select_sum_where("repair_details","quantity","in_id='$head->in_id'");
-            $in_balance = $head->quantity - $sales_qty;
+            $in_balance = $head->quantity - $sales_good_qty - $sales_service_qty;
             $final_balance=0;
-            if($sales_qty ==0 && $return_qty==0 && $damageqty==0){
+            if($sales_good_qty ==0 && $return_qty==0 && $damageqty==0 && $expired_qty==0){
                 $final_balance = $head->quantity;
-            } else if($sales_qty!=0  && $return_qty==0 && $damageqty==0){
-                $final_balance = $head->quantity - $sales_qty;
-            } else if(($sales_qty!=0 || $sales_qty==0)  && $return_qty!=0 && $damageqty==0){
-                $final_balance =  $in_balance; 
-            } else if($sales_qty!=0  && $return_qty!=0 && $damageqty!=0 && $repairqty!=0){
-                $final_balance =  ($head->quantity - $sales_qty - $damageqty) + $repairqty; 
-            } else if($sales_qty!=0  && $return_qty!=0 && $damageqty!=0 && $repairqty==0){
-                $final_balance =  $in_balance - $damageqty; 
-            } /*else if(($sales_qty!=0 && $return_qty!=0 && $damageqty==0) || ($sales_qty!=0 && $return_qty==0 && $damageqty==0)){
-                $final_balance = $return_qty - $sales_qty; 
-            }*/
+            }else if(($sales_good_qty ==0 && $return_qty==0 && $damageqty==0 && $repairqty==0 && $expired_qty!=0) || ($sales_good_qty !=0 && $return_qty!=0 && $damageqty!=0 && $repairqty!=0 && $expired_qty!=0)){
+                $final_balance = ($head->quantity - $sales_good_qty - $sales_service_qty - $damageqty - $expired_qty) + $repairqty + $return_qty; 
+            } else if(($sales_good_qty!=0 || $sales_service_qty!=0) && $return_qty==0 && $damageqty==0){
+                $final_balance = $head->quantity - $sales_good_qty - $sales_service_qty;
+            } else if(($sales_good_qty!=0 || $sales_service_qty!=0)  && $return_qty!=0 && $damageqty==0){
+                $final_balance =  $in_balance + $return_qty; 
+            } else if(($sales_good_qty!=0 || $sales_service_qty!=0) && $return_qty!=0 && $damageqty!=0 && $repairqty!=0 || ($sales_good_qty==0 || $sales_service_qty==0) && $return_qty==0 && $damageqty!=0 && $repairqty!=0){
+                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $repairqty + $return_qty; 
+            } else if(($sales_good_qty!=0 || $sales_service_qty!=0) && $return_qty!=0 && $damageqty!=0 && $repairqty==0){
+                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $return_qty;
+            }
             $data['item_pr'][] = array(
                 "prno"=>$head->pr_no,
                 "recqty"=>$head->quantity,
-                "sales_quantity"=>$sales_qty,
+                "sales_quantity"=>$sales_good_qty,
+                "expired_qty"=>$expired_qty,
                 "returnqty"=>$return_qty,
                 "damageqty"=>$damageqty,
                 "repairqty"=>$repairqty,
