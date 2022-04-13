@@ -29,7 +29,7 @@ class Returns extends CI_Controller {
     } 
 
 
-    public function return_form(){
+    public function return_goods(){
         $sales_good_head_id=$this->uri->segment(3);
         $data['id']=$sales_good_head_id;
         $this->load->view('template/header');
@@ -37,7 +37,6 @@ class Returns extends CI_Controller {
         $data['dr_no']=$this->super_model->select_all_order_by("sales_good_head","dr_no","ASC");
         foreach($this->super_model->select_row_where("sales_good_head","sales_good_head_id",$sales_good_head_id) AS $sh){
          
-        
             $data["head"][]=array(
                 "pr_no"=>$sh->pr_no,
                 "pr_date"=>$sh->pr_date,
@@ -71,7 +70,7 @@ class Returns extends CI_Controller {
                 );
             }
         }
-        $this->load->view('returns/return_form',$data);
+        $this->load->view('returns/return_goods',$data);
         $this->load->view('template/footer');
     }
 
@@ -151,7 +150,7 @@ class Returns extends CI_Controller {
              echo $return_id;
     }
 
-    public function print_return(){
+    public function print_return_goods(){
         $return_id=$this->uri->segment(3);
         $data['return_id']=$return_id;
         $this->load->view('template/header');
@@ -202,9 +201,22 @@ class Returns extends CI_Controller {
                 );
             }
         }
-        $this->load->view('returns/print_return',$data);
+        $this->load->view('returns/print_return_goods',$data);
         $this->load->view('template/footer');
     }
 
+    public function return_services(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('returns/return_services');
+        $this->load->view('template/footer');
+    }
+
+    public function print_return_services(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('returns/print_return_services');
+        $this->load->view('template/footer');
+    }
 
 }

@@ -263,11 +263,28 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url(); ?>returns/return_form">
                         <span class="menu-title">Return</span>
                         <i class="mdi mdi-sync menu-icon"></i>
+                    </a> -->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#return_list" aria-expanded="false" aria-controls="return_list">
+                        <span class="menu-title">Return</span>
+                        <i class="menu-arrow"></i>
+                        <i class="mdi mdi-sync menu-icon"></i>
                     </a>
+                    <div class="collapse" id="return_list">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>returns/return_goods">Goods</a>
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>returns/return_services">Services</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url(); ?>back_order/backorder_form">

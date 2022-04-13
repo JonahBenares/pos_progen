@@ -6,12 +6,12 @@
             <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-success text-white mr-2">
                   <i class="mdi mdi mdi-sync"></i>
-                </span> Return
+                </span> Return (Goods)
             </h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active" aria-current="page">
-                        <span></span>Return &nbsp;
+                        <span></span>Return (Goods) &nbsp;
                         <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                     </li>
                 </ol>

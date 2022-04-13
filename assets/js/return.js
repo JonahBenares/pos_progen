@@ -17,7 +17,7 @@ function loadReturn(){
 	var sales_good_head_id= document.getElementById("sales_good_head_id").value;	
 	var loc= document.getElementById("baseurl").value;
 	$("#myTdable").show();
-	window.location.href = loc+'returns/return_form/'+sales_good_head_id;
+	window.location.href = loc+'returns/return_goods/'+sales_good_head_id;
 
 }
 
@@ -33,7 +33,7 @@ function saveReturn(){
 			data: returndata,
 			success: function(output){
 				//alert(output);
-				window.location.href = loc+'returns/print_return/'+output;
+				window.location.href = loc+'returns/print_return_goods/'+output;
 			}
 		});
 	}

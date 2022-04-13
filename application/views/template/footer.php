@@ -22,8 +22,8 @@
         <script src="<?php echo base_url(); ?>assets/js/todolist.js"></script>
 
        
-        <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-         <link href="<?php echo base_url(); ?>assets/css/select2.min.css" rel="stylesheet" />
+        <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.dataTables.min.js"></script>
+        <link href="<?php echo base_url(); ?>assets/css/select2.min.css" rel="stylesheet" />
         <script src="<?php echo base_url(); ?>assets/js/select2.min.js"></script>
         <script>
             $('.select2').select2();
