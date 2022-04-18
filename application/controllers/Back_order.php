@@ -90,7 +90,7 @@ class Back_order extends CI_Controller {
                     "serial_no"=>$it->serial_no,
                     "brand"=>$it->brand,
                  );
-             }
+            }
         }
 
         foreach($this->super_model->custom_query("SELECT DISTINCT pr_no, item_id FROM receive_details rd INNER JOIN receive_head rh ON rh.receive_id = rd.receive_id INNER JOIN receive_items ri ON rd.rd_id = ri.rd_id GROUP BY pr_no") AS $prlist){
@@ -215,10 +215,10 @@ class Back_order extends CI_Controller {
                 'remarks'=> $this->input->post('remarks['.$a.']'),
             );
             
-            $this->super_model->insert_into("receive_items", $items);
+           $ri_id = $this->super_model->insert_return_id("receive_items", $items);
             
                 $fifo_items = array(
-                'ri_id'=>$this->input->post('riid['.$a.']'),
+                'ri_id'=>$ri_id,
                 'rd_id'=>$newrdid,
                 'receive_id'=> $receiveid,
                 'receive_date'=> $receivedate,
