@@ -134,19 +134,11 @@ function loadSCGP(){
     if(client!=''){
         var client_url = client;
 
-    $.ajax({
-        url:redirect,
-        data: 'from='+from+"&to="+to+"&client="+client,
-        type: "POST",
-        success:function(output){
              window.location.href = loc+"reports/summary_scgp/"+from_url+"/"+to_url+"/"+client_url;
-        }
-    })
 
     }else{
         alert('Client must not be empty!');
     }
-    window.location.href = loc+"reports/summary_scgp/"
 }
 
 

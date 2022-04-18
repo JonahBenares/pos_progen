@@ -119,37 +119,43 @@ class Reports extends CI_Controller {
 
         $query=substr($sql,0,-3);
         $data['head']=array();
-        foreach($this->super_model->custom_query("SELECT DISTINCT * FROM billing_head bh INNER JOIN billing_details bd ON bh.billing_id = bd.billing_id INNER JOIN fifo_out fo WHERE bh.client_id='$client' AND ".$query." GROUP BY item_id ORDER BY bh.billing_date ASC") AS $head){
+        foreach($this->super_model->custom_query("SELECT DISTINCT * FROM billing_head bh INNER JOIN billing_details bd ON bh.billing_id = bd.billing_id INNER JOIN fifo_out fo WHERE bh.client_id='$client' AND bh.status='1' AND ".$query."GROUP BY item_id ORDER BY bh.billing_date ASC") AS $head){
             $sales_good_head_id = $this->super_model->select_column_where('sales_good_head', 'sales_good_head_id', 'sales_good_head_id', $head->sales_id);
-            /*$po_no = $this->super_model->select_column_where('sales_good_head', 'po_no', 'sales_good_head_id', $sales_good_head_id);*/
             $sales_serv_head_id = $this->super_model->select_column_where('sales_services_head', 'sales_serv_head_id', 'sales_serv_head_id', $head->sales_id);
-            /*$jor_no = $this->super_model->select_column_where('sales_services_head', 'jor_no', 'sales_serv_head_id', $sales_serv_head_id);*/
             $unit_id = $this->super_model->select_column_where('items', 'unit_id', 'item_id', $head->item_id);
             $unit = $this->super_model->select_column_where('uom', 'unit_name', 'unit_id', $unit_id);
 
-
+        foreach($this->super_model->select_custom_where("fifo_out","sales_id='$head->sales_id' AND item_id = '$head->item_id'") AS $sales){
             if($head->sales_type=='goods'){
-                $po_jo = $this->super_model->select_column_where('sales_good_head', 'po_no', 'sales_good_head_id', $sales_good_head_id);
-                $total_qty = $this->super_model->select_sum_where("fifo_out", "quantity", "sales_id='$sales_good_head_id' AND damage_id='0' AND item_id='$head->item_id'");
-                $total_cost = $this->super_model->select_sum_where("fifo_out", "unit_cost", "sales_id='$sales_good_head_id' AND damage_id='0' AND item_id='$head->item_id'");
-                $total_sales = $this->super_model->select_sum_where("fifo_out", "selling_price", "sales_id='$sales_good_head_id' AND damage_id='0' AND item_id='$head->item_id'");
-                $gross_profit = $total_sales - $total_cost;
+                    $po_jo = $this->super_model->select_column_where('sales_good_head', 'po_no', 'sales_good_head_id', $sales_good_head_id);
+                    $array_qty[] = $sales->quantity;
+                    $total_qty = array_sum($array_qty);
+                    $total_cost[] = $sales->quantity * $sales->unit_cost;
+                    $array_cost = array($total_cost);
+                    $total_unit_cost = array_sum($total_cost);
+                    $sum_sales[] = $sales->quantity * $sales->selling_price;
+                    $array_sales = array($sum_sales);
+                    $total_sales = array_sum($sum_sales);
+                    $gross_profit = $total_sales - $total_unit_cost;
             }else if($head->sales_type=='services'){
-                $po_jo = $this->super_model->select_column_where('sales_services_head', 'jor_no', 'sales_serv_head_id', $sales_serv_head_id);
-                $total_qty = $this->super_model->select_sum_where("fifo_out", "quantity", "sales_id='$sales_serv_head_id' AND damage_id='0'v item_id='$head->item_id' AND item_id='$head->item_id'");
-                $total_cost = $this->super_model->select_sum_where("fifo_out", "unit_cost", "sales_id='$sales_serv_head_id' AND damage_id='0' AND item_id='$head->item_id'");
-                $total_sales = $this->super_model->select_sum_where("fifo_out", "selling_price", "sales_id='$sales_serv_head_id' AND damage_id='0' AND item_id='$head->item_id'");
-                $gross_profit = $total_sales - $total_cost;
+                    $po_jo = $this->super_model->select_column_where('sales_services_head', 'jor_no', 'sales_serv_head_id', $sales_serv_head_id);
+                    $array_qty[] = $sales->quantity;
+                    $total_qty = array_sum($array_qty);
+                    $total_cost[] = $sales->quantity * $sales->unit_cost;
+                    $array_cost = array($total_cost);
+                    $total_unit_cost = array_sum($total_cost);
+                    $sum_sales[] = $sales->quantity * $sales->selling_price;
+                    $array_sales = array($sum_sales);
+                    $total_sales = array_sum($sum_sales);
+                    $gross_profit = $total_sales - $total_unit_cost;
             }
+        }
 
-
-            
             $data['head'][] = array(
                 "billing_date"=>$head->billing_date,
                 "billing_no"=>$head->billing_no,
-                "type"=>$head->sales_type,
                 "quantity"=>$total_qty,
-                "total_cost"=>$total_cost,
+                "total_cost"=>$total_unit_cost,
                 "total_sales"=>$total_sales,
                 "gross_profit"=>$gross_profit,
                 "po_jo"=>$po_jo,
@@ -845,32 +851,38 @@ class Reports extends CI_Controller {
         $pr = $this->uri->segment(3);
         $data['pr_disp']=$this->slash_unreplace(rawurldecode($pr));
         $data['pr_list']=$this->super_model->custom_query("SELECT * FROM receive_details GROUP BY pr_no");
+        $today = date("Y-m-d");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id,rd_id FROM fifo_in WHERE pr_no = '$pr'") AS $head){
             $purpose_id = $this->super_model->select_column_where("receive_details","purpose_id","rd_id",$head->rd_id);
             $data['purpose'] = $this->super_model->select_column_where("purpose", "purpose_desc", "purpose_id", $purpose_id);
-            $sales_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
+            $sales_good_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type = 'Sales Goods'");
+            $sales_service_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type='Sales Services'");
+            $expired_qty = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND expiry_date >= '$today'");
             $return_qty= $this->super_model->select_sum_where("return_details","return_qty","in_id='$head->in_id'");
             $damageqty= $this->super_model->select_sum_where("damage_details","damage_qty","in_id='$head->in_id'");
             $repairqty= $this->super_model->select_sum_where("repair_details","quantity","in_id='$head->in_id'");
-            $in_balance = $head->quantity - $sales_qty;
+            $in_balance = $head->quantity - $sales_good_qty - $sales_service_qty;
             $final_balance=0;
-            if($sales_qty ==0 && $return_qty==0 && $damageqty==0){
+            if($sales_good_qty ==0 && $return_qty==0 && $damageqty==0 && $expired_qty==0){
                 $final_balance = $head->quantity;
-            } else if($sales_qty!=0  && $return_qty==0 && $damageqty==0){
-                $final_balance = $head->quantity - $sales_qty;
-            } else if(($sales_qty!=0 || $sales_qty==0)  && $return_qty!=0 && $damageqty==0){
-                $final_balance =  $in_balance; 
-            } else if($sales_qty!=0  && $return_qty!=0 && $damageqty!=0 && $repairqty!=0){
-                $final_balance =  ($head->quantity - $sales_qty - $damageqty) + $repairqty; 
-            } else if($sales_qty!=0  && $return_qty!=0 && $damageqty!=0 && $repairqty==0){
-                $final_balance =  $in_balance - $damageqty; 
-            } 
+            }else if(($sales_good_qty ==0 && $return_qty==0 && $damageqty==0 && $repairqty==0 && $expired_qty!=0) || ($sales_good_qty !=0 && $return_qty!=0 && $damageqty!=0 && $repairqty!=0 && $expired_qty!=0)){
+                $final_balance = ($head->quantity - $sales_good_qty - $sales_service_qty - $damageqty - $expired_qty) + $repairqty + $return_qty; 
+            } else if(($sales_good_qty!=0 || $sales_service_qty!=0) && $return_qty==0 && $damageqty==0){
+                $final_balance = $head->quantity - $sales_good_qty - $sales_service_qty;
+            } else if(($sales_good_qty!=0 || $sales_service_qty!=0)  && $return_qty!=0 && $damageqty==0){
+                $final_balance =  $in_balance + $return_qty; 
+            } else if(($sales_good_qty!=0 || $sales_service_qty!=0) && $return_qty!=0 && $damageqty!=0 && $repairqty!=0 || ($sales_good_qty==0 || $sales_service_qty==0) && $return_qty==0 && $damageqty!=0 && $repairqty!=0){
+                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $repairqty + $return_qty; 
+            } else if(($sales_good_qty!=0 || $sales_service_qty!=0) && $return_qty!=0 && $damageqty!=0 && $repairqty==0){
+                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $return_qty;
+            }
             $data['pr_no'][] = array(
                 "recqty"=>$head->quantity,
                 "item"=>$this->super_model->select_column_where("items", "item_name", "item_id", $head->item_id),
-                "sales_quantity"=>$sales_qty,
+                "sales_quantity"=>$sales_good_qty,
+                "expired_qty"=>$expired_qty,
                 "returnqty"=>$return_qty,
                 "damageqty"=>$damageqty,
                 "repairqty"=>$repairqty,
