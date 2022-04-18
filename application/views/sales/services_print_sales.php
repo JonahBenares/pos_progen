@@ -20,6 +20,10 @@
                     <a href="#" class="btn btn-gradient-success btn-md btn-rounded" onclick="printDiv('printableArea')">
                         <b><span class="mdi mdi-printer"></span> Print</b>
                     </a>
+
+                    <a href="<?php echo base_url(); ?>sales/services_acknow_print" class="btn btn-gradient-primary btn-md btn-rounded" >
+                        <b><span class="mdi mdi-printer"></span> Acknowledgement Receipt</b>
+                    </a>
                 </center>
             </div>
             <div class="col-lg-3"></div>
