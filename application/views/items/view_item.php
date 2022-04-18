@@ -33,10 +33,16 @@
                                             <h3 class="mb-0 font-weight-medium"><?php echo $det['item_name'];?></h3>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 offset-lg-1">
+                                    <div class="col-lg-2 offset-lg-1">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">Available Quantity</p>
                                             <p class="mb-0 font-weight-medium"><?php echo number_format($det['totalqty'],2);?></p>
+                                        </div> 
+                                    </div>
+                                    <div class="col-lg-2 offset-lg-1">
+                                        <div class="form-group">
+                                            <p class="text-muted mb-0">Expired Quantity</p>
+                                            <p class="mb-0 font-weight-medium"><?php echo number_format($det['expired_qty'],2);?></p>
                                         </div> 
                                     </div>
                                 </div>

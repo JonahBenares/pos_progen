@@ -1,4 +1,5 @@
-<!-- <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script> -->
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/reports.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -46,7 +47,7 @@
                                     <input style="padding:10px " type="text" name="to" id="to" onfocus="(this.type='date')" placeholder="To" class="form-control" name="">
                                 </div>
                                 <div class="col-lg-3">
-                                    <select class="form-control select2" name="category" id="category" onchange="chooseSubcat();">
+                                    <select class="form-control select2" name="category" id="category" onchange="chooseSubcat_range();">
                                         <option value="">-- Select Category --</option>
                                         <?php foreach($category AS $c){ ?>
                                             <option value="<?php echo $c->cat_id; ?>"><?php echo $c->cat_name; ?></option>
@@ -58,7 +59,7 @@
                                 </div>
                                 <div class="col-lg-2">
                                     <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
-                                    <input type="button" class="btn btn-md btn-gradient-success btn-block" id="filter_range" name="filter_range" value="Filter">
+                                    <input type="button" class="btn btn-md btn-gradient-success btn-block" id="filter_range" name="filter_range" value="Filter" onclick="filter_rangereport()">
                                 </div>
                             </div>  
                         </form>  

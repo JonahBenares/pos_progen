@@ -1,4 +1,5 @@
-<!-- <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script> -->
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script> 
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/reports.js"></script>
 <?php 
     if(!empty($stockcard)){
         foreach ($stockcard as $key => $row) {
@@ -79,7 +80,7 @@
                                 </div>
                                 <div class="col-lg-2">
                                     <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
-                                    <input type="button" class="btn btn-md btn-gradient-success btn-block" name="submit" id="filter" value="Filter">
+                                    <input type="button" class="btn btn-md btn-gradient-success btn-block" name="submit" id="filter" value="Filter" onclick="filter_stockcard()">
                                 </div>
                             </div>
                         </form>
