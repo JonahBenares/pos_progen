@@ -151,6 +151,7 @@ function item_append(){
             document.getElementById("uom").value = response.unit;
             document.getElementById("item_id").value = response.item_id;
             document.getElementById("group_id").value = response.group_id;
+            document.getElementsByName('quantity')[0].placeholder = response.remaining_qty;
         }
     });  
 }
@@ -175,7 +176,7 @@ function qty_append(){
             if(response.status!='error'){
                 document.getElementById("unit_cost").value = response.cost;
                 document.getElementById("serial_no").value = response.serial_no;
-                 document.getElementById("saveitem").disabled = false;
+                document.getElementById("saveitem").disabled = false;
             } else {
                 alert('Quantity requested exceeds available quantity!');
                 document.getElementById("saveitem").disabled = true;

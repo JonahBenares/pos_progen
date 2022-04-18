@@ -105,7 +105,59 @@ class Reports extends CI_Controller {
         $data['clients'] = $this->super_model->select_all("client");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('reports/summary_scgp');
+        $from = $this->uri->segment(3);
+        $to = $this->uri->segment(4);
+        $client = $this->uri->segment(5);
+        $sql="";
+        if($from!='null' && $to!='null'){
+           $sql.= " bh.billing_date BETWEEN '$from' AND '$to' AND";
+        }
+
+        if($client!='null'){
+            $sql.= " bh.client_id = '$client' AND";
+        }
+
+        $query=substr($sql,0,-3);
+        $data['head']=array();
+        foreach($this->super_model->custom_query("SELECT DISTINCT * FROM billing_head bh INNER JOIN billing_details bd ON bh.billing_id = bd.billing_id INNER JOIN fifo_out fo WHERE bh.client_id='$client' AND ".$query." GROUP BY item_id ORDER BY bh.billing_date ASC") AS $head){
+            $sales_good_head_id = $this->super_model->select_column_where('sales_good_head', 'sales_good_head_id', 'sales_good_head_id', $head->sales_id);
+            $po_no = $this->super_model->select_column_where('sales_good_head', 'po_no', 'sales_good_head_id', $sales_good_head_id);
+            $sales_serv_head_id = $this->super_model->select_column_where('sales_services_head', 'sales_serv_head_id', 'sales_serv_head_id', $head->sales_id);
+            $jor_no = $this->super_model->select_column_where('sales_services_head', 'jor_no', 'sales_serv_head_id', $sales_serv_head_id);
+            $unit_id = $this->super_model->select_column_where('items', 'unit_id', 'item_id', $head->item_id);
+            $unit = $this->super_model->select_column_where('uom', 'unit_name', 'unit_id', $unit_id);
+
+
+            if($head->sales_type=='goods'){
+                $total_qty = $this->super_model->select_sum_where("fifo_out", "quantity", "sales_id='$sales_good_head_id' AND damage_id='0' AND item_id='$head->item_id'");
+                $total_cost = $this->super_model->select_sum_where("fifo_out", "unit_cost", "sales_id='$sales_good_head_id' AND damage_id='0' AND item_id='$head->item_id'");
+                $total_sales = $this->super_model->select_sum_where("fifo_out", "selling_price", "sales_id='$sales_good_head_id' AND damage_id='0' AND item_id='$head->item_id'");
+                $gross_profit = $total_sales - $total_cost;
+            }else if($head->sales_type=='services'){
+                $total_qty = $this->super_model->select_sum_where("fifo_out", "quantity", "sales_id='$sales_serv_head_id' AND damage_id='0'v item_id='$head->item_id' AND item_id='$head->item_id'");
+                $total_cost = $this->super_model->select_sum_where("fifo_out", "unit_cost", "sales_id='$sales_serv_head_id' AND damage_id='0' AND item_id='$head->item_id'");
+                $total_sales = $this->super_model->select_sum_where("fifo_out", "selling_price", "sales_id='$sales_serv_head_id' AND damage_id='0' AND item_id='$head->item_id'");
+                $gross_profit = $total_sales - $total_cost;
+            }
+
+
+            
+            $data['head'][] = array(
+                "billing_date"=>$head->billing_date,
+                "billing_no"=>$head->billing_no,
+                "type"=>$head->sales_type,
+                "quantity"=>$total_qty,
+                "total_cost"=>$total_cost,
+                "total_sales"=>$total_sales,
+                "gross_profit"=>$gross_profit,
+                "po_no"=>$po_no,
+                "jor_no"=>$jor_no,
+                "uom"=>$unit,
+                "client"=>$this->super_model->select_column_where("client", "buyer_name", "client_id", $head->client_id),
+                "item"=>$this->super_model->select_column_where("items", "item_name", "item_id", $head->item_id),
+            );          
+        }
+        $this->load->view('reports/summary_scgp',$data);
         $this->load->view('template/footer');
     }
 
@@ -833,34 +885,37 @@ class Reports extends CI_Controller {
         $item_id = $this->uri->segment(3);
         $data['item_name']=$this->super_model->select_column_where("items","item_name","item_id",$item_id);
         $data['item']=$this->super_model->select_all_order_by("items","item_name","ASC");
+        $today = date("Y-m-d");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id FROM fifo_in WHERE item_id = '$item_id' GROUP BY pr_no") AS $head){
             //$sales_serv_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type='Sales Services'");
-            $sales_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
-            /*$sales_final_qty = $this->super_model->select_sum_where("fifo_out","returned_qty","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");*/
+            $sales_good_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type = 'Sales Goods'");
+            $sales_service_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type='Sales Services'");
+            $expired_qty = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND expiry_date >= '$today'");
             $return_qty= $this->super_model->select_sum_where("return_details","return_qty","in_id='$head->in_id'");
             $damageqty= $this->super_model->select_sum_where("damage_details","damage_qty","in_id='$head->in_id'");
             $repairqty= $this->super_model->select_sum_where("repair_details","quantity","in_id='$head->in_id'");
-            $in_balance = $head->quantity - $sales_qty;
+            $in_balance = $head->quantity - $sales_good_qty - $sales_service_qty;
             $final_balance=0;
-            if($sales_qty ==0 && $return_qty==0 && $damageqty==0){
+            if($sales_good_qty ==0 && $return_qty==0 && $damageqty==0 && $expired_qty==0){
                 $final_balance = $head->quantity;
-            } else if($sales_qty!=0  && $return_qty==0 && $damageqty==0){
-                $final_balance = $head->quantity - $sales_qty;
-            } else if(($sales_qty!=0 || $sales_qty==0)  && $return_qty!=0 && $damageqty==0){
-                $final_balance =  $in_balance; 
-            } else if($sales_qty!=0  && $return_qty!=0 && $damageqty!=0 && $repairqty!=0){
-                $final_balance =  ($head->quantity - $sales_qty - $damageqty) + $repairqty; 
-            } else if($sales_qty!=0  && $return_qty!=0 && $damageqty!=0 && $repairqty==0){
-                $final_balance =  $in_balance - $damageqty; 
-            } /*else if(($sales_qty!=0 && $return_qty!=0 && $damageqty==0) || ($sales_qty!=0 && $return_qty==0 && $damageqty==0)){
-                $final_balance = $return_qty - $sales_qty; 
-            }*/
+            }else if(($sales_good_qty ==0 && $return_qty==0 && $damageqty==0 && $repairqty==0 && $expired_qty!=0) || ($sales_good_qty !=0 && $return_qty!=0 && $damageqty!=0 && $repairqty!=0 && $expired_qty!=0)){
+                $final_balance = ($head->quantity - $sales_good_qty - $sales_service_qty - $damageqty - $expired_qty) + $repairqty + $return_qty; 
+            } else if(($sales_good_qty!=0 || $sales_service_qty!=0) && $return_qty==0 && $damageqty==0){
+                $final_balance = $head->quantity - $sales_good_qty - $sales_service_qty;
+            } else if(($sales_good_qty!=0 || $sales_service_qty!=0)  && $return_qty!=0 && $damageqty==0){
+                $final_balance =  $in_balance + $return_qty; 
+            } else if(($sales_good_qty!=0 || $sales_service_qty!=0) && $return_qty!=0 && $damageqty!=0 && $repairqty!=0 || ($sales_good_qty==0 || $sales_service_qty==0) && $return_qty==0 && $damageqty!=0 && $repairqty!=0){
+                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $repairqty + $return_qty; 
+            } else if(($sales_good_qty!=0 || $sales_service_qty!=0) && $return_qty!=0 && $damageqty!=0 && $repairqty==0){
+                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $return_qty;
+            }
             $data['item_pr'][] = array(
                 "prno"=>$head->pr_no,
                 "recqty"=>$head->quantity,
-                "sales_quantity"=>$sales_qty,
+                "sales_quantity"=>$sales_good_qty,
+                "expired_qty"=>$expired_qty,
                 "returnqty"=>$return_qty,
                 "damageqty"=>$damageqty,
                 "repairqty"=>$repairqty,

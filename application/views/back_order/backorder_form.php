@@ -70,21 +70,21 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Date</label>
-                                    <input type="date" class="form-control" name="receive_date" id="receive_date" value="<?php echo date('Y-m-d'); ?>">
+                                    <input type="date" class="form-control" name="receive_date" id="receive_date" required>
                                 </div>
                                 <div class="form-group">
                                     <label>PO No.</label>
-                                    <input type="text" class="form-control" name="po_no" id="po_no">
+                                    <input type="text" class="form-control" name="po_no" id="po_no" required>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>DR No.</label>
-                                    <input type="text" class="form-control" name="dr_no" id="dr_no">
+                                    <input type="text" class="form-control" name="dr_no" id="dr_no" required>
                                 </div>
                                 <div class="form-group">
                                     <label>SI/OR No.</label>
-                                    <input type="text" class="form-control" name="si_no" id="si_no">
+                                    <input type="text" class="form-control" name="si_no" id="si_no" required>
                                 </div>
                             </div>
                         </div>
@@ -116,7 +116,8 @@
                                             /*if($it['backorder_qty']!=0){*/
                                         ?>
                                         <tr>
-                                            <td class="p-0"><input type='number' class="form-control" name='quantity[]' id="quantity<?php echo $ct; ?>" value="<?php echo $it['quantity']; ?>" style='width:90px' max="<?php echo $it['quantity']; ?>" onkeyup="changeQty(<?php echo $ct; ?>)"></td>
+                                            <td class="p-0"><input type='number' class="form-control" name='quantity[]' id="quantity<?php echo $ct; ?>" value="<?php echo $it['quantity']; ?>" style='width:90px' max="<?php echo $it['quantity']; ?>"  onkeyup="changeQty(<?php echo $ct; ?>)"></td>
+                                            <input type='hidden' name='avail_qty' id='avail_qty<?php echo $ct; ?>' value="<?php echo number_format($it['quantity']); ?>">
                                             <td align="right"><?php echo $it['quantity']; ?></td>
                                             <td class="p-0"><input type='text' class="form-control" name='item_cost[]' id="item_cost<?php echo $ct; ?>" value="<?php echo $it['item_cost']; ?>" style='width:100px' onkeyup="changePrice(<?php echo $ct; ?>)"></td>
                                             <td class="p-0"><input type="text" class="form-control" name='serial_no[]' id="serial_no<?php echo $ct; ?>" value="<?php echo $it['serial_no']; ?>"></td>
@@ -124,7 +125,7 @@
                                             <td><?php echo $it['supplier']; ?></td>
                                             <td><?php echo $it['item']; ?></td>
                                             <td><?php echo $it['brand']; ?></td>
-                                            <td align="right"><span id="total_cost"><?php echo number_format($it['total_cost'],2); ?></span></td>
+                                            <td align="right"><span id="total_cost<?php echo $ct; ?>"><?php echo number_format($it['total_cost'],2); ?></span></td>
                                             <td class="p-0"><textarea class="form-control" name='remarks[]' id='remarks[]'></textarea></td>
                                         </tr>
                                         <input type='hidden' name='expqty[]' value="<?php echo $it['quantity']; ?>" style='width:50px' max="<?php echo $it['quantity']; ?>">

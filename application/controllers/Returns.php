@@ -53,14 +53,16 @@ class Returns extends CI_Controller {
                 $returned_qty = $this->super_model->select_sum("return_details", "return_qty", "in_id", $itm->in_id);
                 $unit_cost = $this->super_model->select_column_where("fifo_in", "item_cost", "in_id", $itm->in_id);
                 $selling_price = $this->super_model->select_column_where("sales_good_details", "selling_price", "sales_good_det_id", $itm->sales_details_id);
-                $qty = $itm->quantity;
-                //$qty = $itm->quantity - $returned_qty;
+                //$qty = $itm->quantity;
+                $return_qty = $itm->return_qty;
+                $qty = $itm->quantity - $return_qty;
                 $data['item'][]=array(
                     "in_id"=>$itm->in_id,
                     "item"=>$this->super_model->select_column_where("items","item_name","item_id",$itm->item_id),
                     "item_id"=>$itm->item_id,
                     "sales_details_id"=>$itm->sales_details_id,
                     "qty"=>$qty,
+                    "return_qty"=>$return_qty,
                     "unit_cost"=>$unit_cost,
                     "selling_price"=>$selling_price,
                     "supplier"=>$this->super_model->select_column_where("supplier","supplier_name","supplier_id",$supplier_id),
@@ -130,9 +132,9 @@ class Returns extends CI_Controller {
                         );
                         if($this->super_model->update_where("fifo_in", $dataup, "in_id", $in_id)){
                             $sales_details_id = $this->input->post('sales_details_id'.$x);
-                            $new_qty_out = $this->input->post('qty'.$x) - $qty;
+                            $new_qty_out = $this->input->post('returned_qty'.$x) + $qty;
                             $dataout=array(
-                                "quantity"=>$new_qty_out
+                                "return_qty"=>$new_qty_out
                             );
                             $this->super_model->update_custom_where("fifo_out", $dataout, "in_id='$in_id' AND sales_details_id='$sales_details_id'");
 

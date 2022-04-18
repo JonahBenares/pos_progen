@@ -1,4 +1,5 @@
-<!-- <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script> -->
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/reports.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -66,7 +67,7 @@
                                 </div>
                                 <div class="col-lg-2">
                                     <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
-                                    <input type="button" class="btn btn-md btn-gradient-success btn-block" name="save" id="filter_sales" value="Filter">
+                                    <input type="button" class="btn btn-md btn-gradient-success btn-block" name="save" id="filter_sales" value="Filter" onclick="filter_monthlyreports()">
                                 </div>
                             </div>   
                         </form> 

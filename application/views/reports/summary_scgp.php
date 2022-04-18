@@ -1,3 +1,4 @@
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/reports.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
@@ -40,16 +41,15 @@
                         </div>
                     </div>
                     <div class="card-body">
-                    <form method="POST"> 
                         <div class="row">
                             <div class="col-lg-2 offset-lg-1">
                                 <input placeholder="Date From" class="form-control" type="text" name="from" id="from" onfocus="(this.type='date')">
                             </div>
                             <div class="col-lg-2">
-                                <input placeholder="Date to" class="form-control" type="text" name="from" id="from" onfocus="(this.type='date')">
+                                <input placeholder="Date to" class="form-control" type="text" name="to" id="to" onfocus="(this.type='date')">
                             </div>
                             <div class="col-lg-4">
-                                <select class="form-control" id='client'>
+                                <select class="form-control select2" name="client" id="client">
                                     <option value="">--Select Client--</option>
                                     <?php foreach($clients AS $c){ ?>
                                         <option value='<?php echo $c->client_id; ?>'><?php echo $c->buyer_name; ?></option>
@@ -57,19 +57,19 @@
                                 </select>
                             </div>
                             <div class="col-lg-2">
-                                <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="" value="Filter">
+                                <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
+                                <input type="submit" class="btn btn-md btn-gradient-success btn-block" value="Filter" onclick="loadSCGP()">
                             </div>
                         </div>
-                        </form>
                         <hr>          
                         <table class="table table-bordered table-hover" width="100%">
+                            <?php if(!empty($head)){ ?>
                             <thead>
                                 <tr>
                                     <td class="td-head" width="1%">#</td>
                                     <td class="td-head">Date</td>
-                                    <td class="td-head">Item Code</td>
                                     <td class="td-head">Item Description</td>
-                                    <td class="td-head">Customer</td>
+                                    <td class="td-head">Client</td>
                                     <td class="td-head">PO/JO No.</td>
                                     <td class="td-head">Billing Statement No</td>        
                                     <td class="td-head">Qty</td>        
@@ -80,43 +80,45 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php 
+                                    $totalsales[]=0;
+                                    $totalcost[]=0;
+                                    $grossprofit[]=0;
+                                    $x=1; foreach($head AS $h){ 
+                                        $totalsales[] = $h['total_sales'];
+                                        $totalcost[] = $h['total_cost'];
+                                        $grossprofit[] = $h['gross_profit'];
+
+                                ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><?php echo $x; ?></td>
+                                    <td><?php echo date("M j, Y",strtotime($h['billing_date'])); ?></td>
+                                    <td><?php echo $h['item']; ?></td>
+                                    <td><?php echo $h['client']; ?></td>
+                                    <td><?php echo ($h['type']='goods') ? $h['po_no'] : $h['jor_no'];?></td>
+                                    <td><?php echo $h['billing_no']; ?></td>
+                                    <td><?php echo number_format($h['quantity'],2); ?></td>
+                                    <td><?php echo $h['uom']; ?></td>
+                                    <td><?php echo number_format($h['total_sales'],2); ?></td>
+                                    <td><?php echo number_format($h['total_cost'],2); ?></td>
+                                    <td><?php echo number_format($h['gross_profit'],2); ?></td>
+                                    
                                 </tr>
+                                <?php $x++; }  
+                                    $totalsales=array_sum($totalsales);
+                                    $totalcost=array_sum($totalcost);
+                                    $grossprofit=array_sum($grossprofit);
+                                ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td class="td-head" colspan="9">
+                                    <td class="td-head" colspan="8">
                                         <p class="pull-right m-0"><b>TOTAL</b></p>
                                     </td>
-                                    <td class="td-head"></td>
-                                    <td class="td-head"></td>
-                                    <td class="td-head"></td>
+                                    <td class="td-head"><?php echo number_format($totalsales,2);?></td>
+                                    <td class="td-head"><?php echo number_format($totalcost,2);?></td>
+                                    <td class="td-head"><?php echo number_format($grossprofit,2);?></td>
                                 </tr>
-                            </tbody>                            
+                            </tbody>    
+                            <?php } ?>                        
                         </table>
                     </div>
                 </div>
