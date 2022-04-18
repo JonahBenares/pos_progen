@@ -95,7 +95,7 @@
                                     <td><?php echo date("M j, Y",strtotime($h['billing_date'])); ?></td>
                                     <td><?php echo $h['item']; ?></td>
                                     <td><?php echo $h['client']; ?></td>
-                                    <td><?php echo ($h['type']='goods') ? $h['po_no'] : $h['jor_no'];?></td>
+                                    <td><?php echo $h['po_jo'];?></td>
                                     <td><?php echo $h['billing_no']; ?></td>
                                     <td><?php echo number_format($h['quantity'],2); ?></td>
                                     <td><?php echo $h['uom']; ?></td>

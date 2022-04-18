@@ -121,19 +121,21 @@ class Reports extends CI_Controller {
         $data['head']=array();
         foreach($this->super_model->custom_query("SELECT DISTINCT * FROM billing_head bh INNER JOIN billing_details bd ON bh.billing_id = bd.billing_id INNER JOIN fifo_out fo WHERE bh.client_id='$client' AND ".$query." GROUP BY item_id ORDER BY bh.billing_date ASC") AS $head){
             $sales_good_head_id = $this->super_model->select_column_where('sales_good_head', 'sales_good_head_id', 'sales_good_head_id', $head->sales_id);
-            $po_no = $this->super_model->select_column_where('sales_good_head', 'po_no', 'sales_good_head_id', $sales_good_head_id);
+            /*$po_no = $this->super_model->select_column_where('sales_good_head', 'po_no', 'sales_good_head_id', $sales_good_head_id);*/
             $sales_serv_head_id = $this->super_model->select_column_where('sales_services_head', 'sales_serv_head_id', 'sales_serv_head_id', $head->sales_id);
-            $jor_no = $this->super_model->select_column_where('sales_services_head', 'jor_no', 'sales_serv_head_id', $sales_serv_head_id);
+            /*$jor_no = $this->super_model->select_column_where('sales_services_head', 'jor_no', 'sales_serv_head_id', $sales_serv_head_id);*/
             $unit_id = $this->super_model->select_column_where('items', 'unit_id', 'item_id', $head->item_id);
             $unit = $this->super_model->select_column_where('uom', 'unit_name', 'unit_id', $unit_id);
 
 
             if($head->sales_type=='goods'){
+                $po_jo = $this->super_model->select_column_where('sales_good_head', 'po_no', 'sales_good_head_id', $sales_good_head_id);
                 $total_qty = $this->super_model->select_sum_where("fifo_out", "quantity", "sales_id='$sales_good_head_id' AND damage_id='0' AND item_id='$head->item_id'");
                 $total_cost = $this->super_model->select_sum_where("fifo_out", "unit_cost", "sales_id='$sales_good_head_id' AND damage_id='0' AND item_id='$head->item_id'");
                 $total_sales = $this->super_model->select_sum_where("fifo_out", "selling_price", "sales_id='$sales_good_head_id' AND damage_id='0' AND item_id='$head->item_id'");
                 $gross_profit = $total_sales - $total_cost;
             }else if($head->sales_type=='services'){
+                $po_jo = $this->super_model->select_column_where('sales_services_head', 'jor_no', 'sales_serv_head_id', $sales_serv_head_id);
                 $total_qty = $this->super_model->select_sum_where("fifo_out", "quantity", "sales_id='$sales_serv_head_id' AND damage_id='0'v item_id='$head->item_id' AND item_id='$head->item_id'");
                 $total_cost = $this->super_model->select_sum_where("fifo_out", "unit_cost", "sales_id='$sales_serv_head_id' AND damage_id='0' AND item_id='$head->item_id'");
                 $total_sales = $this->super_model->select_sum_where("fifo_out", "selling_price", "sales_id='$sales_serv_head_id' AND damage_id='0' AND item_id='$head->item_id'");
@@ -150,8 +152,7 @@ class Reports extends CI_Controller {
                 "total_cost"=>$total_cost,
                 "total_sales"=>$total_sales,
                 "gross_profit"=>$gross_profit,
-                "po_no"=>$po_no,
-                "jor_no"=>$jor_no,
+                "po_jo"=>$po_jo,
                 "uom"=>$unit,
                 "client"=>$this->super_model->select_column_where("client", "buyer_name", "client_id", $head->client_id),
                 "item"=>$this->super_model->select_column_where("items", "item_name", "item_id", $head->item_id),

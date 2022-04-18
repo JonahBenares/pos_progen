@@ -80,7 +80,7 @@ class Repair extends CI_Controller {
                     'in_id'=>$in_id[$x],
                     'item_id'=>$item_id[$x],
                     "user_id"=>$_SESSION['user_id'],
-                    'unsaved'=>1,
+                    /*'unsaved'=>1,*/
                 );
                 $this->super_model->insert_into("repair_details", $rep_data);
             }
@@ -113,7 +113,7 @@ class Repair extends CI_Controller {
                 'create_date'=>date("Y-m-d H:i:s"),
                 'user_id'=>$_SESSION['user_id'],
                 'saved'=>1,
-                'unsaved'=>0,
+                /*'unsaved'=>0,*/
             );
             $this->super_model->update_where("repair_details", $rep_data, "repair_id", $repair_id);
 
