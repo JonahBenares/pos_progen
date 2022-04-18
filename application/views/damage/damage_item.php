@@ -179,7 +179,7 @@
                                     <table width="100%" class="table-bordered" id='damage'>
                                         <tr>
                                             <td class="font14" width="30%">Transactions</td>
-                                            <td class="font14" width="5%">Quantity</td>
+                                            <td class="font14" width="7%">Quantity</td>
                                             <td class="font14" width="10%">Brand</td>
                                             <td class="font14" width="10%">Serial No.</td>
                                             <td class="font14" width="10%">Part No.</td>

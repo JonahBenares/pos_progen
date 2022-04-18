@@ -14875,6 +14875,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
 .alt-control{
   width: 100%;
   border: 1px solid #fff;
+  font-size: 14px;
 }
 .font10{font-size: 10px;}
 .font11{font-size: 11px;}
