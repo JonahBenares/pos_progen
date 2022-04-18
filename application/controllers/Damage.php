@@ -48,33 +48,29 @@ class Damage extends CI_Controller {
     
         $str="";
         $str .= '<tr id="load_data'.$count.'">
-            <td width="45%">
-                <div class="form-group">
-                    <select class="form-control" name="transaction'.$count.'" id="transaction'.$count.'">
-                        <option>-Select Transaction-</option>';
-                        foreach($this->super_model->select_custom_where('fifo_in','item_id = "'.$item_id.'" AND (expiry_date ="" or expiry_date >= "'.$now.'") AND remaining_qty != 0') AS $in){ 
-                            $str.='<option value='.$in->in_id.' myTag='.$in->remaining_qty.'>'.$in->receive_date. ', '. $in->pr_no.', '.$in->brand.'</option>';
-                        }
-                    $str.= '</select>
-                </div>
+            <td>
+                <select class="alt-control" name="transaction'.$count.'" id="transaction'.$count.'">
+                    <option>-Select Transaction-</option>';
+                    foreach($this->super_model->select_custom_where('fifo_in','item_id = "'.$item_id.'" AND (expiry_date ="" or expiry_date >= "'.$now.'") AND remaining_qty != 0') AS $in){ 
+                        $str.='<option value='.$in->in_id.' myTag='.$in->remaining_qty.'>'.$in->receive_date. ', '. $in->pr_no.', '.$in->brand.'</option>';
+                    }
+                $str.= '</select>
             </td>
-            <td width="2%"></td>
-            <td width="15%">
-                <div class="form-group">
-                    <input type="number" class="form-control" placeholder="00" name="qty'.$count.'" id="qty'.$count.'" onkeyup="check_rem_qty('.$count.')">
-                </div>
+            <td >
+                <input type="number" class="alt-control" placeholder="00" name="qty'.$count.'" id="qty'.$count.'" onkeyup="check_rem_qty('.$count.')">
             </td>
-            <td width="2%"></td>
-            <td width="34%">
-                <div class="form-group">
-                    <textarea class="form-control" rows="1"  name="remarks'.$count.'" id="remarks'.$count.'"></textarea>
-                </div>
+            <td>
+                <textarea class="alt-control" rows="1"  name="remarks'.$count.'" id="remarks'.$count.'"></textarea>
             </td>
-                <td width="2%" style="vertical-align:top">
-                    <a class="btn btn-gradient-danger btn-sm mt-2" id="remove_item'.$count.'" onclick="delete_damage_item('.$count.')">
-                        <span class="mdi mdi-close"></span>
-                    </a>
-                </td>
+            <td><input type="text" class="alt-control" name="" readonly></td>
+            <td><input type="text" class="alt-control" name="" readonly></td>
+            <td><input type="text" class="alt-control" name="" readonly></td>
+            <td><input type="text" class="alt-control" name="" readonly></td>
+            <td align="center">
+                <a class="btn btn-gradient-danger btn-xs" id="remove_item'.$count.'" onclick="delete_damage_item('.$count.')">
+                    <span class="mdi mdi-close"></span>
+                </a>
+            </td>
             </tr>';
 
         echo $str;
