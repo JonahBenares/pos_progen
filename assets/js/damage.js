@@ -52,6 +52,7 @@ function loadTransactions() {
             data: data,
             type: "POST",
             url: redirect,
+            dataType: "json",
             success: function(response){
                 var cancel = document.getElementById("cancel_damage");
                 var proceed_damage = document.getElementById("proceed_damage");
@@ -64,7 +65,8 @@ function loadTransactions() {
                     cancel.style.display = "block";
                     proceed_damage.style.display = "none";
                 }
-                document.getElementById("damage_id").value  = response;
+                document.getElementById("damage_id").value  = response.damage_id;
+                document.getElementById("item_id").value  = response.item_id;
 
             }
 
@@ -105,4 +107,24 @@ function check_rem_qty(count){
   }else{
     document.getElementById("savedamage").disabled = false;
   }
+}
+
+function get_damitem_value(count){
+    var in_id = document.getElementById("transaction"+count).value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"damage/itemdam_info";
+    $.ajax({
+        data: "in_id="+in_id,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById("qty"+count).value = response.qty;
+            document.getElementById("brand"+count).value = response.brand;
+            document.getElementById("serial_no"+count).value = response.serial_no;
+            document.getElementById("original_pn"+count).value = response.original_pn;
+            document.getElementById("receive_date"+count).value = response.receive_date;
+            document.getElementById("item_cost"+count).value = response.item_cost;
+        }
+    });
 }
