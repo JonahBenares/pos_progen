@@ -925,6 +925,13 @@ class Sales extends CI_Controller {
     }
 
 
+    public function services_acknow_print(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('sales/services_acknow_print');
+        $this->load->view('template/footer');
+    }
+
     public function services_sales_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
