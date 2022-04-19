@@ -13,6 +13,7 @@
                 </ol>
             </nav>
         </div>
+        <?php foreach($service_head AS $sh){ ?>
         <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
@@ -21,7 +22,7 @@
                         <b><span class="mdi mdi-printer"></span> Print</b>
                     </a>
 
-                    <a href="<?php echo base_url(); ?>sales/services_acknow_print" class="btn btn-gradient-primary btn-md btn-rounded" >
+                    <a href="<?php echo base_url(); ?>sales/services_acknow_print/<?php echo $sh['sales_serv_head_id'];?>" class="btn btn-gradient-primary btn-md btn-rounded" >
                         <b><span class="mdi mdi-printer"></span> Acknowledgement Receipt</b>
                     </a>
                 </center>
@@ -67,7 +68,6 @@
                         <br>
                     </td>
                 </tr>
-                <?php foreach($service_head AS $sh){ ?>
                 <tr>
                     <td colspan="3"></td>
                     <td colspan="11" class=""></td>

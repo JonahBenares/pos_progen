@@ -829,6 +829,7 @@ class Sales extends CI_Controller {
             $tin = $this->super_model->select_column_where("client","tin","client_id",$sh->client_id);
             $wht = $this->super_model->select_column_where("client","wht","client_id",$sh->client_id);
             $data['service_head'][]=array(
+                'sales_serv_head_id'=>$sh->sales_serv_head_id,
                 'client'=>$client,
                 'address'=>$address,
                 'contact_person'=>$contact_person,
@@ -926,10 +927,123 @@ class Sales extends CI_Controller {
 
 
     public function services_acknow_print(){
+        $sales_serv_head_id = $this->uri->segment(3);
+        $data['sales_serv_head_id']=$sales_serv_head_id;
+        $data['shipping']=$this->super_model->select_all_order_by("shipping_company","company_name","ASC");
         $this->load->view('template/header');
+        foreach($this->super_model->select_custom_where("sales_services_head","sales_serv_head_id = '$sales_serv_head_id'") AS $sh){
+            $client = $this->super_model->select_column_where("client","buyer_name","client_id",$sh->client_id);
+            $shipping = $this->super_model->select_column_where("shipping_company","company_name","ship_comp_id",$sh->shipping_company);
+            $address = $this->super_model->select_column_where("client","address","client_id",$sh->client_id);
+            $contact_person = $this->super_model->select_column_where("client","contact_person","client_id",$sh->client_id);
+            $contact_no = $this->super_model->select_column_where("client","contact_no","client_id",$sh->client_id);
+            $tin = $this->super_model->select_column_where("client","tin","client_id",$sh->client_id);
+            $wht = $this->super_model->select_column_where("client","wht","client_id",$sh->client_id);
+            $data['service_head'][]=array(
+                'client'=>$client,
+                'address'=>$address,
+                'contact_person'=>$contact_person,
+                'contact_no'=>$contact_no,
+                'tin'=>$tin,
+                'wht'=>$wht,
+                'sales_date'=>$sh->sales_date,
+                'shipping_company'=>$shipping,
+                'waybill_no'=>$sh->waybill_no,
+                'vat'=>$sh->vat,
+                'jor_no'=>$sh->jor_no,
+                'jor_date'=>$sh->jor_date,
+                'joi_no'=>$sh->joi_no,
+                'joi_date'=>$sh->joi_date,
+                'dr_no'=>$sh->dr_no,
+                'remarks'=>$sh->remarks,
+            );
+
+            $count_itm = $this->super_model->count_rows_where("sales_serv_items","sales_serv_head_id",$sh->sales_serv_head_id);
+            if($count_itm!=0){
+                foreach($this->super_model->select_custom_where("sales_serv_items","sales_serv_head_id='$sh->sales_serv_head_id'") AS $sd){
+                    //$item_id = $this->super_model->select_column_where("fifo_in","item_id","in_id",$sd->in_id);
+                    $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$sd->item_id);
+                    $item_name = $this->super_model->select_column_where("items","item_name","item_id",$sd->item_id);
+                    $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$sd->item_id);
+                    $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
+                    $serial_no = $this->get_serial_services($sd->sales_serv_items_id,"final");
+                    //$serial_no = $this->super_model->select_column_where("fifo_in","serial_no","in_id",$sd->in_id);
+                    $data['service_details'][]=array(
+                        'original_pn'=>$original_pn,
+                        'item'=>$item_name,
+                        'serial_no'=>$serial_no,
+                        'quantity'=>$sd->quantity,
+                        'uom'=>$unit,
+                        'selling_price'=>$sd->selling_price,
+                        'discount'=>$sd->discount_amount,
+                        'total'=>$sd->total,
+                    );
+                }
+            }else{
+                $data['service_details']=array();
+            }
+
+
+            $count_mat = $this->super_model->count_rows_where("sales_serv_material","sales_serv_head_id",$sh->sales_serv_head_id);
+            if($count_mat!=0){
+                foreach($this->super_model->select_custom_where("sales_serv_material","sales_serv_head_id='$sh->sales_serv_head_id'") AS $sm){
+                    $data['service_materials'][]=array(
+                        'item_description'=>$sm->item_description,
+                        'quantity'=>$sm->quantity,
+                        'uom'=>$sm->uom,
+                        'unit_cost'=>$sm->unit_cost,
+                        'total_cost'=>$sm->total_cost,
+                    );
+                }
+            }else{
+                $data['service_materials']=array();
+            }
+
+            $count_man = $this->super_model->count_rows_where("sales_serv_manpower","sales_serv_head_id",$sh->sales_serv_head_id);
+            if($count_man!=0){
+                foreach($this->super_model->select_custom_where("sales_serv_manpower","sales_serv_head_id='$sh->sales_serv_head_id'") AS $sman){
+                    $employee_name=$this->super_model->select_column_where("manpower","employee_name","manpower_id",$sman->manpower_id);
+                    $data['service_manpower'][]=array(
+                        'employee_name'=>$employee_name,
+                        'days'=>$sman->days,
+                        'rate'=>$sman->rate,
+                        'overtime'=>$sman->overtime,
+                        'total_cost'=>$sman->total_cost,
+                    );
+                }
+            }else{
+                $data['service_manpower']=array();
+            }
+
+            $count_equ = $this->super_model->count_rows_where("sales_serv_equipment","sales_serv_head_id",$sh->sales_serv_head_id);
+            if($count_equ!=0){
+                foreach($this->super_model->select_custom_where("sales_serv_equipment","sales_serv_head_id='$sh->sales_serv_head_id'") AS $seq){
+                    $equipment_name=$this->super_model->select_column_where("equipment","equipment_name","equipment_id",$seq->equipment_id);
+                    $data['service_equipment'][]=array(
+                        'equipment_name'=>$equipment_name,
+                        'rate'=>$seq->rate,
+                        'quantity'=>$seq->quantity,
+                        'uom'=>$seq->uom,
+                        'days'=>$seq->days,
+                        'total_cost'=>$seq->total_cost,
+                    );
+                }
+            }else{
+                $data['service_equipment']=array();
+            }
+        }
         $this->load->view('template/navbar');
-        $this->load->view('sales/services_acknow_print');
+        $this->load->view('sales/services_acknow_print', $data);
         $this->load->view('template/footer');
+    }
+
+    public function save_ar(){
+        $sales_serv_head_id = $this->input->post('sales_serv_head_id');
+        $datains=array(
+            "shipping_company"=>$this->input->post('shipping'),
+            "waybill_no"=>$this->input->post('waybill_no'),
+        );
+        $this->super_model->update_where("sales_services_head",$datains, "sales_serv_head_id", $sales_serv_head_id);
     }
 
     public function services_sales_list(){
