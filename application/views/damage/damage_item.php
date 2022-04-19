@@ -24,7 +24,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>PDR No</label>
-                                    <input type="text" class="form-control" name="" placeholder="PDR No">
+                                    <input type="text" class="form-control" name="pdr_no" placeholder="PDR No">
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -51,13 +51,13 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Reported by</label>
-                                            <input type="text" class="form-control" name="" placeholder="Reported by">
+                                            <input type="text" class="form-control" name="reported_by" placeholder="Reported by">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Date/Time Reported</label>
-                                            <input type="datetime-local" class="form-control" placeholder="Date/Time Reported" name='' id=''>
+                                            <input type="datetime-local" class="form-control" placeholder="Date/Time Reported" name='reported_date' id=''>
                                         </div>
                                     </div>
                                 </div>
@@ -67,13 +67,25 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Accounted to</label>
-                                    <input type="text" class="form-control" name="" placeholder="Accounted to">
+                                    <!-- <input type="text" class="form-control" name="accounted_to" placeholder="Accounted to"> -->
+                                    <select class="form-control select2" name="accounted_to">
+                                        <option value=''>--Select Accounted--</option>
+                                        <?php foreach($employees AS $e){ ?>
+                                            <option value="<?php echo $e->employee_id; ?>"><?php echo $e->employee_name; ?></option>
+                                        <?php } ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Person using upon damage</label>
-                                    <input type="text" class="form-control" name="" placeholder="Person using upon damage">
+                                    <!--  <input type="text" class="form-control" name="person_using" placeholder="Person using upon damage"> -->
+                                    <select class="form-control select2" name="person_using">
+                                        <option value=''>--Select Person Using--</option>
+                                        <?php foreach($employees AS $e){ ?>
+                                            <option value="<?php echo $e->employee_id; ?>"><?php echo $e->employee_name; ?></option>
+                                        <?php } ?>
+                                    </select>
                                 </div>
                             </div>
                         </div>  
@@ -81,13 +93,13 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Description of the Damaged on the Item</label>
-                                    <textarea class="form-control" rows="3" placeholder="Description of the Damaged on the Item"></textarea>
+                                    <textarea class="form-control" rows="3" placeholder="Description of the Damaged on the Item" name="damage_description"></textarea>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Reason of Damage</label>
-                                    <textarea class="form-control" rows="3" placeholder="Reason of Damage"></textarea>
+                                    <textarea class="form-control" rows="3" name="damage_reason" placeholder="Reason of Damage"></textarea>
                                 </div>
                             </div>
                         </div>    
@@ -95,13 +107,18 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Inspected by</label>
-                                    <input type="text" class="form-control" name="" placeholder="Inspected by">
+                                    <select class="form-control select2" name="inspected_by">
+                                        <option value=''>--Select Person Using--</option>
+                                        <?php foreach($employees AS $e){ ?>
+                                            <option value="<?php echo $e->employee_id; ?>"><?php echo $e->employee_name; ?></option>
+                                        <?php } ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Date Inspected</label>
-                                    <input type="date" class="form-control" placeholder="" name='' id=''>
+                                    <input type="date" class="form-control" placeholder="" name='date_inspected' id=''>
                                 </div>
                             </div>
                         </div>   
@@ -109,13 +126,18 @@
                             <div class="col-lg-9">
                               <div class="form-group">
                                     <label>Provide a recommendation on how the parts/equipment is going to be repaired or replaced</label>
-                                    <textarea class="form-control" rows="1" placeholder="Provide a recommendation on how the parts/equipment is going to be repaired or replaced"></textarea>
+                                    <textarea class="form-control" rows="1" placeholder="Provide a recommendation on how the parts/equipment is going to be repaired or replaced" name="recommendation"></textarea>
                                 </div>  
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Prepared by</label>
-                                    <input type="text" class="form-control" name="" placeholder="Prepared by">
+                                    <select class="form-control select2" name="prepared_by">
+                                        <option value=''>--Select Prepared By--</option>
+                                        <?php foreach($employees AS $e){ ?>
+                                            <option value="<?php echo $e->employee_id; ?>"><?php echo $e->employee_name; ?></option>
+                                        <?php } ?>
+                                    </select>
                                 </div>
                             </div>
                             <!-- <div class="col-lg-6">
@@ -139,19 +161,29 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Checked/Verified by</label>
-                                    <input type="text" class="form-control" name="" placeholder="Checked/Verified by">
+                                    <select class="form-control select2" name="checked_by">
+                                        <option value=''>--Select Checked/Verified By--</option>
+                                        <?php foreach($employees AS $e){ ?>
+                                            <option value="<?php echo $e->employee_id; ?>"><?php echo $e->employee_name; ?></option>
+                                        <?php } ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Noted by</label>
-                                    <input type="text" class="form-control" name="" placeholder="Noted by">
+                                    <select class="form-control select2" name="noted_by">
+                                        <option value=''>--Select Noted By--</option>
+                                        <?php foreach($employees AS $e){ ?>
+                                            <option value="<?php echo $e->employee_id; ?>"><?php echo $e->employee_name; ?></option>
+                                        <?php } ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Notes</label>
-                                    <textarea class="form-control" rows="1" placeholder=""></textarea>
+                                    <textarea class="form-control" rows="1" placeholder="" name="notes"></textarea>
                                 </div>
                             </div>
                             <div class="col-lg-3">
@@ -195,6 +227,7 @@
 
                                     <input type='hidden' name='count' id='count' value='0'>
                                     <input type='hidden' name='damage_id' id='damage_id' >
+                                    <input type='hidden' name='item_id' id='item_id' >
                                 </div>
                             </div> 
                         </div> 
