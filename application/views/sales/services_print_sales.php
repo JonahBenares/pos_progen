@@ -146,7 +146,7 @@
                                 <td><?php echo $sd['quantity'];?></td>
                                 <td><?php echo $sd['uom'];?></td>
                                 <td align="center"><?php echo number_format($sd['selling_price'],2);?></td>
-                                <td align="center"><?php echo number_format($sd['discount'],0)."%";?></td>
+                                <td align="center"><?php echo number_format($sd['discount'],2);?></td>
                                 <td><?php echo number_format($sd['total'],2);?></td>
                             </tr>
                             <?php } $itemtotal=array_sum($itmtotal); ?>

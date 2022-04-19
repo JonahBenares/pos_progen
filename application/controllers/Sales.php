@@ -214,7 +214,7 @@ class Sales extends CI_Controller {
             "unit_cost"=>$this->input->post('unit_cost'),
             "selling_price"=>$this->input->post('selling_price'),
             "item_id"=>$item_id,
-            "discount_percent"=>$this->input->post('discount'),
+            /*"discount_percent"=>$this->input->post('discount'),*/
             "discount_amount"=>$this->input->post('discount_amount'),
             "total"=>$this->input->post('total_cost'),
             "quantity"=>$this->input->post('quantity'),
@@ -265,7 +265,7 @@ class Sales extends CI_Controller {
                 
 
                 $serial_no = $this->get_serial($app->sales_good_det_id, 'temp');
-                echo '<tr id="load_data'.$count_item.'"><td>'.$count_item.'</td><td>'.$original_pn.'</td><td>'.$item_name.'</td><td>'.$serial_no.'</td><td>'.$app->quantity.'</td><td>'.$unit.'</td><td>'.number_format($app->selling_price,2).'</td><td>'.number_format($app->discount_percent,0)."%".'</td><td>'.number_format($app->total,2).'</td>  <td><a onclick="delete_sales_item('.$app->sales_good_det_id.','.$count_item.')" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
+                echo '<tr id="load_data'.$count_item.'"><td>'.$count_item.'</td><td>'.$original_pn.'</td><td>'.$item_name.'</td><td>'.$serial_no.'</td><td>'.$app->quantity.'</td><td>'.$unit.'</td><td>'.number_format($app->selling_price,2).'</td><td>'.number_format($app->discount_amount,2).'</td><td>'.number_format($app->total,2).'</td>  <td><a onclick="delete_sales_item('.$app->sales_good_det_id.','.$count_item.')" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
                 $count_item++;
             } 
           
@@ -433,7 +433,7 @@ class Sales extends CI_Controller {
                     'quantity'=>$sd->quantity,
                     'uom'=>$unit,
                     'selling_price'=>$sd->selling_price,
-                    'discount'=>$sd->discount_percent,
+                    'discount'=>$sd->discount_amount,
                     'total'=>$sd->total,
                 );
             }
@@ -572,7 +572,7 @@ class Sales extends CI_Controller {
             "item_id"=>$item_id,
             "unit_cost"=>$this->input->post('unit_cost'),
             "selling_price"=>$this->input->post('selling_price'),
-            "discount_percent"=>$this->input->post('discount'),
+            /*"discount_percent"=>$this->input->post('discount'),*/
             "discount_amount"=>$this->input->post('discount_amount'),
             "group_id"=>$this->input->post('group_id'),
             "total"=>$this->input->post('total_cost'),
@@ -611,7 +611,7 @@ class Sales extends CI_Controller {
             $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
             $serial_no = $this->get_serial_services($app->sales_serv_items_id,'temp');
             //$serial_no = $this->super_model->select_column_where("fifo_in","serial_no","in_id",$in_id);
-            echo '<tr id="load_data'.$count_item.'"><td>'.$count_item.'</td><td>'.$original_pn.'</td><td>'.$item_name.'</td><td>'.$serial_no.'</td><td>'.$app->quantity.'</td><td>'.$unit.'</td><td>'.number_format($app->selling_price,2).'</td><td>'.number_format($app->discount_percent,0)."%".'</td><td>'.number_format($app->total,2).'</td>  <td><a onclick="delete_service_item('.$app->sales_serv_items_id.','.$count_item.')" class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
+            echo '<tr id="load_data'.$count_item.'"><td>'.$count_item.'</td><td>'.$original_pn.'</td><td>'.$item_name.'</td><td>'.$serial_no.'</td><td>'.$app->quantity.'</td><td>'.$unit.'</td><td>'.number_format($app->selling_price,2).'</td><td>'.number_format($app->discount_amount,2).'</td><td>'.number_format($app->total,2).'</td>  <td><a onclick="delete_service_item('.$app->sales_serv_items_id.','.$count_item.')" class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
             $count_item++;
         }    
     }
@@ -862,7 +862,7 @@ class Sales extends CI_Controller {
                         'quantity'=>$sd->quantity,
                         'uom'=>$unit,
                         'selling_price'=>$sd->selling_price,
-                        'discount'=>$sd->discount_percent,
+                        'discount'=>$sd->discount_amount,
                         'total'=>$sd->total,
                     );
                 }

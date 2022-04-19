@@ -205,6 +205,9 @@
                                 <a class="nav-link" href="<?php echo base_url(); ?>masterfile/rack_list">Rack</a>
                             </li>
                             <li class="nav-item"> 
+                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/shipping_list">Shipping Company</a>
+                            </li>
+                            <li class="nav-item"> 
                                 <a class="nav-link" href="<?php echo base_url(); ?>masterfile/supplier_list">Supplier</a>
                             </li>
                             <li class="nav-item"> 

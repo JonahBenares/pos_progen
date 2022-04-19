@@ -46,6 +46,10 @@ function AddSub(baseurl,cat_id){
     window.open(baseurl+"index.php/masterfile/view_cat/"+cat_id, "_blank", 'top=100px,left=400px,width=600,height=400');
 }
 
+function updateShipping(baseurl,id) {
+    window.open(baseurl+"index.php/masterfile/update_shipping/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+}
+
 function updateSupplier(baseurl,id) {
     window.open(baseurl+"index.php/masterfile/update_supplier/"+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
