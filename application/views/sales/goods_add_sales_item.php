@@ -54,8 +54,8 @@
                                         <input type="text" class="form-control amount-txt" name="selling_price" id="selling_price" placeholder="00.00" onkeypress="return isNumberKey(this, event)" onkeyup='changePrice()'>
                                     </div>
                                     <div class="form-group">
-                                        <label >Discount Percentage</label>
-                                        <input type="text" class="form-control amount-txt" name="discount" id="discount" placeholder="0%" onkeypress="return isNumberKey(this, event)" onkeyup='changePrice()'>
+                                        <label >Discount Amount</label>
+                                        <input type="text" class="form-control amount-txt" name="discount" id="discount" placeholder="00.00" onkeypress="return isNumberKey(this, event)" onkeyup='changePrice()'>
                                     </div>
                                     <div class="form-group">
                                         <label >Total Cost</label>

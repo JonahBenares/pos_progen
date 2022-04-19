@@ -83,8 +83,7 @@ class Damage extends CI_Controller {
             </td>
             </tr>';
 
-        echo $str;
-                                     
+        echo $str;                                   
     }
 
     public function cancel_damage(){
@@ -170,5 +169,12 @@ class Damage extends CI_Controller {
 
             $this->super_model->update_where("fifo_in", $data_in, "in_id", $in_id);
         }
+    }
+
+    public function damage_print(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('damage/damage_print');
+        $this->load->view('template/footer');
     }
 }

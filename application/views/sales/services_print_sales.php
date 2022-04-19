@@ -20,6 +20,10 @@
                     <a href="#" class="btn btn-gradient-success btn-md btn-rounded" onclick="printDiv('printableArea')">
                         <b><span class="mdi mdi-printer"></span> Print</b>
                     </a>
+
+                    <a href="<?php echo base_url(); ?>sales/services_acknow_print" class="btn btn-gradient-primary btn-md btn-rounded" >
+                        <b><span class="mdi mdi-printer"></span> Acknowledgement Receipt</b>
+                    </a>
                 </center>
             </div>
             <div class="col-lg-3"></div>
@@ -146,7 +150,7 @@
                                 <td><?php echo $sd['quantity'];?></td>
                                 <td><?php echo $sd['uom'];?></td>
                                 <td align="center"><?php echo number_format($sd['selling_price'],2);?></td>
-                                <td align="center"><?php echo number_format($sd['discount'],0)."%";?></td>
+                                <td align="center"><?php echo number_format($sd['discount'],2);?></td>
                                 <td><?php echo number_format($sd['total'],2);?></td>
                             </tr>
                             <?php } $itemtotal=array_sum($itmtotal); ?>

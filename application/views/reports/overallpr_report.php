@@ -94,12 +94,12 @@
                                 <tr>
                                     <td><?php echo $x; ?></td>
                                     <td><?php echo $pn['item']; ?></td>
-                                    <td><?php echo $pn['recqty'];?></td>
-                                    <td><?php echo $pn['sales_quantity'];?></td>
+                                    <td><?php echo number_format($pn['recqty'],2);?></td>
+                                    <td><?php echo number_format($pn['sales_quantity'],2);?></td>
                                     <td><?php echo number_format($pn['in_balance'],2);?></td>
-                                    <td><?php echo $pn['returnqty'];?></td>
-                                    <td><?php echo $pn['damageqty'];?></td>
-                                    <td><?php echo $pn['repairqty'];?></td>
+                                    <td><?php echo  number_format($pn['returnqty'],2);?></td>
+                                    <td><?php echo  number_format($pn['damageqty'],2);?></td>
+                                    <td><?php echo  number_format($pn['repairqty'],2);?></td>
                                     <td><?php echo number_format($pn['final_balance'],2);?></td>
                                 </tr>
                                 <?php $x++; }  ?>

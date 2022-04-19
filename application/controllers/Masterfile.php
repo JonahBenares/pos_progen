@@ -783,6 +783,60 @@ class Masterfile extends CI_Controller {
         }
     }
 
+        public function shipping_list(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $data['shipping']=$this->super_model->select_all_order_by("shipping_company","company_name","ASC");
+        $this->load->view('masterfile/shipping_list',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function add_shipping(){
+        $company_name = $this->input->post('company_name');
+        $contact_no = $this->input->post('contact_no');
+        $address = $this->input->post('address');
+        $data = array(
+            'company_name'=>$company_name,
+            'contact_no'=>$contact_no,
+            'address'=>$address,
+        );
+        if($this->super_model->insert_into("shipping_company", $data)){
+            echo "<script>alert('Shipping Company Successfully Added!'); 
+                window.location ='".base_url()."masterfile/shipping_list'; </script>";
+        }
+    }
+
+    public function update_shipping(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $data['id']=$this->uri->segment(3);
+        $id=$this->uri->segment(3);
+        $data['update_shipping'] = $this->super_model->select_row_where('shipping_company', 'ship_comp_id', $id);
+        $this->load->view('masterfile/update_shipping',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function edit_shipping(){
+        $data = array(
+            'company_name'=>$this->input->post('company_name'),
+            'contact_no'=>$this->input->post('contact_no'),
+            'address'=>$this->input->post('address'),
+        );
+        $ship_comp_id = $this->input->post('ship_comp_id');
+        if($this->super_model->update_where('shipping_company', $data, 'ship_comp_id', $ship_comp_id)){
+            echo "<script>alert('Shipping Company Successfully Updated!'); 
+                window.location ='".base_url()."masterfile/shipping_list/$ship_comp_id'; </script>";
+        }
+    }
+
+    public function delete_shipping(){
+        $id=$this->uri->segment(3);
+        if($this->super_model->delete_where('shipping_company', 'ship_comp_id', $id)){
+            echo "<script>alert('Succesfully Deleted'); 
+                window.location ='".base_url()."masterfile/shipping_list'; </script>";
+        }
+    }
+
     public function supplier_list(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
