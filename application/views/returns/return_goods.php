@@ -86,7 +86,8 @@
                             <table class="table table-bordered table-hover" width="100%" id="myTdable">
                                 <thead>
                                     <tr>
-                                        <th width="6%">Return Qty</th>
+                                        <th width="6%">Return Qty (w/o damage)</th>
+                                        <th width="6%">Return Qty (damage)</th>
                                         <th width="20%">Item Description</th>
                                         <th width="20%">Supplier</th>
                                         <th width="5%">Unit Cost</th>
@@ -102,6 +103,9 @@
                                     <tr>
                                         <td class="p-0">
                                             <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="return_qty<?php echo $x; ?>" onkeyup="check_return_qty('<?php echo $x; ?>')" id = "retqty<?php echo $x; ?>" max="<?php echo $i['qty']; ?>" placeholder="<?php echo number_format($i['qty']); ?>">
+                                        </td>
+                                        <td class="p-0">
+                                            <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="damage_qty<?php echo $x; ?>" onkeyup="check_return_qty('<?php echo $x; ?>')" id = "damqty<?php echo $x; ?>" max="<?php echo $i['qty']; ?>" placeholder="<?php echo number_format($i['qty']); ?>">
                                         </td>
                                         <input type='hidden' name='qty<?php echo $x; ?>' id='qty<?php echo $x; ?>' value="<?php echo number_format($i['qty']); ?>">
                                         <td><?php echo $i['item'];?></td>
