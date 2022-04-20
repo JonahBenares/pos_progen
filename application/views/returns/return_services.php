@@ -1,3 +1,5 @@
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script  type="text/javascript" src="<?php echo base_url(); ?>assets/js/return.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -22,59 +24,63 @@
                     <div class="card-body">   
                         <div class="row">
                             <div class="col-lg-4 offset-lg-3">
-                                <select class="form-control" id = "dr_no" name = "dr_no">
+                                <select class="form-control" id = "dr_no" name = "dr_no" onchange="dr_append_service()">
                                     <option value="">--Select DR No--</option>
-                                        <option value=""></option>
+                                    <?php foreach($dr_no AS $d){ ?>
+                                        <option value="<?php echo $d->sales_serv_head_id; ?>"><?php echo $d->dr_no; ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="col-lg-2">
-                                <input type='hidden' name='sales_good_head_id' id='sales_good_head_id'>
-                                <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="" value="Search" onclick="loadReturn()">
+                                <input type='hidden' name='sales_serv_head_id' id='sales_serv_head_id'>
+                                <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="" value="Search" onclick="loadReturnserve()">
                             </div>
                         </div>
                         <hr> 
-                        <form id="returnSave">
+                        <form id="returnserveSave">
+                            <?php if(!empty($id)){ foreach($head AS $h){ ?>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <small>DR No. :</small>
-                                    <h3><b>DR0109299</h3></b>
+                                    <h3><b><?php echo $h['dr_no'];?></h3></b>
                                     <table class="table-borsdered" width="100%">
                                         <tr>
                                             <td>Returned by:</td>
-                                            <td >Ma. Julyn Marie May Jalangalog</td>
+                                            <td ><?php echo $h['client']; ?></td>
                                         </tr>
                                         <tr>
                                             <td width="10%">Sales Date:</td>
-                                            <td width="40%" align='left'> July 20, 1010</td>
+                                            <td width="40%" align='left'> <?php echo $h['sales_date']; ?></td>
                                             <td align="right">VAT:</td>
-                                            <td>&nbsp; Yes</td>
+                                            <td>&nbsp; <?php echo (($h['vat'] == 1) ? 'Yes' : 'No'); ?></td>
                                            
                                         </tr>
                                         <tr>
                                             <td width="10%" >JOR Date:</td>
-                                            <td width="40%" >July 19, 2020</td>
+                                            <td width="40%" ><?php echo date("F d,Y",strtotime($h['jor_date'])); ?></td>
                                             <td width="10%" align="right">JOR No:</td>
-                                            <td width="40%">&nbsp; JOR-00393</td>
+                                            <td width="40%">&nbsp; <?php echo $h['jor_no']; ?></td>
                                         </tr>
                                         <tr>
                                             <td width="10%">JOI Date:</td>
-                                            <td >July 19, 2020</td>
+                                            <td ><?php echo date("F d,Y",strtotime($h['joi_date'])); ?></td>
                                             <td align="right">JOI No:</td>
-                                            <td >&nbsp; PR-00393</td>
+                                            <td >&nbsp; <?php echo $h['joi_no']; ?></td>
                                         </tr>
                                         <tr>
                                             <td>Remarks:</td>
-                                            <td >remark</td>
+                                            <td ><?php echo $h['remarks']; ?></td>
                                             <td width="10%" align="right">Date Return:</td>
                                             <td width="40%" align="left"><input type="date" class="ml-2 form-control" name="return_date" id = "return_date" value=""style="width:50%;"></td>
                                         </tr>
                                     </table>
                                     <div class="form-group">
                                         <label>Description</label>
-                                        <textarea class="form-control" rows="5" placeholder="Add Description..."></textarea>
+                                        <textarea class="form-control" name="desc_remarks" rows="5" placeholder="Add Description..."></textarea>
                                     </div>
                                 </div>
                             </div>
+                            <?php } ?>
                             <br>
                             <table class="table table-bordered table-hover" width="100%" id="myTdable">
                                 <tr>
@@ -108,11 +114,13 @@
                             <div class="row">
                                 <div class="col-lg-4"></div>
                                 <div class="col-lg-4">
-                                    <a href="<?php echo base_url(); ?>returns/print_return_services" class="btn btn-gradient-success btn-md btn-block">Save and Print</a>
-                                    <!-- <input type="button" name="savedata" id="savedata" onclick="saveReturn()" class="btn btn-gradient-success btn-md btn-block" value="Save and Print"> -->
+                                    <!-- <a href="<?php echo base_url(); ?>returns/print_return_services" class="btn btn-gradient-success btn-md btn-block">Save and Print</a> -->
+                                    <input type="button" name="savedata" id="savedata" onclick="saveReturnserve()" class="btn btn-gradient-success btn-md btn-block" value="Save and Print">
                                 </div>
                                 <div class="col-lg-4"></div>
                             </div>
+                            <?php } ?>
+                             <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
                         </div>
                     </form>
                 </div>

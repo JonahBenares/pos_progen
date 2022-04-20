@@ -796,6 +796,7 @@ class Sales extends CI_Controller {
                 'sales_serv_items_id'=>$tmp->sales_serv_items_id,
                 'damage_id'=>0,
                 'quantity'=>$tmp->quantity,
+                'remaining_qty'=>$tmp->quantity,
             );   
 
             $this->super_model->insert_into("fifo_out",$data);

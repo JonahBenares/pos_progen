@@ -82,7 +82,7 @@
                                     <td class="td-head" width="1%">#</td>
                                     <td class="td-head" width="40%">PR No</td>
                                     <td class="td-head">Received Qty</td>
-                                    <td class="td-head">Sales Good Qty</td>
+                                    <td class="td-head">Sales Qty</td>
                                     <td class="td-head">Initial Balance</td>
                                     <td class="td-head">Return Qty</td>
                                     <td class="td-head">Damaged Qty</td>

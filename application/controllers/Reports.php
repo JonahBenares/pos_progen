@@ -910,13 +910,7 @@ class Reports extends CI_Controller {
             $count_return = $this->super_model->count_custom_where("return_details","in_id='$head->in_id'");
             $count_damage = $this->super_model->count_custom_where("damage_details","in_id='$head->in_id'");
             $count_repair = $this->super_model->count_custom_where("repair_details","in_id='$head->in_id'");
-            //$sales_qty = $sales_good_qty - $sales_service_qty;
-            if($count_return!=0){
-                $in_balance = $head->quantity - $sales_good_qty - $return_qty;
-            }else{
-                $in_balance = $head->quantity - $sales_good_qty;
-            }
-            //$final_balance=0;
+            $in_balance = $head->quantity - $sales_good_qty;
             if($count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
                 $final_balance = $head->quantity;
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage==0 && $count_expired==0){
@@ -928,7 +922,6 @@ class Reports extends CI_Controller {
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired==0){
                 $final_balance =  $head->quantity - $sales_good_qty - $damageqty;
             }else if((($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired!=0)){
-                
                 $final_balance =  ($head->quantity - $sales_good_qty - $damageqty - $expired_qty) + $return_qty;
             }
             $data['item_pr'][] = array(
