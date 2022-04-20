@@ -215,7 +215,7 @@ class Sales extends CI_Controller {
             "selling_price"=>$this->input->post('selling_price'),
             "item_id"=>$item_id,
             /*"discount_percent"=>$this->input->post('discount'),*/
-            "discount_amount"=>$this->input->post('discount_amount'),
+            "discount_amount"=>$this->input->post('discount'),
             "total"=>$this->input->post('total_cost'),
             "quantity"=>$this->input->post('quantity'),
         );

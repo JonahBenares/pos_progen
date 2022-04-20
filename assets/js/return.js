@@ -42,7 +42,9 @@ function saveReturn(){
 function check_return_qty(count){
   var total_qty= document.getElementById("qty"+count).value;
   var quantity= document.getElementById("retqty"+count).value;
-  if (parseInt(quantity) >parseInt(total_qty)){
+  var damqty= document.getElementById("damqty"+count).value;
+  var qty = parseInt(quantity) + parseInt(damqty);
+  if (parseInt(qty) > parseInt(total_qty)){
     document.getElementById("savedata").disabled = true;
     alert("Quantity to be returned exceeds quantity bought!");
   }else{

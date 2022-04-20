@@ -108,13 +108,14 @@ class Returns extends CI_Controller {
             for($x=1;$x<$count;$x++){
                 $in_id= $this->input->post('in_id'.$x);
                 $qty =$this->input->post('return_qty'.$x);
+                $dam_qty =$this->input->post('damage_qty'.$x);
                 $ret_qty =$this->input->post('qty'.$x);
                 $item_id =$this->input->post('item_id'.$x);
                 $unit_cost =$this->input->post('unit_cost'.$x);
                 $selling_price =$this->input->post('selling_price'.$x);
-                $total_cost =$selling_price * $qty;
-                if( $qty !=0){
-                  
+              
+                if( $qty !=0 && $dam_qty ==""){
+                    $total_cost =$selling_price * $qty;
                     $datadet=array(
                         "return_id"=>$return_id,
                         "item_id"=>$item_id,
@@ -134,6 +135,77 @@ class Returns extends CI_Controller {
                         if($this->super_model->update_where("fifo_in", $dataup, "in_id", $in_id)){
                             $sales_details_id = $this->input->post('sales_details_id'.$x);
                             $new_qty_out = $ret_qty - $qty;
+                            $dataout=array(
+                                "quantity"=>$new_qty_out
+                            );
+                            $this->super_model->update_custom_where("fifo_out", $dataout, "in_id='$in_id' AND sales_details_id='$sales_details_id'");
+
+                            $dataret=array(
+                                "return_id"=>$return_id,
+                            );
+                             $this->super_model->update_custom_where("sales_good_details", $dataret, "sales_good_det_id='$sales_details_id'");
+                        }
+                    }
+                }
+
+                else  if( $qty =="" && $dam_qty != 0){
+                     $total_cost =$selling_price * $dam_qty;
+                     $datadet=array(
+                        "return_id"=>$return_id,
+                        "item_id"=>$item_id,
+                        "in_id"=>$in_id,
+                        "damage_qty"=>$dam_qty,
+                        "unit_cost"=>$unit_cost,
+                        "selling_price"=>$selling_price,
+                        "total_amount"=>$total_cost,
+                        "remarks"=>$this->input->post('remarks'.$x)
+                    );
+                    if($this->super_model->insert_into("return_details",$datadet)){
+                        $rem_qty = $this->super_model->select_column_where("fifo_in","remaining_qty","in_id",$in_id);
+                        $new_qty = $rem_qty + $dam_qty;
+                        $dataup=array(
+                            'remaining_qty'=>$new_qty
+                        );
+                        if($this->super_model->update_where("fifo_in", $dataup, "in_id", $in_id)){
+                            $sales_details_id = $this->input->post('sales_details_id'.$x);
+                            $new_qty_out = $ret_qty - $dam_qty;
+                            $dataout=array(
+                                "quantity"=>$new_qty_out
+                            );
+                            $this->super_model->update_custom_where("fifo_out", $dataout, "in_id='$in_id' AND sales_details_id='$sales_details_id'");
+
+
+                            $dataret=array(
+                                "return_id"=>$return_id,
+                            );
+                             $this->super_model->update_custom_where("sales_good_details", $dataret, "sales_good_det_id='$sales_details_id'");
+                        }
+                    }
+                }
+
+                else  if( $qty !=0 && $dam_qty != 0){
+                    $totqty  =$qty*$dam_qty;
+                     $total_cost =$selling_price * $totqty;
+                     $datadet=array(
+                        "return_id"=>$return_id,
+                        "item_id"=>$item_id,
+                        "in_id"=>$in_id,
+                        "return_qty"=>$qty,
+                        "damage_qty"=>$dam_qty,
+                        "unit_cost"=>$unit_cost,
+                        "selling_price"=>$selling_price,
+                        "total_amount"=>$total_cost,
+                        "remarks"=>$this->input->post('remarks'.$x)
+                    );
+                    if($this->super_model->insert_into("return_details",$datadet)){
+                        $rem_qty = $this->super_model->select_column_where("fifo_in","remaining_qty","in_id",$in_id);
+                        $new_qty = $rem_qty + $dam_qty + $qty;
+                        $dataup=array(
+                            'remaining_qty'=>$new_qty
+                        );
+                        if($this->super_model->update_where("fifo_in", $dataup, "in_id", $in_id)){
+                            $sales_details_id = $this->input->post('sales_details_id'.$x);
+                            $new_qty_out = $ret_qty - $dam_qty - $qty;
                             $dataout=array(
                                 "quantity"=>$new_qty_out
                             );
