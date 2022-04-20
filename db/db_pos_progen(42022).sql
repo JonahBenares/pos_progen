@@ -1,20 +1,21 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.11
--- http://www.phpmyadmin.net
+-- version 5.0.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2022 at 04:37 PM
--- Server version: 5.6.21
--- PHP Version: 5.6.3
+-- Generation Time: Apr 20, 2022 at 04:33 AM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.2.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `db_pos_progen`
@@ -26,13 +27,25 @@ SET time_zone = "+00:00";
 -- Table structure for table `billing_details`
 --
 
-CREATE TABLE IF NOT EXISTS `billing_details` (
-`billing_detail_id` int(11) NOT NULL,
-  `billing_id` int(11) NOT NULL DEFAULT '0',
-  `dr_no` int(11) NOT NULL DEFAULT '0',
+CREATE TABLE `billing_details` (
+  `billing_detail_id` int(11) NOT NULL,
+  `billing_id` int(11) NOT NULL DEFAULT 0,
+  `sales_type` varchar(50) DEFAULT NULL,
+  `sales_id` int(11) NOT NULL DEFAULT 0,
+  `dr_no` varchar(50) DEFAULT NULL,
   `dr_date` varchar(20) DEFAULT NULL,
-  `total_amount` decimal(10,2) NOT NULL DEFAULT '0.00'
+  `total_unit_cost` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `total_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `remaining_amount` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `billing_details`
+--
+
+INSERT INTO `billing_details` (`billing_detail_id`, `billing_id`, `sales_type`, `sales_id`, `dr_no`, `dr_date`, `total_unit_cost`, `total_amount`, `remaining_amount`) VALUES
+(3, 3, 'goods', 1, 'PROBCD-2022-DR-0001', '2022-04-14', '416000.00', '499000.00', '499000.00'),
+(4, 3, 'goods', 2, 'PROBCD-2022-DR-0002', '2022-04-20', '233000.00', '300000.00', '300000.00');
 
 -- --------------------------------------------------------
 
@@ -40,14 +53,41 @@ CREATE TABLE IF NOT EXISTS `billing_details` (
 -- Table structure for table `billing_head`
 --
 
-CREATE TABLE IF NOT EXISTS `billing_head` (
-`billing_id` int(11) NOT NULL,
-  `billing_no` int(11) NOT NULL DEFAULT '0',
+CREATE TABLE `billing_head` (
+  `billing_id` int(11) NOT NULL,
+  `billing_no` varchar(50) DEFAULT NULL,
   `billing_date` varchar(20) DEFAULT NULL,
-  `total_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `client_id` int(11) NOT NULL DEFAULT '0',
+  `total_unit_cost` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `total_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `client_id` int(11) NOT NULL DEFAULT 0,
   `create_date` varchar(20) DEFAULT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0'
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `status` int(11) NOT NULL DEFAULT 0 COMMENT '0=billed, 1=paid'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `billing_head`
+--
+
+INSERT INTO `billing_head` (`billing_id`, `billing_no`, `billing_date`, `total_unit_cost`, `total_amount`, `client_id`, `create_date`, `user_id`, `status`) VALUES
+(3, 'BS-2022-0001', '2022-04-12', '649000.00', '799000.00', 1, '2022-04-12 14:10:30', 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `billing_payment`
+--
+
+CREATE TABLE `billing_payment` (
+  `payment_id` int(11) NOT NULL,
+  `billing_id` varchar(50) DEFAULT NULL,
+  `payment_date` varchar(20) DEFAULT NULL,
+  `payment_type` varchar(20) DEFAULT NULL,
+  `check_no` varchar(50) DEFAULT NULL,
+  `receipt_no` varchar(50) DEFAULT NULL,
+  `amount` decimal(10,2) DEFAULT NULL,
+  `create_date` varchar(20) DEFAULT NULL,
+  `user_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -56,10 +96,10 @@ CREATE TABLE IF NOT EXISTS `billing_head` (
 -- Table structure for table `bin`
 --
 
-CREATE TABLE IF NOT EXISTS `bin` (
-`bin_id` int(11) NOT NULL,
+CREATE TABLE `bin` (
+  `bin_id` int(11) NOT NULL,
   `bin_name` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `bin`
@@ -129,8 +169,8 @@ INSERT INTO `bin` (`bin_id`, `bin_name`) VALUES
 -- Table structure for table `brand`
 --
 
-CREATE TABLE IF NOT EXISTS `brand` (
-`brand_id` int(11) NOT NULL,
+CREATE TABLE `brand` (
+  `brand_id` int(11) NOT NULL,
   `brand_name` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -140,21 +180,22 @@ CREATE TABLE IF NOT EXISTS `brand` (
 -- Table structure for table `client`
 --
 
-CREATE TABLE IF NOT EXISTS `client` (
-`client_id` int(11) NOT NULL,
-  `address` text,
+CREATE TABLE `client` (
+  `client_id` int(11) NOT NULL,
+  `address` text DEFAULT NULL,
   `buyer_name` varchar(100) DEFAULT NULL,
   `contact_person` varchar(100) DEFAULT NULL,
   `contact_no` varchar(50) DEFAULT NULL,
-  `tin` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `tin` varchar(50) DEFAULT NULL,
+  `wht` int(11) NOT NULL DEFAULT 0 COMMENT '1=YES, 0=No'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `client`
 --
 
-INSERT INTO `client` (`client_id`, `address`, `buyer_name`, `contact_person`, `contact_no`, `tin`) VALUES
-(1, 'Purok San Jose, Brgy. Calumangan, Bago City, Negros Occidental, 6101', 'Central Negros Power Reliability, Inc.', 'Ms. Julyn May', '(034)4351932', '1234');
+INSERT INTO `client` (`client_id`, `address`, `buyer_name`, `contact_person`, `contact_no`, `tin`, `wht`) VALUES
+(1, 'Purok San Jose, Brgy. Calumangan, Bago City, Negros Occidental, 6101', 'Central Negros Power Reliability, Inc.', 'Ms. Julyn May', '(034)4351932', '1234', 1);
 
 -- --------------------------------------------------------
 
@@ -162,11 +203,18 @@ INSERT INTO `client` (`client_id`, `address`, `buyer_name`, `contact_person`, `c
 -- Table structure for table `damage_details`
 --
 
-CREATE TABLE IF NOT EXISTS `damage_details` (
-`damage_det_id` int(11) NOT NULL,
-  `damage_id` int(11) NOT NULL DEFAULT '0',
-  `in_id` int(11) NOT NULL DEFAULT '0',
-  `damage_qty` decimal(10,2) NOT NULL DEFAULT '0.00'
+CREATE TABLE `damage_details` (
+  `damage_det_id` int(11) NOT NULL,
+  `damage_id` int(11) NOT NULL DEFAULT 0,
+  `in_id` int(11) NOT NULL DEFAULT 0,
+  `brand` varchar(50) DEFAULT NULL,
+  `serial_no` varchar(100) DEFAULT NULL,
+  `part_no` varchar(50) DEFAULT NULL,
+  `acquisition_date` varchar(20) DEFAULT NULL,
+  `acquisition_cost` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `damage_qty` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `remarks` text DEFAULT NULL,
+  `repaired` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -175,14 +223,34 @@ CREATE TABLE IF NOT EXISTS `damage_details` (
 -- Table structure for table `damage_head`
 --
 
-CREATE TABLE IF NOT EXISTS `damage_head` (
-`damage_id` int(11) NOT NULL,
+CREATE TABLE `damage_head` (
+  `damage_id` int(11) NOT NULL,
   `damage_date` varchar(20) DEFAULT NULL,
-  `remarks` text,
-  `item_id` int(11) NOT NULL DEFAULT '0',
+  `remarks` text DEFAULT NULL,
+  `item_id` int(11) NOT NULL DEFAULT 0,
+  `pdr_no` varchar(50) DEFAULT NULL,
+  `reported_date` varchar(50) DEFAULT NULL,
+  `reported_by` varchar(100) DEFAULT NULL,
+  `accounted_to` int(11) NOT NULL DEFAULT 0,
+  `person_using` int(11) NOT NULL DEFAULT 0,
+  `damage_description` text DEFAULT NULL,
+  `damage_reason` text DEFAULT NULL,
+  `inspected_by` int(11) NOT NULL DEFAULT 0,
+  `date_inspected` varchar(50) DEFAULT NULL,
+  `recommendation` text DEFAULT NULL,
+  `prepared_by` int(11) NOT NULL DEFAULT 0,
+  `checked_by` int(11) NOT NULL DEFAULT 0,
+  `noted_by` int(11) NOT NULL DEFAULT 0,
   `create_date` varchar(20) DEFAULT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0'
+  `user_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `damage_head`
+--
+
+INSERT INTO `damage_head` (`damage_id`, `damage_date`, `remarks`, `item_id`, `pdr_no`, `reported_date`, `reported_by`, `accounted_to`, `person_using`, `damage_description`, `damage_reason`, `inspected_by`, `date_inspected`, `recommendation`, `prepared_by`, `checked_by`, `noted_by`, `create_date`, `user_id`) VALUES
+(1, '', NULL, 0, NULL, NULL, NULL, 0, 0, NULL, NULL, 0, NULL, NULL, 0, 0, 0, '2022-04-18 14:44:34', 1);
 
 -- --------------------------------------------------------
 
@@ -190,10 +258,10 @@ CREATE TABLE IF NOT EXISTS `damage_head` (
 -- Table structure for table `department`
 --
 
-CREATE TABLE IF NOT EXISTS `department` (
-`department_id` int(11) NOT NULL,
+CREATE TABLE `department` (
+  `department_id` int(11) NOT NULL,
   `department_name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `department`
@@ -234,124 +302,145 @@ INSERT INTO `department` (`department_id`, `department_name`) VALUES
 -- Table structure for table `employees`
 --
 
-CREATE TABLE IF NOT EXISTS `employees` (
-`employee_id` int(11) NOT NULL,
+CREATE TABLE `employees` (
+  `employee_id` int(11) NOT NULL,
   `employee_name` varchar(255) DEFAULT NULL,
-  `department` varchar(255) DEFAULT NULL,
+  `department_id` int(11) NOT NULL,
   `position` varchar(255) DEFAULT NULL,
   `contact_no` varchar(255) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`employee_id`, `employee_name`, `department`, `position`, `contact_no`, `email`) VALUES
-(1, 'Ma. Milagros Arana', 'Management', 'General Manager', '0917-5924080', NULL),
-(2, 'Rhea Arsenio', 'Trading', 'Trader', '0920-6398529', NULL),
-(3, 'Jonah Faye Benares', 'IT Department', 'Software Development Supervisor', '0932-4515369', NULL),
-(4, 'Kervic Biñas', 'Purchasing', 'Procurement Assistant', '0930-2357794', NULL),
-(5, 'Joemarie Calibjo', 'Admin', 'Service Vehicle Driver', '0950-2900419', NULL),
-(6, 'Maylen Cabaylo', 'Purchasing', 'Purchasing Officer', '09099491894/09234597487', NULL),
-(7, 'Rey  Carbaquil', 'Admin', 'Service Vehicle Driver', '0912 5905319', NULL),
-(8, 'Cristy Cesar', 'Accounting', 'Accounting Associate', '0916-3961389', NULL),
-(9, 'Gretchen Danoy', 'Accounting', 'Accounting Supervisor', '0922-4386979', NULL),
-(10, 'Merry Michelle Dato', 'Warehouse Department', 'Projects and Assets Management', '0920-5205418', 'merrydioso.epiic2020@gmail.com'),
-(11, 'Joemar De Los Santos', 'Trading', 'Lead Trader', '0923-4187139', NULL),
-(12, 'Imelda Espera', 'Accounting / Finance', 'A/P & Credit Supervisor', '0918-6760758', NULL),
-(13, 'Elaisa Jane Febrio', 'HR/Admin', 'HR Assistant', '0917-9941917', NULL),
-(14, 'Jason Flor', 'IT Department', 'Software Development Assistant', '0939-6488141', NULL),
-(15, 'Zara Joy Gabales', 'EMG-Billing', 'Billing Assistant', '0939-1159164', NULL),
-(16, 'Relsie Gallo', '0', '0', '0', NULL),
-(17, 'Celina Marie Grabillo', 'EMG-Billing', 'Billing & Settlement Officer', '0907-4494479', NULL),
-(18, 'Nazario Shyde Jr. Ibañez', 'Trading', 'Trader', '0922-3271576', NULL),
-(19, 'Gebby Jalandoni', 'Accounting', 'Accounting Assistant', '0909-9579077', NULL),
-(20, 'Caesariane Jo', 'Trading', 'Trader', '0927-8212228', NULL),
-(21, 'Lloyd Jamero', 'IT Department', 'IT Specialist', '0908-7636105', NULL),
-(22, 'Annavi Lacambra', 'Accounting', 'Corporate Accountant', '0932-3649978', NULL),
-(23, 'Ma. Erika Oquiana', 'Trading', 'Trader', '0912-4746470/09773640452', NULL),
-(24, 'Charmaine Rei Plaza', 'Trading', 'Energy Market Analyst', '0948-9285185', NULL),
-(25, 'Cresilda Mae Ramirez', 'Accounting', 'Internal Auditor', '0977-8215247', NULL),
-(26, 'Melanie Rocha', 'Admin', 'Utility', '0910-4526879', NULL),
-(27, 'Zyndyryn Rosales', 'Finance', 'Finance Supervisor', '0932-8737196', NULL),
-(28, 'Genie Saludo', 'HR/Admin', 'HR Assistant', '09272257127/09454569188', NULL),
-(29, 'Daisy Jane Sanchez', 'Trading', 'EMG Manager / WESM Compliance Officer', '0932-8773754', NULL),
-(30, 'Rosemarie Sarroza', 'Trading', 'Trader', '0917-9512950', NULL),
-(31, 'Stephine David Severino', 'IT Department', 'Software Development Assistant', '0977-7106914', NULL),
-(32, 'Henry Sia', 'Engineering Dept.', 'Grid Integration Manager', '9177996939', NULL),
-(33, 'Syndey Sinoro', 'HR/Admin', 'HR Supervisor', '0923-2802343', NULL),
-(34, 'Marianita Tabilla', 'Finance', 'Finance Assistant', '0917-7793318', NULL),
-(35, 'Krystal Gayle Tagalog', 'HR/Admin', 'Payroll Assistant', '0946-3348559', NULL),
-(36, 'Hennelen Tanan', 'IT Department', 'IT Encoder ', '0945-5743745', NULL),
-(37, 'Teresa Tan', 'Contracts & Compliance', 'Contracts & Compliance Asst.', '0923-6828813', NULL),
-(38, 'Dary Mae Villas', 'Trading', 'Trader', '0930-7871989', NULL),
-(39, 'Marlon Adorio', 'Electrical & Instrumentation', 'E & IC Technician', '0912-5896720', NULL),
-(40, 'John Ezequiel Alejandro', 'Operations', 'Auxiliary Operator ', '0916-5321090', NULL),
-(41, 'Carlito Alevio', 'Mechanical Maintenance', 'Plant Mechanic', '0926-8161359', NULL),
-(42, 'Regina Alova', 'Trading', 'Operations Analyst', '09235607021 / 09485342153', NULL),
-(43, 'Rebecca Alunan ', 'Trading', 'Performance Monitoring Supervisor', '0906-3425996', NULL),
-(44, 'Fleur de Liz Ambong', 'Fuel Management', 'Fuel Management Asst.', '0909-4620177', NULL),
-(45, 'Beverly  Ampog', 'Operations', 'Operations Analyst', '0995-3634548', NULL),
-(46, 'Genaro Angulo', 'Electrical & Instrumentation', 'Electrical Supervisor', '09196745918', NULL),
-(47, 'Rey Argawanon', 'Electrical & Instrumentation', 'Power Delivery & Technical Manager', '0917-8653566', NULL),
-(48, 'Alona Arroyo', 'Operations', 'Operations Planner', '0919-3725318', NULL),
-(49, 'Joemillan Baculio', 'Operations', 'Auxiliary Operator', '0906-8802652', NULL),
-(50, 'Rashelle Joy Bating', 'Special Projects', 'Projects Coordinator Assistant', '0910-1980348', NULL),
-(51, 'Gener Bawar', 'Machine Shop and Reconditioning', 'Machine Shop & Reconditioning Supervisor', '0920-2128998', NULL),
-(52, 'Ruel Beato', 'Mechanical Maintenance', 'Plant Mechanic', '0939-2369794', NULL),
-(53, 'Mary Grace Bugna', 'Progen Sales', 'Commercial Asst. & Parts Analyst', '0915-2631219', 'marygracefortaleza.cenpri@gmail.com'),
-(54, 'Vency Cababat', 'Electrical & Instrumentation', ' E&IC Technician', '09267932911 / 09265638526', NULL),
-(55, 'Rusty Canama', 'Mechanical Maintenance', 'Plant Mechanic', '0949-1547358', NULL),
-(56, 'Exequil Corino', 'Operations', 'Engine Room Operator', '0920-6995646', NULL),
-(57, 'Juanito Dagupan', 'Operations', 'Operation Shift Supervisor', '0918-6438993', NULL),
-(58, 'Julyn May Divinagracia', 'HR/Admin', 'Admin Assistant', '0930-1553296/0916-6984461', NULL),
-(59, 'Melfa Duis', 'Purchasing', 'Purchasing Assistant', '0927-4597157', NULL),
-(60, 'Jerson Factolerin', 'HR/Admin', 'Utility', '0932-5420679', NULL),
-(61, 'Julius Fernandez', 'Operations', 'Auxiliary Operator', '0918-2685507', NULL),
-(62, 'Luisito Fortuno', 'Operations', 'Auxiliary Operator', '0908-3317408', NULL),
-(63, 'Donna Gellada', 'Warehouse', 'Parts Inventory  Assistant', '0916-2779697', 'donna7.cenpri@gmail.com'),
-(64, 'Felipe, III Globert', 'Warehouse', 'Warehouse Assistant', '0948-7024664', NULL),
-(65, 'Mikko Golvio', 'Electrical & Instrumentation', 'E&IC Technician', '0930-9363013', NULL),
-(66, 'Eric Jabiniar', 'Management', 'Plant Director', '0917-8607244', NULL),
-(67, 'Jushkyle Jambongana', 'IT Department', 'IT Assistant', '0912-3867454', NULL),
-(68, 'Bobby  Jardiniano', 'HR/Admin', 'Service Vehicle Driver', '0933-3388374', NULL),
-(69, 'Stephen Jardinico', 'Warehouse', 'Warehouse Assistant', '0912 922 1944', NULL),
-(70, 'Joey Labanon', 'Operations', 'Auxiliary Operator Trainee', '0910-5787327', NULL),
-(71, 'Roan Renz Liao', 'Warehouse', 'Parts Engineer', '0925-4887286', NULL),
-(72, 'Gino Lovico', 'Machine Shop and Reconditioning', 'Foreman (Machine Shop & Recon)', '0999-8143307', NULL),
-(73, 'Ricky Madeja', 'Admin', 'Safety Officer', '0918-6268028', NULL),
-(74, 'Danilo Maglinte', 'Operations', 'Engine Room Operator', '0935-4046632', NULL),
-(75, 'Alex Manilla Jr.', 'Fuel Management', 'Fuel Tender', '0999-7353561', ''),
-(76, 'Concordio Matuod', 'Electrical Department', 'Project Consultant', '0915-326-1829', NULL),
-(77, 'Genielyne Mondejar', 'Admin', 'Pollution Control Officer  ', '0912-5356230', NULL),
-(78, 'Francis Montero', 'Mechanical Maintenance', 'Plant Mechanic', '0918-2063492', NULL),
-(79, 'Andro Ortega', 'Operations', 'Shift Supervisor Trainee', '0932-2400663', NULL),
-(80, 'Joselito Panes', 'Mechanical Maintenance', 'Plant Mechanic', '0929-2629467', NULL),
-(81, 'Nonito Pocong', 'Operations', 'Control Room Operator', '0933-6159620', NULL),
-(82, 'Mario Dante Purisima', 'Operations', 'Shift Supervisor Trainee', '0927-1687549', NULL),
-(83, 'Romeo Quiocson Jr.', 'Special Projects', 'Technical Assistant', '0927-6537369', NULL),
-(84, 'Lawrence Vincent Roiles', 'Electrical & Instrumentation', 'E&IC Technician', '0936-6568781', NULL),
-(85, 'Roy Sabit', 'Operations', 'Control Room Operator', '0947-9916563', NULL),
-(86, 'Robert Sabando', 'Special Projects', 'Project Consultant', '0927-741-1950', NULL),
-(87, 'Godfrey Stephen Samano', 'Operations', 'O&M Superintendent', '0908-6094932', NULL),
-(88, 'Kennah Sasamoto', 'Testing Group', 'Test  Engineer', '0977-7842536', NULL),
-(89, 'Iris Sixto', 'Admin', 'Site Facilities Supervisor', '0948-2732052', NULL),
-(90, 'Kelwin Sarcauga', 'Operations', 'Engine Room Operator Trainee', '0932-1253131', NULL),
-(91, 'Ranie Tabanao', '0', '0', '0', NULL),
-(92, 'Alexander Tagarda', 'Operations', 'Control Room Operator', '0936-2138490', NULL),
-(93, 'Ariel Tandoy', 'Warehouse', 'Driver', '0915-9555253', NULL),
-(94, 'Ryan Tignero', 'Operations', 'Shift Supervisor Trainee', '0927-2885847', NULL),
-(95, 'Elmer Torrijos', 'Mechanical Maintenance', 'Mechanical Maintenance Supervisor / Equipment & Parts Engr.', '0999 677 8341', NULL),
-(96, 'Democrito Urnopia', 'Mechanical Maintenance', 'Plant Mechanic', '0930-8736393', NULL),
-(97, 'Jobelle Villarias', 'Admin', 'Company Nurse', '0917-1595665', NULL),
-(98, 'Melinda Aquino', 'Accounting', 'Accounting Assistant/ Bookkeeper', '0949-3005-813', NULL),
-(99, 'Irish Dawn Torres', 'Admin', 'Site Admin Officer', '0932-8657926', NULL),
-(100, 'Vincent Jed Depasupil', 'Operations', 'Auxiliary Operator', '', NULL),
-(101, 'William Soltes', '', '', '', NULL),
-(102, 'Jerry Matucan', 'Progen Warehouse', 'Tool Keeper', '09461380576', ''),
-(103, 'Aileen Tamaño', 'Progen Warehouse', 'Warehouse Supervisor', '', ''),
-(104, 'Edwin Bejec', '25', 'Turbo Charger Repair Supervisor', '', '');
+INSERT INTO `employees` (`employee_id`, `employee_name`, `department_id`, `position`, `contact_no`, `email`) VALUES
+(1, 'Ma. Milagros Arana', 0, 'General Manager', '0917-5924080', NULL),
+(2, 'Rhea Arsenio', 0, 'Trader', '0920-6398529', NULL),
+(3, 'Jonah Faye Benares', 0, 'Software Development Supervisor', '0932-4515369', NULL),
+(4, 'Kervic Biñas', 0, 'Procurement Assistant', '0930-2357794', NULL),
+(5, 'Joemarie Calibjo', 0, 'Service Vehicle Driver', '0950-2900419', NULL),
+(6, 'Maylen Cabaylo', 0, 'Purchasing Officer', '09099491894/09234597487', NULL),
+(7, 'Rey  Carbaquil', 0, 'Service Vehicle Driver', '0912 5905319', NULL),
+(8, 'Cristy Cesar', 0, 'Accounting Associate', '0916-3961389', NULL),
+(9, 'Gretchen Danoy', 0, 'Accounting Supervisor', '0922-4386979', NULL),
+(10, 'Merry Michelle Dato', 0, 'Projects and Assets Management', '0920-5205418', 'merrydioso.epiic2020@gmail.com'),
+(11, 'Joemar De Los Santos', 0, 'Lead Trader', '0923-4187139', NULL),
+(12, 'Imelda Espera', 0, 'A/P & Credit Supervisor', '0918-6760758', NULL),
+(13, 'Elaisa Jane Febrio', 0, 'HR Assistant', '0917-9941917', NULL),
+(14, 'Jason Flor', 0, 'Software Development Assistant', '0939-6488141', NULL),
+(15, 'Zara Joy Gabales', 0, 'Billing Assistant', '0939-1159164', NULL),
+(16, 'Relsie Gallo', 0, '0', '0', NULL),
+(17, 'Celina Marie Grabillo', 0, 'Billing & Settlement Officer', '0907-4494479', NULL),
+(18, 'Nazario Shyde Jr. Ibañez', 0, 'Trader', '0922-3271576', NULL),
+(19, 'Gebby Jalandoni', 0, 'Accounting Assistant', '0909-9579077', NULL),
+(20, 'Caesariane Jo', 0, 'Trader', '0927-8212228', NULL),
+(21, 'Lloyd Jamero', 0, 'IT Specialist', '0908-7636105', NULL),
+(22, 'Annavi Lacambra', 0, 'Corporate Accountant', '0932-3649978', NULL),
+(23, 'Ma. Erika Oquiana', 0, 'Trader', '0912-4746470/09773640452', NULL),
+(24, 'Charmaine Rei Plaza', 0, 'Energy Market Analyst', '0948-9285185', NULL),
+(25, 'Cresilda Mae Ramirez', 0, 'Internal Auditor', '0977-8215247', NULL),
+(26, 'Melanie Rocha', 0, 'Utility', '0910-4526879', NULL),
+(27, 'Zyndyryn Rosales', 0, 'Finance Supervisor', '0932-8737196', NULL),
+(28, 'Genie Saludo', 0, 'HR Assistant', '09272257127/09454569188', NULL),
+(29, 'Daisy Jane Sanchez', 0, 'EMG Manager / WESM Compliance Officer', '0932-8773754', NULL),
+(30, 'Rosemarie Sarroza', 0, 'Trader', '0917-9512950', NULL),
+(31, 'Stephine David Severino', 0, 'Software Development Assistant', '0977-7106914', NULL),
+(32, 'Henry Sia', 0, 'Grid Integration Manager', '9177996939', NULL),
+(33, 'Syndey Sinoro', 0, 'HR Supervisor', '0923-2802343', NULL),
+(34, 'Marianita Tabilla', 0, 'Finance Assistant', '0917-7793318', NULL),
+(35, 'Krystal Gayle Tagalog', 0, 'Payroll Assistant', '0946-3348559', NULL),
+(36, 'Hennelen Tanan', 0, 'IT Encoder ', '0945-5743745', NULL),
+(37, 'Teresa Tan', 0, 'Contracts & Compliance Asst.', '0923-6828813', NULL),
+(38, 'Dary Mae Villas', 0, 'Trader', '0930-7871989', NULL),
+(39, 'Marlon Adorio', 0, 'E & IC Technician', '0912-5896720', NULL),
+(40, 'John Ezequiel Alejandro', 0, 'Auxiliary Operator ', '0916-5321090', NULL),
+(41, 'Carlito Alevio', 0, 'Plant Mechanic', '0926-8161359', NULL),
+(42, 'Regina Alova', 0, 'Operations Analyst', '09235607021 / 09485342153', NULL),
+(43, 'Rebecca Alunan ', 0, 'Performance Monitoring Supervisor', '0906-3425996', NULL),
+(44, 'Fleur de Liz Ambong', 0, 'Fuel Management Asst.', '0909-4620177', NULL),
+(45, 'Beverly  Ampog', 0, 'Operations Analyst', '0995-3634548', NULL),
+(46, 'Genaro Angulo', 0, 'Electrical Supervisor', '09196745918', NULL),
+(47, 'Rey Argawanon', 0, 'Power Delivery & Technical Manager', '0917-8653566', NULL),
+(48, 'Alona Arroyo', 0, 'Operations Planner', '0919-3725318', NULL),
+(49, 'Joemillan Baculio', 0, 'Auxiliary Operator', '0906-8802652', NULL),
+(50, 'Rashelle Joy Bating', 0, 'Projects Coordinator Assistant', '0910-1980348', NULL),
+(51, 'Gener Bawar', 0, 'Machine Shop & Reconditioning Supervisor', '0920-2128998', NULL),
+(52, 'Ruel Beato', 0, 'Plant Mechanic', '0939-2369794', NULL),
+(53, 'Mary Grace Bugna', 0, 'Commercial Asst. & Parts Analyst', '0915-2631219', 'marygracefortaleza.cenpri@gmail.com'),
+(54, 'Vency Cababat', 0, ' E&IC Technician', '09267932911 / 09265638526', NULL),
+(55, 'Rusty Canama', 0, 'Plant Mechanic', '0949-1547358', NULL),
+(56, 'Exequil Corino', 0, 'Engine Room Operator', '0920-6995646', NULL),
+(57, 'Juanito Dagupan', 0, 'Operation Shift Supervisor', '0918-6438993', NULL),
+(58, 'Julyn May Divinagracia', 0, 'Admin Assistant', '0930-1553296/0916-6984461', NULL),
+(59, 'Melfa Duis', 0, 'Purchasing Assistant', '0927-4597157', NULL),
+(60, 'Jerson Factolerin', 0, 'Utility', '0932-5420679', NULL),
+(61, 'Julius Fernandez', 0, 'Auxiliary Operator', '0918-2685507', NULL),
+(62, 'Luisito Fortuno', 0, 'Auxiliary Operator', '0908-3317408', NULL),
+(63, 'Donna Gellada', 0, 'Parts Inventory  Assistant', '0916-2779697', 'donna7.cenpri@gmail.com'),
+(64, 'Felipe, III Globert', 0, 'Warehouse Assistant', '0948-7024664', NULL),
+(65, 'Mikko Golvio', 0, 'E&IC Technician', '0930-9363013', NULL),
+(66, 'Eric Jabiniar', 0, 'Plant Director', '0917-8607244', NULL),
+(67, 'Jushkyle Jambongana', 0, 'IT Assistant', '0912-3867454', NULL),
+(68, 'Bobby  Jardiniano', 0, 'Service Vehicle Driver', '0933-3388374', NULL),
+(69, 'Stephen Jardinico', 0, 'Warehouse Assistant', '0912 922 1944', NULL),
+(70, 'Joey Labanon', 0, 'Auxiliary Operator Trainee', '0910-5787327', NULL),
+(71, 'Roan Renz Liao', 0, 'Parts Engineer', '0925-4887286', NULL),
+(72, 'Gino Lovico', 0, 'Foreman (Machine Shop & Recon)', '0999-8143307', NULL),
+(73, 'Ricky Madeja', 0, 'Safety Officer', '0918-6268028', NULL),
+(74, 'Danilo Maglinte', 0, 'Engine Room Operator', '0935-4046632', NULL),
+(75, 'Alex Manilla Jr.', 0, 'Fuel Tender', '0999-7353561', ''),
+(76, 'Concordio Matuod', 0, 'Project Consultant', '0915-326-1829', NULL),
+(77, 'Genielyne Mondejar', 0, 'Pollution Control Officer  ', '0912-5356230', NULL),
+(78, 'Francis Montero', 0, 'Plant Mechanic', '0918-2063492', NULL),
+(79, 'Andro Ortega', 0, 'Shift Supervisor Trainee', '0932-2400663', NULL),
+(80, 'Joselito Panes', 0, 'Plant Mechanic', '0929-2629467', NULL),
+(81, 'Nonito Pocong', 0, 'Control Room Operator', '0933-6159620', NULL),
+(82, 'Mario Dante Purisima', 0, 'Shift Supervisor Trainee', '0927-1687549', NULL),
+(83, 'Romeo Quiocson Jr.', 0, 'Technical Assistant', '0927-6537369', NULL),
+(84, 'Lawrence Vincent Roiles', 0, 'E&IC Technician', '0936-6568781', NULL),
+(85, 'Roy Sabit', 0, 'Control Room Operator', '0947-9916563', NULL),
+(86, 'Robert Sabando', 0, 'Project Consultant', '0927-741-1950', NULL),
+(87, 'Godfrey Stephen Samano', 0, 'O&M Superintendent', '0908-6094932', NULL),
+(88, 'Kennah Sasamoto', 0, 'Test  Engineer', '0977-7842536', NULL),
+(89, 'Iris Sixto', 0, 'Site Facilities Supervisor', '0948-2732052', NULL),
+(90, 'Kelwin Sarcauga', 0, 'Engine Room Operator Trainee', '0932-1253131', NULL),
+(91, 'Ranie Tabanao', 0, '0', '0', NULL),
+(92, 'Alexander Tagarda', 0, 'Control Room Operator', '0936-2138490', NULL),
+(93, 'Ariel Tandoy', 0, 'Driver', '0915-9555253', NULL),
+(94, 'Ryan Tignero', 0, 'Shift Supervisor Trainee', '0927-2885847', NULL),
+(95, 'Elmer Torrijos', 0, 'Mechanical Maintenance Supervisor / Equipment & Parts Engr.', '0999 677 8341', NULL),
+(96, 'Democrito Urnopia', 0, 'Plant Mechanic', '0930-8736393', NULL),
+(97, 'Jobelle Villarias', 0, 'Company Nurse', '0917-1595665', NULL),
+(98, 'Melinda Aquino', 0, 'Accounting Assistant/ Bookkeeper', '0949-3005-813', NULL),
+(99, 'Irish Dawn Torres', 0, 'Site Admin Officer', '0932-8657926', NULL),
+(100, 'Vincent Jed Depasupil', 0, 'Auxiliary Operator', '', NULL),
+(101, 'William Soltes', 0, '', '', NULL),
+(102, 'Jerry Matucan', 0, 'Tool Keeper', '09461380576', ''),
+(103, 'Aileen Tamaño', 0, 'Warehouse Supervisor', '', ''),
+(104, 'Edwin Bejec', 25, 'Turbo Charger Repair Supervisor', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `equipment`
+--
+
+CREATE TABLE `equipment` (
+  `equipment_id` int(11) NOT NULL,
+  `equipment_name` varchar(250) NOT NULL,
+  `acquisition_cost` decimal(10,2) NOT NULL,
+  `daily_rate` decimal(10,2) NOT NULL,
+  `hourly_rate` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `equipment`
+--
+
+INSERT INTO `equipment` (`equipment_id`, `equipment_name`, `acquisition_cost`, `daily_rate`, `hourly_rate`) VALUES
+(1, 'equipment 1', '500000.00', '500.00', '100.00');
 
 -- --------------------------------------------------------
 
@@ -359,32 +448,32 @@ INSERT INTO `employees` (`employee_id`, `employee_name`, `department`, `position
 -- Table structure for table `fifo_in`
 --
 
-CREATE TABLE IF NOT EXISTS `fifo_in` (
-`in_id` int(11) NOT NULL,
-  `receive_id` int(11) NOT NULL DEFAULT '0',
-  `rd_id` int(11) NOT NULL DEFAULT '0',
-  `ri_id` int(11) NOT NULL DEFAULT '0',
+CREATE TABLE `fifo_in` (
+  `in_id` int(11) NOT NULL,
+  `receive_id` int(11) NOT NULL DEFAULT 0,
+  `rd_id` int(11) NOT NULL DEFAULT 0,
+  `ri_id` int(11) NOT NULL DEFAULT 0,
   `receive_date` varchar(20) DEFAULT NULL,
   `pr_no` varchar(30) DEFAULT NULL,
-  `item_id` int(11) NOT NULL DEFAULT '0',
-  `supplier_id` int(11) NOT NULL DEFAULT '0',
+  `item_id` int(11) NOT NULL DEFAULT 0,
+  `supplier_id` int(11) NOT NULL DEFAULT 0,
   `brand` varchar(50) DEFAULT NULL,
   `catalog_no` varchar(30) DEFAULT NULL,
   `serial_no` varchar(30) DEFAULT NULL,
   `expiry_date` varchar(20) DEFAULT NULL,
-  `item_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `remaining_qty` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  `item_cost` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `quantity` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `remaining_qty` decimal(10,2) NOT NULL DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `fifo_in`
 --
 
 INSERT INTO `fifo_in` (`in_id`, `receive_id`, `rd_id`, `ri_id`, `receive_date`, `pr_no`, `item_id`, `supplier_id`, `brand`, `catalog_no`, `serial_no`, `expiry_date`, `item_cost`, `quantity`, `remaining_qty`) VALUES
-(1, 1, 1, 1, '2022-04-06', '546456', 1, 4, '456456', '6456', '45645', '2022-04-01', '456456.00', '5.00', '5.00'),
-(2, 1, 1, 2, '2022-04-06', '546456', 1, 5, '45645', '45645', '6456', '2022-03-03', '6456.00', '5.00', '5.00'),
-(3, 1, 2, 3, '2022-04-06', '5673', 2, 4, '456', '456', '456', '2022-03-03', '456.00', '5.00', '5.00');
+(1, 1, 1, 1, '2022-04-01', '2345345', 1, 5, '', '567567', '234235', '', '45000.00', '10.00', '0.00'),
+(2, 1, 1, 2, '2022-04-01', '2345345', 2, 8, '5675', '', '567567', '', '1500.00', '5.00', '3.00'),
+(3, 2, 2, 3, '2022-04-02', '890890', 1, 38, '9809', '', '098', '', '49000.00', '5.00', '1.00');
 
 -- --------------------------------------------------------
 
@@ -392,14 +481,30 @@ INSERT INTO `fifo_in` (`in_id`, `receive_id`, `rd_id`, `ri_id`, `receive_date`, 
 -- Table structure for table `fifo_out`
 --
 
-CREATE TABLE IF NOT EXISTS `fifo_out` (
-`out_id` int(11) NOT NULL,
-  `in_id` int(11) NOT NULL DEFAULT '0',
+CREATE TABLE `fifo_out` (
+  `out_id` int(11) NOT NULL,
+  `in_id` int(11) NOT NULL DEFAULT 0,
+  `item_id` int(11) NOT NULL DEFAULT 0,
   `transaction_type` varchar(30) DEFAULT NULL,
-  `sales_id` int(11) NOT NULL DEFAULT '0',
-  `damage_id` int(11) NOT NULL DEFAULT '0',
-  `quantity` decimal(10,2) NOT NULL DEFAULT '0.00'
+  `sales_id` int(11) NOT NULL DEFAULT 0,
+  `sales_details_id` int(11) NOT NULL DEFAULT 0,
+  `sales_serv_items_id` int(11) NOT NULL DEFAULT 0,
+  `unit_cost` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `selling_price` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `damage_id` int(11) NOT NULL DEFAULT 0,
+  `quantity` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fifo_out`
+--
+
+INSERT INTO `fifo_out` (`out_id`, `in_id`, `item_id`, `transaction_type`, `sales_id`, `sales_details_id`, `sales_serv_items_id`, `unit_cost`, `selling_price`, `damage_id`, `quantity`) VALUES
+(9, 1, 1, 'Sales Goods', 1, 1, 0, '45000.00', '55000.00', 0, '7.00'),
+(10, 3, 1, 'Sales Goods', 1, 1, 0, '49000.00', '55000.00', 0, '2.00'),
+(11, 2, 2, 'Sales Goods', 1, 2, 0, '1500.00', '2000.00', 0, '2.00'),
+(12, 1, 1, 'Sales Goods', 2, 3, 0, '45000.00', '60000.00', 0, '3.00'),
+(13, 3, 1, 'Sales Goods', 2, 3, 0, '49000.00', '60000.00', 0, '2.00');
 
 -- --------------------------------------------------------
 
@@ -407,10 +512,10 @@ CREATE TABLE IF NOT EXISTS `fifo_out` (
 -- Table structure for table `groups`
 --
 
-CREATE TABLE IF NOT EXISTS `groups` (
-`group_id` int(11) NOT NULL,
+CREATE TABLE `groups` (
+  `group_id` int(11) NOT NULL,
   `group_name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `groups`
@@ -569,17 +674,17 @@ INSERT INTO `groups` (`group_id`, `group_name`) VALUES
 -- Table structure for table `items`
 --
 
-CREATE TABLE IF NOT EXISTS `items` (
-`item_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL DEFAULT '0',
-  `subcat_id` int(11) NOT NULL DEFAULT '0',
+CREATE TABLE `items` (
+  `item_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL DEFAULT 0,
+  `subcat_id` int(11) NOT NULL DEFAULT 0,
   `original_pn` varchar(100) DEFAULT NULL,
   `item_name` varchar(255) DEFAULT NULL,
   `unit_id` int(11) DEFAULT NULL,
-  `group_id` int(11) NOT NULL DEFAULT '0',
-  `location_id` int(11) NOT NULL DEFAULT '0',
-  `bin_id` int(11) NOT NULL DEFAULT '0',
-  `warehouse_id` int(11) NOT NULL DEFAULT '0',
+  `group_id` int(11) NOT NULL DEFAULT 0,
+  `location_id` int(11) NOT NULL DEFAULT 0,
+  `bin_id` int(11) NOT NULL DEFAULT 0,
+  `warehouse_id` int(11) NOT NULL DEFAULT 0,
   `rack_id` int(11) DEFAULT NULL,
   `barcode` varchar(100) DEFAULT NULL,
   `picture1` varchar(255) DEFAULT NULL,
@@ -587,11 +692,11 @@ CREATE TABLE IF NOT EXISTS `items` (
   `picture3` varchar(255) DEFAULT NULL,
   `nkk_no` varchar(100) DEFAULT NULL,
   `semt_no` varchar(100) DEFAULT NULL,
-  `selling_price` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `weight` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `selling_price` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `weight` varchar(50) DEFAULT NULL,
   `added_by` int(11) NOT NULL,
   `date_added` varchar(100) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `items`
@@ -599,7 +704,8 @@ CREATE TABLE IF NOT EXISTS `items` (
 
 INSERT INTO `items` (`item_id`, `category_id`, `subcat_id`, `original_pn`, `item_name`, `unit_id`, `group_id`, `location_id`, `bin_id`, `warehouse_id`, `rack_id`, `barcode`, `picture1`, `picture2`, `picture3`, `nkk_no`, `semt_no`, `selling_price`, `weight`, `added_by`, `date_added`) VALUES
 (1, 1, 1, 'PN12345', 'Computer', 1, 1, 1, 1, 1, 1, '124444', NULL, NULL, NULL, 'asd', 'asddfew', '200.00', '150.00', 1, '2022-03-04'),
-(2, 2, 2, 'PN01674728', 'Keyboard', 2, 1, 1, 1, 1, 1, 'sdfkjdf239239', NULL, NULL, NULL, 'asdgw32', 'dsf2134r', '500.00', '100.00', 1, '2022-03-04');
+(2, 2, 2, 'PN01674728', 'Keyboard', 2, 1, 1, 1, 1, 1, 'sdfkjdf239239', NULL, NULL, NULL, 'asdgw32', 'dsf2134r', '500.00', '100.00', 1, '2022-03-04'),
+(3, 1, 1, 'CON-AUT_1002', '35345345', 1, 1, 3, 57, 1, 216, '345345', '', '', '', '345345', '345345', '0.00', '345345.00', 1, '2022-04-07 14:30:38');
 
 -- --------------------------------------------------------
 
@@ -607,12 +713,12 @@ INSERT INTO `items` (`item_id`, `category_id`, `subcat_id`, `original_pn`, `item
 -- Table structure for table `item_categories`
 --
 
-CREATE TABLE IF NOT EXISTS `item_categories` (
-`cat_id` int(11) NOT NULL,
+CREATE TABLE `item_categories` (
+  `cat_id` int(11) NOT NULL,
   `cat_code` varchar(100) DEFAULT NULL,
   `cat_prefix` varchar(100) DEFAULT NULL,
   `cat_name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `item_categories`
@@ -757,13 +863,13 @@ INSERT INTO `item_categories` (`cat_id`, `cat_code`, `cat_prefix`, `cat_name`) V
 -- Table structure for table `item_subcat`
 --
 
-CREATE TABLE IF NOT EXISTS `item_subcat` (
-`subcat_id` int(11) NOT NULL,
-  `cat_id` int(11) NOT NULL DEFAULT '0',
+CREATE TABLE `item_subcat` (
+  `subcat_id` int(11) NOT NULL,
+  `cat_id` int(11) NOT NULL DEFAULT 0,
   `subcat_code` varchar(100) DEFAULT NULL,
   `subcat_prefix` varchar(100) DEFAULT NULL,
   `subcat_name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `item_subcat`
@@ -825,10 +931,10 @@ INSERT INTO `item_subcat` (`subcat_id`, `cat_id`, `subcat_code`, `subcat_prefix`
 -- Table structure for table `location`
 --
 
-CREATE TABLE IF NOT EXISTS `location` (
-`location_id` int(11) NOT NULL,
+CREATE TABLE `location` (
+  `location_id` int(11) NOT NULL,
   `location_name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `location`
@@ -892,20 +998,40 @@ INSERT INTO `location` (`location_id`, `location_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `manpower`
+--
+
+CREATE TABLE `manpower` (
+  `manpower_id` int(11) NOT NULL,
+  `employee_name` varchar(150) DEFAULT NULL,
+  `position` varchar(150) DEFAULT NULL,
+  `daily_rate` decimal(10,2) NOT NULL DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `manpower`
+--
+
+INSERT INTO `manpower` (`manpower_id`, `employee_name`, `position`, `daily_rate`) VALUES
+(2, 'Jonah Benares', 'IT', '36.00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `payment_head`
 --
 
-CREATE TABLE IF NOT EXISTS `payment_head` (
-`payment_id` int(11) NOT NULL,
-  `billing_id` int(11) NOT NULL DEFAULT '0',
+CREATE TABLE `payment_head` (
+  `payment_id` int(11) NOT NULL,
+  `billing_id` int(11) NOT NULL DEFAULT 0,
   `payment_date` varchar(20) DEFAULT NULL,
-  `payment_type` int(11) NOT NULL DEFAULT '0' COMMENT '1=full, 2 = partial',
+  `payment_type` int(11) NOT NULL DEFAULT 0 COMMENT '1=full, 2 = partial',
   `or_number` varchar(50) DEFAULT NULL,
-  `payment_method` int(11) NOT NULL DEFAULT '0' COMMENT '1=cash, 2=check',
+  `payment_method` int(11) NOT NULL DEFAULT 0 COMMENT '1=cash, 2=check',
   `check_no` varchar(50) DEFAULT NULL,
-  `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `amount` decimal(10,2) NOT NULL DEFAULT 0.00,
   `create_date` varchar(20) DEFAULT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0'
+  `user_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -914,11 +1040,11 @@ CREATE TABLE IF NOT EXISTS `payment_head` (
 -- Table structure for table `pn_series`
 --
 
-CREATE TABLE IF NOT EXISTS `pn_series` (
-`pn_id` int(11) NOT NULL,
+CREATE TABLE `pn_series` (
+  `pn_id` int(11) NOT NULL,
   `subcat_prefix` varchar(50) DEFAULT NULL,
   `series` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pn_series`
@@ -934,7 +1060,8 @@ INSERT INTO `pn_series` (`pn_id`, `subcat_prefix`, `series`) VALUES
 (7, 'AUX-PAR', 1004),
 (8, 'CON-AUT', 1001),
 (9, 'AUX-PAR', 1005),
-(10, 'BUI-MAT', 1002);
+(10, 'BUI-MAT', 1002),
+(11, 'CON-AUT', 1002);
 
 -- --------------------------------------------------------
 
@@ -942,10 +1069,10 @@ INSERT INTO `pn_series` (`pn_id`, `subcat_prefix`, `series`) VALUES
 -- Table structure for table `purpose`
 --
 
-CREATE TABLE IF NOT EXISTS `purpose` (
-`purpose_id` int(11) NOT NULL,
-  `purpose_desc` text
-) ENGINE=InnoDB AUTO_INCREMENT=196 DEFAULT CHARSET=latin1;
+CREATE TABLE `purpose` (
+  `purpose_id` int(11) NOT NULL,
+  `purpose_desc` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purpose`
@@ -1144,7 +1271,8 @@ INSERT INTO `purpose` (`purpose_id`, `purpose_desc`) VALUES
 (192, 'Consumables of Cleaning and Clearing'),
 (193, 'Replacement of Allocated Corrugated Sheets for Engine Block Shed'),
 (194, 'Official Use'),
-(195, '');
+(195, ''),
+(196, 'rtyfhfghfgh');
 
 -- --------------------------------------------------------
 
@@ -1152,10 +1280,10 @@ INSERT INTO `purpose` (`purpose_id`, `purpose_desc`) VALUES
 -- Table structure for table `rack`
 --
 
-CREATE TABLE IF NOT EXISTS `rack` (
-`rack_id` int(11) NOT NULL,
+CREATE TABLE `rack` (
+  `rack_id` int(11) NOT NULL,
   `rack_name` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=390 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `rack`
@@ -1549,22 +1677,22 @@ INSERT INTO `rack` (`rack_id`, `rack_name`) VALUES
 -- Table structure for table `receive_details`
 --
 
-CREATE TABLE IF NOT EXISTS `receive_details` (
-`rd_id` int(11) NOT NULL,
-  `receive_id` int(11) NOT NULL DEFAULT '0',
+CREATE TABLE `receive_details` (
+  `rd_id` int(11) NOT NULL,
+  `receive_id` int(11) NOT NULL DEFAULT 0,
   `pr_no` varchar(50) DEFAULT NULL,
-  `department_id` int(11) NOT NULL DEFAULT '0',
-  `purpose_id` int(11) NOT NULL DEFAULT '0',
-  `inspected_by` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `department_id` int(11) NOT NULL DEFAULT 0,
+  `purpose_id` int(11) NOT NULL DEFAULT 0,
+  `inspected_by` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `receive_details`
 --
 
 INSERT INTO `receive_details` (`rd_id`, `receive_id`, `pr_no`, `department_id`, `purpose_id`, `inspected_by`) VALUES
-(1, 1, '546456', 14, 16, 60),
-(2, 1, '5673', 20, 18, 17);
+(1, 1, '2345345', 16, 16, 13),
+(2, 2, '890890', 17, 15, 13);
 
 -- --------------------------------------------------------
 
@@ -1572,30 +1700,32 @@ INSERT INTO `receive_details` (`rd_id`, `receive_id`, `pr_no`, `department_id`, 
 -- Table structure for table `receive_head`
 --
 
-CREATE TABLE IF NOT EXISTS `receive_head` (
-`receive_id` int(11) NOT NULL,
+CREATE TABLE `receive_head` (
+  `receive_id` int(11) NOT NULL,
   `mrecf_no` varchar(50) DEFAULT NULL,
   `create_date` varchar(20) DEFAULT NULL,
   `receive_date` varchar(20) DEFAULT NULL,
   `dr_no` varchar(50) DEFAULT NULL,
   `po_no` varchar(50) DEFAULT NULL,
   `si_no` varchar(50) DEFAULT NULL,
-  `user_id` int(20) NOT NULL DEFAULT '0',
-  `pcf` int(11) DEFAULT '0',
-  `saved` int(11) DEFAULT '0',
-  `delivered_by` text,
-  `received_by` int(11) NOT NULL DEFAULT '0',
-  `acknowledged_by` int(11) NOT NULL DEFAULT '0',
-  `noted_by` int(11) NOT NULL DEFAULT '0',
-  `overall_remarks` text
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `user_id` int(20) NOT NULL DEFAULT 0,
+  `pcf` int(11) DEFAULT 0,
+  `saved` int(11) DEFAULT 0,
+  `delivered_by` text DEFAULT NULL,
+  `received_by` int(11) NOT NULL DEFAULT 0,
+  `acknowledged_by` int(11) NOT NULL DEFAULT 0,
+  `noted_by` int(11) NOT NULL DEFAULT 0,
+  `overall_remarks` text DEFAULT NULL,
+  `backorder` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `receive_head`
 --
 
-INSERT INTO `receive_head` (`receive_id`, `mrecf_no`, `create_date`, `receive_date`, `dr_no`, `po_no`, `si_no`, `user_id`, `pcf`, `saved`, `delivered_by`, `received_by`, `acknowledged_by`, `noted_by`, `overall_remarks`) VALUES
-(1, 'MRIF-2022-03-0001', '2022-03-07 23:28:49', '2022-04-06', '768678', '67867', '867867', 1, 1, 1, NULL, 0, 0, 0, 'dfgdghgjsd dfgdgert xdfdfgdfg');
+INSERT INTO `receive_head` (`receive_id`, `mrecf_no`, `create_date`, `receive_date`, `dr_no`, `po_no`, `si_no`, `user_id`, `pcf`, `saved`, `delivered_by`, `received_by`, `acknowledged_by`, `noted_by`, `overall_remarks`, `backorder`) VALUES
+(1, 'MRIF-2022-04-0001', '2022-04-11 20:37:23', '2022-04-01', '36456456', '456', '456', 1, 1, 1, NULL, 0, 0, 0, '', 0),
+(2, 'MRIF-2022-04-0002', '2022-04-11 20:38:15', '2022-04-02', '89789890', '909', '0890', 1, 1, 1, NULL, 0, 0, 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -1603,31 +1733,32 @@ INSERT INTO `receive_head` (`receive_id`, `mrecf_no`, `create_date`, `receive_da
 -- Table structure for table `receive_items`
 --
 
-CREATE TABLE IF NOT EXISTS `receive_items` (
-`ri_id` int(11) NOT NULL,
-  `rd_id` int(11) NOT NULL DEFAULT '0',
-  `receive_id` int(11) NOT NULL DEFAULT '0',
-  `supplier_id` int(11) NOT NULL DEFAULT '0',
-  `item_id` int(11) NOT NULL DEFAULT '0',
+CREATE TABLE `receive_items` (
+  `ri_id` int(11) NOT NULL,
+  `rd_id` int(11) NOT NULL DEFAULT 0,
+  `receive_id` int(11) NOT NULL DEFAULT 0,
+  `supplier_id` int(11) NOT NULL DEFAULT 0,
+  `item_id` int(11) NOT NULL DEFAULT 0,
   `brand` varchar(50) DEFAULT NULL,
   `catalog_no` varchar(50) DEFAULT NULL,
   `serial_no` varchar(100) DEFAULT NULL,
-  `item_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `expected_qty` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `received_qty` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `local_mnl` int(11) NOT NULL DEFAULT '0',
-  `shipping_fee` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `expiration_date` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  `item_cost` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `expected_qty` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `received_qty` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `local_mnl` int(11) NOT NULL DEFAULT 0,
+  `shipping_fee` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `expiration_date` varchar(50) DEFAULT NULL,
+  `remarks` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `receive_items`
 --
 
-INSERT INTO `receive_items` (`ri_id`, `rd_id`, `receive_id`, `supplier_id`, `item_id`, `brand`, `catalog_no`, `serial_no`, `item_cost`, `expected_qty`, `received_qty`, `local_mnl`, `shipping_fee`, `expiration_date`) VALUES
-(1, 1, 1, 4, 1, '456456', '6456', '45645', '456456.00', '5.00', '5.00', 1, '456456.00', '2022-04-01'),
-(2, 1, 1, 5, 1, '45645', '45645', '6456', '6456.00', '5.00', '5.00', 1, '456.00', '2022-03-03'),
-(3, 2, 1, 4, 2, '456', '456', '456', '456.00', '5.00', '5.00', 1, '456.00', '2022-03-03');
+INSERT INTO `receive_items` (`ri_id`, `rd_id`, `receive_id`, `supplier_id`, `item_id`, `brand`, `catalog_no`, `serial_no`, `item_cost`, `expected_qty`, `received_qty`, `local_mnl`, `shipping_fee`, `expiration_date`, `remarks`) VALUES
+(1, 1, 1, 5, 1, '', '567567', '234235', '45000.00', '10.00', '10.00', 1, '0.00', '', NULL),
+(2, 1, 1, 8, 2, '5675', '', '567567', '1500.00', '5.00', '5.00', 1, '0.00', '', NULL),
+(3, 2, 2, 38, 1, '9809', '', '098', '49000.00', '5.00', '5.00', 1, '0.00', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -1635,20 +1766,23 @@ INSERT INTO `receive_items` (`ri_id`, `rd_id`, `receive_id`, `supplier_id`, `ite
 -- Table structure for table `repair_details`
 --
 
-CREATE TABLE IF NOT EXISTS `repair_details` (
+CREATE TABLE `repair_details` (
   `repair_id` int(11) NOT NULL,
-  `damage_det_id` int(11) NOT NULL DEFAULT '0',
-  `in_id` int(11) NOT NULL DEFAULT '0',
+  `damage_det_id` int(11) NOT NULL DEFAULT 0,
+  `in_id` int(11) NOT NULL DEFAULT 0,
+  `item_id` int(11) NOT NULL DEFAULT 0,
   `repair_date` varchar(20) DEFAULT NULL,
   `jo_no` varchar(30) DEFAULT NULL,
-  `assessment` int(11) NOT NULL DEFAULT '0' COMMENT '1=repair, 2=beyong repair',
-  `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `assessment` int(11) NOT NULL DEFAULT 0 COMMENT '1=repair, 2=beyong repair',
+  `quantity` decimal(10,2) NOT NULL DEFAULT 0.00,
   `repaired_by` varchar(150) DEFAULT NULL,
-  `repair_price` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `received_by` int(11) NOT NULL DEFAULT '0',
-  `remarks` text,
+  `repair_price` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `received_by` int(11) NOT NULL DEFAULT 0,
+  `remarks` text DEFAULT NULL,
   `create_date` varchar(20) DEFAULT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0'
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `saved` int(11) NOT NULL DEFAULT 0,
+  `unsaved` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1657,14 +1791,24 @@ CREATE TABLE IF NOT EXISTS `repair_details` (
 -- Table structure for table `return_details`
 --
 
-CREATE TABLE IF NOT EXISTS `return_details` (
-`return_details_id` int(11) NOT NULL,
-  `return_id` int(11) NOT NULL DEFAULT '0',
-  `ri_id` int(11) NOT NULL DEFAULT '0',
-  `in_id` int(11) NOT NULL DEFAULT '0',
-  `return_qty` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `remarks` text
+CREATE TABLE `return_details` (
+  `return_details_id` int(11) NOT NULL,
+  `return_id` int(11) NOT NULL DEFAULT 0,
+  `item_id` int(11) NOT NULL DEFAULT 0,
+  `in_id` int(11) NOT NULL DEFAULT 0,
+  `return_qty` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `unit_cost` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `selling_price` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `total_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `remarks` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `return_details`
+--
+
+INSERT INTO `return_details` (`return_details_id`, `return_id`, `item_id`, `in_id`, `return_qty`, `unit_cost`, `selling_price`, `total_amount`, `remarks`) VALUES
+(1, 1, 1, 1, '3.00', '45000.00', '55000.00', '165000.00', '');
 
 -- --------------------------------------------------------
 
@@ -1672,13 +1816,53 @@ CREATE TABLE IF NOT EXISTS `return_details` (
 -- Table structure for table `return_head`
 --
 
-CREATE TABLE IF NOT EXISTS `return_head` (
-`return_id` int(11) NOT NULL,
+CREATE TABLE `return_head` (
+  `return_id` int(11) NOT NULL,
   `dr_no` varchar(30) DEFAULT NULL,
   `return_date` varchar(20) DEFAULT NULL,
   `create_date` varchar(20) DEFAULT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0'
+  `user_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `return_head`
+--
+
+INSERT INTO `return_head` (`return_id`, `dr_no`, `return_date`, `create_date`, `user_id`) VALUES
+(1, 'PROBCD-2022-DR-0001', '2022-04-12', '2022-04-12 13:56:07', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `return_service_details`
+--
+
+CREATE TABLE `return_service_details` (
+  `return_serv_details_id` int(11) NOT NULL,
+  `return_service_id` int(11) NOT NULL DEFAULT 0,
+  `item_id` int(11) NOT NULL DEFAULT 0,
+  `in_id` int(11) NOT NULL DEFAULT 0,
+  `return_qty` int(11) NOT NULL DEFAULT 0,
+  `unit_cost` decimal(10,0) NOT NULL DEFAULT 0,
+  `selling_price` decimal(10,0) NOT NULL DEFAULT 0,
+  `total_amount` decimal(10,0) NOT NULL DEFAULT 0,
+  `description` text DEFAULT NULL,
+  `remarks` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `return_service_head`
+--
+
+CREATE TABLE `return_service_head` (
+  `return_service_id` int(11) NOT NULL,
+  `dr_no` varchar(50) DEFAULT NULL,
+  `return_date` varchar(20) DEFAULT NULL,
+  `create_date` varchar(20) DEFAULT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1686,41 +1870,28 @@ CREATE TABLE IF NOT EXISTS `return_head` (
 -- Table structure for table `sales_good_details`
 --
 
-CREATE TABLE IF NOT EXISTS `sales_good_details` (
-`sales_good_det_id` int(11) NOT NULL,
-  `sales_good_head_id` int(11) NOT NULL DEFAULT '0',
-  `in_id` int(11) NOT NULL DEFAULT '0',
-  `unit_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `ave_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `selling_price` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `discount_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `discount_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `total` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `group_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=latin1;
+CREATE TABLE `sales_good_details` (
+  `sales_good_det_id` int(11) NOT NULL,
+  `sales_good_head_id` int(11) NOT NULL DEFAULT 0,
+  `quantity` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `item_id` int(11) NOT NULL DEFAULT 0,
+  `unit_cost` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `ave_cost` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `selling_price` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `discount_percent` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `discount_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `total` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `return_id` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales_good_details`
 --
 
-INSERT INTO `sales_good_details` (`sales_good_det_id`, `sales_good_head_id`, `in_id`, `unit_cost`, `ave_cost`, `selling_price`, `discount_percent`, `discount_amount`, `total`, `group_id`) VALUES
-(13, 22, 1, '0.00', '0.00', '200.00', '0.00', '0.00', '0.00', 0),
-(14, 22, 1, '11.00', '0.00', '200.00', '123.00', '0.00', '0.00', 0),
-(15, 22, 1, '11.00', '0.00', '200.00', '343.00', '0.00', '0.00', 0),
-(16, 22, 1, '11.00', '0.00', '200.00', '343.00', '0.00', '0.00', 0),
-(17, 22, 1, '0.00', '0.00', '200.00', '0.00', '0.00', '0.00', 0),
-(18, 22, 1, '1.00', '0.00', '200.00', '2.00', '0.00', '0.00', 0),
-(19, 22, 1, '12.00', '0.00', '200.00', '31.00', '0.00', '0.00', 0),
-(20, 22, 1, '11.00', '0.00', '200.00', '11.00', '0.00', '0.00', 0),
-(21, 22, 1, '1.00', '0.00', '200.00', '1.00', '0.00', '0.00', 0),
-(22, 22, 1, '1.00', '0.00', '200.00', '1.00', '0.00', '0.00', 0),
-(23, 22, 1, '1.00', '0.00', '200.00', '1.00', '0.00', '0.00', 0),
-(24, 22, 1, '1.00', '0.00', '200.00', '1.00', '0.00', '0.00', 0),
-(25, 22, 1, '112.00', '0.00', '200.00', '12.00', '0.00', '0.00', 0),
-(26, 22, 1, '0.00', '0.00', '200.00', '0.00', '0.00', '0.00', 0),
-(27, 22, 1, '0.00', '0.00', '200.00', '0.00', '0.00', '0.00', 0),
-(54, 30, 1, '0.00', '0.00', '200.00', '0.00', '0.00', '0.00', 0),
-(55, 31, 1, '200.00', '0.00', '600.00', '10.00', '0.00', '0.00', 0);
+INSERT INTO `sales_good_details` (`sales_good_det_id`, `sales_good_head_id`, `quantity`, `item_id`, `unit_cost`, `ave_cost`, `selling_price`, `discount_percent`, `discount_amount`, `total`, `return_id`) VALUES
+(1, 1, '12.00', 1, '49000.00', '0.00', '55000.00', '0.00', '0.00', '660000.00', 1),
+(2, 1, '2.00', 2, '1500.00', '0.00', '2000.00', '0.00', '0.00', '4000.00', 0),
+(3, 2, '5.00', 1, '49000.00', '0.00', '60000.00', '0.00', '0.00', '300000.00', 0);
 
 -- --------------------------------------------------------
 
@@ -1728,35 +1899,31 @@ INSERT INTO `sales_good_details` (`sales_good_det_id`, `sales_good_head_id`, `in
 -- Table structure for table `sales_good_head`
 --
 
-CREATE TABLE IF NOT EXISTS `sales_good_head` (
-`sales_good_head_id` int(11) NOT NULL,
-  `client_id` int(11) NOT NULL DEFAULT '0',
+CREATE TABLE `sales_good_head` (
+  `sales_good_head_id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL DEFAULT 0,
   `sales_date` varchar(20) DEFAULT NULL,
   `pr_no` varchar(30) DEFAULT NULL,
   `pr_date` varchar(20) DEFAULT NULL,
   `po_no` varchar(30) DEFAULT NULL,
   `po_date` varchar(20) DEFAULT NULL,
   `dr_no` varchar(30) DEFAULT NULL,
-  `vat` int(11) NOT NULL DEFAULT '0' COMMENT '1-vatable, 2-non vat',
-  `remarks` text,
+  `vat` int(11) NOT NULL DEFAULT 0 COMMENT '1-vatable, 2-non vat',
+  `remarks` text DEFAULT NULL,
   `create_date` varchar(20) DEFAULT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `saved` int(11) NOT NULL DEFAULT 0,
+  `billed` int(11) NOT NULL DEFAULT 0 COMMENT '1=billed'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales_good_head`
 --
 
-INSERT INTO `sales_good_head` (`sales_good_head_id`, `client_id`, `sales_date`, `pr_no`, `pr_date`, `po_no`, `po_date`, `dr_no`, `vat`, `remarks`, `create_date`, `user_id`) VALUES
-(3, 1, '', '', '', '', '', '', 1, '', '2022-03-05 10:16:41', 1),
-(4, 1, '', '', '', '', '', '', 1, '', '2022-03-05 10:17:20', 1),
-(5, 1, '', '', '', '', '', '', 1, '', '2022-03-05 10:18:49', 1),
-(6, 1, '', '', '', '', '', '', 1, '', '2022-03-05 10:20:37', 1),
-(15, 1, '', '', '', '', '', '', 1, '', '2022-03-05 10:40:13', 1),
-(22, 1, '', '', '', '', '', '', 1, '', '2022-03-05 11:24:15', 1),
-(30, 1, '', '', '', '', '', '', 1, '', '2022-03-05 13:35:17', 1),
-(31, 1, '2022-03-15', '768', '2022-03-17', '678', '2022-03-23', '567567', 1, '456456', '2022-03-05 13:44:53', 1),
-(32, 1, '', '', '', '', '', '', 1, '', '2022-03-05 15:03:30', 1);
+INSERT INTO `sales_good_head` (`sales_good_head_id`, `client_id`, `sales_date`, `pr_no`, `pr_date`, `po_no`, `po_date`, `dr_no`, `vat`, `remarks`, `create_date`, `user_id`, `saved`, `billed`) VALUES
+(1, 1, '2022-04-14', '546456', '2022-04-15', '456456', '2022-04-12', 'PROBCD-2022-DR-0001', 1, '6546456', '2022-04-12 13:54:12', 1, 1, 1),
+(2, 1, '2022-04-20', '789789', '2022-04-02', '789789', '2022-04-13', 'PROBCD-2022-DR-0002', 1, '789789', '2022-04-12 14:09:56', 1, 1, 1),
+(3, 1, '2022-04-20', '345345', '2022-04-21', '345345', '2022-04-20', 'PROBCD-2022-DR-0003', 1, '4345', '2022-04-20 09:10:12', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1764,19 +1931,54 @@ INSERT INTO `sales_good_head` (`sales_good_head_id`, `client_id`, `sales_date`, 
 -- Table structure for table `sales_services_head`
 --
 
-CREATE TABLE IF NOT EXISTS `sales_services_head` (
-`sales_serv_head_id` int(11) NOT NULL,
-  `client_id` int(11) NOT NULL DEFAULT '0',
+CREATE TABLE `sales_services_head` (
+  `sales_serv_head_id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL DEFAULT 0,
   `sales_date` varchar(20) DEFAULT NULL,
   `jor_no` varchar(30) DEFAULT NULL,
   `jor_date` varchar(20) DEFAULT NULL,
   `joi_no` varchar(30) DEFAULT NULL,
   `joi_date` varchar(20) DEFAULT NULL,
   `dr_no` varchar(30) DEFAULT NULL,
-  `vat` int(11) NOT NULL DEFAULT '0' COMMENT '1-vatable, 2-non vat',
-  `purpose` text,
+  `vat` int(11) NOT NULL DEFAULT 0 COMMENT '1-vatable, 2-non vat',
+  `purpose` text DEFAULT NULL,
   `create_date` varchar(20) DEFAULT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0'
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `ar_description` text DEFAULT NULL,
+  `shipped_via` int(11) NOT NULL DEFAULT 0,
+  `waybill_no` varchar(100) DEFAULT NULL,
+  `remarks` text DEFAULT NULL,
+  `total_engine_parts` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `service_fee` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `wht` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `total_cost` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `saved` int(11) NOT NULL DEFAULT 0,
+  `billed` int(11) NOT NULL DEFAULT 0 COMMENT '1=billed'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sales_services_head`
+--
+
+INSERT INTO `sales_services_head` (`sales_serv_head_id`, `client_id`, `sales_date`, `jor_no`, `jor_date`, `joi_no`, `joi_date`, `dr_no`, `vat`, `purpose`, `create_date`, `user_id`, `ar_description`, `shipped_via`, `waybill_no`, `remarks`, `total_engine_parts`, `service_fee`, `wht`, `total_cost`, `saved`, `billed`) VALUES
+(1, 1, '2022-03-29', '56456', '2022-04-19', '546546', '2022-04-20', 'PROBCD-2022-AR-0001', 1, '547567567', '2022-04-20 09:55:34', 1, NULL, 0, NULL, '456546', '0.00', '0.00', '0.00', '0.00', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_serv_equipment`
+--
+
+CREATE TABLE `sales_serv_equipment` (
+  `sales_serv_equipment_id` int(11) NOT NULL,
+  `sales_serv_head_id` int(11) NOT NULL DEFAULT 0,
+  `equipment_id` int(11) NOT NULL DEFAULT 0,
+  `rate` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `quantity` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `uom` varchar(30) DEFAULT NULL,
+  `days` int(11) NOT NULL DEFAULT 0,
+  `total_cost` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `rate_flag` int(11) NOT NULL DEFAULT 0 COMMENT '1=Daily Rate, 2=Hourly Rate'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1785,35 +1987,88 @@ CREATE TABLE IF NOT EXISTS `sales_services_head` (
 -- Table structure for table `sales_serv_items`
 --
 
-CREATE TABLE IF NOT EXISTS `sales_serv_items` (
-`sales_serv_items_id` int(11) NOT NULL,
-  `sales_serv_head_id` int(11) NOT NULL DEFAULT '0',
-  `in_id` int(11) NOT NULL DEFAULT '0',
-  `selling_price` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `discount_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `discount_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `total` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `group_id` int(11) NOT NULL DEFAULT '0'
+CREATE TABLE `sales_serv_items` (
+  `sales_serv_items_id` int(11) NOT NULL,
+  `sales_serv_head_id` int(11) NOT NULL DEFAULT 0,
+  `item_id` int(11) NOT NULL DEFAULT 0,
+  `quantity` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `unit_cost` decimal(10,2) DEFAULT 0.00,
+  `ave_cost` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `selling_price` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `discount_percent` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `discount_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `total` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `group_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sales_serv_labor`
+-- Table structure for table `sales_serv_manpower`
 --
 
-CREATE TABLE IF NOT EXISTS `sales_serv_labor` (
-`sales_serv_labor_id` int(11) NOT NULL,
-  `sales_serv_head_id` int(11) NOT NULL DEFAULT '0',
-  `labor` text,
-  `start_date` varchar(20) DEFAULT NULL,
-  `completion_date` varchar(20) DEFAULT NULL,
-  `discount_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `discount_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `total_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `total` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `group_id` int(11) NOT NULL DEFAULT '0'
+CREATE TABLE `sales_serv_manpower` (
+  `sales_serv_manpower_id` int(11) NOT NULL,
+  `sales_serv_head_id` int(11) NOT NULL DEFAULT 0,
+  `manpower_id` int(11) NOT NULL DEFAULT 0,
+  `days` int(11) NOT NULL DEFAULT 0,
+  `rate` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `overtime` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `total_cost` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_serv_material`
+--
+
+CREATE TABLE `sales_serv_material` (
+  `sales_serv_mat_id` int(11) NOT NULL,
+  `sales_serv_head_id` int(11) NOT NULL,
+  `item_description` varchar(250) NOT NULL DEFAULT '0',
+  `quantity` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `uom` varchar(30) DEFAULT NULL,
+  `unit_cost` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `total_cost` decimal(10,2) NOT NULL DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `serial_numbers`
+--
+
+CREATE TABLE `serial_numbers` (
+  `serial_id` int(11) NOT NULL,
+  `serial_no` varchar(50) DEFAULT NULL,
+  `rd_id` int(11) NOT NULL DEFAULT 0,
+  `in_id` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `serial_numbers`
+--
+
+INSERT INTO `serial_numbers` (`serial_id`, `serial_no`, `rd_id`, `in_id`) VALUES
+(1, 'series1001', 1, 1),
+(2, 'series2', 1, 1),
+(3, 'series3', 1, 1),
+(4, 'series4', 1, 1),
+(5, 'series5', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shipping_company`
+--
+
+CREATE TABLE `shipping_company` (
+  `ship_comp_id` int(11) NOT NULL,
+  `company_name` varchar(100) DEFAULT NULL,
+  `contact_no` varchar(50) DEFAULT NULL,
+  `address` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1821,15 +2076,15 @@ CREATE TABLE IF NOT EXISTS `sales_serv_labor` (
 -- Table structure for table `supplier`
 --
 
-CREATE TABLE IF NOT EXISTS `supplier` (
-`supplier_id` int(11) NOT NULL,
+CREATE TABLE `supplier` (
+  `supplier_id` int(11) NOT NULL,
   `supplier_code` varchar(100) DEFAULT NULL,
   `supplier_name` varchar(255) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `contact_number` varchar(100) DEFAULT NULL,
   `terms` varchar(100) DEFAULT NULL,
   `active` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=380 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `supplier`
@@ -2219,13 +2474,30 @@ INSERT INTO `supplier` (`supplier_id`, `supplier_code`, `supplier_name`, `addres
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `temp_sales_out`
+--
+
+CREATE TABLE `temp_sales_out` (
+  `temp_id` int(11) NOT NULL,
+  `sales_id` int(11) NOT NULL DEFAULT 0,
+  `sales_serv_items_id` int(11) NOT NULL DEFAULT 0,
+  `sales_details_id` int(11) NOT NULL DEFAULT 0,
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `in_id` int(11) NOT NULL DEFAULT 0,
+  `item_id` int(11) NOT NULL DEFAULT 0,
+  `quantity` decimal(10,2) NOT NULL DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `uom`
 --
 
-CREATE TABLE IF NOT EXISTS `uom` (
-`unit_id` int(11) NOT NULL,
+CREATE TABLE `uom` (
+  `unit_id` int(11) NOT NULL,
   `unit_name` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `uom`
@@ -2272,13 +2544,13 @@ INSERT INTO `uom` (`unit_id`, `unit_name`) VALUES
 -- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
-`user_id` int(11) NOT NULL,
+CREATE TABLE `users` (
+  `user_id` int(11) NOT NULL,
   `username` varchar(100) DEFAULT NULL,
   `fullname` varchar(100) DEFAULT NULL,
   `position` varchar(100) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -2293,10 +2565,10 @@ INSERT INTO `users` (`user_id`, `username`, `fullname`, `position`, `password`) 
 -- Table structure for table `warehouse`
 --
 
-CREATE TABLE IF NOT EXISTS `warehouse` (
-`warehouse_id` int(11) NOT NULL,
+CREATE TABLE `warehouse` (
+  `warehouse_id` int(11) NOT NULL,
   `warehouse_name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `warehouse`
@@ -2316,205 +2588,272 @@ INSERT INTO `warehouse` (`warehouse_id`, `warehouse_name`) VALUES
 -- Indexes for table `billing_details`
 --
 ALTER TABLE `billing_details`
- ADD PRIMARY KEY (`billing_detail_id`);
+  ADD PRIMARY KEY (`billing_detail_id`);
 
 --
 -- Indexes for table `billing_head`
 --
 ALTER TABLE `billing_head`
- ADD PRIMARY KEY (`billing_id`);
+  ADD PRIMARY KEY (`billing_id`);
+
+--
+-- Indexes for table `billing_payment`
+--
+ALTER TABLE `billing_payment`
+  ADD PRIMARY KEY (`payment_id`);
 
 --
 -- Indexes for table `bin`
 --
 ALTER TABLE `bin`
- ADD PRIMARY KEY (`bin_id`);
+  ADD PRIMARY KEY (`bin_id`);
 
 --
 -- Indexes for table `brand`
 --
 ALTER TABLE `brand`
- ADD PRIMARY KEY (`brand_id`);
+  ADD PRIMARY KEY (`brand_id`);
 
 --
 -- Indexes for table `client`
 --
 ALTER TABLE `client`
- ADD PRIMARY KEY (`client_id`);
+  ADD PRIMARY KEY (`client_id`);
 
 --
 -- Indexes for table `damage_details`
 --
 ALTER TABLE `damage_details`
- ADD PRIMARY KEY (`damage_det_id`);
+  ADD PRIMARY KEY (`damage_det_id`);
 
 --
 -- Indexes for table `damage_head`
 --
 ALTER TABLE `damage_head`
- ADD PRIMARY KEY (`damage_id`);
+  ADD PRIMARY KEY (`damage_id`);
 
 --
 -- Indexes for table `department`
 --
 ALTER TABLE `department`
- ADD PRIMARY KEY (`department_id`);
+  ADD PRIMARY KEY (`department_id`);
 
 --
 -- Indexes for table `employees`
 --
 ALTER TABLE `employees`
- ADD PRIMARY KEY (`employee_id`);
+  ADD PRIMARY KEY (`employee_id`);
+
+--
+-- Indexes for table `equipment`
+--
+ALTER TABLE `equipment`
+  ADD PRIMARY KEY (`equipment_id`);
 
 --
 -- Indexes for table `fifo_in`
 --
 ALTER TABLE `fifo_in`
- ADD PRIMARY KEY (`in_id`);
+  ADD PRIMARY KEY (`in_id`);
 
 --
 -- Indexes for table `fifo_out`
 --
 ALTER TABLE `fifo_out`
- ADD PRIMARY KEY (`out_id`);
+  ADD PRIMARY KEY (`out_id`);
 
 --
 -- Indexes for table `groups`
 --
 ALTER TABLE `groups`
- ADD PRIMARY KEY (`group_id`);
+  ADD PRIMARY KEY (`group_id`);
 
 --
 -- Indexes for table `items`
 --
 ALTER TABLE `items`
- ADD PRIMARY KEY (`item_id`);
+  ADD PRIMARY KEY (`item_id`);
 
 --
 -- Indexes for table `item_categories`
 --
 ALTER TABLE `item_categories`
- ADD PRIMARY KEY (`cat_id`);
+  ADD PRIMARY KEY (`cat_id`);
 
 --
 -- Indexes for table `item_subcat`
 --
 ALTER TABLE `item_subcat`
- ADD PRIMARY KEY (`subcat_id`);
+  ADD PRIMARY KEY (`subcat_id`);
 
 --
 -- Indexes for table `location`
 --
 ALTER TABLE `location`
- ADD PRIMARY KEY (`location_id`);
+  ADD PRIMARY KEY (`location_id`);
+
+--
+-- Indexes for table `manpower`
+--
+ALTER TABLE `manpower`
+  ADD PRIMARY KEY (`manpower_id`);
 
 --
 -- Indexes for table `payment_head`
 --
 ALTER TABLE `payment_head`
- ADD PRIMARY KEY (`payment_id`);
+  ADD PRIMARY KEY (`payment_id`);
 
 --
 -- Indexes for table `pn_series`
 --
 ALTER TABLE `pn_series`
- ADD PRIMARY KEY (`pn_id`);
+  ADD PRIMARY KEY (`pn_id`);
 
 --
 -- Indexes for table `purpose`
 --
 ALTER TABLE `purpose`
- ADD PRIMARY KEY (`purpose_id`);
+  ADD PRIMARY KEY (`purpose_id`);
 
 --
 -- Indexes for table `rack`
 --
 ALTER TABLE `rack`
- ADD PRIMARY KEY (`rack_id`);
+  ADD PRIMARY KEY (`rack_id`);
 
 --
 -- Indexes for table `receive_details`
 --
 ALTER TABLE `receive_details`
- ADD PRIMARY KEY (`rd_id`);
+  ADD PRIMARY KEY (`rd_id`);
 
 --
 -- Indexes for table `receive_head`
 --
 ALTER TABLE `receive_head`
- ADD PRIMARY KEY (`receive_id`), ADD UNIQUE KEY `mrecf_no` (`mrecf_no`);
+  ADD PRIMARY KEY (`receive_id`),
+  ADD UNIQUE KEY `mrecf_no` (`mrecf_no`);
 
 --
 -- Indexes for table `receive_items`
 --
 ALTER TABLE `receive_items`
- ADD PRIMARY KEY (`ri_id`);
+  ADD PRIMARY KEY (`ri_id`);
+
+--
+-- Indexes for table `repair_details`
+--
+ALTER TABLE `repair_details`
+  ADD PRIMARY KEY (`repair_id`);
 
 --
 -- Indexes for table `return_details`
 --
 ALTER TABLE `return_details`
- ADD PRIMARY KEY (`return_details_id`);
+  ADD PRIMARY KEY (`return_details_id`);
 
 --
 -- Indexes for table `return_head`
 --
 ALTER TABLE `return_head`
- ADD PRIMARY KEY (`return_id`);
+  ADD PRIMARY KEY (`return_id`);
+
+--
+-- Indexes for table `return_service_details`
+--
+ALTER TABLE `return_service_details`
+  ADD PRIMARY KEY (`return_serv_details_id`);
+
+--
+-- Indexes for table `return_service_head`
+--
+ALTER TABLE `return_service_head`
+  ADD PRIMARY KEY (`return_service_id`);
 
 --
 -- Indexes for table `sales_good_details`
 --
 ALTER TABLE `sales_good_details`
- ADD PRIMARY KEY (`sales_good_det_id`);
+  ADD PRIMARY KEY (`sales_good_det_id`);
 
 --
 -- Indexes for table `sales_good_head`
 --
 ALTER TABLE `sales_good_head`
- ADD PRIMARY KEY (`sales_good_head_id`);
+  ADD PRIMARY KEY (`sales_good_head_id`);
 
 --
 -- Indexes for table `sales_services_head`
 --
 ALTER TABLE `sales_services_head`
- ADD PRIMARY KEY (`sales_serv_head_id`);
+  ADD PRIMARY KEY (`sales_serv_head_id`);
+
+--
+-- Indexes for table `sales_serv_equipment`
+--
+ALTER TABLE `sales_serv_equipment`
+  ADD PRIMARY KEY (`sales_serv_equipment_id`);
 
 --
 -- Indexes for table `sales_serv_items`
 --
 ALTER TABLE `sales_serv_items`
- ADD PRIMARY KEY (`sales_serv_items_id`);
+  ADD PRIMARY KEY (`sales_serv_items_id`);
 
 --
--- Indexes for table `sales_serv_labor`
+-- Indexes for table `sales_serv_manpower`
 --
-ALTER TABLE `sales_serv_labor`
- ADD PRIMARY KEY (`sales_serv_labor_id`);
+ALTER TABLE `sales_serv_manpower`
+  ADD PRIMARY KEY (`sales_serv_manpower_id`);
+
+--
+-- Indexes for table `sales_serv_material`
+--
+ALTER TABLE `sales_serv_material`
+  ADD PRIMARY KEY (`sales_serv_mat_id`);
+
+--
+-- Indexes for table `serial_numbers`
+--
+ALTER TABLE `serial_numbers`
+  ADD PRIMARY KEY (`serial_id`);
+
+--
+-- Indexes for table `shipping_company`
+--
+ALTER TABLE `shipping_company`
+  ADD PRIMARY KEY (`ship_comp_id`);
 
 --
 -- Indexes for table `supplier`
 --
 ALTER TABLE `supplier`
- ADD PRIMARY KEY (`supplier_id`);
+  ADD PRIMARY KEY (`supplier_id`);
+
+--
+-- Indexes for table `temp_sales_out`
+--
+ALTER TABLE `temp_sales_out`
+  ADD PRIMARY KEY (`temp_id`);
 
 --
 -- Indexes for table `uom`
 --
 ALTER TABLE `uom`
- ADD PRIMARY KEY (`unit_id`);
+  ADD PRIMARY KEY (`unit_id`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
- ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`user_id`);
 
 --
 -- Indexes for table `warehouse`
 --
 ALTER TABLE `warehouse`
- ADD PRIMARY KEY (`warehouse_id`);
+  ADD PRIMARY KEY (`warehouse_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -2524,172 +2863,273 @@ ALTER TABLE `warehouse`
 -- AUTO_INCREMENT for table `billing_details`
 --
 ALTER TABLE `billing_details`
-MODIFY `billing_detail_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `billing_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT for table `billing_head`
 --
 ALTER TABLE `billing_head`
-MODIFY `billing_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `billing_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `billing_payment`
+--
+ALTER TABLE `billing_payment`
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `bin`
 --
 ALTER TABLE `bin`
-MODIFY `bin_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=60;
+  MODIFY `bin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+
 --
 -- AUTO_INCREMENT for table `brand`
 --
 ALTER TABLE `brand`
-MODIFY `brand_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `brand_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `damage_details`
 --
 ALTER TABLE `damage_details`
-MODIFY `damage_det_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `damage_det_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `damage_head`
 --
 ALTER TABLE `damage_head`
-MODIFY `damage_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `damage_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
-MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
 --
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=105;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+
+--
+-- AUTO_INCREMENT for table `equipment`
+--
+ALTER TABLE `equipment`
+  MODIFY `equipment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `fifo_in`
 --
 ALTER TABLE `fifo_in`
-MODIFY `in_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `in_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `fifo_out`
 --
 ALTER TABLE `fifo_out`
-MODIFY `out_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `out_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
 --
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=149;
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
+
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `item_categories`
 --
 ALTER TABLE `item_categories`
-MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=145;
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
+
 --
 -- AUTO_INCREMENT for table `item_subcat`
 --
 ALTER TABLE `item_subcat`
-MODIFY `subcat_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
+  MODIFY `subcat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+
 --
 -- AUTO_INCREMENT for table `location`
 --
 ALTER TABLE `location`
-MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=105;
+  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+
+--
+-- AUTO_INCREMENT for table `manpower`
+--
+ALTER TABLE `manpower`
+  MODIFY `manpower_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `payment_head`
 --
 ALTER TABLE `payment_head`
-MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `pn_series`
 --
 ALTER TABLE `pn_series`
-MODIFY `pn_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `pn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
 --
 -- AUTO_INCREMENT for table `purpose`
 --
 ALTER TABLE `purpose`
-MODIFY `purpose_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=196;
+  MODIFY `purpose_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
+
 --
 -- AUTO_INCREMENT for table `rack`
 --
 ALTER TABLE `rack`
-MODIFY `rack_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=390;
+  MODIFY `rack_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=390;
+
 --
 -- AUTO_INCREMENT for table `receive_details`
 --
 ALTER TABLE `receive_details`
-MODIFY `rd_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `rd_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `receive_head`
 --
 ALTER TABLE `receive_head`
-MODIFY `receive_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `receive_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `receive_items`
 --
 ALTER TABLE `receive_items`
-MODIFY `ri_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `ri_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `repair_details`
+--
+ALTER TABLE `repair_details`
+  MODIFY `repair_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `return_details`
 --
 ALTER TABLE `return_details`
-MODIFY `return_details_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `return_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `return_head`
 --
 ALTER TABLE `return_head`
-MODIFY `return_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `return_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `return_service_details`
+--
+ALTER TABLE `return_service_details`
+  MODIFY `return_serv_details_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `return_service_head`
+--
+ALTER TABLE `return_service_head`
+  MODIFY `return_service_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `sales_good_details`
 --
 ALTER TABLE `sales_good_details`
-MODIFY `sales_good_det_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=56;
+  MODIFY `sales_good_det_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `sales_good_head`
 --
 ALTER TABLE `sales_good_head`
-MODIFY `sales_good_head_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
+  MODIFY `sales_good_head_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `sales_services_head`
 --
 ALTER TABLE `sales_services_head`
-MODIFY `sales_serv_head_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `sales_serv_head_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `sales_serv_equipment`
+--
+ALTER TABLE `sales_serv_equipment`
+  MODIFY `sales_serv_equipment_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `sales_serv_items`
 --
 ALTER TABLE `sales_serv_items`
-MODIFY `sales_serv_items_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `sales_serv_items_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `sales_serv_labor`
+-- AUTO_INCREMENT for table `sales_serv_manpower`
 --
-ALTER TABLE `sales_serv_labor`
-MODIFY `sales_serv_labor_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `sales_serv_manpower`
+  MODIFY `sales_serv_manpower_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `sales_serv_material`
+--
+ALTER TABLE `sales_serv_material`
+  MODIFY `sales_serv_mat_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `serial_numbers`
+--
+ALTER TABLE `serial_numbers`
+  MODIFY `serial_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `shipping_company`
+--
+ALTER TABLE `shipping_company`
+  MODIFY `ship_comp_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
-MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=380;
+  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=380;
+
+--
+-- AUTO_INCREMENT for table `temp_sales_out`
+--
+ALTER TABLE `temp_sales_out`
+  MODIFY `temp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
 --
 -- AUTO_INCREMENT for table `uom`
 --
 ALTER TABLE `uom`
-MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=34;
+  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `warehouse`
 --
 ALTER TABLE `warehouse`
-MODIFY `warehouse_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `warehouse_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
