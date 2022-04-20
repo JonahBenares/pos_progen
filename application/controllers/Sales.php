@@ -150,7 +150,7 @@ class Sales extends CI_Controller {
             $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$itm->item_id);
             $group_id = $this->super_model->select_column_where("items","group_id","item_id",$itm->item_id);
             $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
-            $remaining_qty_disp = $this->super_model->select_sum_where("fifo_in","remaining_qty","item_id='$itm->item_id' AND remaining_qty!='0' AND (expiry_date ='' OR expiry_date >= '$today')");
+            $remaining_qty_disp = $this->super_model->select_sum_where("fifo_in","remaining_qty","item_id='$itm->item_id' AND remaining_qty!='0' AND (expiry_date ='' OR expiry_date > '$today')");
             $return = array('serial_no'=>$itm->serial_no, 'unit_cost'=>$itm->item_cost, 'quantity'=>$itm->remaining_qty, 'unit'=>$unit, 'group_id'=>$group_id, 'item_id'=>$item_id,'remaining_qty'=>$remaining_qty_disp);
         }
         echo json_encode($return);
@@ -478,6 +478,7 @@ class Sales extends CI_Controller {
 
     public function services_add_sales_head(){
         $data['buyer']=$this->super_model->select_all_order_by("client","buyer_name","ASC");
+        $data['shipping']=$this->super_model->select_all_order_by("shipping_company","company_name","ASC");
         $year_series=date('Y');
         $rows=$this->super_model->count_custom_where("sales_services_head","create_date LIKE '$year_series%'");
         if($rows==0){
@@ -513,6 +514,9 @@ class Sales extends CI_Controller {
             "dr_no"=>$this->input->post('dr_no'),
             "vat"=>$this->input->post('vat'),
             "remarks"=>$this->input->post('remarks'),
+            "waybill_no"=>$this->input->post('waybill_no'),
+            "ar_description"=>$this->input->post('ar_description'),
+            "shipped_via"=>$this->input->post('shipped_via'),
             "purpose"=>$this->input->post('purpose'),
             "create_date"=>date("Y-m-d H:i:s"),
             "user_id"=>$_SESSION['user_id'],
@@ -538,7 +542,7 @@ class Sales extends CI_Controller {
         $this->load->view('template/header');
         $data['sales_serv_head_id']=$this->uri->segment(3);
         $today = date("Y-m-d");
-        foreach($this->super_model->select_custom_where("fifo_in","remaining_qty!='0' AND (expiry_date ='' OR expiry_date >= '$today') GROUP BY item_id") AS $fi){
+        foreach($this->super_model->select_custom_where("fifo_in","remaining_qty!='0' AND (expiry_date ='' OR expiry_date > '$today') GROUP BY item_id") AS $fi){
             $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$fi->item_id);
             $item_name = $this->super_model->select_column_where("items","item_name","item_id",$fi->item_id);
             $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$fi->item_id);
@@ -582,7 +586,7 @@ class Sales extends CI_Controller {
         $details_id = $this->super_model->insert_return_id("sales_serv_items", $data);
         $count_item = $this->super_model->count_rows_where("sales_serv_items","sales_serv_head_id",$sales_serv_head_id);
 
-        foreach($this->super_model->select_custom_where("fifo_in","item_id = '$item_id' AND (expiry_date ='' or expiry_date >= '$now') ORDER BY receive_date ASC") AS $itm){
+        foreach($this->super_model->select_custom_where("fifo_in","item_id = '$item_id' AND (expiry_date ='' or expiry_date > '$now') ORDER BY receive_date ASC") AS $itm){
             if($temp_qty > 0){
                 $temp_qty = $temp_qty - $itm->remaining_qty;
                 if($temp_qty>0){
@@ -796,6 +800,7 @@ class Sales extends CI_Controller {
                 'sales_serv_items_id'=>$tmp->sales_serv_items_id,
                 'damage_id'=>0,
                 'quantity'=>$tmp->quantity,
+                'remaining_qty'=>$tmp->quantity,
             );   
 
             $this->super_model->insert_into("fifo_out",$data);
@@ -934,7 +939,7 @@ class Sales extends CI_Controller {
         $this->load->view('template/header');
         foreach($this->super_model->select_custom_where("sales_services_head","sales_serv_head_id = '$sales_serv_head_id'") AS $sh){
             $client = $this->super_model->select_column_where("client","buyer_name","client_id",$sh->client_id);
-            $shipping = $this->super_model->select_column_where("shipping_company","company_name","ship_comp_id",$sh->shipping_company);
+            $shipping = $this->super_model->select_column_where("shipping_company","company_name","ship_comp_id",$sh->shipped_via);
             $address = $this->super_model->select_column_where("client","address","client_id",$sh->client_id);
             $contact_person = $this->super_model->select_column_where("client","contact_person","client_id",$sh->client_id);
             $contact_no = $this->super_model->select_column_where("client","contact_no","client_id",$sh->client_id);
@@ -948,8 +953,9 @@ class Sales extends CI_Controller {
                 'tin'=>$tin,
                 'wht'=>$wht,
                 'sales_date'=>$sh->sales_date,
-                'shipping_company'=>$shipping,
+                'shipped_via'=>$shipping,
                 'waybill_no'=>$sh->waybill_no,
+                'ar_description'=>$sh->ar_description,
                 'vat'=>$sh->vat,
                 'jor_no'=>$sh->jor_no,
                 'jor_date'=>$sh->jor_date,

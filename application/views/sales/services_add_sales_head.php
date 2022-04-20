@@ -137,7 +137,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Description</label>
-                                        <textarea class="form-control" rows="14" name="desc" id="desc" placeholder="Description..."></textarea>
+                                        <textarea class="form-control" rows="14" name="ar_description" id="ar_description" placeholder="Description..."></textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -147,13 +147,18 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Shipped Via</label>
-                                        <input type="text" class="form-control" name="" placeholder="Shipped Via">
+                                        <select class="form-control" id="shipped_via" name = "shipped_via">
+                                            <option value="">--Select Shipping--</option>
+                                            <?php foreach($shipping AS $s){ ?>
+                                                <option value="<?php echo $s->ship_comp_id; ?>"><?php echo $s->company_name; ?></option>
+                                            <?php } ?>
+                                        </select>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Waybill No.</label>
-                                                <input type="text" class="form-control" name="" placeholder="Waybill No.">
+                                                <input type="text" class="form-control" name="waybill_no" id="waybill_no" placeholder="Waybill No.">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">

@@ -97,7 +97,7 @@
                                     <td><?php echo $x;?></td>
                                     <td><?php echo $ip['prno'];?></td>
                                     <td><?php echo $ip['recqty'];?></td>
-                                    <td><?php echo $ip['sales_quantity'];?></td>
+                                    <td><?php echo number_format($ip['sales_quantity'],2);?></td>
                                     <td><?php echo number_format($ip['in_balance'],2);?></td>
                                     <td><?php echo $ip['returnqty'];?></td>
                                     <td><?php echo $ip['damageqty'];?></td>

@@ -281,10 +281,59 @@ class Returns extends CI_Controller {
     }
 
     public function return_services(){
+        $sales_serv_head_id=$this->uri->segment(3);
+        $data['id']=$sales_serv_head_id;
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('returns/return_services');
+        $data['dr_no']=$this->super_model->select_all_order_by("sales_services_head","dr_no","ASC");
+        $data['employees']=$this->super_model->select_all_order_by("employees","employee_name","ASC");
+        foreach($this->super_model->select_row_where("sales_services_head","sales_serv_head_id",$sales_serv_head_id) AS $sh){
+         
+            $data["head"][]=array(
+                "jor_no"=>$sh->jor_no,
+                "jor_date"=>$sh->jor_date,
+                "client"=>$this->super_model->select_column_where("client","buyer_name","client_id",$sh->client_id),
+                "joi_no"=>$sh->joi_no,
+                "joi_date"=>$sh->joi_date,
+                "sales_date"=>date('F d,Y',strtotime($sh->sales_date)),
+                "dr_no"=>$sh->dr_no,
+                "vat"=>$sh->vat,
+                "remarks"=>$sh->remarks
+            );
+            foreach($this->super_model->select_custom_where("fifo_out","sales_id='$sh->sales_serv_head_id' AND transaction_type='Sales Services'") AS $itm){
+                $supplier_id = $this->super_model->select_column_where("fifo_in","supplier_id","in_id",$itm->in_id);
+                $returned_qty = $this->super_model->select_sum("return_details", "return_qty", "in_id", $itm->in_id);
+                $unit_cost = $this->super_model->select_column_where("fifo_in", "item_cost", "in_id", $itm->in_id);
+                $selling_price = $this->super_model->select_column_where("sales_good_details", "selling_price", "sales_good_det_id", $itm->sales_details_id);
+                //$qty = $itm->quantity;
+                //$return_qty = $itm->return_qty;
+                $qty = $itm->quantity - $returned_qty;
+                $data['item'][]=array(
+                    "in_id"=>$itm->in_id,
+                    "item"=>$this->super_model->select_column_where("items","item_name","item_id",$itm->item_id),
+                    "item_id"=>$itm->item_id,
+                    "sales_details_id"=>$itm->sales_details_id,
+                    "qty"=>$qty,
+                    //"return_qty"=>$return_qty,
+                    "unit_cost"=>$unit_cost,
+                    "selling_price"=>$selling_price,
+                    "supplier"=>$this->super_model->select_column_where("supplier","supplier_name","supplier_id",$supplier_id),
+                    "brand"=>$this->super_model->select_column_where("fifo_in","brand","in_id",$itm->in_id),
+                    "catalog_no"=>$this->super_model->select_column_where("fifo_in","catalog_no","in_id",$itm->in_id),
+                    "serial_no"=>$this->super_model->select_column_where("fifo_in","serial_no","in_id",$itm->in_id),
+                );
+            }
+        }
+        $this->load->view('returns/return_services',$data);
         $this->load->view('template/footer');
+    }
+
+    public function dr_append_service(){
+        $sales_serv_head_id = $this->input->post('sales_serv_head_id');
+        foreach($this->super_model->custom_query("SELECT sales_serv_head_id FROM sales_services_head WHERE sales_serv_head_id = '$sales_serv_head_id' AND saved = '1'") AS $mr){ 
+            $return = array('sales_serv_head_id' => $mr->sales_serv_head_id); 
+            echo json_encode($return);   
+        }
     }
 
     public function print_return_services(){
