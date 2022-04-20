@@ -29,8 +29,7 @@ class Damage extends CI_Controller {
     } 
 
 
-    public function damage_item()
-    {
+    public function damage_item(){
         $now = date("Y-m-d");
         $data['item'] = $this->super_model->select_all('items');
         $data['employees']=$this->super_model->select_all_order_by("employees",'employee_name',"ASC");
@@ -42,7 +41,7 @@ class Damage extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-     public function itemdam_info(){
+    public function itemdam_info(){
         $in_id=$this->input->post('in_id');
         foreach($this->super_model->select_row_where("fifo_in","in_id",$in_id) AS $cli){
             $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$cli->item_id);
@@ -177,6 +176,13 @@ class Damage extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('damage/damage_print');
+        $this->load->view('template/footer');
+    }
+
+    public function damage_list(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('damage/damage_list');
         $this->load->view('template/footer');
     }
 }

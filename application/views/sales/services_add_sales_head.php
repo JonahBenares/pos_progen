@@ -50,16 +50,10 @@
                             <div class="row">
                                 <div class="col-lg-6">                                
                                     <div class="row">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-12">
                                             <div class="form-group">
                                                 <label>Address</label>
                                                 <input type="text" class="form-control" placeholder="Address" name="address" id="address" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>TIN</label>
-                                                <input type="text" class="form-control" placeholder="TIN" name="tin" id="tin" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -77,14 +71,24 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="form-group">
-                                        <label>Labor</label>
-                                        <input type="text" class="form-control" placeholder="Labor">
-                                    </div> -->
-                                    <div class="form-group">
-                                        <label>Purpose</label>
-                                        <textarea class="form-control" rows="1" placeholder="Purpose" name="purpose" id="purpose"></textarea>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>TIN</label>
+                                                <input type="text" class="form-control" placeholder="TIN" name="tin" id="tin" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>VAT</label>
+                                                <select class="form-control" name="vat" id="vat">
+                                                    <option value="1">Vatable</option>
+                                                    <option value="2">Non-Vatable</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
+                                    
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="row">                                    
@@ -115,57 +119,61 @@
                                             </div>
                                         </div>
                                     </div>
-                                   <!--  <div class="row">
-                                        <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-12">
                                             <div class="form-group">
-                                                <label>Date Started</label>
-                                                <input type="date" class="form-control">
+                                                <label>Purpose</label>
+                                                <textarea class="form-control" rows="1" placeholder="Purpose" name="purpose" id="purpose"></textarea>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>Date Completed</label>
-                                                <input type="date" class="form-control" >
-                                            </div>
-                                        </div>
-                                    </div> -->
+                                        
+                                        
+                                    </div>                                
+                                </div>
+                            </div>  
+                            <hr> 
+                            <small><b>Preparation for AR</b></small><br><br>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea class="form-control" rows="14" name="desc" id="desc" placeholder="Description..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Remarks</label>
+                                        <textarea class="form-control" rows="1" name="remarks" id="remarks" placeholder="remarks"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Shipped Via</label>
+                                        <input type="text" class="form-control" name="" placeholder="Shipped Via">
+                                    </div>
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>Remarks</label>
-                                                <textarea class="form-control" rows="1" name="remarks" id="remarks"></textarea>
+                                                <label>Waybill No.</label>
+                                                <input type="text" class="form-control" name="" placeholder="Waybill No.">
                                             </div>
                                         </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <label>VAT</label>
-                                                <select class="form-control" name="vat" id="vat">
-                                                    <option value="1">Vatable</option>
-                                                    <option value="2">Non-Vatable</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
+                                        <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label><br></label>
                                                 <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
                                                 <input type='button' class="btn btn-gradient-primary btn-sm btn-block btn-rounded" id="proc_service" onclick="proceed_sales_service()" value="Proceed">
-                                                <input type='button' class="btn btn-gradient-danger btn-sm btn-block btn-rounded" id="cancel_service" onclick="cancel_sales_service()" value="Cancel Transaction" style='display: none;font-size: 10px;'>
+                                                <input type='button' class="btn btn-gradient-danger btn-sm btn-block btn-rounded" id="cancel_service" onclick="cancel_sales_service()" value="Cancel Transaction" style='display: none;'>
                                                 <input type="hidden" name="sales_serv_head_id" id="sales_serv_head_id" form="saveAllservice">
                                             </div>
                                         </div>
-                                    </div>                                
+                                    </div>
                                 </div>
-                            </div>  
+                            </div>
+                            <hr>
                         </form>
-                        <hr> 
                         <div class="row" id='myDIV2' style='display: none;'>
                             <div class="col-lg-12">
-                                <div > <!-- style="width:100%;overflow-x: scroll;" -->
+                                <div>
                                     <div class="col-lg-12">
-                                        <!-- <button class="btn btn-gradient-primary btn-xs pull-right " onclick="goods_add_sales_items('<?php echo base_url(); ?>')" name="">
-                                            <span class="mdi mdi-plus"></span> Add Item
-                                        </button>   -->
                                         <center>
                                             <div id ="myButton2"></div>
                                         </center>
@@ -245,7 +253,7 @@
                                     <br>
                                     <table id="table-alt"  class="table-bordered" width="100%">
                                         <tr>
-                                            <td class="td-head" colspan="7"><center><b>Actual Rental Cost</b></center></td>
+                                            <td class="td-head" colspan="8"><center><b>Actual Rental Cost</b></center></td>
                                         </tr>
                                         <tr>
                                             <td class="td-head" width="5%">No.</td>
