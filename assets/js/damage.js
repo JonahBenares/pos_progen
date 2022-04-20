@@ -99,14 +99,17 @@ function saveDamage(){
 }
 
 function check_rem_qty(count){
-  var remaining_qty = $('select#transaction'+count+' option:selected').attr('mytag');
-  var quantity= document.getElementById("qty"+count).value;
-  if (parseInt(quantity) >parseInt(remaining_qty)){
-    document.getElementById("savedamage").disabled = true;
-    alert("Quantity encoded exceeds available quantity!");
-  }else{
-    document.getElementById("savedamage").disabled = false;
-  }
+    var remaining_qty = $('select#transaction'+count+' option:selected').attr('mytag');
+    var quantity= document.getElementById("qty"+count).value;
+    var item_cost= document.getElementById("total_cost"+count).value;
+    var total_cost = parseFloat(quantity) * parseFloat(item_cost);
+    if (parseInt(quantity) >parseInt(remaining_qty)){
+        document.getElementById("savedamage").disabled = true;
+        alert("Quantity encoded exceeds available quantity!");
+    }else{
+        document.getElementById("savedamage").disabled = false;
+        document.getElementById("item_cost"+count).value = total_cost;
+    }
 }
 
 function get_damitem_value(count){
@@ -124,7 +127,10 @@ function get_damitem_value(count){
             document.getElementById("serial_no"+count).value = response.serial_no;
             document.getElementById("original_pn"+count).value = response.original_pn;
             document.getElementById("receive_date"+count).value = response.receive_date;
-            document.getElementById("item_cost"+count).value = response.item_cost;
+            document.getElementById("item_cost"+count).value = response.total_cost;
+            document.getElementById("total_cost"+count).value = response.item_cost;
         }
     });
 }
+
+
