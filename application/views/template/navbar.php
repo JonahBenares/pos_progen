@@ -226,7 +226,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>damage/damage_item">
+                    <a class="nav-link" href="<?php echo base_url(); ?>damage/damage_list">
                         <span class="menu-title">Damage</span>
                         <i class="mdi mdi-image-broken-variant menu-icon"></i>
                     </a>

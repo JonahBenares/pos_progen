@@ -69,6 +69,10 @@
                                             <td width="40%" align="left"><input type="date" class="ml-2 form-control" name="return_date" id = "return_date" value=""style="width:50%;"></td>
                                         </tr>
                                     </table>
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea class="form-control" rows="5" placeholder="Add Description..."></textarea>
+                                    </div>
                                 </div>
                             </div>
                             <br>
@@ -99,88 +103,7 @@
                                         <textarea style="padding: 5px 10px;" rows="2" class="form-control" name="remarks" id="remarks"></textarea>
                                     </td>
                                 </tr>                        
-                            </table>
-                            <br> 
-                            <br>
-                            <label>Consumables and Other Materials</label>
-                            <table class="table table-bordered table-hover" width="100%">
-                                <tr>
-                                    <td class="td-head" width="6%">Qty</td>
-                                    <td class="td-head" width="45%">Item Description</td>
-                                    <td class="td-head" width="8%">UOM</td>
-                                    <td class="td-head" width="14%">Unit Cost</td>
-                                    <td class="td-head" width="13%">Remarks</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-0">
-                                        <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="12211" onkeyup="" id = "" max="999999" placeholder="99999">
-                                    </td>
-                                    <td>Rags</td>
-                                    <td>pc/s</td>
-                                    <td>233.00</td>
-                                    <td class="p-0">
-                                        <textarea style="padding: 5px 10px;" rows="2" class="form-control" name="remarks" id="remarks"></textarea>
-                                    </td>
-                                </tr>
-                            </table>
-                            <br>
-                            <br>
-                            <label>Manpower</label>
-                            <table class="table table-bordered table-hover" width="100%">
-                                <tr>
-                                    <td class="td-head" width="45%">Employee</td>
-                                    <td class="td-head" width="8%">Days</td>
-                                    <td class="td-head" width="8%">Rate</td>
-                                    <td class="td-head" width="14%">Overtime</td>
-                                    <td class="td-head" width="13%">Remarks</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td class="p-0">
-                                        <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="12211" onkeyup="" id = "" max="999999" placeholder="99999">
-                                    </td>
-                                    <td class="p-0">
-                                        <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="12211" onkeyup="" id = "" max="999999" placeholder="99999">
-                                    </td>
-                                    <td class="p-0">
-                                        <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="12211" onkeyup="" id = "" max="999999" placeholder="99999">
-                                    </td>
-                                    <td class="p-0">
-                                        <textarea style="padding: 5px 10px;" rows="2" class="form-control" name="remarks" id="remarks"></textarea>
-                                    </td>
-                                </tr>
-                            </table>
-                            <br>
-                            <br>
-                            <label>Actual Rental Cost</label>
-                            <table class="table table-bordered table-hover" width="100%">
-                                <tr>
-                                    <td class="td-head" width="8%">Qty</td>
-                                    <td class="td-head" width="45%">Equipment</td>
-                                    <td class="td-head" width="8%">Rate</td>
-                                    <td class="td-head" width="8%">Unit</td>
-                                    <td class="td-head" width="14%">Days/Hours</td>
-                                    <td class="td-head" width="13%">Remarks</td>
-                                </tr>
-                                <tr >
-                                    <td class="p-0">
-                                        <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="12211" onkeyup="" id = "" max="999999" placeholder="99999">
-                                    </td>
-                                    <td>equipment 1</td>
-                                    <td class="p-0">
-                                        <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="12211" onkeyup="" id = "" max="999999" placeholder="99999">
-                                    </td>
-                                    <td class="p-0">
-                                        <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="12211" onkeyup="" id = "" max="999999" placeholder="99999">
-                                    </td>
-                                    <td class="p-0">
-                                        <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="12211" onkeyup="" id = "" max="999999" placeholder="99999">
-                                    </td>
-                                    <td class="p-0">
-                                        <textarea style="padding: 5px 10px;" rows="2" class="form-control" name="remarks" id="remarks"></textarea>
-                                    </td>
-                                </tr>
-                            </table>
+                            </table>                            
                             <br>
                             <div class="row">
                                 <div class="col-lg-4"></div>

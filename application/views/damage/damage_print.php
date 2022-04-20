@@ -10,7 +10,8 @@
             </h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <!-- <li class="breadcrumb-item active" aria-current="page">Damage Item</li> -->
+                    <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>damage/damage_list">Damage list</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Print Damage Form</li>
                 </ol>
             </nav>
         </div>
