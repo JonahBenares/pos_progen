@@ -23,9 +23,9 @@
                     <a href="#" class="btn btn-gradient-success btn-md btn-rounded" onclick="printDiv('printableArea')">
                         <b><span class="mdi mdi-printer"></span> Print</b>
                     </a>
-                    <!-- <a href="<?php echo base_url(); ?>billing/update_billing_head" class="btn btn-gradient-info btn-sm btn-rounded">
-                        <b><span class="mdi mdi-pencil"></span> Update</b>
-                    </a> -->
+                    <a href="<?php echo base_url(); ?>returns/return_damage" class="btn btn-gradient-danger btn-md btn-rounded">
+                        <b>Proceed to Damage</b>
+                    </a>
                 </center>
             </div>
             <div class="col-lg-3"></div>
