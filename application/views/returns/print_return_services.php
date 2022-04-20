@@ -35,7 +35,7 @@
             
         </style>
         <page size="A4" id="printableArea">
-            <table class="page-A4 table-bordsered" width="100%">
+            <table class="page-A4 table-borsdered" width="100%">
                 <tr>
                     <td width="5%"><br></td>
                     <td width="5%"></td>
@@ -71,31 +71,25 @@
                     </td>
                 </tr>
                 <tr>
-                    <td></td>
                     <td colspan="2">Returned by:</td>
-                    <td colspan="8" class="bor-btm1">Client Name</td>
+                    <td colspan="9" class="bor-btm1">Client Name</td>
                     <td></td>
-                    <td colspan="3">JOR/PR No:</td>
-                    <td colspan="4" class="bor-btm1">JOR288828</td>
-                    <td></td>
+                    <td colspan="3" align="right">JOR/PR No:</td>
+                    <td colspan="5" class="bor-btm1">&nbsp; JOR288828</td>
                 </tr>
                 <tr>
-                    <td></td>
                     <td colspan="2">Purpose:</td>
-                    <td colspan="8" class="bor-btm1">sample</td>
+                    <td colspan="9" class="bor-btm1">sample</td>
                     <td></td>
-                    <td colspan="3">Date:</td>
-                    <td colspan="4" class="bor-btm1">July 12, 2002</td>
-                    <td></td>
+                    <td colspan="3" align="right">Date:</td>
+                    <td colspan="5" class="bor-btm1">&nbsp; July 12, 2002</td>
                 </tr>
                 <tr>
-                    <td></td>
                     <td colspan="2">Department:</td>
-                    <td colspan="8" class="bor-btm1">IT Department</td>
+                    <td colspan="9" class="bor-btm1">IT Department</td>
                     <td></td>
-                    <td colspan="3">DR No. :</td>
-                    <td colspan="4" class="bor-btm1">DR-92883</td>
-                    <td></td>
+                    <td colspan="3" align="right">DR No. :</td>
+                    <td colspan="5" class="bor-btm1">&nbsp; DR-92883</td>
                 </tr>
                 <!-- <tr>
                     <td></td>
@@ -109,7 +103,26 @@
                 <tr>
                     <td colspan="20" align="center"><br><br></td>
                 </tr>
-                <tr>
+                <tr style="border-top:1px solid #aeaeae">
+                    <td colspan="20">
+                        <table class="table-bordered" width="100%">
+                            <tr> 
+                                <td style="background:#efefef" width="30%">Description</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Reconditioning of the following:<br>
+                                    <br>
+                                    1. Cylinder Head - 5 units (SN:_____,____,...)<br>
+                                    2. Piston - 6 units (SN:_____,______,...)  
+                                    <br>                                                     
+                                    <br>                                                     
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+               <!--  <tr>
                     <td></td>
                     <td colspan="18">
                         <table class="table-bordered" width="100%">
@@ -196,28 +209,17 @@
                         <br>
                     </td>
                     <td></td>
+                </tr> -->
+                <tr>
+                    <td colspan="20"><br></td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td>Remarks:</td>
-                    <td colspan="17" class="bor-btm1"></td>
-                    <td></td>
+                    <td colspan="2">Remarks:</td>
+                    <td colspan="18" class="bor-btm1"></td>
                 </tr>
                 <tr>
                     <td colspan="20"><br><br><br></td>
                 </tr>
-                <!-- <tr>
-                    <td colspan="20" align="center">
-                        <br>
-                        <br>                        
-                        <b style="color: red;">Please make all checks payable to PROGEN DIESELTECH SERVICES CORP.</b>
-                        <br>
-                        <br>
-                        <i>This document is not valid for claiming input taxes.</i>
-                        <br>
-                        <br>
-                    </td>
-                </tr> -->
                 <tr>
                     <td></td>
                     <td colspan="5"><b>Prepared by:</b></td>

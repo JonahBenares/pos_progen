@@ -35,11 +35,8 @@
             <div class="col-lg-3"></div>
         </div>
         <br>
-        <style type="text/css">
-            
-        </style>
         <page size="A4" id="printableArea">
-            <table class="page-A4 table-borsdered" width="100%">
+            <table class="page-A4 table-bordersed" width="100%">
                 <tr>
                     <td width="5%"><br></td>
                     <td width="5%"></td>
@@ -84,11 +81,11 @@
                     <td colspan="4" class="bor-btm1"> <h7 style="color:blue"><b><?php echo $sh['dr_no'];?></b></h7></td>
                 </tr>               
                 <tr>
-                    <td colspan="3">Address:</td>
+                    <td colspan="3" style="vertical-align:text-top;">Address:</td>
                     <td colspan="9" class="bor-btm1"><?php echo $sh['address'];?></td>
                     <td colspan="1"></td>
-                    <td colspan="3" align="right">Delivery Date:</td>
-                    <td colspan="4" class="bor-btm1"><?php echo $sh['sales_date'];?></td>
+                    <td colspan="3" align="right" style="vertical-align:bottom">Delivery Date:</td>
+                    <td colspan="4" class="bor-btm1" style="vertical-align:bottom"><?php echo $sh['sales_date'];?></td>
                 </tr>
                 <tr>
                     <td colspan="3">Contact Person:</td>
@@ -111,175 +108,17 @@
                     <td colspan="20">
                         <table class="table-bordered" width="100%">
                             <tr> 
-                                <td style="background:#efefef" width="7%">Part No.</td>
-                                <td style="background:#efefef" width="30%">Item Description</td>
-                                <td style="background:#efefef" width="15%">Serial No.</td>
-                                <td style="background:#efefef" width="5%">Qty</td>
-                                <td style="background:#efefef" width="5%">UOM</td>
-                                <td style="background:#efefef" width="10%">Selling Price</td>
-                                <td style="background:#efefef" width="8%">Discount</td>
-                                <td style="background:#efefef" width="12%">Total Price</td>
-                            </tr>
-                            <?php 
-                                $itmtotal[]=0;
-                                foreach($service_details AS $sd){ 
-                                    $itmtotal[] = $sd['total'];
-                            ?>
-                            <tr>
-                                <td><?php echo $sd['original_pn'];?></td>
-                                <td><?php echo $sd['item'];?></td>
-                                <td><?php echo $sd['serial_no'];?></td>
-                                <td><?php echo $sd['quantity'];?></td>
-                                <td><?php echo $sd['uom'];?></td>
-                                <td align="center"><?php echo number_format($sd['selling_price'],2);?></td>
-                                <td align="center"><?php echo number_format($sd['discount'],2);?></td>
-                                <td><?php echo number_format($sd['total'],2);?></td>
-                            </tr>
-                             <?php } $itemtotal=array_sum($itmtotal); ?>
-                            <tr>
-                                <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
-                                <td style="background:#efefef" colspan="5" align="center"><b>Engine Parts Cost Incurred</b></td>
-                                <td style="background:#efefef" align="left"><b><?php echo number_format($itemtotal,2);?></b></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="20" align="center"><br></td>
-                </tr>
-                <tr style="border-top:1px solid #aeaeae">
-                    <td colspan="20" align="center" style="background:#efefef"><b>Consumables and Other Materials</b></td>
-                </tr>
-                <tr>
-                    <td colspan="20">
-                        <table class="table-bordered" width="100%">
-                            <tr> 
-                                <td style="background:#efefef" width="5%">No.</td>
-                                <td style="background:#efefef" width="45%">Item Description</td>
-                                <td style="background:#efefef" width="8%">Qty</td>
-                                <td style="background:#efefef" width="8%">UOM</td>
-                                <td style="background:#efefef" width="14%">Unit Cost</td>
-                                <td style="background:#efefef" width="12%">Total Cost</td>
-                            </tr>
-                            <?php 
-                                $x=1;
-                                $mattotal[]=0;
-                                foreach($service_materials AS $sm){
-                                    $mattotal[] = $sm['total_cost'];
-                            ?>
-                            <tr>
-                                <td><?php echo $x; ?></td>
-                                <td><?php echo $sm['item_description'];?></td>
-                                <td><?php echo $sm['quantity'];?></td>
-                                <td><?php echo $sm['uom'];?></td>
-                                <td><?php echo $sm['unit_cost'];?></td>
-                                <td><?php echo $sm['total_cost'];?></td>
-                            </tr>
-                            <?php 
-                                $x++; } 
-                                $mtotal =array_sum($mattotal);
-                            ?>
-                            <tr>
-                                <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
-                                <td style="background:#efefef" colspan="3" align="center"><b>Material Cost Incurred</b></td>
-                                <td style="background:#efefef" align="left"><b><?php echo number_format($mtotal,2); ?></b></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="20" align="center"><br></td>
-                </tr>
-                <tr style="border-top:1px solid #aeaeae">
-                    <td colspan="20" align="center" style="background:#efefef"><b>Manpower</b></td>
-                </tr>
-                <tr>
-                    <td colspan="20">
-                        <table class="table-bordered" width="100%">
-                            <tr> 
-                                <td style="background:#efefef" width="5%">No.</td>
-                                <td style="background:#efefef" width="45%">Employee</td>
-                                <td style="background:#efefef" width="8%">Days</td>
-                                <td style="background:#efefef" width="8%">Rate</td>
-                                <td style="background:#efefef" width="14%">Overtime</td>
-                                <td style="background:#efefef" width="12%">Total</td>
-                            </tr>
-                            <?php 
-                                $x=1;
-                                $mantotal[]=0;
-                                foreach($service_manpower AS $sman){
-                                    $mantotal[] = $sman['total_cost'];
-                            ?>
-                            <tr>
-                                <td><?php echo $x; ?></td>
-                                <td><?php echo $sman['employee_name']; ?></td>
-                                <td><?php echo $sman['days']; ?></td>
-                                <td><?php echo $sman['rate']; ?></td>
-                                <td><?php echo $sman['overtime']; ?></td>
-                                <td><?php echo $sman['total_cost']; ?></td>
-                            </tr>
-                            <?php 
-                                $x++; }
-                                $mntotal =array_sum($mantotal);
-                            ?>
-                            <tr>
-                                <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
-                                <td style="background:#efefef" colspan="3" align="center"><b>Labor Cost Incurred</b></td>
-                                <td style="background:#efefef" align="left"><b><?php echo number_format($mntotal,2); ?></b></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="20" align="center"><br></td>
-                </tr>
-                <tr style="border-top:1px solid #aeaeae">
-                    <td colspan="20" align="center" style="background:#efefef"><b>Actual Rental Cost</b></td>
-                </tr>
-                <tr>
-                    <td colspan="20">
-                        <table class="table-bordered" width="100%">
-                            <tr> 
-                                <td style="background:#efefef" width="5%">No.</td>
-                                <td style="background:#efefef" width="45%">Equipment</td>
-                                <td style="background:#efefef" width="8%">Rate</td>
-                                <td style="background:#efefef" width="8%">Unit</td>
-                                <td style="background:#efefef" width="14%">Days</td>
-                                <td style="background:#efefef" width="12%">Total Cost</td>
-                            </tr>
-                            <?php 
-                                $x=1;
-                                $eqptotal[]=0;
-                                foreach($service_equipment AS $se){
-                                    $eqptotal[] = $se['total_cost'];
-                            ?>
-                            <tr>
-                                <td><?php echo $x; ?></td>
-                                <td><?php echo $se['equipment_name']; ?></td>
-                                <td><?php echo $se['rate']; ?></td>
-                                <td><?php echo $se['uom']; ?></td>
-                                <td><?php echo $se['days']; ?></td>
-                                <td><?php echo $se['total_cost']; ?></td>
-                            </tr>
-                            <?php 
-                                $x++; }
-                                $eqtotal =array_sum($eqptotal);
-                            ?>
-                            <tr>
-                                <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
-                                <td style="background:#efefef" colspan="3" align="center"><b>Rental Cost</b></td>
-                                <td style="background:#efefef" align="left"><b><?php echo number_format($eqtotal,2); ?></b></td>
+                                <td style="background:#efefef" width="30%">Description</td>
                             </tr>
                             <tr>
-                                <td colspan="6" style="background:#efefef"><br></td>
-                            </tr>
-                            <?php 
-                                $grand_total = $itemtotal + $mtotal + $mntotal + $eqtotal;
-                            ?>
-                            <tr>
-                                <td style="background:#fff700" colspan="2" align="center"><b>GRAND TOTAL</b></td>
-                                <td style="background:#fff700" colspan="3" align="center"><b>Actual Project Cost</b></td>
-                                <td style="background:#fff700" align="left"><b><?php echo number_format($grand_total,2); ?></b></td>
+                                <td>
+                                    Reconditioning of the following:<br>
+                                    <br>
+                                    1. Cylinder Head - 5 units (SN:_____,____,...)<br>
+                                    2. Piston - 6 units (SN:_____,______,...)  
+                                    <br>                                                     
+                                    <br>                                                     
+                                </td>
                             </tr>
                         </table>
                     </td>
