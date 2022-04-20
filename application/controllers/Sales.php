@@ -478,6 +478,7 @@ class Sales extends CI_Controller {
 
     public function services_add_sales_head(){
         $data['buyer']=$this->super_model->select_all_order_by("client","buyer_name","ASC");
+        $data['shipping']=$this->super_model->select_all_order_by("shipping_company","company_name","ASC");
         $year_series=date('Y');
         $rows=$this->super_model->count_custom_where("sales_services_head","create_date LIKE '$year_series%'");
         if($rows==0){
@@ -513,6 +514,9 @@ class Sales extends CI_Controller {
             "dr_no"=>$this->input->post('dr_no'),
             "vat"=>$this->input->post('vat'),
             "remarks"=>$this->input->post('remarks'),
+            "waybill_no"=>$this->input->post('waybill_no'),
+            "ar_description"=>$this->input->post('ar_description'),
+            "shipped_via"=>$this->input->post('shipped_via'),
             "purpose"=>$this->input->post('purpose'),
             "create_date"=>date("Y-m-d H:i:s"),
             "user_id"=>$_SESSION['user_id'],
@@ -935,7 +939,7 @@ class Sales extends CI_Controller {
         $this->load->view('template/header');
         foreach($this->super_model->select_custom_where("sales_services_head","sales_serv_head_id = '$sales_serv_head_id'") AS $sh){
             $client = $this->super_model->select_column_where("client","buyer_name","client_id",$sh->client_id);
-            $shipping = $this->super_model->select_column_where("shipping_company","company_name","ship_comp_id",$sh->shipping_company);
+            $shipping = $this->super_model->select_column_where("shipping_company","company_name","ship_comp_id",$sh->shipped_via);
             $address = $this->super_model->select_column_where("client","address","client_id",$sh->client_id);
             $contact_person = $this->super_model->select_column_where("client","contact_person","client_id",$sh->client_id);
             $contact_no = $this->super_model->select_column_where("client","contact_no","client_id",$sh->client_id);
@@ -949,8 +953,9 @@ class Sales extends CI_Controller {
                 'tin'=>$tin,
                 'wht'=>$wht,
                 'sales_date'=>$sh->sales_date,
-                'shipping_company'=>$shipping,
+                'shipped_via'=>$shipping,
                 'waybill_no'=>$sh->waybill_no,
+                'ar_description'=>$sh->ar_description,
                 'vat'=>$sh->vat,
                 'jor_no'=>$sh->jor_no,
                 'jor_date'=>$sh->jor_date,

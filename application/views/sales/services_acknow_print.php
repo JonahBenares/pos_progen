@@ -21,16 +21,21 @@
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
                 <center>
-                <?php if($sh['shipping_company']!='0') {?>
                     <a href="#" class="btn btn-gradient-success btn-md btn-block" onclick="printDiv('printableArea')">
                         <b><span class="mdi mdi-printer"></span> Print</b>
                     </a>
-                <?php } else if($sh['shipping_company']=='0') {?> 
+                </center>
+<!--                 <center>
+                <?php if($sh['shipped_via']!='0') {?>
+                    <a href="#" class="btn btn-gradient-success btn-md btn-block" onclick="printDiv('printableArea')">
+                        <b><span class="mdi mdi-printer"></span> Print</b>
+                    </a>
+                <?php } else if($sh['shipped_via']=='0') {?> 
                     <button type="button" name="savedata" id="savedata" class="btn btn-gradient-success btn-md btn-rounded" onclick="saveAR()">
                         <b><span class="mdi mdi-printer"></span> Save and Print</b>
                     </button>
                 <?php } ?>
-                </center>
+                </center> -->
             </div>
             <div class="col-lg-3"></div>
         </div>
@@ -112,10 +117,9 @@
                             </tr>
                             <tr>
                                 <td>
-                                    Reconditioning of the following:<br>
-                                    <br>
-                                    1. Cylinder Head - 5 units (SN:_____,____,...)<br>
-                                    2. Piston - 6 units (SN:_____,______,...)  
+                                    <!-- Reconditioning of the following:<br>
+                                    <br> -->
+                                    <?php echo  nl2br($sh['ar_description']);?><br> 
                                     <br>                                                     
                                     <br>                                                     
                                 </td>
@@ -128,12 +132,19 @@
                 </tr>
                 <tr>
                     <td colspan="3">Remarks:</td>
-                    <td colspan="17" class="bor-btm1"><?php echo $sh['remarks'];?></td>
+                    <td colspan="17" class="bor-btm1"><?php echo nl2br($sh['remarks']);?></td>
                 </tr>
-                <?php if($sh['shipping_company']!='0') {?> 
                 <tr>
                     <td colspan="3">Shipped Via:</td>
-                    <td colspan="9" class="bor-btm1"><?php echo $sh['shipping_company']; ?></td>
+                    <td colspan="9" class="bor-btm1"><?php echo $sh['shipped_via']; ?></td>
+                    <td colspan="1"></td>
+                    <td colspan="3" align="right">Waybill No:</td>
+                    <td colspan="4" class="bor-btm1"><?php echo $sh['waybill_no']; ?></td>
+                </tr>
+<!--                 <?php if($sh['shipped_via']!='0') {?> 
+                <tr>
+                    <td colspan="3">Shipped Via:</td>
+                    <td colspan="9" class="bor-btm1"><?php echo $sh['shipped_via']; ?></td>
                     <td colspan="1"></td>
                     <td colspan="3" align="right">Waybill No:</td>
                     <td colspan="4" class="bor-btm1"><?php echo $sh['waybill_no']; ?></td>
@@ -153,7 +164,7 @@
                     <td colspan="3" align="right">Waybill No:</td>
                     <td colspan="4" class="bor-btm1"><input type="text" class="bor-btm1" name="waybill_no" placeholder="Waybill No"></td>
                 </tr> 
-            <?php } ?>
+            <?php } ?> -->
                 <tr>
                     <td colspan="20"><br></td>
                 </tr>
