@@ -597,3 +597,22 @@ function saveAllservice(){
         }); 
     }    
 }
+
+function saveAR(){
+    var ARdata = $("#saveAR").serialize();
+
+    var loc= document.getElementById("baseurl").value;
+    var sales_serv_head_id= document.getElementById("sales_serv_head_id").value;
+    var redirect = loc+'sales/save_ar';
+    if(confirm('Are you sure you want to save this?')){
+        $.ajax({
+            type: "POST",
+            url: redirect,
+            data: ARdata,
+            success: function(output){
+                //alert(output);
+                window.location.href = loc+'sales/services_acknow_print/'+sales_serv_head_id;
+            }
+        });
+    }
+}

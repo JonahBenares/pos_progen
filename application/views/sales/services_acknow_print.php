@@ -1,3 +1,5 @@
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script> 
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/sales.js"></script> 
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -13,13 +15,21 @@
                 </ol>
             </nav>
         </div>
+        <form id="saveAR">
+         <?php foreach($service_head AS $sh){ ?>
         <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
                 <center>
-                    <a href="#" class="btn btn-gradient-success btn-md btn-rounded" onclick="printDiv('printableArea')">
+                <?php if($sh['shipping_company']!='0') {?>
+                    <a href="#" class="btn btn-gradient-success btn-md btn-block" onclick="printDiv('printableArea')">
                         <b><span class="mdi mdi-printer"></span> Print</b>
                     </a>
+                <?php } else if($sh['shipping_company']=='0') {?> 
+                    <button type="button" name="savedata" id="savedata" class="btn btn-gradient-success btn-md btn-rounded" onclick="saveAR()">
+                        <b><span class="mdi mdi-printer"></span> Save and Print</b>
+                    </button>
+                <?php } ?>
                 </center>
             </div>
             <div class="col-lg-3"></div>
@@ -68,31 +78,31 @@
                 </tr>
                 <tr>
                     <td colspan="3">Deliver To:</td>
-                    <td colspan="9" class="bor-btm1"></td>
+                    <td colspan="9" class="bor-btm1"><?php echo $sh['client'];?></td>
                     <td colspan="1"></td>
                     <td colspan="3" align="right">DR No: </td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1"> <h7 style="color:blue"><b><?php echo $sh['dr_no'];?></b></h7></td>
                 </tr>               
                 <tr>
                     <td colspan="3">Address:</td>
-                    <td colspan="9" class="bor-btm1"></td>
+                    <td colspan="9" class="bor-btm1"><?php echo $sh['address'];?></td>
                     <td colspan="1"></td>
                     <td colspan="3" align="right">Delivery Date:</td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1"><?php echo $sh['sales_date'];?></td>
                 </tr>
                 <tr>
                     <td colspan="3">Contact Person:</td>
-                    <td colspan="9" class="bor-btm1"></td>
+                    <td colspan="9" class="bor-btm1"><?php echo $sh['contact_person'];?></td>
                     <td colspan="1"></td>
                     <td colspan="3" align="right">JOR </b>No: </td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1"><?php echo $sh['jor_no'];?></td>
                 </tr>
                 <tr>
                     <td colspan="3">Contact No:</td>
-                    <td colspan="9" class="bor-btm1"></td>
+                    <td colspan="9" class="bor-btm1"><?php echo $sh['contact_no'];?></td>
                     <td colspan="1"></td>
                     <td colspan="3" align="right">JOR Date:</td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1"><?php echo $sh['jor_date'];?></td>
                 </tr>
                 <tr>
                     <td colspan="20" align="center"><br><br></td>
@@ -110,28 +120,27 @@
                                 <td style="background:#efefef" width="8%">Discount</td>
                                 <td style="background:#efefef" width="12%">Total Price</td>
                             </tr>
-                             
+                            <?php 
+                                $itmtotal[]=0;
+                                foreach($service_details AS $sd){ 
+                                    $itmtotal[] = $sd['total'];
+                            ?>
                             <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td><?php echo $sd['original_pn'];?></td>
+                                <td><?php echo $sd['item'];?></td>
+                                <td><?php echo $sd['serial_no'];?></td>
+                                <td><?php echo $sd['quantity'];?></td>
+                                <td><?php echo $sd['uom'];?></td>
+                                <td align="center"><?php echo number_format($sd['selling_price'],2);?></td>
+                                <td align="center"><?php echo number_format($sd['discount'],2);?></td>
+                                <td><?php echo number_format($sd['total'],2);?></td>
                             </tr>
+                             <?php } $itemtotal=array_sum($itmtotal); ?>
                             <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
+                                <td style="background:#efefef" colspan="5" align="center"><b>Engine Parts Cost Incurred</b></td>
+                                <td style="background:#efefef" align="left"><b><?php echo number_format($itemtotal,2);?></b></td>
                             </tr>
-                            
                         </table>
                     </td>
                 </tr>
@@ -152,29 +161,28 @@
                                 <td style="background:#efefef" width="14%">Unit Cost</td>
                                 <td style="background:#efefef" width="12%">Total Cost</td>
                             </tr>
+                            <?php 
+                                $x=1;
+                                $mattotal[]=0;
+                                foreach($service_materials AS $sm){
+                                    $mattotal[] = $sm['total_cost'];
+                            ?>
                             <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td><?php echo $x; ?></td>
+                                <td><?php echo $sm['item_description'];?></td>
+                                <td><?php echo $sm['quantity'];?></td>
+                                <td><?php echo $sm['uom'];?></td>
+                                <td><?php echo $sm['unit_cost'];?></td>
+                                <td><?php echo $sm['total_cost'];?></td>
                             </tr>
+                            <?php 
+                                $x++; } 
+                                $mtotal =array_sum($mattotal);
+                            ?>
                             <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
+                                <td style="background:#efefef" colspan="3" align="center"><b>Material Cost Incurred</b></td>
+                                <td style="background:#efefef" align="left"><b><?php echo number_format($mtotal,2); ?></b></td>
                             </tr>
                         </table>
                     </td>
@@ -196,31 +204,29 @@
                                 <td style="background:#efefef" width="14%">Overtime</td>
                                 <td style="background:#efefef" width="12%">Total</td>
                             </tr>
+                            <?php 
+                                $x=1;
+                                $mantotal[]=0;
+                                foreach($service_manpower AS $sman){
+                                    $mantotal[] = $sman['total_cost'];
+                            ?>
                             <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td><?php echo $x; ?></td>
+                                <td><?php echo $sman['employee_name']; ?></td>
+                                <td><?php echo $sman['days']; ?></td>
+                                <td><?php echo $sman['rate']; ?></td>
+                                <td><?php echo $sman['overtime']; ?></td>
+                                <td><?php echo $sman['total_cost']; ?></td>
                             </tr>
+                            <?php 
+                                $x++; }
+                                $mntotal =array_sum($mantotal);
+                            ?>
                             <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
+                                <td style="background:#efefef" colspan="3" align="center"><b>Labor Cost Incurred</b></td>
+                                <td style="background:#efefef" align="left"><b><?php echo number_format($mntotal,2); ?></b></td>
                             </tr>
-                            <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
                         </table>
                     </td>
                 </tr>
@@ -241,29 +247,39 @@
                                 <td style="background:#efefef" width="14%">Days</td>
                                 <td style="background:#efefef" width="12%">Total Cost</td>
                             </tr>
+                            <?php 
+                                $x=1;
+                                $eqptotal[]=0;
+                                foreach($service_equipment AS $se){
+                                    $eqptotal[] = $se['total_cost'];
+                            ?>
                             <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td><?php echo $x; ?></td>
+                                <td><?php echo $se['equipment_name']; ?></td>
+                                <td><?php echo $se['rate']; ?></td>
+                                <td><?php echo $se['uom']; ?></td>
+                                <td><?php echo $se['days']; ?></td>
+                                <td><?php echo $se['total_cost']; ?></td>
+                            </tr>
+                            <?php 
+                                $x++; }
+                                $eqtotal =array_sum($eqptotal);
+                            ?>
+                            <tr>
+                                <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
+                                <td style="background:#efefef" colspan="3" align="center"><b>Rental Cost</b></td>
+                                <td style="background:#efefef" align="left"><b><?php echo number_format($eqtotal,2); ?></b></td>
                             </tr>
                             <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td colspan="6" style="background:#efefef"><br></td>
                             </tr>
+                            <?php 
+                                $grand_total = $itemtotal + $mtotal + $mntotal + $eqtotal;
+                            ?>
                             <tr>
-                                <td><br></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td style="background:#fff700" colspan="2" align="center"><b>GRAND TOTAL</b></td>
+                                <td style="background:#fff700" colspan="3" align="center"><b>Actual Project Cost</b></td>
+                                <td style="background:#fff700" align="left"><b><?php echo number_format($grand_total,2); ?></b></td>
                             </tr>
                         </table>
                     </td>
@@ -273,18 +289,36 @@
                 </tr>
                 <tr>
                     <td colspan="3">Remarks:</td>
-                    <td colspan="17" class="bor-btm1"></td>
-                </tr> 
+                    <td colspan="17" class="bor-btm1"><?php echo $sh['remarks'];?></td>
+                </tr>
+                <?php if($sh['shipping_company']!='0') {?> 
                 <tr>
                     <td colspan="3">Shipped Via:</td>
-                    <td colspan="9" class="bor-btm1"></td>
+                    <td colspan="9" class="bor-btm1"><?php echo $sh['shipping_company']; ?></td>
                     <td colspan="1"></td>
-                    <td colspan="3" align="right">Waybill No: </td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="3" align="right">Waybill No:</td>
+                    <td colspan="4" class="bor-btm1"><?php echo $sh['waybill_no']; ?></td>
+                </tr>
+                <?php } else { ?>
+                <tr>
+                    <td colspan="3">Shipped Via:</td>
+                    <td colspan="9" class="bor-btm1">
+                        <select class="bor-btm1" id="shipping" name = "shipping" style="width:100%">
+                            <option value="">--Select Shpping Company--</option>
+                            <?php foreach($shipping AS $s){ ?>
+                                <option value="<?php echo $s->ship_comp_id; ?>"><?php echo $s->company_name; ?></option>
+                            <?php } ?>
+                        </select>
+                    </td>
+                    <td colspan="1"></td>
+                    <td colspan="3" align="right">Waybill No:</td>
+                    <td colspan="4" class="bor-btm1"><input type="text" class="bor-btm1" name="waybill_no" placeholder="Waybill No"></td>
                 </tr> 
+            <?php } ?>
                 <tr>
                     <td colspan="20"><br></td>
                 </tr>
+                <?php } ?>
                 <tr>
                     <td></td>
                     <td colspan="5"><b>Prepared and Released by:</b></td>
@@ -349,8 +383,11 @@
                     <td colspan="6" align="center" style="vertical-align:text-top;">Signature over Printed Name</td>
                     <td></td>
                 </tr>
+                <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
+                <input type="hidden" name="sales_serv_head_id" id="sales_serv_head_id" value="<?php echo $sales_serv_head_id; ?>">
             </table>
         </page>
+    </form>
     </div>
 </div>
         
