@@ -158,6 +158,7 @@ class Damage extends CI_Controller {
                 "damage_id"=>$damage_id,
                 "unit_cost"=>$acquisition_cost,
                 "quantity"=>$qty,
+                "remaining_qty"=>$qty
             );
 
             $this->super_model->insert_into("fifo_out", $data_out);

@@ -331,6 +331,7 @@ class Sales extends CI_Controller {
                 'selling_price'=>$selling_price,
                 'damage_id'=>0,
                 'quantity'=>$tmp->quantity,
+                'remaining_qty'=>$tmp->quantity
             );   
 
             $this->super_model->insert_into("fifo_out",$data);

@@ -136,7 +136,7 @@ class Returns extends CI_Controller {
                             $sales_details_id = $this->input->post('sales_details_id'.$x);
                             $new_qty_out = $ret_qty - $qty;
                             $dataout=array(
-                                "quantity"=>$new_qty_out
+                                "remaining_qty"=>$new_qty_out
                             );
                             $this->super_model->update_custom_where("fifo_out", $dataout, "in_id='$in_id' AND sales_details_id='$sales_details_id'");
 
@@ -170,7 +170,7 @@ class Returns extends CI_Controller {
                             $sales_details_id = $this->input->post('sales_details_id'.$x);
                             $new_qty_out = $ret_qty - $dam_qty;
                             $dataout=array(
-                                "quantity"=>$new_qty_out
+                                "remaining_qty"=>$new_qty_out
                             );
                             $this->super_model->update_custom_where("fifo_out", $dataout, "in_id='$in_id' AND sales_details_id='$sales_details_id'");
 
@@ -207,7 +207,7 @@ class Returns extends CI_Controller {
                             $sales_details_id = $this->input->post('sales_details_id'.$x);
                             $new_qty_out = $ret_qty - $dam_qty - $qty;
                             $dataout=array(
-                                "quantity"=>$new_qty_out
+                                "remaining_qty"=>$new_qty_out
                             );
                             $this->super_model->update_custom_where("fifo_out", $dataout, "in_id='$in_id' AND sales_details_id='$sales_details_id'");
 
