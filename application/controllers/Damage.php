@@ -46,7 +46,8 @@ class Damage extends CI_Controller {
         $in_id=$this->input->post('in_id');
         foreach($this->super_model->select_row_where("fifo_in","in_id",$in_id) AS $cli){
             $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$cli->item_id);
-            $return = array('qty'=>$cli->remaining_qty, 'brand'=>$cli->brand, 'serial_no'=>$cli->serial_no, 'original_pn'=>$original_pn, 'receive_date'=>$cli->receive_date, 'item_cost'=>$cli->item_cost);
+            $total_cost = $cli->remaining_qty * $cli->item_cost;
+            $return = array('qty'=>$cli->remaining_qty, 'brand'=>$cli->brand, 'serial_no'=>$cli->serial_no, 'original_pn'=>$original_pn, 'receive_date'=>$cli->receive_date, 'total_cost'=>$total_cost,'item_cost'=>$cli->item_cost);
         }
         echo json_encode($return);
     }
@@ -68,6 +69,7 @@ class Damage extends CI_Controller {
             </td>
             <td >
                 <input type="number" class="alt-control" placeholder="00" name="qty'.$count.'" id="qty'.$count.'" onkeyup="check_rem_qty('.$count.')">
+                <input type="hidden" id="total_cost'.$count.'" name="total_cost'.$count.'">
             </td>
             <td>
                 <textarea class="alt-control" rows="1"  name="brand'.$count.'" id="brand'.$count.'" readonly></textarea>
