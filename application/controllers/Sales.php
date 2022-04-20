@@ -150,7 +150,7 @@ class Sales extends CI_Controller {
             $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$itm->item_id);
             $group_id = $this->super_model->select_column_where("items","group_id","item_id",$itm->item_id);
             $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
-            $remaining_qty_disp = $this->super_model->select_sum_where("fifo_in","remaining_qty","item_id='$itm->item_id' AND remaining_qty!='0' AND (expiry_date ='' OR expiry_date >= '$today')");
+            $remaining_qty_disp = $this->super_model->select_sum_where("fifo_in","remaining_qty","item_id='$itm->item_id' AND remaining_qty!='0' AND (expiry_date ='' OR expiry_date > '$today')");
             $return = array('serial_no'=>$itm->serial_no, 'unit_cost'=>$itm->item_cost, 'quantity'=>$itm->remaining_qty, 'unit'=>$unit, 'group_id'=>$group_id, 'item_id'=>$item_id,'remaining_qty'=>$remaining_qty_disp);
         }
         echo json_encode($return);
@@ -537,7 +537,7 @@ class Sales extends CI_Controller {
         $this->load->view('template/header');
         $data['sales_serv_head_id']=$this->uri->segment(3);
         $today = date("Y-m-d");
-        foreach($this->super_model->select_custom_where("fifo_in","remaining_qty!='0' AND (expiry_date ='' OR expiry_date >= '$today') GROUP BY item_id") AS $fi){
+        foreach($this->super_model->select_custom_where("fifo_in","remaining_qty!='0' AND (expiry_date ='' OR expiry_date > '$today') GROUP BY item_id") AS $fi){
             $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$fi->item_id);
             $item_name = $this->super_model->select_column_where("items","item_name","item_id",$fi->item_id);
             $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$fi->item_id);
@@ -581,7 +581,7 @@ class Sales extends CI_Controller {
         $details_id = $this->super_model->insert_return_id("sales_serv_items", $data);
         $count_item = $this->super_model->count_rows_where("sales_serv_items","sales_serv_head_id",$sales_serv_head_id);
 
-        foreach($this->super_model->select_custom_where("fifo_in","item_id = '$item_id' AND (expiry_date ='' or expiry_date >= '$now') ORDER BY receive_date ASC") AS $itm){
+        foreach($this->super_model->select_custom_where("fifo_in","item_id = '$item_id' AND (expiry_date ='' or expiry_date > '$now') ORDER BY receive_date ASC") AS $itm){
             if($temp_qty > 0){
                 $temp_qty = $temp_qty - $itm->remaining_qty;
                 if($temp_qty>0){

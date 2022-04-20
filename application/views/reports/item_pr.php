@@ -82,7 +82,7 @@
                                     <td class="td-head" width="1%">#</td>
                                     <td class="td-head" width="40%">PR No</td>
                                     <td class="td-head">Received Qty</td>
-                                    <td class="td-head">Sales Qty</td>
+                                    <td class="td-head">Sales Good Qty</td>
                                     <td class="td-head">Initial Balance</td>
                                     <td class="td-head">Return Qty</td>
                                     <td class="td-head">Damaged Qty</td>
@@ -97,7 +97,7 @@
                                     <td><?php echo $x;?></td>
                                     <td><?php echo $ip['prno'];?></td>
                                     <td><?php echo $ip['recqty'];?></td>
-                                    <td><?php echo $ip['sales_quantity'];?></td>
+                                    <td><?php echo number_format($ip['sales_quantity'],2);?></td>
                                     <td><?php echo number_format($ip['in_balance'],2);?></td>
                                     <td><?php echo $ip['returnqty'];?></td>
                                     <td><?php echo $ip['damageqty'];?></td>
