@@ -115,7 +115,7 @@
                                             <textarea style="padding: 5px 10px;" rows="2" class="form-control" name="remarks<?php echo $x; ?>" id="remarks"></textarea>
                                         </td>
                                     </tr>
-                                    <input type='hidden' name='returned_qty<?php echo $x; ?>' id='returned_qty<?php echo $x; ?>' value="<?php echo number_format($i['return_qty']); ?>">
+                                    <!-- <input type='hidden' name='returned_qty<?php echo $x; ?>' id='returned_qty<?php echo $x; ?>' value="<?php echo number_format($i['return_qty']); ?>"> -->
                                     <input type='hidden' name='unit_cost<?php echo $x; ?>' value="<?php echo $i['unit_cost']; ?>">
                                     <input type='hidden' name='selling_price<?php echo $x; ?>' value="<?php echo $i['selling_price']; ?>">
                                     <input type='hidden' name='in_id<?php echo $x; ?>' value="<?php echo $i['in_id']; ?>">
