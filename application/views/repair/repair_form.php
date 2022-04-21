@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputName1">Repair Price</label>
-                                    <input type="text" class="form-control" id="price" name="price<?php echo $z;?>" placeholder="00" onkeypress="return isNumberKey(event,this)">
+                                    <input type="text" class="form-control" id="price" name="price<?php echo $z;?>" placeholder="00.00" onkeypress="return isNumberKey(event,this)">
                                 </div>
                             </div>
                             <div class="col-lg-3">

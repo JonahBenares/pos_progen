@@ -70,7 +70,7 @@ class Back_order extends CI_Controller {
         }
 
         foreach($this->super_model->select_row_where("receive_items", "rd_id", $id) AS $it){
-            if(($it->expected_qty > $it->received_qty) OR ($it->expiration_date ='' or $it->expiration_date > '$today')){
+            if($it->expected_qty > $it->received_qty){
                 $boqty=$this->backorder_qty($it->ri_id);
                 $total_cost=$boqty * $it->item_cost;
                  $data['items'][] = array(
@@ -93,7 +93,7 @@ class Back_order extends CI_Controller {
             }
         }
 
-        foreach($this->super_model->custom_query("SELECT DISTINCT pr_no, item_id FROM receive_details rd INNER JOIN receive_head rh ON rh.receive_id = rd.receive_id INNER JOIN receive_items ri ON rd.rd_id = ri.rd_id GROUP BY pr_no") AS $prlist){
+        foreach($this->super_model->custom_query("SELECT * FROM receive_details rd INNER JOIN receive_head rh ON rh.receive_id = rd.receive_id INNER JOIN receive_items ri ON rd.rd_id = ri.rd_id GROUP BY pr_no") AS $prlist){
             
             $expected_qty= $this->get_expected_qty($prlist->pr_no,$prlist->item_id);
             $received_qty= $this->get_received_qty($prlist->pr_no,$prlist->item_id);

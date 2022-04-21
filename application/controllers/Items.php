@@ -501,8 +501,8 @@ class Items extends CI_Controller {
         if($row!=0){
             foreach($this->super_model->select_row_where('items', 'item_id', $id) AS $det){
                 $highest_cost=$this->super_model->get_max_where("fifo_in", "item_cost","item_id=$det->item_id AND expiry_date < '$today'");
-                $totalqty= $this->super_model->select_sum_where("fifo_in", "remaining_qty", "item_id=$det->item_id AND expiry_date >= '$today'");
-                $expired_qty= $this->super_model->select_sum_where("fifo_in", "remaining_qty", "item_id=$det->item_id AND expiry_date < '$today'");
+                $totalqty= $this->super_model->select_sum_where("fifo_in", "remaining_qty", "item_id=$det->item_id AND (expiry_date >= '$today' OR expiry_date = '')");
+                $expired_qty= $this->super_model->select_sum_where("fifo_in", "remaining_qty", "item_id=$det->item_id AND expiry_date < '$today' AND expiry_date !=''");
                 $data['details'][] = array(
                     'item_id'=>$det->item_id,
                     'original_pn'=>$det->original_pn,
