@@ -156,7 +156,7 @@
                                 <br>             
                                 <div class="col-lg-12">
                                     <div > <!-- style="width:100%;overflow-x: scroll;" -->
-                                        <table id="table-item1" class="table-bordered " width="100%">
+                                        <table id="table-alt" class="table-bordered " width="100%">
                                             <thead>
                                             <tr>
                                                 <td class="td-head" width="15%">Item Description</td>
