@@ -100,8 +100,7 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function summary_scgp()
-    {
+    public function summary_scgp(){
         $data['clients'] = $this->super_model->select_all("client");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
@@ -168,8 +167,7 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function pending_list()
-    {
+    public function pending_list(){
         $data['clients'] = $this->super_model->select_all("client");
 
         $client = $this->uri->segment(3);
@@ -263,8 +261,8 @@ class Reports extends CI_Controller {
         $this->load->view('reports/pending_list', $data);
         $this->load->view('template/footer');
     }
-    public function pending_popup()
-    {
+
+    public function pending_popup(){
         $ids = $this->uri->segment(3);
         $client_id = $this->uri->segment(4);
         $data['type'] = $this->uri->segment(5);
@@ -296,8 +294,8 @@ class Reports extends CI_Controller {
         $this->load->view('reports/pending_popup',$data);
         $this->load->view('template/footer');
     }
-    public function billed_list()
-    {
+
+    public function billed_list(){
         $data['clients'] = $this->super_model->select_all("client");
 
         $client = $this->uri->segment(3);
@@ -320,8 +318,8 @@ class Reports extends CI_Controller {
         $this->load->view('reports/billed_list', $data);
         $this->load->view('template/footer');
     }
-    public function bill_pay()
-    {
+
+    public function bill_pay(){
         $billing = $this->uri->segment(3);
         $id = urldecode($billing);
         $data['ids']=$id;
@@ -340,8 +338,8 @@ class Reports extends CI_Controller {
         $this->load->view('reports/bill_pay',$data);
         $this->load->view('template/footer');
     }
-    public function paid_list()
-    {
+
+    public function paid_list(){
         $data['clients'] = $this->super_model->select_all("client");
 
         $client = $this->uri->segment(3);
@@ -482,8 +480,7 @@ class Reports extends CI_Controller {
         echo $id;
     }
 
-    public function print_billing()
-    {
+    public function print_billing(){
         $bsid = $this->uri->segment(3);
 
         foreach($this->super_model->select_row_where("billing_head", "billing_id", $bsid) AS $bs){
@@ -564,8 +561,6 @@ class Reports extends CI_Controller {
                     $this->super_model->update_where("billing_head", $data_status, 'billing_id', $bid);
                 }
         }
-
-
     }
 
     public function stock_card(){
@@ -940,8 +935,7 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function aging_report()
-    {
+    public function aging_report(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('reports/aging_report');
@@ -1002,6 +996,19 @@ class Reports extends CI_Controller {
             echo '<option value="'. $row->subcat_id .'">'. $row->subcat_name .'</option>';
       
          }
+    }
+
+    public function adjustment_list(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/adjustment_list');
+        $this->load->view('template/footer');
+    }
+    public function adjustment_print(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/adjustment_print');
+        $this->load->view('template/footer');
     }
 
 }

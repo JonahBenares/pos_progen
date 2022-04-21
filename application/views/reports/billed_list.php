@@ -77,7 +77,10 @@
                                         </th>
                                         <th width="30%"><label class="label-table">Billing Date</label></th>
                                         <th width="30%"><label class="label-table">Billing Statement #</label></th>
-                                        <th width="31"><label class="label-table pull-right">Total Amount &nbsp;</label></th>                                                                
+                                        <th width="31"><label class="label-table pull-right">Total Amount &nbsp;</label></th>
+                                        <th width="5%" align="center">
+                                            <center><span class="mdi mdi-menu"></span></center>
+                                        </th>                                                                
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -93,6 +96,7 @@
                                         <td> &nbsp; <?php echo date('F d, Y', strtotime($b['billing_date'])); ?></td>
                                         <td> &nbsp; <a href="<?php echo base_url(); ?>reports/print_billing/<?php echo $b['billing_id']; ?>" target="_blank"><?php echo $b['billing_no']; ?></a></td>
                                         <td align="right">P <?php echo number_format($b['total_amount'],2); ?> &nbsp;</td>
+                                        <td align="center"><a href="<?php echo base_url(); ?>reports/adjustment_list/" target="_blank" class="btn btn-primary btn-xs btn-rounded">Adjust</a></td>
                                     </tr>
                                         <?php }
                                         } ?>

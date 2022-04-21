@@ -209,8 +209,12 @@ function changePrice(){
    
 /*    var percent=discount/100;
     var new_discount = parseFloat(percent)*parseFloat(tprice);*/
-    var total = (parseFloat(selling_price) * parseFloat(qty))-parseFloat(discount);
-    document.getElementById("discount_amount").value = parseFloat(discount);
+    if(discount!=''){
+        var total = (parseFloat(selling_price) * parseFloat(qty))-parseFloat(discount);
+    } else {
+         var total = parseFloat(selling_price) * parseFloat(qty);
+    }
+   // document.getElementById("discount_amount").value = parseFloat(discount);
     document.getElementById("grandtotal").value  = parseFloat(total);
 }
 
