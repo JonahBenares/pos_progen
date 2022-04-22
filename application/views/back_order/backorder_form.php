@@ -29,7 +29,7 @@
                                     <?php 
                                         foreach($prback AS $pb){  
                                             if($pb['received']!=0){ ?>
-                                            <option value="<?php echo $pb['rdid']; ?>"><?php echo $pb['pr_no']; ?></option>
+                                            <option value="<?php echo $pb['rdid']; ?>"><?php echo $pb['pr_no']." - qty -".$pb['balance']; ?></option>
                                         <?php } 
                                      } ?>
                                 </select>
@@ -116,7 +116,7 @@
                                             /*if($it['backorder_qty']!=0){*/
                                         ?>
                                         <tr>
-                                            <td class="p-0"><input type='number' class="form-control" name='quantity[]' id="quantity<?php echo $ct; ?>" value="<?php echo $it['quantity']; ?>" style='width:90px' max="<?php echo $it['quantity']; ?>"  onkeyup="changeQty(<?php echo $ct; ?>)"></td>
+                                            <td class="p-0"><input type='number' class="form-control" name='quantity[]' id="quantity<?php echo $ct; ?>" value="<?php echo $it['received_qty']; ?>" style='width:90px' max="<?php echo $it['received_qty']; ?>"  onkeyup="changeQty(<?php echo $ct; ?>)"></td>
                                             <input type='hidden' name='avail_qty' id='avail_qty<?php echo $ct; ?>' value="<?php echo number_format($it['quantity']); ?>">
                                             <td align="right"><?php echo $it['quantity']; ?></td>
                                             <td class="p-0"><input type='text' class="form-control" name='item_cost[]' id="item_cost<?php echo $ct; ?>" value="<?php echo $it['item_cost']; ?>" style='width:100px' onkeyup="changePrice(<?php echo $ct; ?>)"></td>
