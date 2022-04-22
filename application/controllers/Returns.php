@@ -492,6 +492,34 @@ class Returns extends CI_Controller {
                 "description"=>$rh->description,
                 "date"=>date("F d,Y",strtotime($rh->return_date))
             );
+            foreach($this->super_model->select_row_where("return_service_details","return_service_id",$rh->return_service_id) AS $rd){
+                $item_id=$this->super_model->select_column_where("fifo_in","item_id","in_id",$rd->in_id);
+                $item_name = $this->super_model->select_column_where("items","item_name","item_id",$item_id);
+                $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$item_id);
+                $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
+                $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$item_id);
+                $brand=$this->super_model->select_column_where("fifo_in","brand","in_id",$rd->in_id);
+                $supplier_id=$this->super_model->select_column_where("fifo_in","supplier_id","in_id",$rd->in_id);
+                $supplier_name = $this->super_model->select_column_where("supplier","supplier_name","supplier_id",$supplier_id);
+                $serial_no=$this->super_model->select_column_where("fifo_in","serial_no","in_id",$rd->in_id);
+                $item_cost=$this->super_model->select_column_where("fifo_in","item_cost","in_id",$rd->in_id);
+                $remaining_qty=$this->super_model->select_column_where("fifo_in","remaining_qty","in_id",$rd->in_id);
+                $total=$rd->return_qty * $item_cost;
+                $data["details"][]=array(
+                    "quantity"=>$rd->return_qty,
+                    "unit"=>$unit,
+                    "original_pn"=>$original_pn,
+                    "supplier_name"=>$supplier_name,
+                    "item"=>$item_name,
+                    "brand"=>$brand,
+                    "serial_no"=>$serial_no,
+                    "unit_cost"=>$item_cost,
+                    "total"=>$total,
+                    "remaining_qty"=>$remaining_qty,
+                    "remarks"=>$rd->remarks,
+                    "selling_price"=>$rd->selling_price,
+                );
+            }
         }
         $this->load->view('returns/print_return_services',$data);
         $this->load->view('template/footer');

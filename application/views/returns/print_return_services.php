@@ -118,9 +118,11 @@
                         </table>
                     </td>
                 </tr>
-                <!--  <tr>
-                    <td></td>
-                    <td colspan="18">
+                <tr>
+                    <td colspan="20"><br></td>
+                </tr> 
+                <tr>
+                    <td colspan="20">
                         <table class="table-bordered" width="100%">
                             <tr>
                                 <td class="td-head" width="6%">Return Qty</td>
@@ -132,77 +134,23 @@
                                 <td class="td-head" width="10%">Part No.</td>
                                 <td class="td-head" width="10%">Serial No.</td>
                                 <td class="td-head" width="10%">Total Cost</td>
+                                <td class="td-head" width="10%">Remarks</td>
                             </tr>
+                            <?php $x=1; foreach($details AS $d){ ?>
                             <tr>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="left">&nbsp;</td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
+                                <td align="center"><?php echo $d['quantity'];?></td>
+                                <td align="center"><?php echo $d['item'];?></td>
+                                <td align="center"><?php echo $d['supplier_name'];?></td>
+                                <td align="center"><?php echo $d['unit_cost'];?></td>
+                                <td align="left"><?php echo number_format($d['selling_price'],2);?></td>
+                                <td align="center"><?php echo $d['brand'];?></td>
+                                <td align="center"><?php echo $d['original_pn'];?></td>
+                                <td align="center"><?php echo $d['serial_no'];?></td>
+                                <td align="center"><?php echo number_format($d['total'],2);?></td>
+                                <td align="center"><?php echo $d['remarks'];?></td>
                             </tr>
+                            <?php } ?>
                         </table>
-                         <br> 
-                        Consumables and Other Materials   
-                        <table class="table-bordered" width="100%">
-                            <tr>
-                                <td class="td-head" width="6%">Qty</td>
-                                <td class="td-head" width="45%">Item Description</td>
-                                <td class="td-head" width="8%">UOM</td>
-                                <td class="td-head" width="14%">Unit Cost</td>
-                                <td class="td-head" width="10%">Total Cost</td>
-                            </tr>
-                            <tr>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="left">&nbsp;</td>
-                            </tr>
-                        </table>
-
-                        <br> 
-                        Manpower
-                        <table class="table-bordered" width="100%">
-                            <tr>
-                                <td class="td-head" width="45%">Employee</td>
-                                <td class="td-head" width="8%">Days</td>
-                                <td class="td-head" width="8%">Rate</td>
-                                <td class="td-head" width="14%">Overtime</td>
-                                <td class="td-head" width="10%">Total</td>
-                            </tr>
-                            <tr>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="left">&nbsp;</td>
-                            </tr>
-                        </table>
-
-                        <br> 
-                        Actual Rental Cost
-                        <table class="table-bordered" width="100%">
-                            <tr>
-                                <td class="td-head" width="8%">Qty</td>
-                                <td class="td-head" width="45%">Equipment</td>
-                                <td class="td-head" width="8%">Rate</td>
-                                <td class="td-head" width="8%">Unit</td>
-                                <td class="td-head" width="14%">Days/Hours</td>
-                                <td class="td-head" width="11%">Total</td>
-                            </tr>
-                            <tr>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="left">&nbsp;</td>
-                            </tr>
-                        </table>
-                        <br> -->
                     </td>
                 </tr>
                 <tr>

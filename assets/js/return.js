@@ -40,16 +40,23 @@ function saveReturn(){
 }
 
 function check_return_qty(count){
-  var total_qty= document.getElementById("qty"+count).value;
-  var quantity= document.getElementById("retqty"+count).value;
-  var damqty= document.getElementById("damqty"+count).value;
-  var qty = parseInt(quantity) + parseInt(damqty);
-  if (parseInt(qty) > parseInt(total_qty)){
-    document.getElementById("savedata").disabled = true;
-    alert("Quantity to be returned exceeds quantity bought!");
-  }else{
-    document.getElementById("savedata").disabled = false;
-  }
+    var total_qty= document.getElementById("qty"+count).value;
+    var quantity= document.getElementById("retqty"+count).value;
+    var damqty= document.getElementById("damqty"+count).value;
+    if(quantity!='' && damqty!=''){
+        var qty = parseInt(quantity) + parseInt(damqty);
+    }else if(quantity=='' && damqty!=''){
+        var qty = parseInt(damqty);
+    }else if(quantity!='' && damqty==''){
+        var qty = parseInt(quantity);
+    }
+
+    if (parseInt(qty) > parseInt(total_qty)){
+        document.getElementById("savedata").disabled = true;
+        alert("Quantity to be returned exceeds quantity bought!");
+    }else{
+        document.getElementById("savedata").disabled = false;
+    }
 }
 
 function dr_append_service(){
@@ -90,4 +97,21 @@ function saveReturnserve(){
             }
         });
     }
+}
+
+function isNumberKey(txt, evt){
+   var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode == 46) {
+        //Check if the text already contains the . character
+        if (txt.value.indexOf('.') === -1) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        if (charCode > 31
+             && (charCode < 48 || charCode > 57))
+            return false;
+    }
+    return true;
 }
