@@ -522,4 +522,19 @@ class Returns extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function return_damage(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('returns/return_damage');
+        $this->load->view('template/footer');
+    }
+
+    public function return_damage_print(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('returns/return_damage_print');
+        $this->load->view('template/footer');
+    }
+
+
 }
