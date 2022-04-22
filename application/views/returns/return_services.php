@@ -78,13 +78,15 @@
                                         <label>Description</label>
                                         <textarea class="form-control" name="desc_remarks" rows="5" placeholder="Add Description..."></textarea>
                                     </div>
+                                    <input type="hidden" name="dr_no_saved" id="dr_no_saved" value="<?php echo $h['dr_no'];?>">
                                 </div>
                             </div>
                             <?php } ?>
                             <br>
                             <table class="table table-bordered table-hover" width="100%" id="myTdable">
                                 <tr>
-                                    <td class="td-head" width="6%">Return Qty</td>
+                                    <th width="6%">Return Qty (w/o damage)</th>
+                                    <th width="6%">Return Qty (damage)</th>
                                     <td class="td-head" width="20%">Item Description</td>
                                     <td class="td-head" width="20%">Supplier</td>
                                     <td class="td-head" width="5%">Unit Cost</td>
@@ -94,21 +96,34 @@
                                     <td class="td-head" width="10%">Serial No.</td>
                                     <td class="td-head" width="13%">Remarks</td>
                                 </tr>
+                                <?php if(!empty($item)){ $x=1; foreach($item AS $i){ ?>
                                 <tr>
                                     <td class="p-0">
-                                        <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="12211" onkeyup="" id = "" max="999999" placeholder="99999">
+                                        <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="return_qty<?php echo $x; ?>" onkeyup="check_return_qty('<?php echo $x; ?>')" id = "retqty<?php echo $x; ?>" max="<?php echo $i['qty']; ?>" placeholder="<?php echo number_format($i['qty']); ?>">
                                     </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
                                     <td class="p-0">
-                                        <textarea style="padding: 5px 10px;" rows="2" class="form-control" name="remarks" id="remarks"></textarea>
+                                        <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="damage_qty<?php echo $x; ?>" onkeyup="check_return_qty('<?php echo $x; ?>')" id = "damqty<?php echo $x; ?>" max="<?php echo $i['qty']; ?>" placeholder="<?php echo number_format($i['qty']); ?>">
                                     </td>
-                                </tr>                        
+                                    <input type='hidden' name='qty<?php echo $x; ?>' id='qty<?php echo $x; ?>' value="<?php echo number_format($i['qty']); ?>">
+                                    <td><?php echo $i['item'];?></td>
+                                    <td><?php echo $i['supplier'];?></td>
+                                    <td><?php echo $i['unit_cost'];?></td>
+                                    <td><?php echo $i['selling_price'];?></td>
+                                    <td><?php echo $i['brand'];?></td>
+                                    <td><?php echo $i['part_no'];?></td>
+                                    <td><?php echo $i['serial_no'];?></td>
+                                    <td class="p-0">
+                                         <textarea style="padding: 5px 10px;" rows="2" class="form-control" name="remarks<?php echo $x; ?>" id="remarks"></textarea>
+                                    </td>
+                                </tr>  
+                                <input type='hidden' name='unit_cost<?php echo $x; ?>' value="<?php echo $i['unit_cost']; ?>">
+                                <input type='hidden' name='selling_price<?php echo $x; ?>' value="<?php echo $i['selling_price']; ?>">
+                                <input type='hidden' name='in_id<?php echo $x; ?>' value="<?php echo $i['in_id']; ?>">
+                                <input type='hidden' name='item_id<?php echo $x; ?>' value="<?php echo $i['item_id']; ?>">
+                                <input type='hidden' name='sales_serv_items_id<?php echo $x; ?>' value="<?php echo $i['sales_serv_items_id']; ?>">
+                                <?php $x++; }  ?>
+                                <input type="hidden" name="count" id="count" value="<?php echo $x; ?>">
+                                <?php } ?>                      
                             </table>                            
                             <br>
                             <div class="row">

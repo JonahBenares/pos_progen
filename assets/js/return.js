@@ -78,7 +78,7 @@ function saveReturnserve(){
     var returndata = $("#returnserveSave").serialize();
 
     var loc= document.getElementById("baseurl").value;
-    var redirect = loc+'returns/save_returnserve';
+    var redirect = loc+'returns/save_return_services';
     if(confirm('Are you sure you want to return items?')){
         $.ajax({
             type: "POST",
