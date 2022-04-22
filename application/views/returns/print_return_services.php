@@ -124,7 +124,7 @@
                 </tr>
                 <tr>
                     <td colspan="20"><br></td>
-                </tr>
+                </tr> 
                 <tr>
                     <td colspan="20">
                         <table class="table-bordered" width="100%">
