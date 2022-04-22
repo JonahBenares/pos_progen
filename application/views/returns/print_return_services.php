@@ -145,7 +145,7 @@
                                 <td align="center"></td>
                             </tr>
                         </table>
-                        <br> 
+                         <br> 
                         Consumables and Other Materials   
                         <table class="table-bordered" width="100%">
                             <tr>
@@ -202,10 +202,9 @@
                                 <td align="left">&nbsp;</td>
                             </tr>
                         </table>
-                        <br>
+                        <br> -->
                     </td>
-                    <td></td>
-                </tr> -->
+                </tr>
                 <tr>
                     <td colspan="20"><br></td>
                 </tr>
