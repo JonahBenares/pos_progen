@@ -518,6 +518,7 @@ class Returns extends CI_Controller {
                     "remaining_qty"=>$remaining_qty,
                     "remarks"=>$rd->remarks,
                     "selling_price"=>$rd->selling_price,
+                    
                 );
             }
         }

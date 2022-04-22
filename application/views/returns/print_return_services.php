@@ -149,6 +149,7 @@
                                 <td align="center"><?php echo number_format($d['total'],2);?></td>
                                 <td align="center"><?php echo $d['remarks'];?></td>
                             </tr>
+                            
                             <?php } ?>
                         </table>
                     </td>
