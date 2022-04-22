@@ -70,26 +70,27 @@
                         <br>
                     </td>
                 </tr>
+                <?php foreach($head AS $h){ ?>
                 <tr>
                     <td colspan="2">Returned by:</td>
-                    <td colspan="9" class="bor-btm1">Client Name</td>
+                    <td colspan="9" class="bor-btm1"><?php echo $h['client'];?></td>
                     <td></td>
                     <td colspan="3" align="right">JOR/PR No:</td>
-                    <td colspan="5" class="bor-btm1">&nbsp; JOR288828</td>
+                    <td colspan="5" class="bor-btm1">&nbsp; <?php echo $h['jor_no'];?></td>
                 </tr>
                 <tr>
                     <td colspan="2">Purpose:</td>
-                    <td colspan="9" class="bor-btm1">sample</td>
+                    <td colspan="9" class="bor-btm1"><?php echo $h['purpose'];?></td>
                     <td></td>
                     <td colspan="3" align="right">Date:</td>
-                    <td colspan="5" class="bor-btm1">&nbsp; July 12, 2002</td>
+                    <td colspan="5" class="bor-btm1">&nbsp; <?php echo $h['date'];?></td>
                 </tr>
                 <tr>
                     <td colspan="2">Department:</td>
-                    <td colspan="9" class="bor-btm1">IT Department</td>
+                    <td colspan="9" class="bor-btm1"><?php echo $h['department'];?></td>
                     <td></td>
                     <td colspan="3" align="right">DR No. :</td>
-                    <td colspan="5" class="bor-btm1">&nbsp; DR-92883</td>
+                    <td colspan="5" class="bor-btm1">&nbsp; <?php echo $h['dr_no'];?></td>
                 </tr>
                 <!-- <tr>
                     <td></td>
@@ -111,18 +112,13 @@
                             </tr>
                             <tr>
                                 <td>
-                                    Reconditioning of the following:<br>
-                                    <br>
-                                    1. Cylinder Head - 5 units (SN:_____,____,...)<br>
-                                    2. Piston - 6 units (SN:_____,______,...)  
-                                    <br>                                                     
-                                    <br>                                                     
+                                    <?php echo nl2br($h['description']); ?>                                                   
                                 </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
-               <!--  <tr>
+                <!--  <tr>
                     <td></td>
                     <td colspan="18">
                         <table class="table-bordered" width="100%">
@@ -213,13 +209,13 @@
                 <tr>
                     <td colspan="20"><br></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td colspan="2">Remarks:</td>
                     <td colspan="18" class="bor-btm1"></td>
                 </tr>
                 <tr>
                     <td colspan="20"><br><br><br></td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td></td>
                     <td colspan="5"><b>Prepared by:</b></td>
@@ -250,6 +246,7 @@
                     <td colspan="6">Assets & Projects Management Assistant</td>
                     <td></td>
                 </tr>
+                <?php } ?>
             </table>
         </page>
     </div>

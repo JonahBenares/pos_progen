@@ -479,44 +479,19 @@ class Returns extends CI_Controller {
             $department = $this->super_model->select_column_where("department","department_name","department_id",$department_id);
             $purpose_id = $this->super_model->select_column_where("receive_details","purpose_id","receive_id",$receive_id);
             $purpose = $this->super_model->select_column_where("purpose","purpose_desc","purpose_id",$purpose_id);
-            $dr_no = $this->super_model->select_column_where("sales_good_head","dr_no","dr_no",$rh->dr_no);
-            $pr_no = $this->super_model->select_column_where("sales_good_head","pr_no","dr_no",$rh->dr_no);
-            $client_id = $this->super_model->select_column_where("sales_good_head","client_id","dr_no",$rh->dr_no);
+            $dr_no = $this->super_model->select_column_where("sales_services_head","dr_no","dr_no",$rh->dr_no);
+            $jor_no = $this->super_model->select_column_where("sales_services_head","jor_no","dr_no",$rh->dr_no);
+            $client_id = $this->super_model->select_column_where("sales_services_head","client_id","dr_no",$rh->dr_no);
             $client = $this->super_model->select_column_where("client", "buyer_name", "client_id", $client_id);
             $data['head'][]=array(
                 "dr_no"=>$dr_no,
-                "pr_no"=>$pr_no,
+                "jor_no"=>$jor_no,
                 "purpose"=>$purpose,
                 "department"=>$department,
                 "client"=>$client,
+                "description"=>$rh->description,
                 "date"=>date("F d,Y",strtotime($rh->return_date))
             );
-            foreach($this->super_model->select_row_where("return_service_details","return_service_id",$rh->return_service_id) AS $rd){
-                $item_id=$this->super_model->select_column_where("fifo_in","item_id","in_id",$rd->in_id);
-                $item_name = $this->super_model->select_column_where("items","item_name","item_id",$item_id);
-                $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$item_id);
-                $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
-                $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$item_id);
-                $brand=$this->super_model->select_column_where("fifo_in","brand","in_id",$rd->in_id);
-                $supplier_id=$this->super_model->select_column_where("fifo_in","supplier_id","in_id",$rd->in_id);
-                $supplier_name = $this->super_model->select_column_where("supplier","supplier_name","supplier_id",$supplier_id);
-                $serial_no=$this->super_model->select_column_where("fifo_in","serial_no","in_id",$rd->in_id);
-                $item_cost=$this->super_model->select_column_where("fifo_in","item_cost","in_id",$rd->in_id);
-                $remaining_qty=$this->super_model->select_column_where("fifo_in","remaining_qty","in_id",$rd->in_id);
-                $total=$rd->return_qty * $item_cost;
-                $data["details"][]=array(
-                    "quantity"=>$rd->return_qty,
-                    "unit"=>$unit,
-                    "original_pn"=>$original_pn,
-                    "item"=>$item_name,
-                    "brand"=>$brand,
-                    "serial_no"=>$serial_no,
-                    "unit_cost"=>$item_cost,
-                    "total"=>$total,
-                    "remaining_qty"=>$remaining_qty,
-                    "remarks"=>$rd->remarks,
-                );
-            }
         }
         $this->load->view('returns/print_return_services',$data);
         $this->load->view('template/footer');
