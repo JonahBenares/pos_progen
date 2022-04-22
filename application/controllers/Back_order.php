@@ -106,7 +106,7 @@ class Back_order extends CI_Controller {
                     "rdid"=>$prlist->rd_id,
                     "pr_no"=>$prlist->pr_no,
                     "item"=>$item,
-                    "balance"=>$balance,
+                    "remaining_qty"=>$balance,
                     "expected"=>$expected_qty,
                     "received"=>$received_qty
                 );

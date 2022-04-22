@@ -29,7 +29,7 @@
                                     <?php 
                                         foreach($prback AS $pb){  
                                             if($pb['received']!=0){ ?>
-                                            <option value="<?php echo $pb['rdid']; ?>"><?php echo $pb['pr_no']." - qty -".$pb['balance']; ?></option>
+                                            <option value="<?php echo $pb['rdid']; ?>"><?php echo $pb['pr_no']." - Quantity -".$pb['remaining_qty']; ?></option>
                                         <?php } 
                                      } ?>
                                 </select>
