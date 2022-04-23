@@ -100,7 +100,7 @@ class Back_order extends CI_Controller {
             
             $expected_qty= $this->get_expected_qty($prlist->pr_no,$prlist->item_id);
             $received_qty= $this->get_received_qty($prlist->pr_no,$prlist->item_id);
-            $balance = $prlist->expected_qty - $prlist->received_qty;
+            $balance = $expected_qty - $received_qty;
             /*$rd_id= $this->get_rdid($prlist->pr_no,$prlist->item_id);*/
             $item=$this->super_model->select_column_where("items", "item_name", "item_id", $prlist->item_id);
             if($expected_qty>$received_qty){
