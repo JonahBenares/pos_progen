@@ -45,10 +45,10 @@ class Back_order extends CI_Controller {
         return $received_qty;
     }
 
-      public function get_rdid($pr,$item){
+/*      public function get_rdid($pr,$item){
         $rd_id = $this->super_model->custom_query_single("rd_id","SELECT ri.rd_id FROM receive_items ri INNER JOIN receive_details rd ON ri.rd_id = rd.rd_id WHERE rd.pr_no = '$pr' AND ri.item_id='$item' ORDER BY ri_id DESC LIMIT 1");
         return $rd_id;
-    }
+    }*/
 
 
     public function backorder_form(){
@@ -69,7 +69,7 @@ class Back_order extends CI_Controller {
              
         }
 
-        foreach($this->super_model->select_row_where("receive_items", "rd_id", $id) AS $it){
+            foreach($this->super_model->select_row_where("receive_items", "rd_id", $id) AS $it){
             if($it->expected_qty > $it->received_qty){
                 $boqty=$this->backorder_qty($it->ri_id);
                 $total_cost=$boqty * $it->item_cost;
@@ -94,12 +94,14 @@ class Back_order extends CI_Controller {
         }
 
         //foreach($this->super_model->custom_query("SELECT * FROM receive_details rd INNER JOIN receive_head rh ON rh.receive_id = rd.receive_id INNER JOIN receive_items ri ON rd.rd_id = ri.rd_id GROUP BY pr_no") AS $prlist){
-        foreach($this->super_model->custom_query("SELECT DISTINCT pr_no, item_id,rd.rd_id,expected_qty,received_qty FROM receive_details rd INNER JOIN receive_head rh ON rh.receive_id = rd.receive_id INNER JOIN receive_items ri ON rd.rd_id = ri.rd_id WHERE saved='1' AND expected_qty > received_qty") AS $prlist){
+        /*foreach($this->super_model->custom_query("SELECT DISTINCT pr_no, item_id,rd.rd_id,expected_qty,received_qty FROM receive_details rd INNER JOIN receive_head rh ON rh.receive_id = rd.receive_id INNER JOIN receive_items ri ON rd.rd_id = ri.rd_id WHERE saved='1' AND expected_qty > received_qty") AS $prlist){*/
+
+        foreach($this->super_model->custom_query("SELECT DISTINCT pr_no, item_id, rd.rd_id,expected_qty,received_qty FROM receive_details rd INNER JOIN receive_head rh ON rh.receive_id = rd.receive_id INNER JOIN receive_items ri ON rd.rd_id = ri.rd_id WHERE saved='1' AND expected_qty > received_qty GROUP BY rd_id") AS $prlist){
             
             $expected_qty= $this->get_expected_qty($prlist->pr_no,$prlist->item_id);
             $received_qty= $this->get_received_qty($prlist->pr_no,$prlist->item_id);
-            $balance = $expected_qty - $received_qty;
-            $rd_id= $this->get_rdid($prlist->pr_no,$prlist->item_id);
+            $balance = $prlist->expected_qty - $prlist->received_qty;
+            /*$rd_id= $this->get_rdid($prlist->pr_no,$prlist->item_id);*/
             $item=$this->super_model->select_column_where("items", "item_name", "item_id", $prlist->item_id);
             if($expected_qty>$received_qty){
                 $data['prback'][] = array(
