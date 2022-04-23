@@ -96,7 +96,7 @@ class Back_order extends CI_Controller {
         //foreach($this->super_model->custom_query("SELECT * FROM receive_details rd INNER JOIN receive_head rh ON rh.receive_id = rd.receive_id INNER JOIN receive_items ri ON rd.rd_id = ri.rd_id GROUP BY pr_no") AS $prlist){
         /*foreach($this->super_model->custom_query("SELECT DISTINCT pr_no, item_id,rd.rd_id,expected_qty,received_qty FROM receive_details rd INNER JOIN receive_head rh ON rh.receive_id = rd.receive_id INNER JOIN receive_items ri ON rd.rd_id = ri.rd_id WHERE saved='1' AND expected_qty > received_qty") AS $prlist){*/
 
-        foreach($this->super_model->custom_query("SELECT DISTINCT pr_no, item_id, rd.rd_id,expected_qty,received_qty FROM receive_details rd INNER JOIN receive_head rh ON rh.receive_id = rd.receive_id INNER JOIN receive_items ri ON rd.rd_id = ri.rd_id WHERE saved='1' AND expected_qty > received_qty GROUP BY rd_id") AS $prlist){
+        foreach($this->super_model->custom_query("SELECT DISTINCT pr_no, item_id, rd.rd_id,expected_qty,received_qty FROM receive_details rd INNER JOIN receive_head rh ON rh.receive_id = rd.receive_id INNER JOIN receive_items ri ON rd.rd_id = ri.rd_id WHERE saved='1' AND expected_qty > received_qty AND bo!='1' GROUP BY rd_id") AS $prlist){
             
             $expected_qty= $this->get_expected_qty($prlist->pr_no,$prlist->item_id);
             $received_qty= $this->get_received_qty($prlist->pr_no,$prlist->item_id);
@@ -221,6 +221,11 @@ class Back_order extends CI_Controller {
             );
             
            $ri_id = $this->super_model->insert_return_id("receive_items", $items);
+
+                $bo = array(
+                    "bo"=>'1'
+                );
+                $this->super_model->update_where("receive_items", $bo, "rd_id", $rdid);
             
                 $fifo_items = array(
                 'ri_id'=>$ri_id,
