@@ -93,6 +93,7 @@ class Returns extends CI_Controller {
             $maxid=$this->super_model->get_max("return_head", "return_id");
             $return_id=$maxid+1;
         }
+        $drno = $this->input->post('dr_save');
 
         $datains=array(
             "return_id"=>$return_id,
@@ -104,7 +105,6 @@ class Returns extends CI_Controller {
         $this->super_model->insert_into("return_head",$datains);
 
           
-          
             for($x=1;$x<$count;$x++){
                 $in_id= $this->input->post('in_id'.$x);
                 $qty =$this->input->post('return_qty'.$x);
@@ -113,6 +113,8 @@ class Returns extends CI_Controller {
                 $item_id =$this->input->post('item_id'.$x);
                 $unit_cost =$this->input->post('unit_cost'.$x);
                 $selling_price =$this->input->post('selling_price'.$x);
+
+                //echo $qty . " - " . $dam_qty;
               
                 if( $qty !=0 && $dam_qty ==""){
                     $total_cost =$selling_price * $qty;
@@ -221,8 +223,36 @@ class Returns extends CI_Controller {
             
            
             }
-
+             $this->billing_statement_adjustment($drno,$return_id);
              echo $return_id;
+    }
+
+    public function billing_statement_adjustment($drno,$return_id){
+        $check_billing = $this->super_model->count_custom("SELECT bh.billing_id FROM billing_head bh INNER JOIN billing_details bd ON bh.billing_id = bd.billing_id WHERE status = '0' AND dr_no = '$drno'");
+        if($check_billing!=0){
+            $billing_id = $this->super_model->select_column_where("billing_details", "billing_id", "dr_no", $drno);
+            $billing_no = $this->super_model->select_column_where("billing_head", "billing_no", "billing_id", $billing_id);
+            $returned ='';
+            $total_price=0;
+            foreach($this->super_model->select_row_where("return_details","return_id",$return_id) AS $ret){
+                $total = $ret->return_qty + $ret->damage_qty;
+                $total_price += $ret->total_amount;
+                $returned .= $total . " " . $this->super_model->select_column_where("items", "item_name", "item_id", $ret->item_id) . ", ";
+            }
+            $returned = substr($returned, 0, -2);
+          
+            $remarks = "Adjustment on Billing # ".$billing_no. " Returned " .$returned . " with total amount of ". number_format($total_price);
+            $data=array(
+                "adjustment_date"=>date("Y-m-d H:i:s"),
+                "billing_id"=>$billing_id,
+                "billing_no"=>$billing_no,
+                "dr_no"=>$drno,
+                "return_id"=>$return_id,
+                "remarks"=>$remarks
+            );
+
+            $this->super_model->insert_into("billing_adjustment_history",$data);
+        } 
     }
 
     public function print_return_goods(){
@@ -263,7 +293,7 @@ class Returns extends CI_Controller {
                 $remaining_qty=$this->super_model->select_column_where("fifo_in","remaining_qty","in_id",$rd->in_id);
                 $total=$rd->return_qty * $item_cost;
                 $data["details"][]=array(
-                    "quantity"=>$rd->return_qty,
+                    "quantity"=>$rd->return_qty + $rd->damage_qty,
                     "unit"=>$unit,
                     "original_pn"=>$original_pn,
                     "item"=>$item_name,
@@ -364,6 +394,8 @@ class Returns extends CI_Controller {
             $item_id =$this->input->post('item_id'.$x);
             $unit_cost =$this->input->post('unit_cost'.$x);
             $selling_price =$this->input->post('selling_price'.$x);
+
+            //echo $qty . " - " . $dam_qty;
             if($qty !=0 && $dam_qty ==""){
                 $total_cost =$selling_price * $qty;
                 $datadet=array(

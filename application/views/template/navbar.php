@@ -1,3 +1,4 @@
+<?php $ci =& get_instance(); ?>
 <div class="container-scroller">
     <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
@@ -68,46 +69,28 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                         <i class="mdi mdi-bell-outline"></i>
+                        <?php  $count = $ci->super_model->count_rows_where("billing_adjustment_history", "status", 0); 
+                        if($count!=0){ ?>
                         <span class="count-symbol bg-danger"></span>
+                        <?php } ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
                         <h6 class="p-3 mb-0">Notifications</h6>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <div class="preview-icon bg-success">
-                                <i class="mdi mdi-calendar"></i>
-                            </div>
-                        </div>
-                        <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                            <h6 class="preview-subject font-weight-normal mb-1">Event today</h6>
-                            <p class="text-gray ellipsis mb-0"> Just a reminder that you have an event today </p>
-                        </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item preview-item">
+
+                        <?php foreach($this->super_model->select_row_where("billing_adjustment_history", "status", 0) AS $hist){ ?>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item">
                             <div class="preview-thumbnail">
-                                <div class="preview-icon bg-warning">
-                                    <i class="mdi mdi-settings"></i>
+                                <div class="preview-icon bg-danger">
+                                    <i class="mdi mdi-alert"></i>
                                 </div>
                             </div>
                             <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                                <h6 class="preview-subject font-weight-normal mb-1">Settings</h6>
-                                <p class="text-gray ellipsis mb-0"> Update dashboard </p>
+                                <h6 class="preview-subject font-weight-normal mb-1">BS Adjustment</h6>
+                                <p class="text-gray ellipsis mb-0"> <?php echo $hist->remarks; ?> </p>
                             </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                                <div class="preview-icon bg-info">
-                                    <i class="mdi mdi-link-variant"></i>
-                                </div>
-                            </div>
-                            <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                                <h6 class="preview-subject font-weight-normal mb-1">Launch Admin</h6>
-                                <p class="text-gray ellipsis mb-0"> New admin wow! </p>
-                            </div>
-                        </a>
+                            </a>
+                        <?php } ?>
                         <div class="dropdown-divider"></div>
                         <h6 class="p-3 mb-0 text-center">See all notifications</h6>
                     </div>
