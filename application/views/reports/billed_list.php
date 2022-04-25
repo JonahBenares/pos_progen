@@ -1,5 +1,3 @@
-
-
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -96,7 +94,9 @@
                                         </td>
                                         <td> &nbsp; <?php echo date('F d, Y', strtotime($b['billing_date'])); ?></td>
                                         <td> &nbsp; <a href="<?php echo base_url(); ?>reports/print_billing/<?php echo $b['billing_id']; ?>" target="_blank"><?php echo $b['billing_no']; ?></a></td>
-                                        <td> &nbsp; <?php echo $b['counter']; ?></td>
+                                        <td> &nbsp; 
+                                            <a onclick="adjust_all('<?php echo base_url(); ?>')" class="btn btn-link"><?php echo $b['counter']; ?></a>
+                                        </td>
                                         <td align="right">P <?php echo number_format($b['total_amount'],2); ?> &nbsp;</td>
                                         <?php if($b['count_adjust']!= 0 ){ ?>
                                         <td align="center"><a href="<?php echo base_url(); ?>reports/adjustment_list/<?php echo $b['billing_id']; ?>" target="_blank" class="btn btn-primary btn-xs btn-rounded">Adjust</a></td>

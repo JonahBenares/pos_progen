@@ -1,3 +1,7 @@
+function adjust_all(baseurl) {
+    window.open(baseurl+"reports/adjust_all/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+}
+
 function filter_stockcard(){
     var item_id = document.getElementById("item_id").value;
     var loc= document.getElementById("baseurl").value;
