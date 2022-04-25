@@ -321,8 +321,10 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function check adjustment($billing_id){
-        $    
+    public function check adjustment($billing_id, $drno){
+        foreach($this->super_model->select_row_where("billing_details", "billing_id", $billing_id) AS $bill){
+            $this->super_model->count_custom_where("billing_details", "")
+        }
     }
 
 
