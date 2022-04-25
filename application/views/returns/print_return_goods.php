@@ -7,12 +7,18 @@
                 </span> Return (Goods)
             </h3>
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>returns/return_form">Return Form</a></li>
-                    <li class="breadcrumb-item active" aria-current="page" onclick="printDiv('printableArea')">Print Return Goods</li>
-                </ol>
+                <div class="alert alert-warning" role="alert"> <span class="mdi mdi-alert-outline"></span> &nbsp; Better check yourself, you're not looking too good. </div>
+                <div class="alert alert-danger" role="alert"> <span class="mdi mdi-alert-outline"></span> &nbsp; Better check yourself, you're not looking too good. </div>
             </nav>
         </div>
+
+        <!-- <div class="card card-inverse-primary mb-5" >
+            <div class="card-body">
+                <p class="mb-4"> Well done! You successfully read this important alert message. </p>
+                <button class="btn btn-secondary">Ok</button>
+                <button class="btn btn-light">Cancel</button>
+            </div>
+        </div> -->
         <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
