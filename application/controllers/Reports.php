@@ -303,7 +303,7 @@ class Reports extends CI_Controller {
         $grand_total =0;
         foreach($this->super_model->select_custom_where("billing_head", "client_id= '$client' AND status='0'") AS $bill){
 
-            
+
             $total_amount = $this->super_model->select_sum_where("billing_details", "remaining_amount", "billing_id='$bill->billing_id'");
             $grand_total += $total_amount;
             $data['billed'][]= array(
@@ -320,6 +320,11 @@ class Reports extends CI_Controller {
         $this->load->view('reports/billed_list', $data);
         $this->load->view('template/footer');
     }
+
+    public function check adjustment($billing_id){
+        $    
+    }
+
 
     public function bill_pay(){
         $billing = $this->uri->segment(3);
