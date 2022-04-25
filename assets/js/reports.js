@@ -237,3 +237,21 @@ function chooseSubcat_range(){
            }
     }); 
 }
+
+function generateAdjustment(){
+    var loc= document.getElementById("baseurl").value;
+     var billing_id= document.getElementById("billing_id").value;
+     var billing_no= document.getElementById("billing_no").value;
+      var redirect = loc+'reports/generateAdjustment';
+     var conf = confirm('Are you sure you want to generate adjustment form?');
+    if(conf){
+        $.ajax({
+                type: 'POST',
+                url:   redirect,
+                data: "billing_id="+billing_id+"&billing_no="+billing_no,
+                success: function(data){
+                    window.location.href = loc+"reports/adjustment_print/"+data;
+               }
+        }); 
+    }   
+}

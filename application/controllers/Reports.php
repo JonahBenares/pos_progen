@@ -306,11 +306,15 @@ class Reports extends CI_Controller {
 
             $total_amount = $this->super_model->select_sum_where("billing_details", "remaining_amount", "billing_id='$bill->billing_id'");
             $grand_total += $total_amount;
+            $count_adjust = $this->check_adjustment($bill->billing_id);
+         
             $data['billed'][]= array(
                 "billing_id"=>$bill->billing_id,
                 "billing_no"=>$bill->billing_no,
                 "billing_date"=>$bill->billing_date,
-                "total_amount"=>$total_amount
+                "total_amount"=>$total_amount,
+                "count_adjust"=>$count_adjust,
+                "counter"=>$bill->adjustment_counter
             );
         }
 
@@ -321,10 +325,13 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function check adjustment($billing_id, $drno){
-        foreach($this->super_model->select_row_where("billing_details", "billing_id", $billing_id) AS $bill){
-            $this->super_model->count_custom_where("billing_details", "")
+    public function check_adjustment($billing_id){
+        $count =0;
+       // echo "billing_id = '$billing_id' AND status ='0'";
+        foreach($this->super_model->select_custom_where("billing_adjustment_history", "billing_id = '$billing_id' AND status ='0'") AS $r){
+            $count++;
         }
+        return $count;
     }
 
 
@@ -1017,16 +1024,116 @@ class Reports extends CI_Controller {
     }
 
     public function adjustment_list(){
+        $billing_id = $this->uri->segment(3);
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('reports/adjustment_list');
+        $data['billing_id']=$billing_id;
+        $data['billing_no'] = $this->super_model->select_column_where("billing_head","billing_no", "billing_id",$billing_id);
+        $data['adjustments'] = $this->super_model->select_custom_where("billing_adjustment_history", "billing_id = '$billing_id' AND status = '0'");
+        $this->load->view('reports/adjustment_list', $data);
         $this->load->view('template/footer');
     }
     public function adjustment_print(){
+        $bsid = $this->uri->segment(3);
+
+        foreach($this->super_model->select_row_where("billing_head", "billing_id", $bsid) AS $bs){
+            $data['head'][] = array(
+                "billing_no"=>$bs->billing_no,
+                "date"=>$bs->billing_date,
+                "client"=>$this->super_model->select_column_where("client", "buyer_name", "client_id", $bs->client_id),
+                "address"=>$this->super_model->select_column_where("client", "address", "client_id", $bs->client_id),
+                "tin"=>$this->super_model->select_column_where("client", "tin", "client_id", $bs->client_id),
+            );
+        }
+
+        $data['details']=$this->super_model->select_custom_where("billing_details", "billing_id='$bsid' AND remaining_amount != '0' ORDER BY dr_date DESC");
+
+
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('reports/adjustment_print');
+        $this->load->view('reports/adjustment_print',$data);
         $this->load->view('template/footer');
+    }
+
+     public function generateAdjustment(){
+        $billing_id = $this->input->post('billing_id');
+        $billing_no = $this->input->post('billing_no');
+
+        $data=array(
+            "status"=>"2",
+
+        );
+        $this->super_model->update_where("billing_head", $data, "billing_id", $billing_id);
+        $sales_id = array();
+        foreach($this->super_model->select_row_where("billing_details", "billing_id", $billing_id) AS $b){
+            $sales_id[] = $b->sales_id;
+        }   
+
+        $client_id = $this->super_model->select_column_where("billing_head", "client_id", "billing_id",$billing_id);
+        $get_max = $this->super_model->get_max_where("billing_head","adjustment_counter","billing_no = '$billing_no'");
+        $counter = $get_max+1;
+
+        $data = array(
+            "billing_no"=>$billing_no,
+            "billing_date"=>date("Y-m-d"),
+            "client_id"=>$client_id,
+            "create_date"=>date("Y-m-d H:i:s"),
+            "user_id"=>$_SESSION['user_id'],
+            "adjustment_counter"=>$counter
+        );
+        $id= $this->super_model->insert_return_id("billing_head", $data);
+
+         $grand_total = 0;
+            $grand_total_uc = 0;
+            foreach($sales_id AS $sid){
+
+                $dr_no =  $this->super_model->select_column_where("sales_good_head", "dr_no", "sales_good_head_id", $sid);
+                if($this->super_model->count_custom_where("return_head","dr_no = '$dr_no'") != 0){
+                    $return_id = $this->super_model->select_column_where("return_head", "return_id", "dr_no", $dr_no);
+                    $returned_amount = $this->super_model->select_sum_where("return_details", "total_amount", "return_id='$return_id'");
+                    $total_sales = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$sid'");
+
+                    $total_amount = $total_sales - $returned_amount;
+                } else {
+                     $total_amount = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$sid'");
+                }
+                
+                $grand_total +=$total_amount;
+
+                $total_unit_cost=array();
+                foreach($this->super_model->select_custom_where("fifo_out", "transaction_type='Sales Goods' AND sales_id = '$sid'") AS $uc){
+                    $total_unit_cost[] = $uc->unit_cost * $uc->quantity;
+                }
+
+                $total_uc = array_sum($total_unit_cost);
+                $grand_total_uc +=$total_uc;
+               
+                $data_details = array(
+                    "billing_id"=>$id,
+                    "sales_type"=>"goods",
+                    "sales_id"=>$sid,
+                    "dr_no"=>$this->super_model->select_column_where("sales_good_head", "dr_no", "sales_good_head_id", $sid),
+                    "dr_date"=>$this->super_model->select_column_where("sales_good_head", "sales_date", "sales_good_head_id", $sid),
+                    "total_unit_cost"=>$total_uc,
+                    "total_amount"=>$total_amount,
+                    "remaining_amount"=>$total_amount,
+                );
+
+                $this->super_model->insert_into("billing_details", $data_details);
+
+                $data_adj = array(
+                    "status"=>'1'
+                );
+                $this->super_model->update_where("billing_adjustment_history", $data_adj, "billing_id", $billing_id);
+            }
+
+            $data_total = array(
+                "total_amount"=>$grand_total,
+                "total_unit_cost"=>$grand_total_uc
+            );
+            $this->super_model->update_where("billing_head", $data_total, "billing_id", $id);
+
+            echo $id;
     }
 
 }
