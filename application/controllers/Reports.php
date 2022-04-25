@@ -1135,5 +1135,10 @@ class Reports extends CI_Controller {
 
             echo $id;
     }
+    public function adjust_all(){
+        $this->load->view('template/header'); 
+        $this->load->view('reports/adjust_all');
+        $this->load->view('template/footer');
+    }
 
 }
