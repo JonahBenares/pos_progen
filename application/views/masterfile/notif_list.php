@@ -37,21 +37,23 @@
                         <table class="table table-bordered table-hover" id="myTable">
                             <thead>
                                 <tr>
-                                    <th width="10%"> Adjustment Date </th>
-                                    <th width="10%"> Billing No </th>
-                                    <th width="10%"> DR No </th>
-                                    <th width="10%"> Remarks </th>
+                                    <th width="7%"> Adjustment Date </th>
+                                    <th width="7%"> Billing No </th>
+                                    <th width="7%"> DR No </th>
+                                    <th width="15%"> Remarks </th>
                                     <th width="1%"> <center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>
                              <tbody>
+                                <?php foreach($adjustments AS $adj){  ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><?php echo $adj->adjustment_date; ?></td>
+                                    <td><?php echo $adj->billing_no; ?></td>
+                                    <td><?php echo $adj->dr_no; ?></td>
+                                    <td><?php echo $adj->remarks; ?></td>
+                                    <td><a style='font-size: 11px' href="<?php echo base_url(); ?>reports/adjustment_list/<?php echo $adj->billing_id; ?>" target="_blank" class="btn btn-primary btn-xs btn-rounded">Billing</a></td>
                                 </tr>
+                            <?php } ?>
                             </tbody>                           
                         </table>
                     </div>

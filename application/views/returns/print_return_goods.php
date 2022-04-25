@@ -7,8 +7,12 @@
                 </span> Return (Goods)
             </h3>
             <nav aria-label="breadcrumb">
-                <div class="alert alert-warning" role="alert"> <span class="mdi mdi-alert-outline"></span> &nbsp; Better check yourself, you're not looking too good. </div>
-                <div class="alert alert-danger" role="alert"> <span class="mdi mdi-alert-outline"></span> &nbsp; Better check yourself, you're not looking too good. </div>
+                 <?php if($adjustment_qty>0){ ?>
+                <div class="alert alert-warning" role="alert"> <span class="mdi mdi-alert-outline"></span> &nbsp; This transaction has affected a Billing Statement. Kindly process adjustment <a href="<?php echo base_url(); ?>reports/billed_list/<?php echo $client_id; ?>"  target='_blank'>here</a>.  </div>
+
+                <?php } if($damage_qty>0){ ?>
+                    <div class="alert alert-danger" role="alert"> <span class="mdi mdi-alert-outline"></span> &nbsp; This return transaction has damaged item/s. Click <a href="<?php echo base_url(); ?>returns/return_damage" target='_blank'>here</a> to fill out damage form/s. </div>
+                <?php } ?>
             </nav>
         </div>
 

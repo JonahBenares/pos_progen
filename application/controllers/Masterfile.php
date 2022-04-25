@@ -1006,9 +1006,10 @@ class Masterfile extends CI_Controller {
 
     public function notif_list()
     {
+        $data['adjustments'] = $this->super_model->select_row_where("billing_adjustment_history", "status", "0");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('masterfile/notif_list');
+        $this->load->view('masterfile/notif_list',$data);
         $this->load->view('template/footer');
     }
 
