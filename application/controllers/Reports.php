@@ -302,6 +302,8 @@ class Reports extends CI_Controller {
         $data['client']=$client;
         $grand_total =0;
         foreach($this->super_model->select_custom_where("billing_head", "client_id= '$client' AND status='0'") AS $bill){
+
+            
             $total_amount = $this->super_model->select_sum_where("billing_details", "remaining_amount", "billing_id='$bill->billing_id'");
             $grand_total += $total_amount;
             $data['billed'][]= array(
