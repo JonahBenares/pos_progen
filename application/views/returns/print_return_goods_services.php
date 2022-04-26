@@ -4,12 +4,12 @@
             <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-success text-white mr-2">
                   <i class="mdi mdi mdi-sync"></i>
-                </span> Return (Goods)
+                </span> Return
             </h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>returns/return_form">Return Form</a></li>
-                    <li class="breadcrumb-item active" aria-current="page" onclick="printDiv('printableArea')">Print Return Goods</li>
+                    <li class="breadcrumb-item active" aria-current="page" onclick="printDiv('printableArea')">Print Return</li>
                 </ol>
             </nav>
         </div>
@@ -65,7 +65,7 @@
                         VAT Reg. TIN: 008-726-170-001  
                         <br>
                         <br>
-                        <b>RETURN FORM <br>(Goods)</b>
+                        <b>RETURN FORM <br></b>
                         <br>
                         <br>
                     </td>

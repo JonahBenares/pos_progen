@@ -1,26 +1,23 @@
 function dr_append(){
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+'returns/dr_append';
-    var sales_id = document.getElementById("dr_no").value;
-    var transaction_type = $('select#dr_no option:selected').attr('mytag');
+    var sales_good_head_id = document.getElementById("dr_no").value;
     $.ajax({
         type: 'POST',
         url: redirect,
-        data: 'sales_id='+sales_id+'&transaction_type='+transaction_type,
+        data: 'sales_good_head_id='+sales_good_head_id,
         dataType: 'json',
         success: function(response){
-            $("#sales_id").val(response.sales_id);
-            $("#transaction_type").val(transaction_type);
+            $("#sales_good_head_id").val(response.sales_good_head_id);
         }
     }); 
 }
 
 function loadReturn(){
-    var sales_id= document.getElementById("sales_id").value;    
-	var transaction_type= document.getElementById("transaction_type").value;	
+	var sales_good_head_id= document.getElementById("sales_good_head_id").value;	
 	var loc= document.getElementById("baseurl").value;
 	$("#myTdable").show();
-	window.location.href = loc+'returns/return_goods_services/'+sales_id+'/'+transaction_type;
+	window.location.href = loc+'returns/return_goods/'+sales_good_head_id;
 
 }
 
@@ -36,7 +33,7 @@ function saveReturn(){
 			data: returndata,
 			success: function(output){
 				//alert(output);
-				window.location.href = loc+'returns/print_return_goods_services/'+output;
+				window.location.href = loc+'returns/print_return_goods/'+output;
 			}
 		});
 	}
@@ -120,19 +117,18 @@ function isNumberKey(txt, evt){
 }
 
 function saveReturnDamage(){
-    var returndata = $("#ReturnDamage").serialize();
-
-
+    var data = $("#ReturnDamage").serialize();
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+"returns/save_return_damage";
-    if(confirm('Are you sure you want to save this record?')){
+    var conf = confirm('Are you sure you want to save this record?');
+    if(conf){
         $.ajax({
+            data: data,
             type: "POST",
             url: redirect,
-            data: returndata,
             success: function(output){
                 //alert(output);
-                window.location.href = loc+'returns/return_damage_print/'+output;  
+                window.location=loc+'returns/return_damage_print';  
             }
         }); 
     }
