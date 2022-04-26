@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2022 at 07:23 AM
+-- Generation Time: Apr 25, 2022 at 07:33 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.33
 
@@ -34,7 +34,7 @@ CREATE TABLE `billing_adjustment_history` (
   `billing_no` varchar(50) DEFAULT NULL,
   `dr_no` varchar(100) DEFAULT NULL,
   `return_id` int(11) NOT NULL DEFAULT 0,
-  `remarks` text NOT NULL DEFAULT '0',
+  `remarks` text DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0 COMMENT '0=unresolved, 1=adjusted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

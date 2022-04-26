@@ -417,6 +417,9 @@ class Returns extends CI_Controller {
                 );
             }
         }
+        $data['client_id']=$client_id;
+        $data['damage_qty'] = $this->super_model->select_sum_where("return_details", "damage_qty", "return_id = '$return_id'");
+        $data['adjustment_qty'] = $this->super_model->count_custom_where("billing_adjustment_history", "return_id='$return_id' AND status='0'");
         $this->load->view('returns/print_return_goods',$data);
         $this->load->view('template/footer');
     }

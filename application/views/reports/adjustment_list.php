@@ -46,183 +46,24 @@
                             <div class="col-lg-12">
                                 <table width="100%" class="table-bordered">
                                     <tr>
-                                        <td style="background:#efefef" colspan="5">
-                                            <h4 class="m-2"><b>DR-919178828-92</b></h4>
+                                        <td style="background:#efefef" colspan="3">
+                                            <h4 class="m-2"><b><?php echo "Billing #: " .$billing_no; ?></b></h4>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="10%">Qty</td>
-                                        <td width="55%">Item Name</td>
-                                        <td width="10%">Unit Cost</td>
-                                        <td width="10%">Selling Price</td>
-                                        <td width="15%">Total Selling Price</td>
+                                        <td width="15%">Date</td>
+                                        <td width="15%">DR No.</td>
+                                        <td width="65%">Remarks</td>
                                     </tr>
+                                    <?php foreach($adjustments AS $adj) { ?>
                                     <tr>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
+                                        <td class="p-0"><?php echo $adj->adjustment_date; ?></td>
+                                        <td class="p-0"><?php echo $adj->dr_no; ?></td>
+                                        <td class="p-0"><?php echo $adj->remarks; ?></td>
                                     </tr>
-                                    <tr>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                    </tr>
+                                    <?php } ?>
                                 </table>
-                                <br>
-                                <table width="100%" class="table-bordered">
-                                    <tr>
-                                        <td style="background:#efefef" colspan="5">
-                                            <h4 class="m-2"><b>DR-919178828-92</b></h4>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="10%">Qty</td>
-                                        <td width="55%">Item Name</td>
-                                        <td width="10%">Unit Cost</td>
-                                        <td width="10%">Selling Price</td>
-                                        <td width="15%">Total Selling Price</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                    </tr>
-                                </table>
-                                <br>
-                                <table width="100%" class="table-bordered">
-                                    <tr>
-                                        <td style="background:#efefef" colspan="5">
-                                            <h4 class="m-2"><b>DR-919178828-92</b></h4>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="10%">Qty</td>
-                                        <td width="55%">Item Name</td>
-                                        <td width="10%">Unit Cost</td>
-                                        <td width="10%">Selling Price</td>
-                                        <td width="15%">Total Selling Price</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                    </tr>
-                                </table>
-                                <br>
-                                <table width="100%" class="table-bordered">
-                                    <tr>
-                                        <td style="background:#efefef" colspan="5">
-                                            <h4 class="m-2"><b>DR-919178828-92</b></h4>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="10%">Qty</td>
-                                        <td width="55%">Item Name</td>
-                                        <td width="10%">Unit Cost</td>
-                                        <td width="10%">Selling Price</td>
-                                        <td width="15%">Total Selling Price</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                    </tr>
-                                </table>
-                                <br>
-                                <table width="100%" class="table-bordered">
-                                    <tr>
-                                        <td style="background:#efefef" colspan="5">
-                                            <h4 class="m-2"><b>DR-919178828-92</b></h4>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="10%">Qty</td>
-                                        <td width="55%">Item Name</td>
-                                        <td width="10%">Unit Cost</td>
-                                        <td width="10%">Selling Price</td>
-                                        <td width="15%">Total Selling Price</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                        <td class="p-0"><input type="number" class="alt-control" name=""></td>
-                                    </tr>
-                                </table>
+                               
                                 <br>
                             </div>
                         </div>
@@ -230,7 +71,10 @@
                             <div class="col-lg-3"></div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <a href="<?php echo base_url(); ?>reports/adjustment_print/" class="btn btn-info btn-sm btn-block">Save and Print</a>
+                                    <input type='hidden' name='baseurl' id='baseurl' value ="<?php echo base_url(); ?>">
+                                    <input type='hidden' name='billing_id' id='billing_id' value ="<?php echo $billing_id; ?>">
+                                    <input type='hidden' name='billing_no' id='billing_no' value ="<?php echo $billing_no; ?>">
+                                    <button class="btn btn-info btn-sm btn-block" onclick="generateAdjustment()">Generate Adjustment Form</button>
                                 </div>
                             </div>
                             <div class="col-lg-3"></div>

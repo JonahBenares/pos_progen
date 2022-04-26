@@ -7,12 +7,22 @@
                 </span> Return (Goods)
             </h3>
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>returns/return_form">Return Form</a></li>
-                    <li class="breadcrumb-item active" aria-current="page" onclick="printDiv('printableArea')">Print Return Goods</li>
-                </ol>
+                 <?php if($adjustment_qty>0){ ?>
+                <div class="alert alert-warning" role="alert"> <span class="mdi mdi-alert-outline"></span> &nbsp; This transaction has affected a Billing Statement. Kindly process adjustment <a href="<?php echo base_url(); ?>reports/billed_list/<?php echo $client_id; ?>"  target='_blank'>here</a>.  </div>
+
+                <?php } if($damage_qty>0){ ?>
+                    <div class="alert alert-danger" role="alert"> <span class="mdi mdi-alert-outline"></span> &nbsp; This return transaction has damaged item/s. Click <a href="<?php echo base_url(); ?>returns/return_damage" target='_blank'>here</a> to fill out damage form/s. </div>
+                <?php } ?>
             </nav>
         </div>
+
+        <!-- <div class="card card-inverse-primary mb-5" >
+            <div class="card-body">
+                <p class="mb-4"> Well done! You successfully read this important alert message. </p>
+                <button class="btn btn-secondary">Ok</button>
+                <button class="btn btn-light">Cancel</button>
+            </div>
+        </div> -->
         <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
