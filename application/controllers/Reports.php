@@ -185,7 +185,8 @@ class Reports extends CI_Controller {
 
                 if($this->super_model->count_custom_where("return_head","dr_no = '$goods->dr_no'") != 0){
                     $return_id = $this->super_model->select_column_where("return_head", "return_id", "dr_no", $goods->dr_no);
-                    $returned_amount = $this->super_model->select_sum_where("return_details", "total_amount", "return_id='$return_id'");
+                    //$returned_amount = $this->super_model->select_sum_where("return_details", "total_amount", "return_id='$return_id'");
+                       $returned_amount =  $this->super_model->select_sum_join("total_amount","return_head","return_details", "return_id='$return_id' AND transaction_type='Goods'","return_id");
                     $total_sales = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$goods->sales_good_head_id'");
 
                     $total_amount = $total_sales - $returned_amount;
@@ -212,8 +213,12 @@ class Reports extends CI_Controller {
             $service_count = $this->super_model->count_custom_where("sales_services_head", "client_id = '$client'");
             if($service_count != 0){
               foreach($this->super_model->select_custom_where("sales_services_head", "client_id='$client' AND billed='0'") AS $services){
-                $total_amount =  $this->super_model->select_sum_where("sales_serv_equipment", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'") + 
+                $total_sales =  $this->super_model->select_sum_where("sales_serv_equipment", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'") + 
                 $this->super_model->select_sum_where("sales_serv_items", "total", "sales_serv_head_id='$services->sales_serv_head_id'") +  $this->super_model->select_sum_where("sales_serv_manpower", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'") + $this->super_model->select_sum_where("sales_serv_material", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'");
+
+                  $returned_amount =  $this->super_model->select_sum_join("total_amount","return_head","return_details", "return_id='$return_id' AND transaction_type='Services'","return_id");
+
+                   $total_amount = $total_sales - $returned_amount;
 
                 $grand_total += $total_amount;
                 $data['sales_services'][]=array(
@@ -227,35 +232,7 @@ class Reports extends CI_Controller {
             } else {
                 $data['sales_services']=array();
             }
-        } else if(empty($type)){
-               $grand_total =0;
-            foreach($this->super_model->select_custom_where("sales_good_head", "client_id='$client' AND billed='0'") AS $goods){
-                 $total_amount = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$goods->sales_good_head_id'");
-                  $grand_total += $total_amount;
-                $data['sales_combined'][] = array(
-                    "sales_id"=>$goods->sales_good_head_id,
-                    "type"=>'goods',
-                    "dr_no"=>$goods->dr_no,
-                    "dr_date"=>$goods->sales_date,
-                    "total"=>$total_amount
-                );
-            }
-
-            foreach($this->super_model->select_custom_where("sales_services_head", "client_id='$client' AND billed='0'") AS $services){
-                 $total_amount =  $this->super_model->select_sum_where("sales_serv_equipment", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'") + 
-                $this->super_model->select_sum_where("sales_serv_items", "total", "sales_serv_head_id='$services->sales_serv_head_id'") +  $this->super_model->select_sum_where("sales_serv_manpower", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'") + $this->super_model->select_sum_where("sales_serv_material", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'");
-                 $grand_total += $total_amount;
-                $data['sales_combined'][] = array(
-                    "sales_id"=>$services->sales_serv_head_id,
-                    "type"=>'service',
-                    "dr_no"=>$services->dr_no,
-                    "dr_date"=>$services->sales_date,
-                    "total"=>$total_amount
-                );
-            }
-
-             $data['grand_total'] = $grand_total;
-        }
+        } 
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('reports/pending_list', $data);
