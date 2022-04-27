@@ -902,36 +902,47 @@ class Reports extends CI_Controller {
         $this->load->view('template/navbar');
         foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id FROM fifo_in WHERE item_id = '$item_id' GROUP BY pr_no") AS $head){
             //$sales_serv_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type='Sales Services'");
-            $sales_good_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
+
+            //$sales_good_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
+            $sales_good_rem_qty = $this->super_model->select_sum_where("fifo_out","remaining_qty","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
             //$sales_service_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type='Sales Services'");
             $expired_qty = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date!=''");
             $return_qty= $this->super_model->select_sum_where("return_details","return_qty","in_id='$head->in_id'");
-            $damageqty= $this->super_model->select_sum_where("damage_details","damage_qty","in_id='$head->in_id'");
-            $repairqty= $this->super_model->select_sum_where("repair_details","quantity","in_id='$head->in_id'");
+            //$damageqty= $this->super_model->select_sum_where("damage_details","damage_qty","in_id='$head->in_id'");
+            $damageqty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type = 'Damage'");
+            $repairqty= $this->super_model->select_sum_where("repair_details","quantity","in_id='$head->in_id' AND saved='1'");
             $count_sales_good = $this->super_model->count_custom_where("fifo_out","in_id = '$head->in_id' AND transaction_type = 'Sales Goods'");
             $count_sales_service = $this->super_model->count_custom_where("fifo_out","in_id = '$head->in_id' AND transaction_type = 'Sales Services'");
             $count_expired = $this->super_model->count_custom_where("fifo_in","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date!=''");
             $count_return = $this->super_model->count_custom_where("return_details","in_id='$head->in_id'");
             $count_damage = $this->super_model->count_custom_where("damage_details","in_id='$head->in_id'");
             $count_repair = $this->super_model->count_custom_where("repair_details","in_id='$head->in_id'");
-            $in_balance = $head->quantity - $sales_good_qty;
+            if($count_sales_service!=0 && $count_sales_good!=0 && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired==0){
+                $sales_good_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
+                $sales_all = $sales_good_qty - $return_qty;
+                $in_balance = $head->quantity - $sales_good_qty + $return_qty;
+            }else{
+                $sales_good_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
+                $sales_all = $sales_good_qty;
+                $in_balance = $head->quantity - $sales_good_qty;
+            }
             if($count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
                 $final_balance = $head->quantity;
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage==0 && $count_expired==0){
                 $final_balance = $head->quantity - $sales_good_qty;
             } else if(($count_sales_good!=0 || $count_sales_service!=0)  && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired==0){
-                $final_balance =  $in_balance + $return_qty; 
+                $final_balance =  $in_balance; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
-                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $repairqty; 
+                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $return_qty + $repairqty; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired==0){
-                $final_balance =  $head->quantity - $sales_good_qty - $damageqty;
+                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $return_qty;
             }else if((($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired!=0)){
-                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty - $expired_qty) + $return_qty;
+                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty;
             }
             $data['item_pr'][] = array(
                 "prno"=>$head->pr_no,
                 "recqty"=>$head->quantity,
-                "sales_quantity"=>$sales_good_qty,
+                "sales_quantity"=>$sales_all,
                 "expired_qty"=>$expired_qty,
                 "returnqty"=>$return_qty,
                 "damageqty"=>$damageqty,
