@@ -68,13 +68,13 @@ class Returns extends CI_Controller {
                 $supplier_id = $this->super_model->select_column_where("fifo_in","supplier_id","in_id",$itm->in_id);
                 $unit_cost = $this->super_model->select_column_where("fifo_in", "item_cost", "in_id", $itm->in_id);
                 $selling_price = $this->super_model->select_column_where("sales_good_details", "selling_price", "sales_good_det_id", $itm->sales_details_id);
-                $qty = $itm->quantity - $itm->remaining_qty;
+                //$qty = $itm->quantity - $itm->remaining_qty;
                 $data['item'][]=array(
                     "in_id"=>$itm->in_id,
                     "item"=>$this->super_model->select_column_where("items","item_name","item_id",$itm->item_id),
                     "item_id"=>$itm->item_id,
                     "sales_details_id"=>$itm->sales_details_id,
-                    "qty"=>$qty,
+                    "qty"=>$itm->remaining_qty,
                     "unit_cost"=>$unit_cost,
                     "selling_price"=>$selling_price,
                     "transaction_type"=>$transaction_type,
@@ -111,7 +111,7 @@ class Returns extends CI_Controller {
                     "item"=>$this->super_model->select_column_where("items","item_name","item_id",$itm->item_id),
                     "item_id"=>$itm->item_id,
                     "sales_details_id"=>$itm->sales_serv_items_id,
-                    "qty"=>$qty,
+                    "qty"=>$itm->remaining_qty,
                     "unit_cost"=>$unit_cost,
                     "selling_price"=>$selling_price,
                     "part_no"=>$part_no,
