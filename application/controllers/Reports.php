@@ -55,13 +55,19 @@ class Reports extends CI_Controller {
             $client=$this->super_model->select_column_where("client","buyer_name","client_id",$sg->client_id);
             $in_id=$this->super_model->select_column_where("fifo_out","in_id","sales_details_id",$sg->sales_good_det_id);
             $serial_no=$this->super_model->select_column_where("fifo_in","serial_no","in_id",$in_id);
+
+            $return_qty= $this->super_model->select_sum_join("return_qty","return_details","sales_good_details","return_details.item_id='$sg->item_id' AND sales_good_details.return_id!='0'","return_id");
+            $return_qty_serv= $this->super_model->select_sum_join("return_qty","return_details","sales_serv_items","return_details.item_id='$sg->item_id' AND sales_serv_items.return_id!='0'","return_id");
+            $damageret_qty= $this->super_model->select_sum_join("damage_qty","return_details","sales_good_details","return_details.item_id='$sg->item_id' AND sales_good_details.return_id!='0'","return_id");
+            $damageret_qty_serv= $this->super_model->select_sum_join("damage_qty","return_details","sales_serv_items","return_details.item_id='$sg->item_id' AND sales_serv_items.return_id!='0'","return_id");
+            $sales_good_qty = $sg->quantity - $return_qty - $return_qty_serv - $damageret_qty - $damageret_qty_serv;
             $data['sales'][]=array(
                 "sales_date"=>$sg->sales_date,
                 "dr_no"=>$sg->dr_no,
                 "original_pn"=>$original_pn,
                 "item"=>$item,
                 "serial_no"=>$serial_no,
-                "quantity"=>$sg->quantity,
+                "quantity"=>$sales_good_qty,
                 "uom"=>$uom,
                 "pr_no"=>$sg->pr_no,
                 "po_no"=>$sg->po_no,
@@ -80,13 +86,18 @@ class Reports extends CI_Controller {
             $client=$this->super_model->select_column_where("client","buyer_name","client_id",$sid->client_id);
             $in_id=$this->super_model->select_column_where("fifo_out","in_id","sales_serv_items_id",$sid->sales_serv_items_id);
             $serial_no=$this->super_model->select_column_where("fifo_in","serial_no","in_id",$in_id);
+            $return_qty= $this->super_model->select_sum_join("return_qty","return_details","sales_good_details","return_details.item_id='$sid->item_id' AND sales_good_details.return_id!='0'","return_id");
+            $return_qty_serv= $this->super_model->select_sum_join("return_qty","return_details","sales_serv_items","return_details.item_id='$sid->item_id' AND sales_serv_items.return_id!='0'","return_id");
+            $damageret_qty= $this->super_model->select_sum_join("damage_qty","return_details","sales_good_details","return_details.item_id='$sid->item_id' AND sales_good_details.return_id!='0'","return_id");
+            $damageret_qty_serv= $this->super_model->select_sum_join("damage_qty","return_details","sales_serv_items","return_details.item_id='$sid->item_id' AND sales_serv_items.return_id!='0'","return_id");
+            $sales_service_qty = $sid->quantity - $return_qty - $return_qty_serv - $damageret_qty - $damageret_qty_serv;
             $data['sales'][]=array(
                 "sales_date"=>$sid->sales_date,
                 "dr_no"=>$sid->dr_no,
                 "original_pn"=>$original_pn,
                 "item"=>$item,
                 "serial_no"=>$serial_no,
-                "quantity"=>$sid->quantity,
+                "quantity"=>$sales_service_qty,
                 "uom"=>$uom,
                 "pr_no"=>$sid->jor_no,
                 "po_no"=>$sid->joi_no,
