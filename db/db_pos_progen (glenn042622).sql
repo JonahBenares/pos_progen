@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2022 at 11:55 PM
+-- Generation Time: Apr 27, 2022 at 12:50 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -23,6 +23,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `billing_adjustment_history`
+--
+
+CREATE TABLE IF NOT EXISTS `billing_adjustment_history` (
+`ba_history_id` int(11) NOT NULL,
+  `adjustment_date` varchar(20) DEFAULT NULL,
+  `billing_id` int(11) NOT NULL DEFAULT '0',
+  `billing_no` varchar(50) DEFAULT NULL,
+  `dr_no` varchar(100) DEFAULT NULL,
+  `return_id` int(11) NOT NULL DEFAULT '0',
+  `remarks` text,
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '0=unresolved, 1=adjusted'
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `billing_adjustment_history`
+--
+
+INSERT INTO `billing_adjustment_history` (`ba_history_id`, `adjustment_date`, `billing_id`, `billing_no`, `dr_no`, `return_id`, `remarks`, `status`) VALUES
+(4, '2022-04-25 11:31:46', 1, 'BS-2022-0001', 'PROBCD-2022-DR-0001', 1, 'Adjustment on Billing # BS-2022-0001 Returned 4 Computer with total amount of 195,000', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `billing_details`
 --
 
@@ -33,18 +57,18 @@ CREATE TABLE IF NOT EXISTS `billing_details` (
   `sales_id` int(11) NOT NULL DEFAULT '0',
   `dr_no` varchar(50) DEFAULT NULL,
   `dr_date` varchar(20) DEFAULT NULL,
+  `total_unit_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
   `total_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
   `remaining_amount` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `billing_details`
 --
 
-INSERT INTO `billing_details` (`billing_detail_id`, `billing_id`, `sales_type`, `sales_id`, `dr_no`, `dr_date`, `total_amount`, `remaining_amount`) VALUES
-(7, 5, 'goods', 1, 'PROBCD-2022-DR-0001', '2022-03-31', '420000.00', '0.00'),
-(8, 5, 'goods', 2, 'PROBCD-2022-DR-0002', '2022-04-04', '12000.00', '0.00'),
-(9, 6, 'services', 1, 'PROBCD-2022-AR-0001', '2022-04-04', '150180.00', '147180.00');
+INSERT INTO `billing_details` (`billing_detail_id`, `billing_id`, `sales_type`, `sales_id`, `dr_no`, `dr_date`, `total_unit_cost`, `total_amount`, `remaining_amount`) VALUES
+(1, 1, 'goods', 1, 'PROBCD-2022-DR-0001', '2022-04-25', '613000.00', '786000.00', '786000.00'),
+(2, 1, 'goods', 2, 'PROBCD-2022-DR-0002', '2022-04-25', '5000.00', '12500.00', '12500.00');
 
 -- --------------------------------------------------------
 
@@ -56,20 +80,20 @@ CREATE TABLE IF NOT EXISTS `billing_head` (
 `billing_id` int(11) NOT NULL,
   `billing_no` varchar(50) DEFAULT NULL,
   `billing_date` varchar(20) DEFAULT NULL,
+  `total_unit_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
   `total_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
   `client_id` int(11) NOT NULL DEFAULT '0',
   `create_date` varchar(20) DEFAULT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '0=billed, 1=paid'
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `billing_head`
 --
 
-INSERT INTO `billing_head` (`billing_id`, `billing_no`, `billing_date`, `total_amount`, `client_id`, `create_date`, `user_id`, `status`) VALUES
-(5, 'BS-2022-0001', '2022-04-06', '432000.00', 1, '2022-04-05 22:27:58', 1, 1),
-(6, 'BS-2022-0002', '2022-04-15', '150180.00', 1, '2022-04-05 22:28:10', 1, 0);
+INSERT INTO `billing_head` (`billing_id`, `billing_no`, `billing_date`, `total_unit_cost`, `total_amount`, `client_id`, `create_date`, `user_id`, `status`) VALUES
+(1, 'BS-2022-0001', '2022-04-25', '618000.00', '798500.00', 1, '2022-04-25 09:31:28', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -87,15 +111,7 @@ CREATE TABLE IF NOT EXISTS `billing_payment` (
   `amount` decimal(10,2) DEFAULT NULL,
   `create_date` varchar(20) DEFAULT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `billing_payment`
---
-
-INSERT INTO `billing_payment` (`payment_id`, `billing_id`, `payment_date`, `payment_type`, `check_no`, `receipt_no`, `amount`, `create_date`, `user_id`) VALUES
-(15, '5,6', '2022-04-06', 'check', '567', '567', '400000.00', '2022-04-05 22:31:36', 1),
-(16, '5,6', '2022-04-06', 'check', '89789', '789789', '35000.00', '2022-04-05 22:32:27', 1);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -214,18 +230,16 @@ CREATE TABLE IF NOT EXISTS `damage_details` (
 `damage_det_id` int(11) NOT NULL,
   `damage_id` int(11) NOT NULL DEFAULT '0',
   `in_id` int(11) NOT NULL DEFAULT '0',
+  `brand` varchar(50) DEFAULT NULL,
+  `serial_no` varchar(100) DEFAULT NULL,
+  `part_no` varchar(50) DEFAULT NULL,
+  `acquisition_date` varchar(20) DEFAULT NULL,
+  `acquisition_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
   `damage_qty` decimal(10,2) NOT NULL DEFAULT '0.00',
   `remarks` text,
-  `repaired` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `damage_details`
---
-
-INSERT INTO `damage_details` (`damage_det_id`, `damage_id`, `in_id`, `damage_qty`, `remarks`, `repaired`) VALUES
-(1, 1, 1, '1.00', '', 0),
-(2, 2, 1, '1.00', '', 0);
+  `repaired` int(11) NOT NULL DEFAULT '0',
+  `return_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -238,17 +252,22 @@ CREATE TABLE IF NOT EXISTS `damage_head` (
   `damage_date` varchar(20) DEFAULT NULL,
   `remarks` text,
   `item_id` int(11) NOT NULL DEFAULT '0',
+  `pdr_no` varchar(50) DEFAULT NULL,
+  `reported_date` varchar(50) DEFAULT NULL,
+  `reported_by` varchar(100) DEFAULT NULL,
+  `accounted_to` int(11) NOT NULL DEFAULT '0',
+  `person_using` int(11) NOT NULL DEFAULT '0',
+  `damage_description` text,
+  `damage_reason` text,
+  `inspected_by` int(11) NOT NULL DEFAULT '0',
+  `date_inspected` varchar(50) DEFAULT NULL,
+  `recommendation` text,
+  `prepared_by` int(11) NOT NULL DEFAULT '0',
+  `checked_by` int(11) NOT NULL DEFAULT '0',
+  `noted_by` int(11) NOT NULL DEFAULT '0',
   `create_date` varchar(20) DEFAULT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `damage_head`
---
-
-INSERT INTO `damage_head` (`damage_id`, `damage_date`, `remarks`, `item_id`, `create_date`, `user_id`) VALUES
-(1, '2022-04-02', 'testing damage', 1, '2022-04-02 13:07:29', 1),
-(2, '2022-04-02', 'gfhfgh', 1, '2022-04-02 13:08:36', 1);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -462,17 +481,16 @@ CREATE TABLE IF NOT EXISTS `fifo_in` (
   `item_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
   `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
   `remaining_qty` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `fifo_in`
 --
 
 INSERT INTO `fifo_in` (`in_id`, `receive_id`, `rd_id`, `ri_id`, `receive_date`, `pr_no`, `item_id`, `supplier_id`, `brand`, `catalog_no`, `serial_no`, `expiry_date`, `item_cost`, `quantity`, `remaining_qty`) VALUES
-(1, 1, 1, 1, '2022-03-25', '456456', 1, 6, '546', '47567', '456546', '', '50000.00', '3.00', '0.00'),
-(2, 1, 1, 2, '2022-03-25', '456456', 2, 41, '546456', '456', '456456', '', '2500.00', '5.00', '1.00'),
-(3, 2, 2, 3, '2022-03-28', '567', 1, 39, '567567', '567', '547567', '', '65000.00', '10.00', '6.00'),
-(4, 2, 3, 4, '2022-03-28', '567568', 1, 6, '56756', '567', '7567', '2022-04-08', '45000.00', '5.00', '5.00');
+(1, 1, 1, 1, '2022-04-10', 'pr1', 1, 5, 'brand1', 'cat1', 'serial1', '', '45000.00', '5.00', '4.00'),
+(2, 1, 1, 2, '2022-04-10', 'pr1', 2, 5, 'b1', 'c1', 's1', '', '1000.00', '10.00', '2.00'),
+(3, 2, 2, 3, '2022-04-12', 'pr2', 1, 6, 'b3', 'c3', 's3', '', '55000.00', '10.00', '3.00');
 
 -- --------------------------------------------------------
 
@@ -488,22 +506,22 @@ CREATE TABLE IF NOT EXISTS `fifo_out` (
   `sales_id` int(11) NOT NULL DEFAULT '0',
   `sales_details_id` int(11) NOT NULL DEFAULT '0',
   `sales_serv_items_id` int(11) NOT NULL DEFAULT '0',
+  `unit_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `selling_price` decimal(10,2) NOT NULL DEFAULT '0.00',
   `damage_id` int(11) NOT NULL DEFAULT '0',
-  `quantity` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+  `quantity` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `remaining_qty` decimal(10,2) NOT NULL DEFAULT '0.00'
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `fifo_out`
 --
 
-INSERT INTO `fifo_out` (`out_id`, `in_id`, `item_id`, `transaction_type`, `sales_id`, `sales_details_id`, `sales_serv_items_id`, `damage_id`, `quantity`) VALUES
-(3, 1, 1, 'Sales Goods', 1, 1, 0, 0, '3.00'),
-(4, 3, 1, 'Sales Goods', 1, 1, 0, 0, '3.00'),
-(5, 1, 1, 'Damage', 0, 0, 0, 1, '1.00'),
-(6, 1, 1, 'Damage', 0, 0, 0, 2, '1.00'),
-(7, 1, 1, 'Sales Services', 1, 0, 1, 0, '1.00'),
-(8, 3, 1, 'Sales Services', 1, 0, 1, 0, '1.00'),
-(9, 2, 2, 'Sales Goods', 2, 2, 0, 0, '4.00');
+INSERT INTO `fifo_out` (`out_id`, `in_id`, `item_id`, `transaction_type`, `sales_id`, `sales_details_id`, `sales_serv_items_id`, `unit_cost`, `selling_price`, `damage_id`, `quantity`, `remaining_qty`) VALUES
+(1, 1, 1, 'Sales Goods', 1, 1, 0, '45000.00', '65000.00', 0, '5.00', '1.00'),
+(2, 3, 1, 'Sales Goods', 1, 1, 0, '55000.00', '65000.00', 0, '7.00', '7.00'),
+(3, 2, 2, 'Sales Goods', 1, 2, 0, '1000.00', '2000.00', 0, '3.00', '3.00'),
+(4, 2, 2, 'Sales Goods', 2, 3, 0, '1000.00', '2500.00', 0, '5.00', '5.00');
 
 -- --------------------------------------------------------
 
@@ -1683,16 +1701,15 @@ CREATE TABLE IF NOT EXISTS `receive_details` (
   `department_id` int(11) NOT NULL DEFAULT '0',
   `purpose_id` int(11) NOT NULL DEFAULT '0',
   `inspected_by` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `receive_details`
 --
 
 INSERT INTO `receive_details` (`rd_id`, `receive_id`, `pr_no`, `department_id`, `purpose_id`, `inspected_by`) VALUES
-(1, 1, '456456', 17, 16, 64),
-(2, 2, '567', 18, 16, 13),
-(3, 2, '567568', 14, 13, 13);
+(1, 1, 'pr1', 15, 15, 13),
+(2, 2, 'pr2', 13, 12, 15);
 
 -- --------------------------------------------------------
 
@@ -1715,16 +1732,17 @@ CREATE TABLE IF NOT EXISTS `receive_head` (
   `received_by` int(11) NOT NULL DEFAULT '0',
   `acknowledged_by` int(11) NOT NULL DEFAULT '0',
   `noted_by` int(11) NOT NULL DEFAULT '0',
-  `overall_remarks` text
+  `overall_remarks` text,
+  `backorder` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `receive_head`
 --
 
-INSERT INTO `receive_head` (`receive_id`, `mrecf_no`, `create_date`, `receive_date`, `dr_no`, `po_no`, `si_no`, `user_id`, `pcf`, `saved`, `delivered_by`, `received_by`, `acknowledged_by`, `noted_by`, `overall_remarks`) VALUES
-(1, 'MRIF-2022-03-0001', '2022-03-30 22:02:56', '2022-03-25', '345345', '45645', '6456', 1, 1, 1, NULL, 0, 0, 0, 'dgfdg'),
-(2, 'MRIF-2022-03-0002', '2022-03-30 22:04:14', '2022-03-28', '57567', '567', '567', 1, 1, 1, NULL, 0, 0, 0, '567');
+INSERT INTO `receive_head` (`receive_id`, `mrecf_no`, `create_date`, `receive_date`, `dr_no`, `po_no`, `si_no`, `user_id`, `pcf`, `saved`, `delivered_by`, `received_by`, `acknowledged_by`, `noted_by`, `overall_remarks`, `backorder`) VALUES
+(1, 'MRIF-2022-04-0001', '2022-04-25 09:24:35', '2022-04-10', 'dr1', 'po1', 'or1', 1, 1, 1, NULL, 0, 0, 0, '', 0),
+(2, 'MRIF-2022-04-0002', '2022-04-25 09:26:10', '2022-04-12', 'dr2', 'po2', 'or2', 1, 1, 1, NULL, 0, 0, 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -1747,18 +1765,18 @@ CREATE TABLE IF NOT EXISTS `receive_items` (
   `local_mnl` int(11) NOT NULL DEFAULT '0',
   `shipping_fee` decimal(10,2) NOT NULL DEFAULT '0.00',
   `expiration_date` varchar(50) DEFAULT NULL,
-  `remarks` text
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  `remarks` text,
+  `bo` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `receive_items`
 --
 
-INSERT INTO `receive_items` (`ri_id`, `rd_id`, `receive_id`, `supplier_id`, `item_id`, `brand`, `catalog_no`, `serial_no`, `item_cost`, `expected_qty`, `received_qty`, `local_mnl`, `shipping_fee`, `expiration_date`, `remarks`) VALUES
-(1, 1, 1, 6, 1, '546', '47567', '456546', '50000.00', '3.00', '3.00', 1, '0.00', '', NULL),
-(2, 1, 1, 41, 2, '546456', '456', '456456', '2500.00', '5.00', '5.00', 1, '0.00', '', NULL),
-(3, 2, 2, 39, 1, '567567', '567', '547567', '65000.00', '10.00', '10.00', 1, '0.00', '', NULL),
-(4, 3, 2, 6, 1, '56756', '567', '7567', '45000.00', '5.00', '5.00', 1, '0.00', '2022-04-08', NULL);
+INSERT INTO `receive_items` (`ri_id`, `rd_id`, `receive_id`, `supplier_id`, `item_id`, `brand`, `catalog_no`, `serial_no`, `item_cost`, `expected_qty`, `received_qty`, `local_mnl`, `shipping_fee`, `expiration_date`, `remarks`, `bo`) VALUES
+(1, 1, 1, 5, 1, 'brand1', 'cat1', 'serial1', '45000.00', '5.00', '5.00', 1, '0.00', '', NULL, 0),
+(2, 1, 1, 5, 2, 'b1', 'c1', 's1', '1000.00', '7.00', '10.00', 1, '0.00', '', NULL, 0),
+(3, 2, 2, 6, 1, 'b3', 'c3', 's3', '55000.00', '10.00', '10.00', 1, '0.00', '', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1783,15 +1801,7 @@ CREATE TABLE IF NOT EXISTS `repair_details` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `saved` int(11) NOT NULL DEFAULT '0',
   `unsaved` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `repair_details`
---
-
-INSERT INTO `repair_details` (`repair_id`, `damage_det_id`, `in_id`, `item_id`, `repair_date`, `jo_no`, `assessment`, `quantity`, `repaired_by`, `repair_price`, `received_by`, `remarks`, `create_date`, `user_id`, `saved`, `unsaved`) VALUES
-(1, 1, 1, 1, '2022-04-03', '54567', 1, '1.00', 'dfgdfg', '54645.00', 2, 'fghfghgjhd', '2022-04-02 13:09:11', 1, 1, 0),
-(2, 2, 1, 1, '2022-04-15', '547hg456', 2, '1.00', 'ghjghj', '453.00', 2, 'gfghfh', '2022-04-02 13:09:37', 1, 1, 0);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1805,15 +1815,19 @@ CREATE TABLE IF NOT EXISTS `return_details` (
   `item_id` int(11) NOT NULL DEFAULT '0',
   `in_id` int(11) NOT NULL DEFAULT '0',
   `return_qty` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `damage_qty` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `unit_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `selling_price` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `total_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
   `remarks` text
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `return_details`
 --
 
-INSERT INTO `return_details` (`return_details_id`, `return_id`, `item_id`, `in_id`, `return_qty`, `remarks`) VALUES
-(1, 1, 1, 1, '2.00', 'dsfdfgdfg');
+INSERT INTO `return_details` (`return_details_id`, `return_id`, `item_id`, `in_id`, `return_qty`, `damage_qty`, `unit_cost`, `selling_price`, `total_amount`, `remarks`) VALUES
+(7, 1, 1, 1, '1.00', '3.00', '45000.00', '65000.00', '195000.00', '');
 
 -- --------------------------------------------------------
 
@@ -1826,15 +1840,49 @@ CREATE TABLE IF NOT EXISTS `return_head` (
   `dr_no` varchar(30) DEFAULT NULL,
   `return_date` varchar(20) DEFAULT NULL,
   `create_date` varchar(20) DEFAULT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0'
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `transaction_type` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `return_head`
 --
 
-INSERT INTO `return_head` (`return_id`, `dr_no`, `return_date`, `create_date`, `user_id`) VALUES
-(1, 'PROBCD-2022-DR-0001', '2022-04-01', '2022-04-01 22:19:57', 1);
+INSERT INTO `return_head` (`return_id`, `dr_no`, `return_date`, `create_date`, `user_id`, `transaction_type`) VALUES
+(1, 'PROBCD-2022-DR-0001', '2022-04-25', '2022-04-25 11:31:46', 1, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `return_service_details`
+--
+
+CREATE TABLE IF NOT EXISTS `return_service_details` (
+`return_serv_details_id` int(11) NOT NULL,
+  `return_service_id` int(11) NOT NULL DEFAULT '0',
+  `item_id` int(11) NOT NULL DEFAULT '0',
+  `in_id` int(11) NOT NULL DEFAULT '0',
+  `return_qty` int(11) NOT NULL DEFAULT '0',
+  `unit_cost` decimal(10,0) NOT NULL DEFAULT '0',
+  `selling_price` decimal(10,0) NOT NULL DEFAULT '0',
+  `total_amount` decimal(10,0) NOT NULL DEFAULT '0',
+  `remarks` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `return_service_head`
+--
+
+CREATE TABLE IF NOT EXISTS `return_service_head` (
+`return_service_id` int(11) NOT NULL,
+  `dr_no` varchar(50) DEFAULT NULL,
+  `return_date` varchar(20) DEFAULT NULL,
+  `create_date` varchar(20) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `description` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1852,17 +1900,18 @@ CREATE TABLE IF NOT EXISTS `sales_good_details` (
   `selling_price` decimal(10,2) NOT NULL DEFAULT '0.00',
   `discount_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
   `discount_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `total` decimal(10,2) NOT NULL DEFAULT '0.00'
+  `total` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `return_id` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales_good_details`
 --
 
-INSERT INTO `sales_good_details` (`sales_good_det_id`, `sales_good_head_id`, `quantity`, `item_id`, `unit_cost`, `ave_cost`, `selling_price`, `discount_percent`, `discount_amount`, `total`) VALUES
-(1, 1, '6.00', 1, '65000.00', '0.00', '70000.00', '0.00', '0.00', '420000.00'),
-(2, 2, '4.00', 2, '2500.00', '0.00', '3000.00', '0.00', '0.00', '12000.00'),
-(3, 4, '1.00', 1, '65000.00', '0.00', '70000.00', '0.00', '0.00', '70000.00');
+INSERT INTO `sales_good_details` (`sales_good_det_id`, `sales_good_head_id`, `quantity`, `item_id`, `unit_cost`, `ave_cost`, `selling_price`, `discount_percent`, `discount_amount`, `total`, `return_id`) VALUES
+(1, 1, '12.00', 1, '55000.00', '0.00', '65000.00', '0.00', '0.00', '780000.00', 1),
+(2, 1, '3.00', 2, '1000.00', '0.00', '2000.00', '0.00', '0.00', '6000.00', 0),
+(3, 2, '5.00', 2, '1000.00', '0.00', '2500.00', '0.00', '0.00', '12500.00', 0);
 
 -- --------------------------------------------------------
 
@@ -1885,16 +1934,15 @@ CREATE TABLE IF NOT EXISTS `sales_good_head` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `saved` int(11) NOT NULL DEFAULT '0',
   `billed` int(11) NOT NULL DEFAULT '0' COMMENT '1=billed'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales_good_head`
 --
 
 INSERT INTO `sales_good_head` (`sales_good_head_id`, `client_id`, `sales_date`, `pr_no`, `pr_date`, `po_no`, `po_date`, `dr_no`, `vat`, `remarks`, `create_date`, `user_id`, `saved`, `billed`) VALUES
-(1, 1, '2022-03-31', '46456', '2022-04-20', '45645', '2022-04-20', 'PROBCD-2022-DR-0001', 1, 'fghfgh', '2022-04-01 22:17:35', 1, 1, 1),
-(2, 1, '2022-04-04', '546567', '2022-04-04', '567567', '2022-04-13', 'PROBCD-2022-DR-0002', 1, 'gdfg', '2022-04-04 14:32:10', 1, 1, 1),
-(4, 1, '2022-04-07', '678', '2022-03-27', '768', '2022-04-05', 'PROBCD-2022-DR-0003', 1, '678', '2022-04-08 10:51:23', 1, 0, 0);
+(1, 1, '2022-04-25', 'pgcpr1', '2022-04-25', 'pgcpo1', '2022-04-26', 'PROBCD-2022-DR-0001', 1, 'remarks', '2022-04-25 09:27:20', 1, 1, 1),
+(2, 1, '2022-04-25', 'pgcpr2', '2022-04-25', 'pgcpo2', '2022-04-25', 'PROBCD-2022-DR-0002', 1, 'remarks 2', '2022-04-25 09:28:31', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1915,25 +1963,17 @@ CREATE TABLE IF NOT EXISTS `sales_services_head` (
   `purpose` text,
   `create_date` varchar(20) DEFAULT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
+  `ar_description` text,
+  `shipped_via` int(11) NOT NULL DEFAULT '0',
+  `waybill_no` varchar(100) DEFAULT NULL,
   `remarks` text,
   `total_engine_parts` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `total_material` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `total_manpower` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `total_equipment` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `actual_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
   `service_fee` decimal(10,2) NOT NULL DEFAULT '0.00',
   `wht` decimal(10,2) NOT NULL DEFAULT '0.00',
   `total_cost` decimal(10,2) NOT NULL DEFAULT '0.00',
   `saved` int(11) NOT NULL DEFAULT '0',
   `billed` int(11) NOT NULL DEFAULT '0' COMMENT '1=billed'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `sales_services_head`
---
-
-INSERT INTO `sales_services_head` (`sales_serv_head_id`, `client_id`, `sales_date`, `jor_no`, `jor_date`, `joi_no`, `joi_date`, `dr_no`, `vat`, `purpose`, `create_date`, `user_id`, `remarks`, `total_engine_parts`, `total_material`, `total_manpower`, `total_equipment`, `actual_cost`, `service_fee`, `wht`, `total_cost`, `saved`, `billed`) VALUES
-(1, 1, '2022-04-04', '456456', '2022-04-14', '456456', '2022-04-13', 'PROBCD-2022-AR-0001', 1, 'fghghjghj', '2022-04-02 13:10:22', 1, '456546', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 1, 1);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1970,15 +2010,9 @@ CREATE TABLE IF NOT EXISTS `sales_serv_items` (
   `discount_percent` decimal(10,2) NOT NULL DEFAULT '0.00',
   `discount_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
   `total` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `group_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `sales_serv_items`
---
-
-INSERT INTO `sales_serv_items` (`sales_serv_items_id`, `sales_serv_head_id`, `item_id`, `quantity`, `unit_cost`, `ave_cost`, `selling_price`, `discount_percent`, `discount_amount`, `total`, `group_id`) VALUES
-(1, 1, 1, '2.00', '65000.00', '0.00', '75000.00', '0.00', '0.00', '150000.00', 1);
+  `group_id` int(11) NOT NULL DEFAULT '0',
+  `return_service_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1994,14 +2028,7 @@ CREATE TABLE IF NOT EXISTS `sales_serv_manpower` (
   `rate` decimal(10,2) NOT NULL DEFAULT '0.00',
   `overtime` decimal(10,2) NOT NULL DEFAULT '0.00',
   `total_cost` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `sales_serv_manpower`
---
-
-INSERT INTO `sales_serv_manpower` (`sales_serv_manpower_id`, `sales_serv_head_id`, `manpower_id`, `days`, `rate`, `overtime`, `total_cost`) VALUES
-(1, 1, 2, 5, '36.00', '0.00', '180.00');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2042,6 +2069,19 @@ INSERT INTO `serial_numbers` (`serial_id`, `serial_no`, `rd_id`, `in_id`) VALUES
 (3, 'series3', 1, 1),
 (4, 'series4', 1, 1),
 (5, 'series5', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shipping_company`
+--
+
+CREATE TABLE IF NOT EXISTS `shipping_company` (
+`ship_comp_id` int(11) NOT NULL,
+  `company_name` varchar(100) DEFAULT NULL,
+  `contact_no` varchar(50) DEFAULT NULL,
+  `address` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -2459,14 +2499,7 @@ CREATE TABLE IF NOT EXISTS `temp_sales_out` (
   `in_id` int(11) NOT NULL DEFAULT '0',
   `item_id` int(11) NOT NULL DEFAULT '0',
   `quantity` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `temp_sales_out`
---
-
-INSERT INTO `temp_sales_out` (`temp_id`, `sales_id`, `sales_serv_items_id`, `sales_details_id`, `user_id`, `in_id`, `item_id`, `quantity`) VALUES
-(1, 4, 0, 3, 1, 3, 1, '1.00');
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2563,6 +2596,12 @@ INSERT INTO `warehouse` (`warehouse_id`, `warehouse_name`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `billing_adjustment_history`
+--
+ALTER TABLE `billing_adjustment_history`
+ ADD PRIMARY KEY (`ba_history_id`);
 
 --
 -- Indexes for table `billing_details`
@@ -2739,6 +2778,18 @@ ALTER TABLE `return_head`
  ADD PRIMARY KEY (`return_id`);
 
 --
+-- Indexes for table `return_service_details`
+--
+ALTER TABLE `return_service_details`
+ ADD PRIMARY KEY (`return_serv_details_id`);
+
+--
+-- Indexes for table `return_service_head`
+--
+ALTER TABLE `return_service_head`
+ ADD PRIMARY KEY (`return_service_id`);
+
+--
 -- Indexes for table `sales_good_details`
 --
 ALTER TABLE `sales_good_details`
@@ -2787,6 +2838,12 @@ ALTER TABLE `serial_numbers`
  ADD PRIMARY KEY (`serial_id`);
 
 --
+-- Indexes for table `shipping_company`
+--
+ALTER TABLE `shipping_company`
+ ADD PRIMARY KEY (`ship_comp_id`);
+
+--
 -- Indexes for table `supplier`
 --
 ALTER TABLE `supplier`
@@ -2821,20 +2878,25 @@ ALTER TABLE `warehouse`
 --
 
 --
+-- AUTO_INCREMENT for table `billing_adjustment_history`
+--
+ALTER TABLE `billing_adjustment_history`
+MODIFY `ba_history_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
 -- AUTO_INCREMENT for table `billing_details`
 --
 ALTER TABLE `billing_details`
-MODIFY `billing_detail_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+MODIFY `billing_detail_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `billing_head`
 --
 ALTER TABLE `billing_head`
-MODIFY `billing_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `billing_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `billing_payment`
 --
 ALTER TABLE `billing_payment`
-MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `bin`
 --
@@ -2854,12 +2916,12 @@ MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `damage_details`
 --
 ALTER TABLE `damage_details`
-MODIFY `damage_det_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `damage_det_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `damage_head`
 --
 ALTER TABLE `damage_head`
-MODIFY `damage_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `damage_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `department`
 --
@@ -2879,12 +2941,12 @@ MODIFY `equipment_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `fifo_in`
 --
 ALTER TABLE `fifo_in`
-MODIFY `in_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `in_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `fifo_out`
 --
 ALTER TABLE `fifo_out`
-MODIFY `out_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+MODIFY `out_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `groups`
 --
@@ -2939,7 +3001,7 @@ MODIFY `rack_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=390;
 -- AUTO_INCREMENT for table `receive_details`
 --
 ALTER TABLE `receive_details`
-MODIFY `rd_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `rd_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `receive_head`
 --
@@ -2949,22 +3011,32 @@ MODIFY `receive_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `receive_items`
 --
 ALTER TABLE `receive_items`
-MODIFY `ri_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `ri_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `repair_details`
 --
 ALTER TABLE `repair_details`
-MODIFY `repair_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `repair_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `return_details`
 --
 ALTER TABLE `return_details`
-MODIFY `return_details_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `return_details_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `return_head`
 --
 ALTER TABLE `return_head`
 MODIFY `return_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `return_service_details`
+--
+ALTER TABLE `return_service_details`
+MODIFY `return_serv_details_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `return_service_head`
+--
+ALTER TABLE `return_service_head`
+MODIFY `return_service_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `sales_good_details`
 --
@@ -2974,12 +3046,12 @@ MODIFY `sales_good_det_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- AUTO_INCREMENT for table `sales_good_head`
 --
 ALTER TABLE `sales_good_head`
-MODIFY `sales_good_head_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `sales_good_head_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `sales_services_head`
 --
 ALTER TABLE `sales_services_head`
-MODIFY `sales_serv_head_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `sales_serv_head_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `sales_serv_equipment`
 --
@@ -2989,12 +3061,12 @@ MODIFY `sales_serv_equipment_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `sales_serv_items`
 --
 ALTER TABLE `sales_serv_items`
-MODIFY `sales_serv_items_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `sales_serv_items_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `sales_serv_manpower`
 --
 ALTER TABLE `sales_serv_manpower`
-MODIFY `sales_serv_manpower_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `sales_serv_manpower_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `sales_serv_material`
 --
@@ -3006,6 +3078,11 @@ MODIFY `sales_serv_mat_id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `serial_numbers`
 MODIFY `serial_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
+-- AUTO_INCREMENT for table `shipping_company`
+--
+ALTER TABLE `shipping_company`
+MODIFY `ship_comp_id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
@@ -3014,7 +3091,7 @@ MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=380;
 -- AUTO_INCREMENT for table `temp_sales_out`
 --
 ALTER TABLE `temp_sales_out`
-MODIFY `temp_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `temp_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `uom`
 --

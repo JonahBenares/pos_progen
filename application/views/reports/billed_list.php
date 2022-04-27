@@ -1,5 +1,3 @@
-
-
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -75,9 +73,10 @@
                                                 <input type="checkbox" class="form-control" style="width:25px">
                                             </center>
                                         </th>
-                                        <th width="30%"><label class="label-table">Billing Date</label></th>
-                                        <th width="30%"><label class="label-table">Billing Statement #</label></th>
-                                        <th width="31"><label class="label-table pull-right">Total Amount &nbsp;</label></th>
+                                        <th width="20%"><label class="label-table">Billing Date</label></th>
+                                        <th width="20%"><label class="label-table">Billing Statement #</label></th>
+                                        <th width="10%"><label class="label-table">Adjustments</label></th>
+                                        <th width="21"><label class="label-table pull-right">Total Amount &nbsp;</label></th>
                                         <th width="5%" align="center">
                                             <center><span class="mdi mdi-menu"></span></center>
                                         </th>                                                                
@@ -95,8 +94,13 @@
                                         </td>
                                         <td> &nbsp; <?php echo date('F d, Y', strtotime($b['billing_date'])); ?></td>
                                         <td> &nbsp; <a href="<?php echo base_url(); ?>reports/print_billing/<?php echo $b['billing_id']; ?>" target="_blank"><?php echo $b['billing_no']; ?></a></td>
+                                        <td> &nbsp; 
+                                            <a onclick="adjust_all('<?php echo base_url(); ?>')" class="btn btn-link"><?php echo $b['counter']; ?></a>
+                                        </td>
                                         <td align="right">P <?php echo number_format($b['total_amount'],2); ?> &nbsp;</td>
-                                        <td align="center"><a href="<?php echo base_url(); ?>reports/adjustment_list/" target="_blank" class="btn btn-primary btn-xs btn-rounded">Adjust</a></td>
+                                        <?php if($b['count_adjust']!= 0 ){ ?>
+                                        <td align="center"><a href="<?php echo base_url(); ?>reports/adjustment_list/<?php echo $b['billing_id']; ?>" target="_blank" class="btn btn-primary btn-xs btn-rounded">Adjust</a></td>
+                                    <?php } ?>
                                     </tr>
                                         <?php }
                                         } ?>

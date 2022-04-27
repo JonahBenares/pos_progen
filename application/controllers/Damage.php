@@ -187,4 +187,6 @@ class Damage extends CI_Controller {
         $this->load->view('damage/damage_list');
         $this->load->view('template/footer');
     }
+
+   
 }

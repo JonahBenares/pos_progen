@@ -28,6 +28,7 @@
         </div>
         <br>
         <div id="printableArea">
+            <?php foreach ($head as $h) { ?>
         <page size="A4" >
             <table class="page-A4 table-bosrdered" width="100%">
                 <tr>
@@ -66,24 +67,24 @@
                 </tr>
                 <tr>
                     <td colspan="3">PDR No.:</td>
-                    <td colspan="7" class="bor-btm1"></td>
+                    <td colspan="7" class="bor-btm1"><?php echo $h['pdr_no'];?></td>
                     <td colspan="1"></td>
                     <td colspan="3" align="right">Date:</td>
-                    <td colspan="7" class="bor-btm1"> &nbsp;</td>
+                    <td colspan="7" class="bor-btm1"> &nbsp;<?php echo $h['date'];?></td>
                 </tr>               
                 <tr>
                     <td colspan="3">Reported by:</td>
-                    <td colspan="7" class="bor-btm1"></td>
+                    <td colspan="7" class="bor-btm1"><?php echo $h['reported_by'];?></td>
                     <td colspan="1"></td>
                     <td colspan="3" align="right">Accounted to:</td>
-                    <td colspan="7" class="bor-btm1"> &nbsp;</td>
+                    <td colspan="7" class="bor-btm1"> &nbsp;<?php echo $h['accounted_to'];?></td>
                 </tr>
                 <tr>
                     <td colspan="3">Date/ Time Reported:</td>
-                    <td colspan="7" class="bor-btm1"></td>
+                    <td colspan="7" class="bor-btm1"><?php echo $h['reported_date'];?></td>
                     <td colspan="1"></td>
                     <td colspan="3" align="right">Person using upon damage: </td>
-                    <td colspan="7" class="bor-btm1">&nbsp;</td>
+                    <td colspan="7" class="bor-btm1">&nbsp;<?php echo $h['person_using'];?></td>
                 </tr>
 
                 <tr>
@@ -96,29 +97,29 @@
                 <tr>
                     <td colspan="1"></td>
                     <td colspan="3">Item Description:</td>
-                    <td colspan="15" class="bor-btm1"></td>
+                    <td colspan="15" class="bor-btm1"><?php echo $h['item_name'];?></td>
                     <td colspan="1"></td>
                 </tr>
                 <tr>
                     <td colspan="1"></td>
                     <td colspan="3">Brand:</td>
-                    <td colspan="15" class="bor-btm1"></td>
+                    <td colspan="15" class="bor-btm1"><?php echo $h['brand'];?></td>
                     <td colspan="1"></td>
                 </tr>
                 <tr>
                     <td colspan="1"></td>
                     <td colspan="3">Serial No:</td>
-                    <td colspan="6" class="bor-btm1"></td>
+                    <td colspan="6" class="bor-btm1"><?php echo $h['serial_no'];?></td>
                     <td colspan="3" align="right">Part No:</td>
-                    <td colspan="6" class="bor-btm1"></td>
+                    <td colspan="6" class="bor-btm1"><?php echo $h['part_no'];?></td>
                     <td colspan="1"></td>
                 </tr>
                 <tr>
                     <td colspan="1"></td>
                     <td colspan="3">Accquisition Date:</td>
-                    <td colspan="6" class="bor-btm1"></td>
+                    <td colspan="6" class="bor-btm1"><?php echo $h['acquisition_date'];?></td>
                     <td colspan="3" align="right">Accquisition Cost:</td>
-                    <td colspan="6" class="bor-btm1"></td>
+                    <td colspan="6" class="bor-btm1"><?php echo number_format($h['acquisition_cost'],2);?></td>
                     <td colspan="1"></td>
                 </tr>
                 <tr>
@@ -132,7 +133,7 @@
                                 <td>Description of the Damaged on the Item:</td>
                             </tr>
                             <tr> 
-                                <td><br><br></td>
+                                <td><?php echo $h['damage_description'];?><br><br></td>
                             </tr>
                         </table>
                     </td>
@@ -146,7 +147,7 @@
                                 <td>Reason of Damage:</td>
                             </tr>
                             <tr> 
-                                <td><br><br></td>
+                                <td><?php echo $h['damage_reason'];?><br><br></td>
                             </tr>
                         </table>
                     </td>
@@ -158,7 +159,7 @@
                 <tr>
                     <td colspan="1"></td>
                     <td colspan="3">Inspected by:</td>
-                    <td colspan="7" class="bor-btm1"></td>
+                    <td colspan="7" class="bor-btm1"><?php echo $h['inspected_by'];?></td>
                     <td colspan="3"></td>
                     <td colspan="4" align="right">Repairable:</td>
                     <td colspan="1" class="bor-btm1" align="center"></td>
@@ -167,7 +168,7 @@
                 <tr>
                     <td colspan="1"></td>
                     <td colspan="3">Date Inspected:</td>
-                    <td colspan="7" class="bor-btm1"></td>
+                    <td colspan="7" class="bor-btm1"><?php echo $h['date_inspected'];?></td>
                     <td colspan="3"></td>
                     <td colspan="4" align="right">Beyond Repair:</td>
                     <td colspan="1" class="bor-btm1" align="center">✔️</td>
@@ -184,7 +185,7 @@
                                 <td>Provide a recommendation on how the parts/equipment is going to be repaired or replaced:</td>
                             </tr>
                             <tr> 
-                                <td><br><br></td>
+                                <td><?php echo $h['recommendation'];?><br><br></td>
                             </tr>
                         </table>
                     </td>
@@ -201,7 +202,7 @@
                                 <td>Notes:</td>
                             </tr>
                             <tr> 
-                                <td><br><br></td>
+                                <td><?php echo $h['remarks'];?><br><br></td>
                             </tr>
                         </table>
                     </td>
@@ -224,11 +225,11 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td colspan="5" class="bor-btm1" align="center"></td>
+                    <td colspan="5" class="bor-btm1" align="center"><?php echo $h['prepared_by'];?></td>
                     <td></td>
-                    <td colspan="5" class="bor-btm1" align="center"></td>
+                    <td colspan="5" class="bor-btm1" align="center"><?php echo $h['checked_by'];?></td>
                     <td></td>
-                    <td colspan="6" class="bor-btm1" align="center"></td>
+                    <td colspan="6" class="bor-btm1" align="center"><?php echo $h['noted_by'];?></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -276,256 +277,8 @@
                 </tr>
             </table>
         </page>
-
+<?php } ?>
         <br>
-        <page size="A4" >
-            <table class="page-A4 table-bosrdered" width="100%">
-                <tr>
-                    <td width="5%"><br></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                    <td width="5%"></td>
-                </tr>
-                <tr>
-                    <td colspan="20" align="center">                        
-                        <b>PROGEN DIESELTECH SERVICES CORP.</b><br>
-                        Prk. San Jose, Brgy. Calumangan, Bago City, Neg. Occ. <br>
-                        VAT Reg. TIN: 008-726-170-001  
-                        <br>
-                        <br>
-                        <b>PARTS/ EQUIPMENT DAMAGE REPORT</b>
-                        <br>
-                        <br>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3">PDR No.:</td>
-                    <td colspan="7" class="bor-btm1"></td>
-                    <td colspan="1"></td>
-                    <td colspan="3" align="right">Date:</td>
-                    <td colspan="7" class="bor-btm1"> &nbsp;</td>
-                </tr>               
-                <tr>
-                    <td colspan="3">Reported by:</td>
-                    <td colspan="7" class="bor-btm1"></td>
-                    <td colspan="1"></td>
-                    <td colspan="3" align="right">Accounted to:</td>
-                    <td colspan="7" class="bor-btm1"> &nbsp;</td>
-                </tr>
-                <tr>
-                    <td colspan="3">Date/ Time Reported:</td>
-                    <td colspan="7" class="bor-btm1"></td>
-                    <td colspan="1"></td>
-                    <td colspan="3" align="right">Person using upon damage: </td>
-                    <td colspan="7" class="bor-btm1">&nbsp;</td>
-                </tr>
-
-                <tr>
-                    <td colspan="20" ><br></td>
-                </tr>
-                <tr>
-                    <td colspan="1" style="background:#efefef"></td>
-                    <td colspan="19" style="background:#efefef">Item Specification</td>
-                </tr>
-                <tr>
-                    <td colspan="1"></td>
-                    <td colspan="3">Item Description:</td>
-                    <td colspan="15" class="bor-btm1"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td colspan="1"></td>
-                    <td colspan="3">Brand:</td>
-                    <td colspan="15" class="bor-btm1"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td colspan="1"></td>
-                    <td colspan="3">Serial No:</td>
-                    <td colspan="6" class="bor-btm1"></td>
-                    <td colspan="3" align="right">Part No:</td>
-                    <td colspan="6" class="bor-btm1"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td colspan="1"></td>
-                    <td colspan="3">Accquisition Date:</td>
-                    <td colspan="6" class="bor-btm1"></td>
-                    <td colspan="3" align="right">Accquisition Cost:</td>
-                    <td colspan="6" class="bor-btm1"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td colspan="20" align="center"><br><br></td>
-                </tr>
-                <tr>
-                    <td colspan="1"></td>
-                    <td colspan="18">
-                        <table class="table-bordered" width="100%">
-                            <tr> 
-                                <td>Description of the Damaged on the Item:</td>
-                            </tr>
-                            <tr> 
-                                <td><br><br></td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td colspan="1"></td>
-                    <td colspan="18">
-                        <table class="table-bordered" width="100%">
-                            <tr> 
-                                <td>Reason of Damage:</td>
-                            </tr>
-                            <tr> 
-                                <td><br><br></td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td colspan="20"><br></td>
-                </tr>
-                <tr>
-                    <td colspan="1"></td>
-                    <td colspan="3">Inspected by:</td>
-                    <td colspan="7" class="bor-btm1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="4" align="right">Repairable:</td>
-                    <td colspan="1" class="bor-btm1" align="center"></td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td colspan="1"></td>
-                    <td colspan="3">Date Inspected:</td>
-                    <td colspan="7" class="bor-btm1"></td>
-                    <td colspan="3"></td>
-                    <td colspan="4" align="right">Beyond Repair:</td>
-                    <td colspan="1" class="bor-btm1" align="center">✔️</td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td colspan="20"><br></td>
-                </tr>
-                <tr>
-                    <td colspan="1"></td>
-                    <td colspan="18">
-                        <table class="table-bordered" width="100%">
-                            <tr> 
-                                <td>Provide a recommendation on how the parts/equipment is going to be repaired or replaced:</td>
-                            </tr>
-                            <tr> 
-                                <td><br><br></td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td colspan="20"><br></td>
-                </tr>
-                <tr>
-                    <td colspan="1"></td>
-                    <td colspan="18">
-                        <table class="table-bordered" width="100%">
-                            <tr> 
-                                <td>Notes:</td>
-                            </tr>
-                            <tr> 
-                                <td><br><br></td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td colspan="1"></td>
-                </tr>
-                <tr>
-                    <td colspan="20"><br></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td colspan="5"><b>Prepared by:</b></td>
-                    <td></td>
-                    <td colspan="5"><b>Checked/Verified by::</b></td>
-                    <td></td>
-                    <td colspan="6"><b>Noted by:</b></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td colspan="20"><br></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td colspan="5" class="bor-btm1" align="center"></td>
-                    <td></td>
-                    <td colspan="5" class="bor-btm1" align="center"></td>
-                    <td></td>
-                    <td colspan="6" class="bor-btm1" align="center"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td colspan="5" align="center" style="vertical-align:text-top;">Sales Officer</td>
-                    <td></td>
-                    <td colspan="5" align="center" style="vertical-align:text-top;">Toolkeeper/Technical Person</td>
-                    <td></td>
-                    <td colspan="6" align="center" style="vertical-align:text-top;">Assets & Projects Mgmt. Assist.</td>
-                    <td></td>
-                </tr>
-
-                <tr>
-                    <td colspan="20"><br></td>
-                </tr>
-                <!-- <tr>
-                    <td></td>
-                    <td colspan="5"><b>Noted by:</b></td>
-                    <td></td>
-                    <td colspan="5"><b></b></td>
-                    <td></td>
-                    <td colspan="6"><b>Received the above items in good condition:</b></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td colspan="20"><br></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td colspan="5" class="bor-btm1" align="center"></td>
-                    <td></td>
-                    <td colspan="5"></td>
-                    <td></td>
-                    <td colspan="6" class="bor-btm1" align="center"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td colspan="5" align="center" style="vertical-align:text-top;">Projects and Assets Management</td>
-                    <td></td>
-                    <td colspan="5" align="center" style="vertical-align:text-top;"></td>
-                    <td></td>
-                    <td colspan="6" align="center" style="vertical-align:text-top;">Signature over Printed Name</td>
-                    <td></td> -->
-                </tr>
-            </table>
-        </page>
         </div>
     </div>
 </div>

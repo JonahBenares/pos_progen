@@ -1,3 +1,7 @@
+function adjust_all(baseurl) {
+    window.open(baseurl+"reports/adjust_all/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+}
+
 function filter_stockcard(){
     var item_id = document.getElementById("item_id").value;
     var loc= document.getElementById("baseurl").value;
@@ -236,4 +240,22 @@ function chooseSubcat_range(){
                 $("#subcat").html(data);
            }
     }); 
+}
+
+function generateAdjustment(){
+    var loc= document.getElementById("baseurl").value;
+     var billing_id= document.getElementById("billing_id").value;
+     var billing_no= document.getElementById("billing_no").value;
+      var redirect = loc+'reports/generateAdjustment';
+     var conf = confirm('Are you sure you want to generate adjustment form?');
+    if(conf){
+        $.ajax({
+                type: 'POST',
+                url:   redirect,
+                data: "billing_id="+billing_id+"&billing_no="+billing_no,
+                success: function(data){
+                    window.location.href = loc+"reports/adjustment_print/"+data;
+               }
+        }); 
+    }   
 }

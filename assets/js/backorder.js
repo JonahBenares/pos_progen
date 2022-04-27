@@ -1,7 +1,7 @@
 function loadBackorder(){
-	var id= document.getElementById("pr_no").value;  	
+	var pr_no= document.getElementById("pr_no").value;  	
 	var loc= document.getElementById("baseurl").value;
-	window.location.href = loc+'index.php/Back_order/backorder_form/'+id;
+	window.location.href = loc+'index.php/Back_order/backorder_form/'+pr_no;
 
 }
 
@@ -57,7 +57,9 @@ function saveBO(){
           success: function(output){
             $('#savebutton').show();
             $('#alt').hide();
+          window.location.href = loc+'index.php/Back_order/backorder_form/';
           window.open( loc+'index.php/Back_order/print_backorder/'+output,'_blank');
+
            
           }
         });
