@@ -28,7 +28,7 @@ class Returns extends CI_Controller {
         }
     } 
 
-        public function return_goods_services(){
+    public function return_goods_services(){
         $sales_id=$this->uri->segment(3);
         $transaction_type = $this->uri->segment(4);
         $data['id']=$sales_id;
@@ -569,7 +569,13 @@ class Returns extends CI_Controller {
         }
         $this->load->view('returns/return_damage_print',$data);
         $this->load->view('template/footer');
-        }
+    }
+
+    public function print_sample(){
+        // $this->load->view('template/header');
+        $this->load->view('returns/print_sample');
+        // $this->load->view('template/footer');
+    }
 
 
 }
