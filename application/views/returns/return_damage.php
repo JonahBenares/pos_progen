@@ -29,27 +29,41 @@
                             <div class="row">
                                 <div class="col-lg-2">
                                     <div class="form-group">
-                                    <button class="btn btn-md btn-danger btn-block"><h3 class="m-0"><b><?php echo $x;?></b></h3></button>
+                                    <button class="btn btn-md btn-danger btn-block"><h3 class="m-3"><b><?php echo $x;?><br></b></h3></button>
+
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-7">
                                     <div class="form-group">
-                                        <label>Date</label>
-                                        <input type="date" class="form-control" placeholder="Date" name="damage_date<?php echo $x; ?>" id='damage_date'>
+                                        <label for="exampleInputEmail3">Item</label>
+                                        <h4><b><?php echo $d['item_name'] ?></b></h4>
+                                        <label class="m-0">Brand: <b><?php echo $d['brand'] ?></b> </label>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-3">
                                     <div class="form-group">
-                                        <label>PDR No</label>
-                                        <input type="text" class="form-control" name="pdr_no<?php echo $x; ?>" placeholder="PDR No">
+                                        <br>
+                                        <label >Serial No: <b><?php echo $d['serial_no'] ?></b> </label>
+                                        <br>
+                                        <label >Part No: <b><?php echo $d['part_no'] ?></b> </label>
                                     </div>
                                 </div>
                             </div>   
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail3">Item</label>
-                                        <h4><b><?php echo $d['item_name']." ( ".$d['brand'].",".$d['serial_no'].",".$d['part_no']." ) " ?></b></h4>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Date</label>
+                                                <input type="date" class="form-control" placeholder="Date" name="damage_date<?php echo $x; ?>" id='damage_date'>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>PDR No</label>
+                                                <input type="text" class="form-control" name="pdr_no<?php echo $x; ?>" placeholder="PDR No">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
