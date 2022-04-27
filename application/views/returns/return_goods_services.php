@@ -76,15 +76,16 @@
                                             <td width="10%" align="right">Date Return:</td>
                                             <td width="40%" align="left"><input type="date" class="ml-2 form-control" name="return_date" id = "return_date" value="<?php echo date("Y-m-d");?>"style="width:50%;"></td>
                                         </tr>
-                                        <!-- <tr>
-                                            <td>Enduse:</td>
-                                            <td> DG1</td>
-                                        </tr> -->
+                                        </table>
+                                        <?php if ($h['type']=='Services') {?>
+                                        <div class="form-group">
+                                        <label>Description</label>
+                                            <textarea class="form-control" name="desc_remarks" rows="5" placeholder="Add Description..."></textarea>
+                                        </div>
                                         <input type="hidden" name="dr_save" id="dr_save" value="<?php echo $h['dr_no'];?>">
-                                    </table>
                                 </div>
                             </div>
-                            <?php } ?>     
+                            <?php } }?>     
                             <br>
                             <table class="table table-bordered table-hover" width="100%" id="myTdable">
                                 <thead>

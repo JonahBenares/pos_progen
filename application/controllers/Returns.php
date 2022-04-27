@@ -61,6 +61,7 @@ class Returns extends CI_Controller {
                 "sales_date"=>date('F d,Y',strtotime($sh->sales_date)),
                 "dr_no"=>$sh->dr_no,
                 "vat"=>$sh->vat,
+                "type"=>$transaction_type,
                 "remarks"=>$sh->remarks
             );
             foreach($this->super_model->select_custom_where("fifo_out","sales_id='$sh->sales_good_head_id' AND transaction_type='Sales Goods'") AS $itm){
@@ -96,6 +97,7 @@ class Returns extends CI_Controller {
                 "sales_date"=>date('F d,Y',strtotime($sh->sales_date)),
                 "dr_no"=>$sh->dr_no,
                 "vat"=>$sh->vat,
+                "type"=>$transaction_type,
                 "remarks"=>$sh->remarks
             );
             foreach($this->super_model->select_custom_where("fifo_out","sales_id='$sh->sales_serv_head_id' AND transaction_type='Sales Services'") AS $itm){
@@ -161,6 +163,7 @@ class Returns extends CI_Controller {
             "transaction_type"=>$transaction_type,
             "create_date"=>date("Y-m-d H:i:s"),
             "user_id"=>$_SESSION['user_id'],
+            "description"=>$this->input->post('desc_remarks'),
         );
         $this->super_model->insert_into("return_head",$datains);
 
@@ -388,6 +391,8 @@ class Returns extends CI_Controller {
                 "purpose"=>$purpose,
                 "department"=>$department,
                 "client"=>$client,
+                "description"=>$rh->description,
+                "type"=>$rh->transaction_type,
                 "date"=>date("F d,Y",strtotime($rh->return_date))
             );
             foreach($this->super_model->select_row_where("return_details","return_id",$rh->return_id) AS $rd){
@@ -420,7 +425,7 @@ class Returns extends CI_Controller {
         $data['client_id']=$client_id;
         $data['damage_qty'] = $this->super_model->select_sum_where("return_details", "damage_qty", "return_id = '$return_id'");
         $data['adjustment_qty'] = $this->super_model->count_custom_where("billing_adjustment_history", "return_id='$return_id' AND status='0'");
-        $this->load->view('returns/print_return_goods',$data);
+        $this->load->view('returns/print_return_goods_services',$data);
         $this->load->view('template/footer');
     }
 

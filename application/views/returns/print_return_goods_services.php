@@ -7,10 +7,12 @@
                 </span> Return
             </h3>
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>returns/return_form">Return Form</a></li>
-                    <li class="breadcrumb-item active" aria-current="page" onclick="printDiv('printableArea')">Print Return</li>
-                </ol>
+                 <?php if($adjustment_qty>0){ ?>
+                <div class="alert alert-warning" role="alert"> <span class="mdi mdi-alert-outline"></span> &nbsp; This transaction has affected a Billing Statement. Kindly process adjustment <a href="<?php echo base_url(); ?>reports/billed_list/<?php echo $client_id; ?>"  target='_blank'>here</a>.  </div>
+
+                <?php } if($damage_qty>0){ ?>
+                    <div class="alert alert-danger" role="alert"> <span class="mdi mdi-alert-outline"></span> &nbsp; This return transaction has damaged item/s. Click <a href="<?php echo base_url(); ?>returns/return_damage/<?php echo $return_id; ?>" target='_blank'>here</a> to fill out damage form/s. </div>
+                <?php } ?>
             </nav>
         </div>
         <div class="row">
@@ -22,9 +24,6 @@
                     </a> -->
                     <a href="#" class="btn btn-gradient-success btn-md btn-rounded" onclick="printDiv('printableArea')">
                         <b><span class="mdi mdi-printer"></span> Print</b>
-                    </a>
-                    <a href="<?php echo base_url(); ?>returns/return_damage/<?php echo $return_id; ?>" class="btn btn-gradient-danger btn-md btn-rounded">
-                        <b>Proceed to Damage</b>
                     </a>
                 </center>
             </div>
@@ -98,7 +97,6 @@
                     <td colspan="4" class="bor-btm1"><?php echo $h['dr_no']; ?></td>
                     <td></td>
                 </tr>
-                <?php } ?>
                 <!-- <tr>
                     <td></td>
                     <td colspan="2">Enduse:</td>
@@ -108,6 +106,25 @@
                     <td colspan="4" class=""></td>
                     <td></td>
                 </tr> -->
+                <?php if($h['type']=='Services'){ ?>
+                <tr>
+                    <td colspan="20" align="center"><br><br></td>
+                </tr>
+                <tr style="border-top:1px solid #aeaeae">
+                    <td colspan="20">
+                        <table class="table-bordered" width="100%">
+                            <tr> 
+                                <td style="background:#efefef" width="30%">Description</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <?php echo nl2br($h['description']); ?>                                                   
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <?php } ?>
                 <tr>
                     <td colspan="20" align="center"><br><br></td>
                 </tr>
@@ -198,6 +215,7 @@
                     <td colspan="6">Assets & Projects Management Assistant</td>
                     <td></td>
                 </tr>
+            <?php } ?>
             </table>
         </page>
     </div>
