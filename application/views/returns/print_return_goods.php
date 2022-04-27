@@ -11,7 +11,7 @@
                 <div class="alert alert-warning" role="alert"> <span class="mdi mdi-alert-outline"></span> &nbsp; This transaction has affected a Billing Statement. Kindly process adjustment <a href="<?php echo base_url(); ?>reports/billed_list/<?php echo $client_id; ?>"  target='_blank'>here</a>.  </div>
 
                 <?php } if($damage_qty>0){ ?>
-                    <div class="alert alert-danger" role="alert"> <span class="mdi mdi-alert-outline"></span> &nbsp; This return transaction has damaged item/s. Click <a href="<?php echo base_url(); ?>returns/return_damage" target='_blank'>here</a> to fill out damage form/s. </div>
+                    <div class="alert alert-danger" role="alert"> <span class="mdi mdi-alert-outline"></span> &nbsp; This return transaction has damaged item/s. Click <a href="<?php echo base_url(); ?>returns/return_damage/<?php echo $return_id; ?>" target='_blank'>here</a> to fill out damage form/s. </div>
                 <?php } ?>
             </nav>
         </div>
@@ -33,9 +33,9 @@
                     <a href="#" class="btn btn-gradient-success btn-md btn-rounded" onclick="printDiv('printableArea')">
                         <b><span class="mdi mdi-printer"></span> Print</b>
                     </a>
-                    <a href="<?php echo base_url(); ?>returns/return_damage/<?php echo $return_id; ?>" class="btn btn-gradient-danger btn-md btn-rounded">
+                <!--     <a href="<?php echo base_url(); ?>returns/return_damage/<?php echo $return_id; ?>" class="btn btn-gradient-danger btn-md btn-rounded">
                         <b>Proceed to Damage</b>
-                    </a>
+                    </a> -->
                 </center>
             </div>
             <div class="col-lg-3"></div>
