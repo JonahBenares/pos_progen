@@ -317,7 +317,7 @@ class Returns extends CI_Controller {
                             $this->super_model->update_custom_where("fifo_out", $dataout, "in_id='$in_id' AND sales_serv_items_id='$sales_details_id'");
 
                             $dataret=array(
-                                "return_service_id"=>$return_id,
+                                "return_id"=>$return_id,
                             );
                              $this->super_model->update_custom_where("sales_serv_items", $dataret, "sales_serv_items_id='$sales_details_id'");
                             }
