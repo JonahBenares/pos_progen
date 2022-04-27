@@ -1034,10 +1034,8 @@ class Reports extends CI_Controller {
         $data['details']=$this->super_model->select_custom_where("billing_details", "billing_id='$bsid' AND remaining_amount != '0' ORDER BY dr_date DESC");
 
 
-        $this->load->view('template/header');
-        $this->load->view('template/navbar');
+        $this->load->view('template/print_head');
         $this->load->view('reports/adjustment_print',$data);
-        $this->load->view('template/footer');
     }
 
      public function generateAdjustment(){

@@ -1135,5 +1135,52 @@ class Sales extends CI_Controller {
     }
 
 
+    public function print_sample(){
+        $sales_good_head_id = $this->uri->segment(3);
+        $this->load->view('template/print_head');
+        foreach($this->super_model->select_custom_where("sales_good_head","sales_good_head_id = '$sales_good_head_id'") AS $sh){
+            $client = $this->super_model->select_column_where("client","buyer_name","client_id",$sh->client_id);
+            $address = $this->super_model->select_column_where("client","address","client_id",$sh->client_id);
+            $contact_person = $this->super_model->select_column_where("client","contact_person","client_id",$sh->client_id);
+            $contact_no = $this->super_model->select_column_where("client","contact_no","client_id",$sh->client_id);
+            $tin = $this->super_model->select_column_where("client","tin","client_id",$sh->client_id);
+            $data['sales_head'][]=array(
+                'client'=>$client,
+                'address'=>$address,
+                'contact_person'=>$contact_person,
+                'contact_no'=>$contact_no,
+                'tin'=>$tin,
+                'sales_date'=>$sh->sales_date,
+                'vat'=>$sh->vat,
+                'pr_no'=>$sh->pr_no,
+                'pr_date'=>$sh->pr_date,
+                'po_no'=>$sh->po_no,
+                'po_date'=>$sh->po_date,
+                'dr_no'=>$sh->dr_no,
+                'remarks'=>$sh->remarks,
+            );
+            foreach($this->super_model->select_custom_where("sales_good_details","sales_good_head_id='$sh->sales_good_head_id'") AS $sd){
+                $serial_no = $this->get_serial($sd->sales_good_det_id, 'final');
+                $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$sd->item_id);
+                $item_name = $this->super_model->select_column_where("items","item_name","item_id",$sd->item_id);
+                $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$sd->item_id);
+                $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
+                //$serial_no = $this->super_model->select_column_where("fifo_in","serial_no","in_id",$sd->in_id);
+               
+                $data['sales_details'][]=array(
+                    'original_pn'=>$original_pn,
+                    'item'=>$item_name,
+                    'serial_no'=>$serial_no,
+                    'quantity'=>$sd->quantity,
+                    'uom'=>$unit,
+                    'selling_price'=>$sd->selling_price,
+                    'discount'=>$sd->discount_amount,
+                    'total'=>$sd->total,
+                );
+            }
+        }
+        $this->load->view('sales/print_sample',$data);
+    }
+
 
 }
