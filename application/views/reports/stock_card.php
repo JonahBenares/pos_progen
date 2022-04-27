@@ -164,7 +164,7 @@
                                     </td>
                                     <td><?php echo number_format($stockcard[$x]['item_cost'],2); ?></td>
                                     <td>
-                                        <?php echo (($stockcard[$x]['method']== 'Sales Good' || $stockcard[$x]['method'] == 'Sales Services' || $stockcard[$x]['method'] == 'Damaged' || $stockcard[$x]['method'] == 'Expired') ? "-" : "") .$stockcard[$x]['quantity']; ?>    
+                                        <?php echo (($stockcard[$x]['method']== 'Sales Good' || $stockcard[$x]['method'] == 'Sales Services' || $stockcard[$x]['method'] == 'Damaged' || $stockcard[$x]['method'] == 'Expired') ? "-" : "") .number_format($stockcard[$x]['quantity'],2); ?>    
                                     </td>
                                     <td><?php echo $bal[$x]; ?></td>
                                 </tr>
