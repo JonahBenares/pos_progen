@@ -75,7 +75,7 @@
                     <td colspan="10"></td>
                     <td colspan="1"></td>
                     <td colspan="2" align="right">Date: &nbsp;</td>
-                    <td colspan="4" class="bor-btm1"><?php echo $sh['sales_date'];?></td>
+                    <td colspan="4" class="bor-btm1"><?php echo date("Y-m-d", strtotime($sh['sales_date']));?></td>
                 </tr> 
                 <tr>
                     <td colspan="3">Client:</td>

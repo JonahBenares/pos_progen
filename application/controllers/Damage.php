@@ -94,7 +94,7 @@ class Damage extends CI_Controller {
 
     public function add_damage(){
          $data=array(
-            "damage_date"=>$this->input->post('damage_date'),
+            "damage_date"=>$this->input->post('damage_date')." ".date("H:i:s"),
             "pdr_no"=>$this->input->post('pdr_no'),
             "item_id"=>$this->input->post('item'),
             "reported_by"=>$this->input->post('reported_by'),

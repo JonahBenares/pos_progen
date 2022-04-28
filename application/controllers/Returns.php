@@ -159,7 +159,7 @@ class Returns extends CI_Controller {
         $datains=array(
             "return_id"=>$return_id,
             "dr_no"=>$this->input->post('dr_save'),
-            "return_date"=>$this->input->post('return_date'),
+            "return_date"=>$this->input->post('return_date')." ".date("H:i:s"),
             "transaction_type"=>$transaction_type,
             "create_date"=>date("Y-m-d H:i:s"),
             "user_id"=>$_SESSION['user_id'],
@@ -470,7 +470,7 @@ class Returns extends CI_Controller {
             $acquisition_date = $this->input->post('receive_date'.$x);
            
             $data=array(
-                "damage_date"=>$this->input->post('damage_date'.$x),
+                "damage_date"=>$this->input->post('damage_date'.$x)." ".date("H:i:s"),
                 "pdr_no"=>$this->input->post('pdr_no'.$x),
                 "item_id"=>$this->input->post('item'.$x),
                 "reported_by"=>$this->input->post('reported_by'.$x),

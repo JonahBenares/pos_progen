@@ -53,7 +53,7 @@
                                         </tr>
                                         <tr>
                                             <td width="10%">Sales Date:</td>
-                                            <td width="40%" align='left'> <?php echo $h['sales_date']; ?></td>
+                                            <td width="40%" align='left'> <?php echo date("Y-m-d", strtotime($h['sales_date']));  ?></td>
                                             <td align="right">VAT:</td>
                                             <td>&nbsp; <?php echo (($h['vat'] == 1) ? 'Yes' : 'No'); ?></td>
                                            
@@ -82,10 +82,11 @@
                                         <label>Description</label>
                                             <textarea class="form-control" name="desc_remarks" rows="5" placeholder="Add Description..."></textarea>
                                         </div>
+                                    <?php } ?> 
                                         <input type="hidden" name="dr_save" id="dr_save" value="<?php echo $h['dr_no'];?>">
                                 </div>
                             </div>
-                            <?php } }?>     
+                            <?php } ?>     
                             <br>
                             <table class="table table-bordered table-hover" width="100%" id="myTdable">
                                 <thead>

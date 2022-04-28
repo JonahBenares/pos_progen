@@ -79,7 +79,7 @@
                     }?>
                     <tr>
                         <td colspan="2">Date:</td>
-                        <td colspan="8" class="bor-btm1"><?php echo $h->receive_date; ?></td>
+                        <td colspan="8" class="bor-btm1"><?php echo date("Y-m-d", strtotime($h->receive_date)); ?></td>
                         <td colspan="2" align="right">MRF NO.:</td>
                         <td colspan="8" class="bor-btm1"><?php echo $h->mrecf_no; ?></td>
                     </tr>

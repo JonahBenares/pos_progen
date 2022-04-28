@@ -74,7 +74,7 @@ class Sales extends CI_Controller {
     public function add_sales_head_process(){
         $data=array(
             "client_id"=>$this->input->post('client'),
-            "sales_date"=>$this->input->post('sales_date'),
+            "sales_date"=>$this->input->post('sales_date')." ".date("H:i:s"),
             "pr_no"=>$this->input->post('pr_no'),
             "pr_date"=>$this->input->post('pr_date'),
             "po_no"=>$this->input->post('po_no'),
@@ -506,7 +506,7 @@ class Sales extends CI_Controller {
     public function add_sales_service_process(){
         $data=array(
             "client_id"=>$this->input->post('client'),
-            "sales_date"=>$this->input->post('sales_date'),
+            "sales_date"=>$this->input->post('sales_date')." ".date("H:i:s"),
             "jor_no"=>$this->input->post('jor_no'),
             "jor_date"=>$this->input->post('jor_date'),
             "joi_no"=>$this->input->post('joi_no'),

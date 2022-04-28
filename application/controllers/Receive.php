@@ -86,7 +86,7 @@ class Receive extends CI_Controller {
         }
 
         $data=array(
-            "receive_date"=>$this->input->post('receive_date'),
+            "receive_date"=>$this->input->post('receive_date')." ".date("H:i:s"),
             "po_no"=>$this->input->post('po_no'),
             "dr_no"=>$this->input->post('dr_no'),
             "si_no"=>$this->input->post('si_no'),

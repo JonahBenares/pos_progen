@@ -94,7 +94,7 @@ class Repair extends CI_Controller {
             $inid = $this->input->post('in_id'.$x);
             $repaired_by = $this->input->post('repaired_by'.$x);
             $damagedetid = $this->input->post('damage_det_id'.$x);
-            $date = $this->input->post('date'.$x);
+            $date = $this->input->post('date'.$x)." ".date("H:i:s");
             $price = $this->input->post('price'.$x);
             $jopr = $this->input->post('jopr'.$x);
             $radio = $this->input->post('repair'.$x);
