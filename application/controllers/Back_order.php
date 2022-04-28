@@ -133,7 +133,7 @@ class Back_order extends CI_Controller {
         $year=date('Y-m');
         $year_series=date('Y');
         $now=date('Y-m-d H:i:s');
-        $receivedate=$this->input->post('receive_date');
+        $receivedate=$this->input->post('receive_date')." ".date("H:i:s");
             $rows=$this->super_model->count_custom_where("receive_head","create_date LIKE '$year_series%'");
             if($rows==0){
              $newrec_no = "MRIF-".$year."-0001";
