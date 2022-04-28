@@ -118,6 +118,7 @@
                         <table class="table table-bordered table-hover" width="100%" id="myTdable">
                             <thead>
                                 <tr>
+                                    <td width="10%" class="td-head" data>time</td>
                                     <td width="10%" class="td-head">Date</td>
                                     <td width="20%" class="td-head">Supplier / Client</td>
                                     <td width="15%" class="td-head">PR #</td>
