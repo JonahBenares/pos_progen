@@ -175,7 +175,6 @@
                 <tr>
                     <td colspan="20"><br></td>
                 </tr>
-                <!-- ✔️ -->
                 <tr>
                     <td colspan="1"></td>
                     <td colspan="18">
