@@ -488,7 +488,7 @@ class Returns extends CI_Controller {
                 "prepared_by"=>$this->input->post('prepared_by'.$x),
                 "checked_by"=>$this->input->post('checked_by'.$x),
                 "noted_by"=>$this->input->post('noted_by'.$x),
-                "remarks"=>$this->input->post('notes'),
+                //"remarks"=>$this->input->post('remarks'.$x),
                 "create_date"=>date("Y-m-d H:i:s"),
                 "user_id"=>$_SESSION['user_id'],
             );
@@ -502,6 +502,7 @@ class Returns extends CI_Controller {
                 "brand"=>$this->input->post('brand'.$x),
                 "serial_no"=>$this->input->post('serial_no'.$x),
                 "part_no"=>$this->input->post('part_no'.$x),
+                "remarks"=>$this->input->post('remarks'.$x),
                 "acquisition_date"=>$acquisition_date,
                 "acquisition_cost"=>$acquisition_cost,
                 "return_id"=>$return_id,

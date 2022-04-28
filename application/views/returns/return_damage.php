@@ -187,7 +187,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Notes</label>
-                                        <textarea class="form-control" rows="1" placeholder="" name="notes<?php echo $x; ?>"></textarea>
+                                        <textarea class="form-control" rows="1" placeholder="" name="remarks<?php echo $x; ?>" id="notes"></textarea>
                                     </div>
                                 </div>
                             <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
