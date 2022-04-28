@@ -377,10 +377,12 @@ class Returns extends CI_Controller {
                 $dr_no = $this->super_model->select_column_where("sales_good_head","dr_no","dr_no",$rh->dr_no);
                 $pr_no = $this->super_model->select_column_where("sales_good_head","pr_no","dr_no",$rh->dr_no);
                 $client_id = $this->super_model->select_column_where("sales_good_head","client_id","dr_no",$rh->dr_no);
+                $overall_remarks = $this->super_model->select_column_where("sales_good_head","remarks","dr_no",$rh->dr_no);
             }elseif ($rh->transaction_type=='Services') {
                 $dr_no = $this->super_model->select_column_where("sales_services_head","dr_no","dr_no",$rh->dr_no);
                 $pr_no = $this->super_model->select_column_where("sales_services_head","jor_no","dr_no",$rh->dr_no);
                 $client_id = $this->super_model->select_column_where("sales_services_head","client_id","dr_no",$rh->dr_no);
+                $overall_remarks = $this->super_model->select_column_where("sales_services_head","remarks","dr_no",$rh->dr_no);
             }
 
             $client = $this->super_model->select_column_where("client", "buyer_name", "client_id", $client_id);
@@ -419,6 +421,7 @@ class Returns extends CI_Controller {
                     "total"=>$total,
                     "remaining_qty"=>$remaining_qty,
                     "remarks"=>$rd->remarks,
+                    "remarks_head"=>$overall_remarks,
                 );
             }
         }
