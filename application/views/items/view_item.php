@@ -225,7 +225,7 @@
                                                         $background ="";
                                                     } ?>
                                                 <tr <?php echo $background; ?>>
-                                                    <td><?php echo date("Y-m-d",strtotime($in['receive_date']));?></td>
+                                                    <td><?php echo date("Y-m-d H:i:s",strtotime($in['receive_date']));?></td>
                                                     <td><?php echo $in['supplier'];?></td>
                                                     <td><?php echo $in['pr_no'];?></td>
                                                     <td><?php echo $in['catalog_no'];?></td>
