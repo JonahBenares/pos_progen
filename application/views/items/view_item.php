@@ -1,6 +1,14 @@
 <?php
     $ci =& get_instance();
     $now = date("Y-m-d");
+
+      if(!empty($fifo_in)){
+        foreach ($fifo_in as $key => $row) {
+            $date[$key]  = $row['receive_date'];
+         
+        }
+        array_multisort($date, SORT_DESC,  $date, SORT_DESC, $fifo_in);
+    }
 ?>
 
 <div class="main-panel">
@@ -194,7 +202,7 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <table class="table table-bordered table-hover" id="myTable">
+                                        <table class="table table-bordered table-hover" id="viewitem">
                                             <thead>
                                                 <tr>                               
                                                                           

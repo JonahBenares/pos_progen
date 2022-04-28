@@ -118,7 +118,6 @@
                         <table class="table table-bordered table-hover" width="100%" id="myTdable">
                             <thead>
                                 <tr>
-                                    <td width="10%" class="td-head" data>time</td>
                                     <td width="10%" class="td-head">Date</td>
                                     <td width="20%" class="td-head">Supplier / Client</td>
                                     <td width="15%" class="td-head">PR #</td>
@@ -154,7 +153,6 @@
                                             }
                                 ?>
                                 <tr>
-                                    <td><?php echo date("Y-m-d", strtotime($stockcard[$x]['date']));?></td>
                                     <td><?php echo date("Y-m-d", strtotime($stockcard[$x]['date']));?></td>
                                     <td><?php echo $stockcard[$x]['supplier']; ?></td>
                                     <td><?php echo $stockcard[$x]['pr_no']; ?></td>

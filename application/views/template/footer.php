@@ -37,6 +37,10 @@
                 $('#saleslist').DataTable({
                     "aaSorting": [[ 0, "desc" ]]
                 });
+
+                 $('#viewitem').DataTable({
+                    "aaSorting": [[ 0, "desc" ]]
+                });
             });
 
             $(document).ready(function() {
