@@ -78,7 +78,7 @@ class Repair extends CI_Controller {
                 $rep_data = array(
                     'damage_det_id'=>$damagedetid[$x],
                     'in_id'=>$in_id[$x],
-                    'item_id'=>$item_id[$x],
+                    'repaired_item_id'=>$item_id[$x],
                     "user_id"=>$_SESSION['user_id'],
                     /*'unsaved'=>1,*/
                 );
@@ -101,6 +101,8 @@ class Repair extends CI_Controller {
             $quantity = $this->input->post('qty'.$x);
             $remarks = $this->input->post('remarks'.$x);
             $received_by = $this->input->post('rec_id'.$x);
+            $new_pn = $this->input->post('new_pn'.$x);
+            $serial = $this->input->post('serial'.$x);
             $rep_data = array(
                 'repaired_by'=>$repaired_by,
                 'repair_date'=>$date,
@@ -125,7 +127,7 @@ class Repair extends CI_Controller {
                     $dataitem = array(
                         "category_id"=>$it->category_id,
                         "subcat_id"=>$it->subcat_id,
-                        "original_pn"=>$it->original_pn,
+                        "original_pn"=>$new_pn,
                         "item_name"=>$it->item_name . ' - Refurbished',
                         "unit_id"=>$it->unit_id,
                         "group_id"=>$it->group_id,
@@ -143,6 +145,13 @@ class Repair extends CI_Controller {
                     );
 
                     $new_item_id = $this->super_model->insert_return_id("items", $dataitem);
+
+                    $update_item_id = array(
+                        "item_id"=>$new_item_id,
+                    );
+
+                    $this->super_model->update_where("repair_details", $update_item_id, "repair_id", $repair_id);
+
                     foreach($this->super_model->select_row_where('fifo_in', 'in_id', $inid) AS $in){
                         $datafifo_in = array(
                             "receive_date"=>$in->receive_date,
@@ -150,7 +159,8 @@ class Repair extends CI_Controller {
                             "item_id"=>$new_item_id,
                             "supplier_id"=>$in->supplier_id,
                             "brand"=>$in->brand,
-                            "serial_no"=>$in->serial_no,
+                            "catalog_no"=>$in->catalog_no,
+                            "serial_no"=>$serial,
                             "expiry_date"=>$in->expiry_date,
                             "item_cost"=>$in->item_cost,
                             "quantity"=>'1',

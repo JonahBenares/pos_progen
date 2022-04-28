@@ -61,3 +61,12 @@ function check_repair_qty(count){
     document.getElementById("saved").disabled = false;
   }
 }
+
+function assessment(option){
+     var newpn = document.getElementById("new_pn");
+    if(option=='1'){
+        newpn.style.display = "block";
+    } else {
+        newpn.style.display = "none";
+    }
+}

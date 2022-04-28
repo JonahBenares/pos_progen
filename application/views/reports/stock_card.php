@@ -141,11 +141,11 @@
                                             }else if($stockcard[$x]['method']=='Sales Good'){
                                                 $badge = 'badge-warning';
                                             }else if($stockcard[$x]['method']=='Sales Services'){
-                                                $badge = 'badge-info';
+                                                $badge = 'badge-warning';
                                             }else if($stockcard[$x]['method']=='Return'){
-                                                $badge = 'badge-success';
+                                                $badge = 'badge-info';
                                             }else if($stockcard[$x]['method']=='Repaired'){
-                                                $badge = 'badge-primary';
+                                                $badge = 'badge-success';
                                             }else if($stockcard[$x]['method']=='Damaged'){
                                                 $badge = 'badge-danger';
                                             }else if($stockcard[$x]['method']=='Expired'){
