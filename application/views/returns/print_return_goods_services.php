@@ -167,7 +167,7 @@
                 <tr>
                     <td></td>
                     <td>Remarks:</td>
-                    <td colspan="17" class="bor-btm1"></td>
+                    <td colspan="17" class="bor-btm1"><?php echo $d['remarks_head']; ?></td>
                     <td></td>
                 </tr>
                 <tr>

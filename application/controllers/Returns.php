@@ -377,10 +377,12 @@ class Returns extends CI_Controller {
                 $dr_no = $this->super_model->select_column_where("sales_good_head","dr_no","dr_no",$rh->dr_no);
                 $pr_no = $this->super_model->select_column_where("sales_good_head","pr_no","dr_no",$rh->dr_no);
                 $client_id = $this->super_model->select_column_where("sales_good_head","client_id","dr_no",$rh->dr_no);
+                $overall_remarks = $this->super_model->select_column_where("sales_good_head","remarks","dr_no",$rh->dr_no);
             }elseif ($rh->transaction_type=='Services') {
                 $dr_no = $this->super_model->select_column_where("sales_services_head","dr_no","dr_no",$rh->dr_no);
                 $pr_no = $this->super_model->select_column_where("sales_services_head","jor_no","dr_no",$rh->dr_no);
                 $client_id = $this->super_model->select_column_where("sales_services_head","client_id","dr_no",$rh->dr_no);
+                $overall_remarks = $this->super_model->select_column_where("sales_services_head","remarks","dr_no",$rh->dr_no);
             }
 
             $client = $this->super_model->select_column_where("client", "buyer_name", "client_id", $client_id);
@@ -419,6 +421,7 @@ class Returns extends CI_Controller {
                     "total"=>$total,
                     "remaining_qty"=>$remaining_qty,
                     "remarks"=>$rd->remarks,
+                    "remarks_head"=>$overall_remarks,
                 );
             }
         }
@@ -485,7 +488,7 @@ class Returns extends CI_Controller {
                 "prepared_by"=>$this->input->post('prepared_by'.$x),
                 "checked_by"=>$this->input->post('checked_by'.$x),
                 "noted_by"=>$this->input->post('noted_by'.$x),
-                "remarks"=>$this->input->post('notes'),
+                //"remarks"=>$this->input->post('remarks'.$x),
                 "create_date"=>date("Y-m-d H:i:s"),
                 "user_id"=>$_SESSION['user_id'],
             );
@@ -499,6 +502,7 @@ class Returns extends CI_Controller {
                 "brand"=>$this->input->post('brand'.$x),
                 "serial_no"=>$this->input->post('serial_no'.$x),
                 "part_no"=>$this->input->post('part_no'.$x),
+                "remarks"=>$this->input->post('remarks'.$x),
                 "acquisition_date"=>$acquisition_date,
                 "acquisition_cost"=>$acquisition_cost,
                 "return_id"=>$return_id,
