@@ -169,7 +169,7 @@
                     <td colspan="7" class="bor-btm1"></td>
                     <td colspan="3"></td>
                     <td colspan="4" align="right">Beyond Repair:</td>
-                    <td colspan="1" class="bor-btm1" align="center">✔️</td>
+                    <td colspan="1" class="bor-btm1" align="center"><!-- ✔️ --></td>
                     <td colspan="1"></td>
                 </tr>
                 <tr>
