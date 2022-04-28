@@ -153,7 +153,7 @@
                                             }
                                 ?>
                                 <tr>
-                                    <td><?php echo date("Y-m-d H:i:s", strtotime($stockcard[$x]['date']));?></td>
+                                    <td><?php echo date("Y-m-d", strtotime($stockcard[$x]['date']));?></td>
                                     <td><?php echo $stockcard[$x]['supplier']; ?></td>
                                     <td><?php echo $stockcard[$x]['pr_no']; ?></td>
                                     <td><?php echo $stockcard[$x]['po_no']; ?></td>
