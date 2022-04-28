@@ -37,20 +37,22 @@
                             <thead>
                                 <tr>
                                     <th width="15%"> PDR No </th>
-                                    <th width="12%"> Date</th>
+                                    <th width="12%"> Accounted Person</th>
                                     <th width=""> Item Description </th>
-                                    <th width="15%">Date/Time Reported</th>
+                                    <th width="12%">Date/Time Reported</th>
                                     <th width="1%"><center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>    
                             <tbody>
+                                <?php foreach($damage AS $d){ ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><?php echo $d['pdr_no']; ?></td>
+                                    <td><?php echo $d['accounted_person']; ?></td>
+                                    <td><?php echo $d['item']; ?></td>
+                                    <td><?php echo date("Y-m-d H:i:s", strtotime($d['date_reported'])); ?></td>
                                     <td><a  href="<?php echo base_url(); ?>damage/damage_print/1" class="btn btn-xs btn-gradient-warning btn-rounded" data-toggle="tooltip" data-placement="top" title="View"><span class="mdi mdi-eye"></span></a></td>
-                                </tr> 
+                                </tr>
+                                <?php } ?> 
                             </tbody>                        
                         </table>
                     </div>

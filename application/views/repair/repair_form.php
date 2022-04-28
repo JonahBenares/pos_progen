@@ -96,7 +96,7 @@
                                         <div class="col-lg-5">
                                             <div class="form-group">
                                                 <label >Qty</label>
-                                                <input type="text" class="form-control" onkeyup="check_repair_qty('<?php echo $z; ?>')" id="repqty<?php echo $z; ?>" name="qty<?php echo $z;?>" placeholder="<?php echo number_format($d['avail_qty'],2); ?>">
+                                                <input type="text" class="form-control" onkeyup="check_repair_qty('<?php echo $z; ?>')" id="repqty<?php echo $z; ?>" name="qty<?php echo $z;?>" placeholder="<?php echo number_format($d['avail_qty'],2); ?>" readonly> 
                                             </div> 
                                             <input type='hidden' name='avail_qty' id='avail_qty<?php echo $z; ?>' value="<?php echo number_format($d['avail_qty']); ?>"> 
                                         </div>

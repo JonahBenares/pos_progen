@@ -175,16 +175,59 @@ class Damage extends CI_Controller {
     }
 
     public function damage_print(){
+        $id=$this->uri->segment(3);
+
+        foreach($this->super_model->select_row_where("damage_head", "damage_id", $id) AS $dam){
+            $data['head'][] = array(
+                "pdr_no"=>$dam->pdr_no,
+                "date_reported"=>$dam->reported_date,
+                "accounted_person"=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $dam->accounted_to),
+                "remarks"=>$dam->remarks,
+                "reported_by"=>$dam->reported_by,
+                "person_using"=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $dam->person_using),
+                "damage_description"=>$dam->damage_description,
+                "damage_reason"=>$dam->damage_reason,
+                "inspected_by"=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $dam->inspected_by),
+                "date_inspected"=>$dam->date_inspected,
+                "recommendation"=>$dam->recommendation,
+                "prepared_by"=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $dam->prepared_by),
+                "checked_by"=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $dam->checked_by),
+                "noted_by"=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $dam->noted_by),
+
+            );
+        }
+
+        foreach($this->super_model->select_row_where("damage_details", "damage_id", $id) AS $det){
+            $item_id=$this->super_model->select_column_where("fifo_in", "item_id", "in_id", $det->in_id);
+            $data['details'][] = array(
+                
+                "item"=>$this->super_model->select_column_where("items", "item_name", "item_id", $item_id),
+                "brand"=>$det->brand,
+                "serial_no"=>$det->serial_no,
+                "part_no"=>$det->part_no,
+                "acquisition_date"=>$det->acquisition_date,
+                "acquisition_cost"=>$det->acquisition_cost
+            );
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('damage/damage_print');
+        $this->load->view('damage/damage_print', $data);
         $this->load->view('template/footer');
     }
 
     public function damage_list(){
+
+        foreach($this->super_model->select_all("damage_head") AS $dam){
+            $data['damage'][] = array(
+                "pdr_no"=>$dam->pdr_no,
+                "date_reported"=>$dam->reported_date,
+                "item"=>$this->super_model->select_column_where("items", "item_name", "item_id", $dam->item_id),
+                "accounted_person"=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $dam->accounted_to)
+            );
+        }
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('damage/damage_list');
+        $this->load->view('damage/damage_list',$data);
         $this->load->view('template/footer');
     }
 
