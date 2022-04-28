@@ -107,12 +107,12 @@
                                 <tbody>
                                     <?php if(!empty($item)){ $x=1; foreach($item AS $i){ ?>
                                     <tr>
-                                        <td style="background: #d0dbf9;" align="center"> 999</td>
+                                        <td style="background: #d0dbf9;" align="center"><?php echo number_format($i['qty'],2); ?></td>
                                         <td class="p-0">
-                                            <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="return_qty<?php echo $x; ?>" onkeyup="check_return_qty('<?php echo $x; ?>')" id = "retqty<?php echo $x; ?>" max="<?php echo $i['qty']; ?>" placeholder="<?php echo number_format($i['qty']); ?>">
+                                            <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="return_qty<?php echo $x; ?>" onkeyup="check_return_qty('<?php echo $x; ?>')" id = "retqty<?php echo $x; ?>" max="<?php echo $i['qty']; ?>">
                                         </td>
                                         <td class="p-0">
-                                            <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="damage_qty<?php echo $x; ?>" onkeyup="check_return_qty('<?php echo $x; ?>')" id = "damqty<?php echo $x; ?>" max="<?php echo $i['qty']; ?>" placeholder="<?php echo number_format($i['qty']); ?>">
+                                            <input style="padding: 5px 10px;" type="text" onkeypress="return isNumberKey(this, event)" class="form-control" name="damage_qty<?php echo $x; ?>" onkeyup="check_return_qty('<?php echo $x; ?>')" id = "damqty<?php echo $x; ?>" max="<?php echo $i['qty']; ?>">
                                         </td>
                                         <input type='hidden' name='qty<?php echo $x; ?>' id='qty<?php echo $x; ?>' value="<?php echo number_format($i['qty']); ?>">
                                         <td><?php echo $i['item'];?></td>
