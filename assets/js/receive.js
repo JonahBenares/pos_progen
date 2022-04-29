@@ -150,6 +150,12 @@ function proceed(){
                     pr.style.display = "block";
                     proc.style.display = "none";
                     cancel.style.display = "block";
+                    document.getElementById('receive_date').readOnly = true;
+                    document.getElementById('po_no').readOnly = true;
+                    document.getElementById('dr_no').readOnly = true;
+                    document.getElementById('si_no').readOnly = true;
+                    document.getElementById('exampleTextarea1').readOnly = true;
+                     $('#pcf').attr("disabled", true); 
                 } else {
                     x.style.display = "none";
                     pr.style.display = "none";

@@ -39,7 +39,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Date</label>
-                                        <input type="date" class="form-control" name = "sales_date" placeholder="Date">
+                                        <input type="date" class="form-control" id="sales_date" name = "sales_date" placeholder="Date">
                                     </div>
                                 </div>                                    
                             </div>                  
@@ -77,7 +77,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Remarks</label>
-                                        <textarea class="form-control" name="remarks" rows="1"></textarea>
+                                        <textarea class="form-control" name="remarks" id="remarks" rows="1"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -85,13 +85,13 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>PGC <b>PR </b>No.</label>
-                                                <input type="text" class="form-control" name="pr_no" placeholder="PGC PR No.">
+                                                <input type="text" class="form-control" name="pr_no" id="pr_no" placeholder="PGC PR No.">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>PGC <b>PO </b>No.</label>
-                                                <input type="text" class="form-control" name="po_no" placeholder="PGC PO No.">
+                                                <input type="text" class="form-control" name="po_no" id="po_no" placeholder="PGC PO No.">
                                             </div>
                                         </div>
                                     </div>
@@ -99,13 +99,13 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>PR Date</label>
-                                                <input type="date" class="form-control" name="pr_date" placeholder="PR Date">
+                                                <input type="date" class="form-control" name="pr_date" id="pr_date" placeholder="PR Date">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>PO Date</label>
-                                                <input type="date" class="form-control" name="po_date" placeholder="PO Date">
+                                                <input type="date" class="form-control" name="po_date" id="po_date" placeholder="PO Date">
                                             </div>
                                         </div>
                                     </div>
@@ -120,7 +120,7 @@
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <label>VAT</label>
-                                                <select class="form-control" name = "vat">
+                                                <select class="form-control" id="vat" name = "vat">
                                                     <option value="1">Vatable</option>
                                                     <option value="2">Non-Vatable</option>
                                                 </select>

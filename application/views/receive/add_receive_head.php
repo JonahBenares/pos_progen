@@ -29,21 +29,21 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="exampleInputName1">Date</label>
-                                            <input type="date" class="form-control" placeholder="Date" name='receive_date'>
+                                            <input type="date" class="form-control" placeholder="Date" name='receive_date' id="receive_date">
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail3">PO No.</label>
-                                            <input type="text" class="form-control" placeholder="PO No" name='po_no'>
+                                            <input type="text" class="form-control" placeholder="PO No" name='po_no' id="po_no">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail3">DR No.</label>
-                                            <input type="text" class="form-control" placeholder="DR No" name='dr_no'>
+                                            <input type="text" class="form-control" placeholder="DR No" name='dr_no' id="dr_no">
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail3">SI/OR</label>
-                                            <input type="text" class="form-control" placeholder="SI/OR" name='si_no'>
+                                            <input type="text" class="form-control" placeholder="SI/OR" name='si_no' id="si_no">
                                         </div>
                                     </div>
                                 </div>
@@ -57,7 +57,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-check mx-sm-2">
                                             <label class="form-check-label">
-                                                <input type="checkbox" class="form-check-input" checked name='pcf' value='1'> PCF
+                                                <input type="checkbox" class="form-check-input" checked name='pcf' id="pcf" value='1'> PCF
                                             </label>
                                         </div>
                                     </div>

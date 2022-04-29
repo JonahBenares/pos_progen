@@ -295,7 +295,6 @@ class Reports extends CI_Controller {
             $total_amount = $this->super_model->select_sum_where("billing_details", "remaining_amount", "billing_id='$bill->billing_id'");
             $grand_total += $total_amount;
             $count_adjust = $this->check_adjustment($bill->billing_id);
-         
             $data['billed'][]= array(
                 "billing_id"=>$bill->billing_id,
                 "billing_no"=>$bill->billing_no,
@@ -1139,8 +1138,16 @@ class Reports extends CI_Controller {
             echo $id;
     }
     public function adjust_all(){
+        $billing_no = $this->uri->segment(3);
         $this->load->view('template/header'); 
-        $this->load->view('reports/adjust_all');
+        foreach($this->super_model->select_custom_where("billing_head","billing_no='$billing_no' AND status='2'") AS $bi){
+            $data['adjust'][]=array(
+                "billing_id"=>$bi->billing_id,
+                "billing_no"=>$bi->billing_no,
+                "adjustment_counter"=>$bi->adjustment_counter,
+            );
+        }
+        $this->load->view('reports/adjust_all',$data);
         $this->load->view('template/footer');
     }
 
