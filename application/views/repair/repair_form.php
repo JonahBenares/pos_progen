@@ -119,8 +119,6 @@
                                                 <input type="text" class="form-control" id="price" name="price<?php echo $z;?>" placeholder="00.00" onkeypress="return isNumberKey(event,this)">
                                             </div>
                                         </div>
-
-                                        
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
