@@ -64,7 +64,6 @@ function check_repair_qty(count){
 
 function assessment_repair(option,count){
      var newpn = document.getElementById("new_pn"+count);
-     alert(count);
     if(option=='1'){
         newpn.style.display = "block";
     } else {
