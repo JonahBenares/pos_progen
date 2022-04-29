@@ -102,7 +102,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-7">
                                             <div class="form-group">
                                                 <label >Received by</label>
                                                 <select class="form-control select2"  name="rec_id<?php echo $z;?>" id="rec_id<?php echo $z;?>">
@@ -113,19 +113,14 @@
                                                 </select>
                                             </div>  
                                         </div>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-5">
                                             <div class="form-group">
                                                 <label >Repair Price</label>
                                                 <input type="text" class="form-control" id="price" name="price<?php echo $z;?>" placeholder="00.00" onkeypress="return isNumberKey(event,this)">
                                             </div>
                                         </div>
 
-                                         <div class="col-lg-4">
-                                            <div class="form-group" style='display: none;' id='new_pn<?php echo $z; ?>'>
-                                                <label >New Part Number</label>
-                                                <input type="text" class="form-control" name="new_pn<?php echo $z; ?>">  
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -154,6 +149,10 @@
                                                 <input type="text" class="form-control" name="serial<?php echo $z; ?>">  
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="form-group" style='display: none;' id='new_pn<?php echo $z; ?>'>
+                                        <label >New Part Number</label>
+                                        <input type="text" class="form-control" name="new_pn<?php echo $z; ?>">  
                                     </div>
                                 </div>
                             </div>
