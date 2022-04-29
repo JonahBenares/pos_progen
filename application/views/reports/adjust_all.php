@@ -23,15 +23,11 @@
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <table width="100%" class="table-bordered">
-                                    <tr>
-                                        <td><a onclick = "window.open('<?php echo base_url(); ?>reports/adjustment_print/1',);" class="btn btn-link btn-block text-left">Sample</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a onclick = "window.open('<?php echo base_url(); ?>reports/adjustment_print/1',);" class="btn btn-link btn-block text-left">Sample</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a onclick = "window.open('<?php echo base_url(); ?>reports/adjustment_print/1',);" class="btn btn-link btn-block text-left">Sample</a></td>
-                                    </tr>
+                                    <?php foreach($adjust AS $a){ ?>
+                                        <tr>
+                                            <td><a onclick = "window.open('<?php echo base_url(); ?>reports/adjustment_print/<?php echo $a['billing_id'];?>',);" class="btn btn-link btn-block text-left"><?php echo $a['billing_no'].(($a['adjustment_counter'] == 0) ? '' : '.a'.$a['adjustment_counter']);?></a></td>
+                                        </tr>
+                                    <?php } ?>
                                 </table>
                             </div>
                         </div>

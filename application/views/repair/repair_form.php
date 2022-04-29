@@ -102,7 +102,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-7">
+                                        <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label >Received by</label>
                                                 <select class="form-control select2"  name="rec_id<?php echo $z;?>" id="rec_id<?php echo $z;?>">
@@ -113,10 +113,17 @@
                                                 </select>
                                             </div>  
                                         </div>
-                                        <div class="col-lg-5">
+                                        <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label >Repair Price</label>
                                                 <input type="text" class="form-control" id="price" name="price<?php echo $z;?>" placeholder="00.00" onkeypress="return isNumberKey(event,this)">
+                                            </div>
+                                        </div>
+
+                                         <div class="col-lg-4">
+                                            <div class="form-group" style='display: none;' id='new_pn<?php echo $z; ?>'>
+                                                <label >New Part Number</label>
+                                                <input type="text" class="form-control" name="new_pn<?php echo $z; ?>">  
                                             </div>
                                         </div>
                                     </div>
@@ -131,14 +138,14 @@
                                             <label >Assessment</label>
                                                 <div class="form-check m-0" >
                                                 <label class="form-check-label">
-                                                <input type="radio" class="form-check-input"  id="radio" name="repair<?php echo $z;?>" value="1" onclick="assessment(this.value)"> Repair <i class="input-helper"></i></label>
+                                                <input type="radio" class="form-check-input"  id="radio" name="repair<?php echo $z;?>" value="1" onclick="assessment_repair(this.value,<?php echo $z; ?>)"> Repair <i class="input-helper"></i></label>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <label ><br></label>
                                             <div class="form-check m-0">
                                                 <label class="form-check-label">
-                                                <input type="radio" class="form-check-input"  id="radio" name="repair<?php echo $z;?>" value="2" checked="" onclick="assessment(this.value)">Beyond Repair <i class="input-helper"></i></label>
+                                                <input type="radio" class="form-check-input"  id="radio" name="repair<?php echo $z;?>" value="2"  onclick="assessment_repair(this.value,<?php echo $z; ?>)">Beyond Repair <i class="input-helper"></i></label>
                                             </div>
                                         </div>
                                         <div class="col-lg-5">
@@ -147,11 +154,6 @@
                                                 <input type="text" class="form-control" name="serial<?php echo $z; ?>">  
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group" style='display: none;' id='new_pn'>
-                                        <label >New Part Number</label>
-                                        <input type="text" class="form-control" name="new_pn<?php echo $z; ?>">  
                                     </div>
                                 </div>
                             </div>
