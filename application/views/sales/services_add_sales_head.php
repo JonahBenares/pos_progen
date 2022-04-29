@@ -37,7 +37,7 @@
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>DR No.</label>
-                                        <input type="text" class="form-control" placeholder="DR No" name="dr_no" id="dr_no" value="<?php echo $dr_no; ?>">
+                                        <input type="text" class="form-control" placeholder="DR No" name="dr_no" id="dr_no" value="<?php echo $dr_no; ?>" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
