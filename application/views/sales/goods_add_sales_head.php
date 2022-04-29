@@ -39,7 +39,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Date</label>
-                                        <input type="date" class="form-control" id="sales_id" name = "sales_date" placeholder="Date">
+                                        <input type="date" class="form-control" id="sales_date" name = "sales_date" placeholder="Date">
                                     </div>
                                 </div>                                    
                             </div>                  
