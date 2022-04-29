@@ -219,6 +219,7 @@ class Damage extends CI_Controller {
 
         foreach($this->super_model->select_all("damage_head") AS $dam){
             $data['damage'][] = array(
+                "damage_id"=>$dam->damage_id,
                 "pdr_no"=>$dam->pdr_no,
                 "date_reported"=>$dam->reported_date,
                 "item"=>$this->super_model->select_column_where("items", "item_name", "item_id", $dam->item_id),
