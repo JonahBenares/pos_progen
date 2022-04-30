@@ -236,17 +236,19 @@ class Repair extends CI_Controller {
             $repair_qty= $this->super_model->select_sum_where("repair_details", "quantity", "damage_det_id='$damage_det_id' AND saved='1' AND assessment='1'");
             $avail_qty= $damage_qty-$repair_qty;
            // if($repair->saved == 0 AND $repair->unsaved==1){
-                $data['rep'][]=array(
+                /*$data['rep'][]=array(
                     'repair_id'=>$repair->repair_id,
                     'damage_det_id'=>$repair->damage_det_id,
                     'in_id'=>$repair->in_id,
                     'avail_qty'=>$avail_qty,
-                );
+                );*/
            // }
             $data['details'][]=array(
+                 'repair_id'=>$repair->repair_id,
                 'in_id'=>$repair->in_id,
                 'damage_det_id'=>$repair->damage_det_id,
                 'receive_date'=>$receive_date,
+                'avail_qty'=>$avail_qty,
                 'pr_no'=>$pr_no,
                 'item_name'=>$item_name,
                 'category'=>$this->super_model->select_column_where('item_categories', 'cat_name', 'cat_id', $item_id),
