@@ -148,7 +148,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group" style='display: none;' id='new_pn<?php echo $z; ?>'>
                                         <label >New Part Number</label>
                                         <input type="text" class="form-control" name="new_pn<?php echo $z; ?>">  

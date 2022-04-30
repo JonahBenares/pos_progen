@@ -50,7 +50,7 @@
                                     <td><?php echo $d['accounted_person']; ?></td>
                                     <td><?php echo $d['item']; ?></td>
                                     <td><?php echo date("Y-m-d H:i:s", strtotime($d['date_reported'])); ?></td>
-                                    <td><a  href="<?php echo base_url(); ?>damage/damage_print/1" class="btn btn-xs btn-gradient-warning btn-rounded" data-toggle="tooltip" data-placement="top" title="View"><span class="mdi mdi-eye"></span></a></td>
+                                    <td><a  href="<?php echo base_url(); ?>damage/damage_print/<?php echo $d['damage_id']; ?>" class="btn btn-xs btn-gradient-warning btn-rounded" data-toggle="tooltip" data-placement="top" title="View"><span class="mdi mdi-eye"></span></a></td>
                                 </tr>
                                 <?php } ?> 
                             </tbody>                        
