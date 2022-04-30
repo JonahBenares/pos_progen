@@ -45,7 +45,9 @@ class Damage extends CI_Controller {
         $in_id=$this->input->post('in_id');
         foreach($this->super_model->select_row_where("fifo_in","in_id",$in_id) AS $cli){
             $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$cli->item_id);
-            $total_cost = $cli->remaining_qty * $cli->item_cost;
+            $qty = 1;
+            $total_cost = $qty * $cli->item_cost;
+            //$total_cost = $cli->remaining_qty * $cli->item_cost;
             $return = array('qty'=>$cli->remaining_qty, 'brand'=>$cli->brand, 'serial_no'=>$cli->serial_no, 'original_pn'=>$original_pn, 'receive_date'=>$cli->receive_date, 'total_cost'=>$total_cost,'item_cost'=>$cli->item_cost);
         }
         echo json_encode($return);
@@ -67,7 +69,7 @@ class Damage extends CI_Controller {
                 $str.= '</select>
             </td>
             <td >
-                <input type="number" class="alt-control" placeholder="00" name="qty'.$count.'" id="qty'.$count.'" onkeyup="check_rem_qty('.$count.')">
+                <input type="number" class="alt-control" placeholder="00" name="qty'.$count.'" id="qty'.$count.'" readonly>
                 <input type="hidden" id="total_cost'.$count.'" name="total_cost'.$count.'">
             </td>
             <td>
@@ -172,6 +174,7 @@ class Damage extends CI_Controller {
 
             $this->super_model->update_where("fifo_in", $data_in, "in_id", $in_id);
         }
+        echo $damage_id;
     }
 
     public function damage_print(){
@@ -219,6 +222,7 @@ class Damage extends CI_Controller {
 
         foreach($this->super_model->select_all("damage_head") AS $dam){
             $data['damage'][] = array(
+                "damage_id"=>$dam->damage_id,
                 "pdr_no"=>$dam->pdr_no,
                 "date_reported"=>$dam->reported_date,
                 "item"=>$this->super_model->select_column_where("items", "item_name", "item_id", $dam->item_id),

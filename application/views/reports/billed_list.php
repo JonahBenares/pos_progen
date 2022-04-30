@@ -95,7 +95,7 @@
                                         <td> &nbsp; <?php echo date('F d, Y', strtotime($b['billing_date'])); ?></td>
                                         <td> &nbsp; <a href="<?php echo base_url(); ?>reports/print_billing/<?php echo $b['billing_id']; ?>" target="_blank"><?php echo $b['billing_no']; ?></a></td>
                                         <td> &nbsp; 
-                                            <a onclick="adjust_all('<?php echo base_url(); ?>')" class="btn btn-link"><?php echo $b['counter']; ?></a>
+                                            <a onclick="adjust_all('<?php echo base_url(); ?>','<?php echo $b['billing_no']; ?>')" class="btn btn-link"><?php echo $b['counter']; ?></a>
                                         </td>
                                         <td align="right">P <?php echo number_format($b['total_amount'],2); ?> &nbsp;</td>
                                         <?php if($b['count_adjust']!= 0 ){ ?>

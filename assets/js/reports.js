@@ -1,5 +1,5 @@
-function adjust_all(baseurl) {
-    window.open(baseurl+"reports/adjust_all/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
+function adjust_all(baseurl,billing_no) {
+    window.open(baseurl+"reports/adjust_all/"+billing_no, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=350,width=700,height=600");
 }
 
 function filter_stockcard(){

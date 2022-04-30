@@ -86,7 +86,7 @@ class Returns extends CI_Controller {
             }
         }
     } else if($transaction_type=='Services'){
-                foreach($this->super_model->select_row_where("sales_services_head","sales_serv_head_id",$sales_id) AS $sh){
+                foreach($this->super_model->select_row_where("sales_services_head","sales_serv_head_id", $sales_id) AS $sh){
          
             $data["head"][]=array(
                 "pr_no"=>$sh->jor_no,
@@ -105,7 +105,7 @@ class Returns extends CI_Controller {
                 $unit_cost = $this->super_model->select_column_where("fifo_in", "item_cost", "in_id", $itm->in_id);
                 $selling_price = $this->super_model->select_column_where("sales_serv_items", "selling_price", "sales_serv_items_id", $itm->sales_serv_items_id);
                 $part_no=$this->super_model->select_column_where("items","item_name","item_id",$itm->item_id);
-                $qty = $itm->quantity - $itm->remaining_qty;
+                //$qty = $itm->quantity - $itm->remaining_qty;
                 $data['item'][]=array(
                     "in_id"=>$itm->in_id,
                     "item"=>$this->super_model->select_column_where("items","item_name","item_id",$itm->item_id),

@@ -58,6 +58,14 @@ function proceed_sales(){
                     x.style.display = "block";
                     proc.style.display = "none";
                     cancel.style.display = "block";
+                    $('#client').attr("disabled", true); 
+                    document.getElementById('sales_date').readOnly = true;
+                    document.getElementById('remarks').readOnly = true;
+                    document.getElementById('pr_no').readOnly = true;
+                    document.getElementById('po_no').readOnly = true;
+                    document.getElementById('pr_date').readOnly = true;
+                    document.getElementById('po_date').readOnly = true;
+                    $('#vat').attr("disabled", true); 
                 } else {
                     x.style.display = "none";
                     proc.style.display = "block";
@@ -275,6 +283,18 @@ function proceed_sales_service(){
                     x.style.display = "block";
                     proc.style.display = "none";
                     cancel.style.display = "block";
+                    $('#client').attr("disabled", true); 
+                    document.getElementById('sales_date').readOnly = true;
+                    document.getElementById('jor_no').readOnly = true;
+                    document.getElementById('joi_no').readOnly = true;
+                    document.getElementById('jor_date').readOnly = true;
+                    document.getElementById('joi_date').readOnly = true;
+                    document.getElementById('purpose').readOnly = true;
+                    document.getElementById('ar_description').readOnly = true;
+                    document.getElementById('remarks').readOnly = true;
+                    $('#shipped_via').attr("disabled", true); 
+                    document.getElementById('waybill_no').readOnly = true;
+                    $('#vat').attr("disabled", true); 
                 } else {
                     x.style.display = "none";
                     proc.style.display = "block";
