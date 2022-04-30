@@ -120,11 +120,12 @@ class Repair extends CI_Controller {
             $this->super_model->update_where("repair_details", $rep_data, "repair_id", $repair_id);
 
             if($radio == 1){ ///if repaired
-                $repaired_item = $this->super_model->select_column_custom_where("repair_details", "repaired_item_id", "repair_id='$repair_id' AND in_id ='$inid'");
 
-                $count_existing_repaired = $this->super_model->count_custom_where("repair_details", "repaired_item_id", $repaired_item);
-
-                if($count_existing_repaired == 0){
+                $repaired_item = $this->super_model->select_column_custom_where("fifo_in", "item_id", "in_id ='$inid'");
+               
+                $count_existing_repaired = $this->super_model->count_custom_where("repair_details", "repaired_item_id='$repaired_item'");
+               // echo  $count_existing_repaired;
+                if($count_existing_repaired == 1){
 
                     $item_id = $this->super_model->select_column_where("fifo_in", "item_id", "in_id", $inid);
 
@@ -178,11 +179,15 @@ class Repair extends CI_Controller {
 
                         }
                     }
-                 } else {
+                 } else if($count_existing_repaired > 1) {
 
-                    $existing_id = $this->super_model->select_column_where("repair_details", "item_id", "repaired_item_id",$repaired_item);
+                    $existing_id = $this->super_model->custom_query_single("item_id", "SELECT item_id FROM repair_details WHERE repaired_item_id='$repaired_item' ORDER BY repair_id ASC LIMIT 1");
+                   
+                     $in_id_fifo = $this->super_model->select_column_where("fifo_in", "in_id", "item_id",$existing_id);
                     $exist_qty = $this->super_model->select_column_where("fifo_in", "quantity", "item_id",$existing_id);
-                    $exist_rem_qty = $this->super_model->select_column_where("fifo_in", "remaining_quantity", "item_id",$existing_id);
+                    
+                    $exist_rem_qty = $this->super_model->select_column_where("fifo_in", "remaining_qty", "item_id", $existing_id);
+
                     $new_qty=$exist_qty + 1;
                     $new_rem_qty=$exist_rem_qty + 1;
                     $dataqty = array(
@@ -192,13 +197,19 @@ class Repair extends CI_Controller {
 
                      $this->super_model->update_where("fifo_in", $dataqty, "item_id", $existing_id);
 
+                      $update_item_id = array(
+                        "item_id"=>$existing_id,
+                        "in_id"=>$in_id_fifo,
+                        );
 
+                    $this->super_model->update_where("repair_details", $update_item_id, "repair_id", $repair_id);
                  }
 
                  $damage_data = array(
                         'repaired'=>1,
                 ); 
-                $this->super_model->update_where("damage_details", $damage_data, "in_id", $inid);
+                $this->super_model->update_where("damage_details", $damage_data, "in_id", $inid);   
+                
 
             }
                // foreach($this->super_model->select_row_where('fifo_in', 'in_id', $inid) AS $in){
