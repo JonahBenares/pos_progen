@@ -67,7 +67,7 @@
                                             <td width="30%">
                                                 <div class="form-group">
                                                     <label>Quantity</label>
-                                                    <input type="number" class="form-control" value='1' readonly>
+                                                    <input type="number" class="form-control" placeholder="00">
                                                 </div>
                                             </td>
                                             <td width="3%"></td>
