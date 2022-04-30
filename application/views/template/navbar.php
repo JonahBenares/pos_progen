@@ -91,6 +91,25 @@
                             </div>
                             </a>
                         <?php } ?>
+                        <?php 
+                            foreach($this->super_model->custom_query("SELECT * FROM return_details rd INNER JOIN return_head rh ON rd.return_id=rh.return_id WHERE damage_qty!='0'") AS $rd){
+                            $count_return_damage=$this->super_model->count_rows_where("damage_details","return_id",$rd->return_id);
+                            if($count_return_damage==0){ 
+                        ?>
+
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item preview-item">
+                        <div class="preview-thumbnail">
+                            <div class="preview-icon bg-danger">
+                                <i class="mdi mdi-alert"></i>
+                            </div>
+                        </div>
+                        <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+                            <h6 class="preview-subject font-weight-normal mb-1">Process Returned w/ Damage</h6>
+                            <p class="text-gray ellipsis mb-0" onclick="return_damage_redirect('<?php echo base_url(); ?>','<?php echo $rd->return_id; ?>')">Fill in <?php echo $rd->dr_no; ?> Return Damage Form </p>
+                        </div>
+                        </a>
+                        <?php } } ?>
                         <div class="dropdown-divider"></div>
                         <center>
                             <a href="<?php echo base_url(); ?>masterfile/notif_list" class="btn btn-link">See all notifications</a>
@@ -330,3 +349,4 @@
                 </li>
             </ul>
         </nav>
+        
