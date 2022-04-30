@@ -86,23 +86,26 @@
         </script>
 
         <script type="text/javascript">
-        function printDiv(divName) {
-         var printContents = document.getElementById(divName).innerHTML;
-         var originalContents = document.body.innerHTML;
-         document.body.innerHTML = printContents;
-         window.print();
-         document.body.innerHTML = originalContents;
+            function printDiv(divName) {
+                var printContents = document.getElementById(divName).innerHTML;
+                var originalContents = document.body.innerHTML;
+                document.body.innerHTML = printContents;
+                window.print();
+                document.body.innerHTML = originalContents;
             }
 
             function printDiv2(divName) {
-         var printContents = document.getElementById(divName).innerHTML;
-         var originalContents = document.body.innerHTML;
-         document.body.innerHTML = printContents;
-         window.print();
-         document.body.innerHTML = originalContents;
+                var printContents = document.getElementById(divName).innerHTML;
+                var originalContents = document.body.innerHTML;
+                document.body.innerHTML = printContents;
+                window.print();
+                document.body.innerHTML = originalContents;
+            }
+
+            function return_damage_redirect(baseurl,return_id){
+                window.open(baseurl+'returns/return_damage/'+return_id, '_blank');
             }
         </script>
-      
         <!-- <script type="text/javascript">
             $('.extra-fields-customer').click(function() {
 
