@@ -140,11 +140,9 @@ function get_damitem_value(count){
         url: redirect,
         dataType: "json",
         success: function(response){
-<<<<<<< HEAD
-            /*document.getElementById("qty"+count).value = response.qty;*/
-=======
+
             document.getElementById("qty"+count).value = 1;
->>>>>>> 2c39420951350a1ce1dd3e953152f8dc89770d6d
+
             document.getElementById("brand"+count).value = response.brand;
             document.getElementById("serial_no"+count).value = response.serial_no;
             document.getElementById("original_pn"+count).value = response.original_pn;

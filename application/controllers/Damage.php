@@ -219,7 +219,7 @@ class Damage extends CI_Controller {
     }
 
     public function damage_list(){
-
+        $data['damage']=array();
         foreach($this->super_model->select_all("damage_head") AS $dam){
             $data['damage'][] = array(
                 "damage_id"=>$dam->damage_id,

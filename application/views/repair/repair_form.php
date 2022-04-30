@@ -132,7 +132,7 @@
                                                 <div class="form-check m-0" >
                                                 <label class="form-check-label">
 
-                                                <input type="radio" class="form-check-input"  id="radio" name="repair<?php echo $z;?>" value="1" onclick="assessment(this.value, '<?php echo $z; ?>')"> Repair <i class="input-helper"></i></label>
+                                                <input type="radio" class="form-check-input"  id="radio" name="repair<?php echo $z;?>" value="1" onclick="assessment_repair(this.value, '<?php echo $z; ?>')"> Repair <i class="input-helper"></i></label>
 
                                               
                                             </div>
@@ -142,7 +142,7 @@
                                             <div class="form-check m-0">
                                                 <label class="form-check-label">
 
-                                                <input type="radio" class="form-check-input"  id="radio" name="repair<?php echo $z;?>" value="2" checked="" onclick="assessment(this.value, '<?php echo $z; ?>')">Beyond Repair <i class="input-helper"></i></label>
+                                                <input type="radio" class="form-check-input"  id="radio" name="repair<?php echo $z;?>" value="2" checked="" onclick="assessment_repair(this.value, '<?php echo $z; ?>')">Beyond Repair <i class="input-helper"></i></label>
 
 
                                             </div>
