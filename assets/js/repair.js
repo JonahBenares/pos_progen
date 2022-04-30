@@ -62,14 +62,10 @@ function check_repair_qty(count){
   }
 }
 
-<<<<<<< HEAD
-function assessment(option,counter){
-     var newpn = document.getElementById("new_pn"+counter);
-   
-=======
+
 function assessment_repair(option,count){
      var newpn = document.getElementById("new_pn"+count);
->>>>>>> 2c39420951350a1ce1dd3e953152f8dc89770d6d
+
     if(option=='1'){
         newpn.style.display = "block";
     } else {

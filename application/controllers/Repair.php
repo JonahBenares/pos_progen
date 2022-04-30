@@ -120,56 +120,80 @@ class Repair extends CI_Controller {
             $this->super_model->update_where("repair_details", $rep_data, "repair_id", $repair_id);
 
             if($radio == 1){ ///if repaired
+                $repaired_item = $this->super_model->select_column_custom_where("repair_details", "repaired_item_id", "repair_id='$repair_id' AND in_id ='$inid'");
 
-                $item_id = $this->super_model->select_column_where("fifo_in", "item_id", "in_id", $inid);
+                $count_existing_repaired = $this->super_model->count_custom_where("repair_details", "repaired_item_id", $repaired_item);
 
-                foreach($this->super_model->select_row_where("items", "item_id", $item_id) AS $it){
-                    $dataitem = array(
-                        "category_id"=>$it->category_id,
-                        "subcat_id"=>$it->subcat_id,
-                        "original_pn"=>$new_pn,
-                        "item_name"=>$it->item_name . ' - Refurbished',
-                        "unit_id"=>$it->unit_id,
-                        "group_id"=>$it->group_id,
-                        "location_id"=>$it->location_id,
-                        "bin_id"=>$it->bin_id,
-                        "warehouse_id"=>$it->warehouse_id,
-                        "rack_id"=>$it->rack_id,
-                        "barcode"=>$it->barcode,
-                        "picture1"=>$it->picture1,
-                        "picture2"=>$it->picture2,
-                        "picture3"=>$it->picture3,
-                        "nkk_no"=>$it->nkk_no,
-                        "semt_no"=>$it->semt_no,
-                        "weight"=>$it->weight
-                    );
+                if($count_existing_repaired == 0){
 
-                    $new_item_id = $this->super_model->insert_return_id("items", $dataitem);
+                    $item_id = $this->super_model->select_column_where("fifo_in", "item_id", "in_id", $inid);
 
-                    $update_item_id = array(
-                        "item_id"=>$new_item_id,
-                    );
-
-                    $this->super_model->update_where("repair_details", $update_item_id, "repair_id", $repair_id);
-
-                    foreach($this->super_model->select_row_where('fifo_in', 'in_id', $inid) AS $in){
-                        $datafifo_in = array(
-                            "receive_date"=>$in->receive_date,
-                            "pr_no"=>$in->pr_no,
-                            "item_id"=>$new_item_id,
-                            "supplier_id"=>$in->supplier_id,
-                            "brand"=>$in->brand,
-                            "catalog_no"=>$in->catalog_no,
-                            "serial_no"=>$serial,
-                            "expiry_date"=>$in->expiry_date,
-                            "item_cost"=>$in->item_cost,
-                            "quantity"=>'1',
-                            "remaining_qty"=>'1',
+                    foreach($this->super_model->select_row_where("items", "item_id", $item_id) AS $it){
+                        $dataitem = array(
+                            "category_id"=>$it->category_id,
+                            "subcat_id"=>$it->subcat_id,
+                            "original_pn"=>$new_pn,
+                            "item_name"=>$it->item_name . ' - Refurbished',
+                            "unit_id"=>$it->unit_id,
+                            "group_id"=>$it->group_id,
+                            "location_id"=>$it->location_id,
+                            "bin_id"=>$it->bin_id,
+                            "warehouse_id"=>$it->warehouse_id,
+                            "rack_id"=>$it->rack_id,
+                            "barcode"=>$it->barcode,
+                            "picture1"=>$it->picture1,
+                            "picture2"=>$it->picture2,
+                            "picture3"=>$it->picture3,
+                            "nkk_no"=>$it->nkk_no,
+                            "semt_no"=>$it->semt_no,
+                            "weight"=>$it->weight
                         );
 
-                        $this->super_model->insert_into("fifo_in", $datafifo_in);
+                        $new_item_id = $this->super_model->insert_return_id("items", $dataitem);
+
+                       
+                        foreach($this->super_model->select_row_where('fifo_in', 'in_id', $inid) AS $in){
+                            $datafifo_in = array(
+                                "receive_date"=>$in->receive_date,
+                                "pr_no"=>$in->pr_no,
+                                "item_id"=>$new_item_id,
+                                "supplier_id"=>$in->supplier_id,
+                                "brand"=>$in->brand,
+                                "catalog_no"=>$in->catalog_no,
+                                "serial_no"=>$serial,
+                                "expiry_date"=>$in->expiry_date,
+                                "item_cost"=>$in->item_cost,
+                                "quantity"=>'1',
+                                "remaining_qty"=>'1',
+                            );
+
+                            $new_inid = $this->super_model->insert_return_id("fifo_in", $datafifo_in);
+
+                             $update_item_id = array(
+                                "item_id"=>$new_item_id,
+                                "in_id"=>$new_inid,
+                                );
+
+                            $this->super_model->update_where("repair_details", $update_item_id, "repair_id", $repair_id);
+
+                        }
                     }
-                }
+                 } else {
+
+                    $existing_id = $this->super_model->select_column_where("repair_details", "item_id", "repaired_item_id",$repaired_item);
+                    $exist_qty = $this->super_model->select_column_where("fifo_in", "quantity", "item_id",$existing_id);
+                    $exist_rem_qty = $this->super_model->select_column_where("fifo_in", "remaining_quantity", "item_id",$existing_id);
+                    $new_qty=$exist_qty + 1;
+                    $new_rem_qty=$exist_rem_qty + 1;
+                    $dataqty = array(
+                        "quantity"=>$new_qty,
+                        "remaining_qty"=>$new_rem_qty
+                    ); 
+
+                     $this->super_model->update_where("fifo_in", $dataqty, "item_id", $existing_id);
+
+
+                 }
 
                  $damage_data = array(
                         'repaired'=>1,
