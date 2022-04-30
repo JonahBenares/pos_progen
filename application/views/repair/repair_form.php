@@ -25,11 +25,11 @@
         </div>
         <form id='InsertRepair'>
         <?php 
-            foreach($rep AS $d){  
+            //foreach($rep AS $r){  
                 $z = 1;
                 foreach($details AS $r){ 
-                    switch($r){
-                        case($d['in_id'] == $r['in_id']):       
+                    //switch($r){
+                        //case($d['in_id'] == $r['in_id']):       
         ?>
             <div class="row">
                 <div class="col-12">
@@ -96,9 +96,9 @@
                                         <div class="col-lg-5">
                                             <div class="form-group">
                                                 <label >Qty</label>
-                                                <input type="text" class="form-control" onkeyup="check_repair_qty('<?php echo $z; ?>')" id="repqty<?php echo $z; ?>" name="qty<?php echo $z;?>" placeholder="<?php echo number_format($d['avail_qty'],2); ?>" value="<?php echo $d['avail_qty']?>" readonly> 
+                                                <input type="text" class="form-control" onkeyup="check_repair_qty('<?php echo $z; ?>')" id="repqty<?php echo $z; ?>" name="qty<?php echo $z;?>" placeholder="<?php echo number_format($r['avail_qty'],2); ?>" value="<?php echo $r['avail_qty']?>" readonly> 
                                             </div> 
-                                            <input type='hidden' name='avail_qty' id='avail_qty<?php echo $z; ?>' value="<?php echo number_format($d['avail_qty']); ?>"> 
+                                            <input type='hidden' name='avail_qty' id='avail_qty<?php echo $z; ?>' value="<?php echo number_format($r['avail_qty']); ?>"> 
                                         </div>
                                     </div>
                                     <div class="row">
@@ -161,17 +161,17 @@
                                 </div>
                             </div>
                             <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
-                            <input type="hidden" name="damage_det_id<?php echo $z;?>" value = "<?php echo $d['damage_det_id'];?>">
-                            <input type="hidden" name="repair_id<?php echo $z;?>" value = "<?php echo $d['repair_id'];?>">
-                            <input type="hidden" name="in_id<?php echo $z;?>" value = "<?php echo $d['in_id'];?>">
+                            <input type="hidden" name="damage_det_id<?php echo $z;?>" value = "<?php echo $r['damage_det_id'];?>">
+                            <input type="hidden" name="repair_id<?php echo $z;?>" value = "<?php echo $r['repair_id'];?>">
+                            <input type="hidden" name="in_id<?php echo $z;?>" value = "<?php echo $r['in_id'];?>">
                             <input type="hidden" name="user_id" value = "<?php echo $_SESSION['user_id'];?>">     
                         </div>
                     </div>
                 </div>
             </div>
-        <?php break;
-            default: 
-        } $z++; } $counter = $z-1; }  ?>
+        <?php //break;
+            //default: 
+        /*}*/ $z++; } $counter = $z-1; /*}*/  ?>
         <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
