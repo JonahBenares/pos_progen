@@ -197,7 +197,7 @@ class Reports extends CI_Controller {
                 if($this->super_model->count_custom_where("return_head","dr_no = '$goods->dr_no'") != 0){
                     $return_id = $this->super_model->select_column_where("return_head", "return_id", "dr_no", $goods->dr_no);
                     //$returned_amount = $this->super_model->select_sum_where("return_details", "total_amount", "return_id='$return_id'");
-                       $returned_amount =  $this->super_model->select_sum_join("total_amount","return_head","return_details", "return_id='$return_id' AND transaction_type='Goods'","return_id");
+                       $returned_amount =  $this->super_model->select_sum_join("total_amount","return_head","return_details", "return_head.return_id='$return_id' AND transaction_type='Goods'","return_id");
                     $total_sales = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$goods->sales_good_head_id'");
 
                     $total_amount = $total_sales - $returned_amount;
