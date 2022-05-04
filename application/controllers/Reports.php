@@ -1041,7 +1041,7 @@ class Reports extends CI_Controller {
     }
     public function adjustment_print(){
         $bsid = $this->uri->segment(3);
-
+        $data['status']=$this->super_model->select_column_where("billing_head","status","billing_id",$bsid);
         foreach($this->super_model->select_row_where("billing_head", "billing_id", $bsid) AS $bs){
             $data['head'][] = array(
                 "billing_no"=>$bs->billing_no,

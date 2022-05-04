@@ -86,7 +86,7 @@
                                     <?php 
                                     if(!empty($billed)){
                                     foreach($billed AS $b){
-                                    echo $b['count_adjust']; ?>
+                                    //echo $b['count_adjust']; ?>
                                     <tr>
                                         <td>
                                             <center>
