@@ -105,6 +105,10 @@
             function return_damage_redirect(baseurl,return_id){
                 window.open(baseurl+'returns/return_damage/'+return_id, '_blank');
             }
+
+            function bs_adjustment_redirect(baseurl,billing_id){
+                window.open(baseurl+'reports/adjustment_list/'+billing_id, '_blank');
+            }
         </script>
         <!-- <script type="text/javascript">
             $('.extra-fields-customer').click(function() {

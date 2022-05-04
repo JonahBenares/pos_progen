@@ -87,7 +87,7 @@
                             </div>
                             <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
                                 <h6 class="preview-subject font-weight-normal mb-1">BS Adjustment</h6>
-                                <p class="text-gray ellipsis mb-0"> <?php echo $hist->remarks; ?> </p>
+                                <p class="text-gray ellipsis mb-0" onclick="bs_adjustment_redirect('<?php echo base_url(); ?>','<?php echo $hist->billing_id; ?>')"> <?php echo $hist->remarks; ?> </p>
                             </div>
                             </a>
                         <?php } ?>
@@ -111,9 +111,9 @@
                         </a>
                         <?php } } ?>
                         <div class="dropdown-divider"></div>
-                        <center>
+                       <!--  <center>
                             <a href="<?php echo base_url(); ?>masterfile/notif_list" class="btn btn-link">See all notifications</a>
-                        </center>
+                        </center> -->
                     </div>
                 </li>
                 <!-- <li class="nav-item nav-logout d-none d-lg-block">

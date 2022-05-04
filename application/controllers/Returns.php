@@ -334,7 +334,7 @@ class Returns extends CI_Controller {
     public function billing_statement_adjustment($drno,$return_id){
         $check_billing = $this->super_model->count_custom("SELECT bh.billing_id FROM billing_head bh INNER JOIN billing_details bd ON bh.billing_id = bd.billing_id WHERE status = '0' AND dr_no = '$drno'");
         if($check_billing!=0){
-            $billing_id = $this->super_model->select_column_where("billing_details", "billing_id", "dr_no", $drno);
+            $billing_id = $this->super_model->custom_query_single("billing_id","SELECT bh.billing_id FROM billing_head bh INNER JOIN billing_details bd ON bh.billing_id = bd.billing_id WHERE status = '0' AND dr_no = '$drno'");
             $billing_no = $this->super_model->select_column_where("billing_head", "billing_no", "billing_id", $billing_id);
             $returned ='';
             $total_price=0;
