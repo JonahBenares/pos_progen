@@ -221,10 +221,25 @@ class Damage extends CI_Controller {
     public function damage_list(){
         $data['damage']=array();
         foreach($this->super_model->select_all("damage_head") AS $dam){
+            $damage_det_id=$this->super_model->select_column_where("damage_details","damage_det_id","damage_id",$dam->damage_id);
+            $repaired=$this->super_model->select_column_where("damage_details","repaired","damage_det_id",$damage_det_id);
+            $assessment=$this->super_model->select_column_where("repair_details","assessment","damage_det_id",$damage_det_id);
+            $saved=$this->super_model->select_column_where("repair_details","saved","damage_det_id",$damage_det_id);
+
+            if($repaired==0 AND $assessment==''){
+                $status='Pending';
+            } elseif ($repaired==1 AND $assessment==1 AND $saved==1) {
+                $status='Repaired';
+            } elseif ($repaired==0 AND $assessment==2 AND $saved==1) {
+                $status='Beyond Repair';
+            }
+
+
             $data['damage'][] = array(
                 "damage_id"=>$dam->damage_id,
                 "pdr_no"=>$dam->pdr_no,
                 "date_reported"=>$dam->reported_date,
+                "status"=>$status,
                 "item"=>$this->super_model->select_column_where("items", "item_name", "item_id", $dam->item_id),
                 "accounted_person"=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $dam->accounted_to)
             );
