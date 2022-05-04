@@ -69,7 +69,7 @@
                     <td colspan="7" class="bor-btm1"><?php echo $h['pdr_no']; ?></td>
                     <td colspan="1"></td>
                     <td colspan="3" align="right">Date:</td>
-                    <td colspan="7" class="bor-btm1"> &nbsp;</td>
+                    <td colspan="7" class="bor-btm1"> &nbsp;<?php echo date("Y-m-d", strtotime($h['date_reported'])); ?></td>
                 </tr>               
                 <tr>
                     <td colspan="3">Reported by:</td>
