@@ -10,7 +10,7 @@
     </center>
     <br>
 </div>
-<page size="A4" class="adjusted"> 
+<page size="A4" class="<?php echo ($status==2) ? 'adjusted' : ''; ?>"> 
     <div class="p-t-20 m-l-20 m-r-20 ">
         <!-- <img src="<?php echo base_url(); ?>assets/images/adjusted.png" style="width: 100%; position: inherit;"> -->
         <table class="page-A4 table-bordsered" width="100%">
