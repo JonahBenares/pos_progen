@@ -41,7 +41,7 @@
                         <form method="POST"> 
                             <div class="row">
                                 <div class="col-lg-4 offset-lg-3">
-                                    <select class="form-control" name="item" id='item'>
+                                    <select class="form-control select2" name="item" id='item'>
                                         <option value="">-Choose Item-</option>
                                         <?php foreach($item AS $i){ ?>
                                              <option value="<?php echo $i->item_id; ?>"><?php echo $i->item_name; ?></option>

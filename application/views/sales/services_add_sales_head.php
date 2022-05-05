@@ -1,4 +1,11 @@
 <script src="<?php echo base_url(); ?>assets/js/sales.js"></script>
+<script type="text/javascript">
+   
+function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); };
+$(document).bind("keydown", disableF5);
+$(document).on("keydown", disableF5);
+
+</script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -147,7 +154,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Shipped Via</label>
-                                        <select class="form-control" id="shipped_via" name = "shipped_via">
+                                        <select class="form-control select2" id="shipped_via" name = "shipped_via">
                                             <option value="">--Select Shipping--</option>
                                             <?php foreach($shipping AS $s){ ?>
                                                 <option value="<?php echo $s->ship_comp_id; ?>"><?php echo $s->company_name; ?></option>

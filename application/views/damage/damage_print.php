@@ -164,7 +164,11 @@
                     <td colspan="7" class="bor-btm1"><?php echo $h['inspected_by']; ?></td>
                     <td colspan="3"></td>
                     <td colspan="4" align="right">Repairable:</td>
+                    <?php if($h['repaired'] == 0){ ?>
                     <td colspan="1" class="bor-btm1" align="center"></td>
+                    <?php } else if($h['repaired'] == '1' && $h['assessment']=='1'){ ?>
+                         <td colspan="1" class="bor-btm1" align="center">x</td>
+                    <?php } ?>
                     <td colspan="1"></td>
                 </tr>
                 <tr>
@@ -173,7 +177,11 @@
                     <td colspan="7" class="bor-btm1"><?php echo $h['date_inspected']; ?></td>
                     <td colspan="3"></td>
                     <td colspan="4" align="right">Beyond Repair:</td>
+                      <?php if($h['repaired'] == 0 && $h['assessment']=='0'){ ?>
                     <td colspan="1" class="bor-btm1" align="center"></td>
+                      <?php } else if($h['repaired'] == '0' && $h['assessment']=='2'){ ?>
+                         <td colspan="1" class="bor-btm1" align="center">x</td>
+                    <?php } ?>
                     <td colspan="1"></td>
                 </tr>
                 <tr>

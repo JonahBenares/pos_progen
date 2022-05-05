@@ -64,7 +64,7 @@ class Damage extends CI_Controller {
                 <select class="alt-control" name="transaction'.$count.'" id="transaction'.$count.'" onchange="get_damitem_value('.$count.')">
                     <option>-Select Transaction-</option>';
                     foreach($this->super_model->select_custom_where('fifo_in','item_id = "'.$item_id.'" AND (expiry_date ="" or expiry_date >= "'.$now.'") AND remaining_qty != 0') AS $in){ 
-                        $str.='<option value='.$in->in_id.' myTag='.$in->remaining_qty.'>'.$in->receive_date. ', '. $in->pr_no.', '.$in->brand.'</option>';
+                        $str.='<option value='.$in->in_id.' myTag='.$in->remaining_qty.'>'.date('Y-m-d', strtotime($in->receive_date)). ', '. $in->pr_no.', '.$in->brand.'</option>';
                     }
                 $str.= '</select>
             </td>
@@ -179,7 +179,7 @@ class Damage extends CI_Controller {
 
     public function damage_print(){
         $id=$this->uri->segment(3);
-
+        $damage_det_id = $this->super_model->select_column_where("damage_details", "damage_det_id","damage_id",$id);
         foreach($this->super_model->select_row_where("damage_head", "damage_id", $id) AS $dam){
             $data['head'][] = array(
                 "pdr_no"=>$dam->pdr_no,
@@ -196,6 +196,8 @@ class Damage extends CI_Controller {
                 "prepared_by"=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $dam->prepared_by),
                 "checked_by"=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $dam->checked_by),
                 "noted_by"=>$this->super_model->select_column_where("employees", "employee_name", "employee_id", $dam->noted_by),
+                "repaired"=>$this->super_model->select_column_where("damage_details", "repaired","damage_det_id",$damage_det_id),
+                "assessment"=>$this->super_model->select_column_where("repair_details", "assessment","damage_det_id",$damage_det_id)
 
             );
         }
