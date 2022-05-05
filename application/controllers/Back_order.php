@@ -57,7 +57,7 @@ class Back_order extends CI_Controller {
         $data['id']=$pr_no;
 
           /*foreach($this->super_model->select_row_where("receive_details", "pr_no", $pr_no) AS $rd){*/
-          foreach($this->super_model->select_custom_where("receive_details", "pr_no LIKE '%$pr_no%' GROUP BY pr_no") AS $rd){
+          foreach($this->super_model->select_custom_where("receive_details", "pr_no = '$pr_no' GROUP BY pr_no") AS $rd){
             
                
                  $data['details'][] = array(
@@ -71,7 +71,7 @@ class Back_order extends CI_Controller {
         }
 
             /*foreach($this->super_model->select_row_where("receive_items", "rd_id", $id) AS $it){*/
-            foreach($this->super_model->custom_query("SELECT * FROM receive_details rd INNER JOIN receive_items ri ON rd.rd_id = ri.rd_id WHERE rd.pr_no LIKE '%$pr_no%' AND bo='0'") AS $it){
+            foreach($this->super_model->custom_query("SELECT * FROM receive_details rd INNER JOIN receive_items ri ON rd.rd_id = ri.rd_id WHERE rd.pr_no = '$pr_no' AND bo='0'") AS $it){
             if($it->expected_qty > $it->received_qty){
                 $boqty=$this->backorder_qty($it->ri_id);
                 $total_cost=$boqty * $it->item_cost;
