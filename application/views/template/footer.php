@@ -155,6 +155,7 @@
                     }
                 } else {
                         window.open(baseurl+'reports/adjustment_list/'+billing_id, '_blank');
+
                 }
                
             }
@@ -176,13 +177,15 @@
                             url: redirect,
                             success: function(output){
                                
-                                window.location=new_page;
+                                //window.location=new_page;
+                                window.open(new_page, '_blank');
                               
                             }
                         });
                     }
                 } else {
-                       window.location=new_page;
+                       //window.location=new_page;
+                         window.open(new_page, '_blank');
                 }
 
 
