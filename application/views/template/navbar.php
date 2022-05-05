@@ -2,8 +2,8 @@
 <div class="container-scroller">
     <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo" href="<?php echo base_url(); ?>masterfile/dashboard"><img src="<?php echo base_url(); ?>assets/images/logo.svg" alt="logo" /></a>
-            <a class="navbar-brand brand-logo-mini" href="<?php echo base_url(); ?>masterfile/dashboard"><img src="<?php echo base_url(); ?>assets/images/logo-mini.svg" alt="logo" /></a>
+            <a class="navbar-brand brand-logo" href="<?php echo base_url(); ?>masterfile/dashboard" target="_blank"><img src="<?php echo base_url(); ?>assets/images/logo.svg" alt="logo" /></a>
+            <a class="navbar-brand brand-logo-mini" href="<?php echo base_url(); ?>masterfile/dashboard" target="_blank"><img src="<?php echo base_url(); ?>assets/images/logo-mini.svg" alt="logo" /></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -176,73 +176,73 @@
                     <div class="collapse" id="masterfilelist">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/bin_list">Bin</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/bin_list')" >Bin</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/client_list">Client</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/client_list')">Client</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/department_list">Department</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/department_list')">Department</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/employee_list">Employees</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/employee_list')" >Employees</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/equipment_list">Equipment</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/equipment_list')" >Equipment</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/group_list">Group</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/group_list')" >Group</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/category_list">Item Category</a>
+                                <a class="nav-link"  href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/category_list')" >Item Category</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/location_list">Location</a>
+                                <a class="nav-link"  href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/location_list')" >Location</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/manpower_list">Manpower</a>
+                                <a class="nav-link"  href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/manpower_list')">Manpower</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/purpose_list">Purpose</a>
+                                <a class="nav-link"  href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/purpose_list')" >Purpose</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/rack_list">Rack</a>
+                                <a class="nav-link"  href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/rack_list')" >Rack</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/shipping_list">Shipping Company</a>
+                                <a class="nav-link"  href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/shipping_list')">Shipping Company</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/supplier_list">Supplier</a>
+                                <a class="nav-link"  href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/supplier_list')" >Supplier</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/uom_list">UOM</a>
+                                <a class="nav-link"  href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/uom_list')" >UOM</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>masterfile/warehouse_list">Warehouse</a>
+                                <a class="nav-link"  href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/warehouse_list')" >Warehouse</a>
                             </li>
                         </ul>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>items/item_list">
+                    <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'items/item_list')" >
                         <span class="menu-title">Items</span>
                         <i class="mdi mdi-file-document-box menu-icon"></i>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>damage/damage_list">
+                    <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'damage/damage_list')">
                         <span class="menu-title">Damage</span>
                         <i class="mdi mdi-image-broken-variant menu-icon"></i>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>repair/repair_item">
+                    <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'repair/repair_item')" >
                         <span class="menu-title">Repair</span>
                         <i class="mdi mdi-wrench menu-icon"></i>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>receive/receive_list">
+                    <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'receive/receive_list')" >
                         <span class="menu-title">Receive</span>
                         <i class="mdi mdi-import menu-icon"></i>
                     </a>
@@ -262,10 +262,10 @@
                     <div class="collapse" id="sales_list">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>sales/goods_sales_list">Goods</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'sales/goods_sales_list')">Goods</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>sales/services_sales_list">Services</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'sales/services_sales_list')">Services</a>
                             </li>
                         </ul>
                     </div>
@@ -277,7 +277,7 @@
                     </a> -->
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>returns/return_goods_services">
+                    <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'returns/return_goods_services')" >
                         <span class="menu-title">Return</span>
                         <i class="menu-arrow"></i>
                         <i class="mdi mdi-sync menu-icon"></i>
@@ -294,7 +294,7 @@
                     </div> -->
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>back_order/backorder_form">
+                    <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'back_order/backorder_form')" >
                         <span class="menu-title">Back Order</span>
                         <i class="mdi mdi-backup-restore menu-icon"></i>
                     </a>
@@ -311,38 +311,38 @@
                                 <p class="nav-subtitle">Billing Statement</p>
                             </li>
                              <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>reports/pending_list">Pending</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'reports/pending_list')" >Pending</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>reports/billed_list">Billed</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'reports/billed_list')" >Billed</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>reports/paid_list">Paid</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'reports/paid_list')" >Paid</a>
                             </li>
                             <li class="nav-item"> 
                                 <hr>
                             </li>
 
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>reports/stock_card">Stock Card</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'reports/stock_card')" >Stock Card</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>reports/monthly_report">Monthly Report</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'reports/monthly_report')" >Monthly Report</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>reports/summary_scgp">Summary of SCGP</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'reports/summary_scgp')" >Summary of SCGP</a>
                             </li>
                              <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>reports/item_pr">Item PR</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'reports/item_pr')" >Item PR</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>reports/overallpr_report">Overall PR Report</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'reports/overallpr_report')" >Overall PR Report</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>reports/aging_report">Aging Report</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'reports/aging_report')" >Aging Report</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>reports/inventory_rangedate">Inventory (Per Range of Date)</a>
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'reports/inventory_rangedate')" >Inventory (Per Range of Date)</a>
                             </li>
                         </ul>
                     </div>

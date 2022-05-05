@@ -103,11 +103,87 @@
             }
 
             function return_damage_redirect(baseurl,return_id){
-                window.open(baseurl+'returns/return_damage/'+return_id, '_blank');
+
+                 var curr_url = window.location.href;
+            
+                var goods_url = baseurl+'sales/goods_add_sales_head';
+                var services_url = baseurl+'sales/services_add_sales_head';
+                
+               if(curr_url == goods_url || curr_url == services_url){
+                    var conf = confirm('Are you sure you want to leave? Unsaved transactions will be deleted.');
+                    if(conf){
+                        var redirect = baseurl+'index.php/masterfile/delete_unsave_sales';
+                         $.ajax({
+                            type: "POST",
+                            url: redirect,
+                            success: function(output){
+                               
+                                 window.open(baseurl+'returns/return_damage/'+return_id, '_blank');
+                              
+                            }
+                        });
+                    }
+                } else {
+                       window.open(baseurl+'returns/return_damage/'+return_id, '_blank');
+                }
+
+
             }
 
             function bs_adjustment_redirect(baseurl,billing_id){
-                window.open(baseurl+'reports/adjustment_list/'+billing_id, '_blank');
+
+                  var curr_url = window.location.href;
+            
+                var goods_url = baseurl+'sales/goods_add_sales_head';
+                var services_url = baseurl+'sales/services_add_sales_head';
+                
+               if(curr_url == goods_url || curr_url == services_url){
+                    var conf = confirm('Are you sure you want to leave? Unsaved transactions will be deleted.');
+                    if(conf){
+                        var redirect = baseurl+'index.php/masterfile/delete_unsave_sales';
+                         $.ajax({
+                            type: "POST",
+                            url: redirect,
+                            success: function(output){
+                               
+                                 window.open(baseurl+'reports/adjustment_list/'+billing_id, '_blank');
+                              
+                            }
+                        });
+                    }
+                } else {
+                        window.open(baseurl+'reports/adjustment_list/'+billing_id, '_blank');
+                }
+               
+            }
+
+            function checkURL(baseurl,loc){
+                var curr_url = window.location.href;
+                var new_page = baseurl + loc;
+            
+                var goods_url = baseurl+'sales/goods_add_sales_head';
+                var services_url = baseurl+'sales/services_add_sales_head';
+                
+               if(curr_url == goods_url || curr_url == services_url){
+                    var conf = confirm('Are you sure you want to leave? Unsaved transactions will be deleted.');
+                    if(conf){
+                        var redirect = baseurl+'index.php/masterfile/delete_unsave_sales';
+                         $.ajax({
+                            type: "POST",
+                            url: redirect,
+                            success: function(output){
+                               
+                                window.location=new_page;
+                              
+                            }
+                        });
+                    }
+                } else {
+                       window.location=new_page;
+                }
+
+
+                
             }
         </script>
         <!-- <script type="text/javascript">

@@ -1014,4 +1014,34 @@ class Masterfile extends CI_Controller {
     }
 
 
+    public function delete_unsave_sales(){
+        $user_id=$_SESSION['user_id'];
+      
+        $count_goods = $this->super_model->count_custom_where("sales_good_head", "user_id='$user_id' AND saved='0'");
+      
+        $id = $this->super_model->select_column_custom_where("sales_good_head", "sales_good_head_id", "user_id='$user_id' AND saved='0'");
+            $this->super_model->delete_where("sales_good_head", "sales_good_head_id", $id);
+                foreach($this->super_model->select_custom_where("sales_good_details","sales_good_head_id='$id'") AS $del){
+                    $this->super_model->delete_where("temp_sales_out", "sales_details_id", $del->sales_good_det_id);
+                    $this->super_model->delete_where("sales_good_details", "sales_good_head_id", $id);
+                }
+
+        $count_sales = $this->super_model->count_custom_where("sales_services_head", "user_id='$user_id' AND saved='0'");
+      
+        $service_id = $this->super_model->select_column_custom_where("sales_services_head", "sales_serv_head_id", "user_id='$user_id' AND saved='0'");
+           $this->super_model->delete_where("sales_services_head", "sales_serv_head_id", $service_id);
+        foreach($this->super_model->select_custom_where("sales_serv_items","sales_serv_head_id='$service_id'") AS $del){
+            $this->super_model->delete_where("temp_sales_out", "sales_serv_items_id", $del->sales_serv_items_id);
+            $this->super_model->delete_where("sales_serv_items", "sales_serv_head_id", $service_id);
+            $this->super_model->delete_where("sales_serv_equipment", "sales_serv_head_id", $service_id);
+            $this->super_model->delete_where("sales_serv_manpower", "sales_serv_head_id", $service_id);
+            $this->super_model->delete_where("sales_serv_material", "sales_serv_head_id", $service_id);
+        }
+        
+    }
+         
+
+
+    
+
 }
