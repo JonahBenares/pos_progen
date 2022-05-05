@@ -177,7 +177,7 @@
                     <td colspan="7" class="bor-btm1"><?php echo $h['date_inspected']; ?></td>
                     <td colspan="3"></td>
                     <td colspan="4" align="right">Beyond Repair:</td>
-                      <?php if($h['repaired'] == 0 && $h['assessment']=='0'){ ?>
+                      <?php if($h['repaired'] == 0 ){ ?>
                     <td colspan="1" class="bor-btm1" align="center"></td>
                       <?php } else if($h['repaired'] == '0' && $h['assessment']=='2'){ ?>
                          <td colspan="1" class="bor-btm1" align="center">x</td>
