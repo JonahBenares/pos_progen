@@ -291,7 +291,7 @@ class Reports extends CI_Controller {
         $grand_total =0;
         foreach($this->super_model->select_custom_where("billing_head", "client_id= '$client' AND status='0'") AS $bill){
 
-            echo $bill->billing_id;
+            // echo $bill->billing_id;
             $total_amount = $this->super_model->select_sum_where("billing_details", "remaining_amount", "billing_id='$bill->billing_id'");
             $grand_total += $total_amount;
             $count_adjust = $this->check_adjustment($bill->billing_id);
