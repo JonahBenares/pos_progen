@@ -915,6 +915,7 @@ class Reports extends CI_Controller {
         $today = date("Y-m-d");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
+        $final_balance=0;
         foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id,supplier_id,brand FROM fifo_in WHERE item_id = '$item_id' GROUP BY pr_no") AS $head){
             //$sales_serv_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type='Sales Services'");
 
