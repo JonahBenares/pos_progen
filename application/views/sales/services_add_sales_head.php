@@ -154,7 +154,7 @@ $(document).on("keydown", disableF5);
                                     </div>
                                     <div class="form-group">
                                         <label>Shipped Via</label>
-                                        <select class="form-control" id="shipped_via" name = "shipped_via">
+                                        <select class="form-control select2" id="shipped_via" name = "shipped_via">
                                             <option value="">--Select Shipping--</option>
                                             <?php foreach($shipping AS $s){ ?>
                                                 <option value="<?php echo $s->ship_comp_id; ?>"><?php echo $s->company_name; ?></option>

@@ -197,7 +197,7 @@ class Reports extends CI_Controller {
                 if($this->super_model->count_custom_where("return_head","dr_no = '$goods->dr_no'") != 0){
                     $return_id = $this->super_model->select_column_where("return_head", "return_id", "dr_no", $goods->dr_no);
                     //$returned_amount = $this->super_model->select_sum_where("return_details", "total_amount", "return_id='$return_id'");
-                       $returned_amount =  $this->super_model->select_sum_join("total_amount","return_head","return_details", "return_head.return_id='$return_id' AND transaction_type='Goods'","return_id");
+                       $returned_amount =  $this->super_model->select_sum_join("total_amount","return_head","return_details", "return_id='$return_id' AND transaction_type='Goods'","return_id");
                     $total_sales = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$goods->sales_good_head_id'");
 
                     $total_amount = $total_sales - $returned_amount;
@@ -878,15 +878,18 @@ class Reports extends CI_Controller {
                 $final_balance = $head->quantity;
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage==0 && $count_expired==0){
                 $final_balance = $head->quantity - $sales_good_qty;
+            }else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
+                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0)  && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired==0){
                 $final_balance =  $in_balance; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
                 $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired==0){
                 $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv; 
-            }else if((($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired!=0)){
+            }else if((($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage!=0 && $count_repair==0 && $count_expired==0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired!=0)){
                 $final_balance =  ($head->quantity - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
             }
+
             $data['pr_no'][] = array(
                 "recqty"=>$head->quantity,
                 "item"=>$this->super_model->select_column_where("items", "item_name", "item_id", $head->item_id),

@@ -86,6 +86,7 @@
                                     <td class="td-head">Return Qty</td>
                                     <td class="td-head">Damaged Qty</td>
                                     <td class="td-head">Repaired Qty</td>
+                                    <td class="td-head">Expired Qty</td>
                                     <td class="td-head">Final Balance</td>        
                                 </tr>
                             </thead>
@@ -100,6 +101,7 @@
                                     <td><?php echo  number_format($pn['returnqty'],2);?></td>
                                     <td><?php echo  number_format($pn['damageqty'],2);?></td>
                                     <td><?php echo  number_format($pn['repairqty'],2);?></td>
+                                    <td><?php echo  number_format($pn['expired_qty'],2);?></td>
                                     <td><?php echo number_format($pn['final_balance'],2);?></td>
                                 </tr>
                                 <?php $x++; }  ?>
