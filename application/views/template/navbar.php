@@ -70,7 +70,8 @@
                     <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                         <i class="mdi mdi-bell-outline"></i>
                         <?php  $count = $ci->super_model->count_rows_where("billing_adjustment_history", "status", 0); 
-                        if($count!=0){ ?>
+                        $count_damage = $ci->super_model->count_custom("SELECT * FROM return_details rd INNER JOIN return_head rh ON rd.return_id=rh.return_id WHERE damage_qty!='0'");
+                        if($count!=0  || $count_damage!=0){ ?>
                         <span class="count-symbol bg-danger"></span>
                         <?php } ?>
                     </a>
@@ -86,8 +87,10 @@
                                 </div>
                             </div>
                             <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+                                <a href='javascript:void(0)' onclick="bs_adjustment_redirect('<?php echo base_url(); ?>','<?php echo $hist->billing_id; ?>')">
                                 <h6 class="preview-subject font-weight-normal mb-1">BS Adjustment</h6>
-                                <p class="text-gray ellipsis mb-0" onclick="bs_adjustment_redirect('<?php echo base_url(); ?>','<?php echo $hist->billing_id; ?>')"> <?php echo $hist->remarks; ?> </p>
+                                <p class="text-gray ellipsis mb-0" > <?php echo $hist->remarks; ?> </p>
+                                </a>
                             </div>
                             </a>
                         <?php } ?>
@@ -105,8 +108,10 @@
                             </div>
                         </div>
                         <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+                            <a href="javascript:void(0)"  onclick="return_damage_redirect('<?php echo base_url(); ?>','<?php echo $rd->return_id; ?>')">
                             <h6 class="preview-subject font-weight-normal mb-1">Process Returned w/ Damage</h6>
-                            <p class="text-gray ellipsis mb-0" onclick="return_damage_redirect('<?php echo base_url(); ?>','<?php echo $rd->return_id; ?>')">Fill in <?php echo $rd->dr_no; ?> Return Damage Form </p>
+                            <p class="text-gray ellipsis mb-0">Fill in <?php echo $rd->dr_no; ?> Return Damage Form </p>
+                            </a>
                         </div>
                         </a>
                         <?php } } ?>
