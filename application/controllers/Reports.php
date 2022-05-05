@@ -187,7 +187,8 @@ class Reports extends CI_Controller {
         $data['client']=$client;
         $data['type']=$type;
         $data['sales_combined']=array();
-
+           
+        $data['grand_total'] =0;
         if($type=='1'){
              $grand_total =0;
             $goods_count = $this->super_model->count_custom_where("sales_good_head", "client_id = '$client'");
