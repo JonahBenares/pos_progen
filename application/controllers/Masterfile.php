@@ -1014,7 +1014,7 @@ class Masterfile extends CI_Controller {
     }
 
 
-    public function delete_unsave_sales(){
+    public function delete_unsave(){
         $user_id=$_SESSION['user_id'];
       
         $count_goods = $this->super_model->count_custom_where("sales_good_head", "user_id='$user_id' AND saved='0'");
@@ -1037,6 +1037,11 @@ class Masterfile extends CI_Controller {
             $this->super_model->delete_where("sales_serv_manpower", "sales_serv_head_id", $service_id);
             $this->super_model->delete_where("sales_serv_material", "sales_serv_head_id", $service_id);
         }
+
+        $receive_id = $this->super_model->select_column_custom_where("receive_head", "receive_id", "user_id='$user_id' AND saved='0'");
+        $this->super_model->delete_where("receive_head", "receive_id", $receive_id);
+        $this->super_model->delete_where("receive_details", "receive_id", $receive_id);
+        $this->super_model->delete_where("receive_items", "receive_id", $receive_id);
         
     }
          
