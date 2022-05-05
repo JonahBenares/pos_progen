@@ -219,7 +219,7 @@
                                             <td class="font14" width="10%">Accquisition Date</td>
                                             <td class="font14" width="10%">Accquisition Cost</td>
                                             <td class="font14" width="1%" align="center">
-                                                <a class="btn btn-gradient-info btn-xs" onclick="add_transaction()">
+                                                <a class="btn btn-gradient-info btn-xs" id='add' onclick="add_transaction()">
                                                     <span class="mdi mdi-plus"></span>
                                                 </a>
                                             </td>
