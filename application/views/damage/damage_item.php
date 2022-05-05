@@ -39,7 +39,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="exampleInputEmail3">Item</label>
-                                    <select class="form-control" name='item' id='item'>
+                                    <select class="form-control select2" name='item' id='item'>
                                         <option>-Select Item-</option>
                                         <?php foreach($item AS $i){ ?>
                                             <option value="<?php echo $i->item_id; ?>"><?php echo $i->original_pn." - ".$i->item_name; ?></option>
