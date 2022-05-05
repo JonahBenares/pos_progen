@@ -71,7 +71,7 @@
                             <div class="row">
                                 <div class="col-lg-4 offset-lg-3">
                                     <!-- <input type="" class="form-control" name="" placeholder="Customer"> -->
-                                    <select class="form-control" id="item_id" name="item_id">
+                                    <select class="form-control select2" id="item_id" name="item_id">
                                         <option value="">--Select an Item--</option>
                                         <?php foreach($items AS $it){ ?>
                                             <option value="<?php echo $it->item_id; ?>"><?php echo $it->item_name; ?></option>
