@@ -187,7 +187,8 @@ class Reports extends CI_Controller {
         $data['client']=$client;
         $data['type']=$type;
         $data['sales_combined']=array();
-
+           
+        $data['grand_total'] =0;
         if($type=='1'){
              $grand_total =0;
             $goods_count = $this->super_model->count_custom_where("sales_good_head", "client_id = '$client'");
@@ -291,7 +292,7 @@ class Reports extends CI_Controller {
         $grand_total =0;
         foreach($this->super_model->select_custom_where("billing_head", "client_id= '$client' AND status='0'") AS $bill){
 
-            echo $bill->billing_id;
+            // echo $bill->billing_id;
             $total_amount = $this->super_model->select_sum_where("billing_details", "remaining_amount", "billing_id='$bill->billing_id'");
             $grand_total += $total_amount;
             $count_adjust = $this->check_adjustment($bill->billing_id);
@@ -497,7 +498,7 @@ class Reports extends CI_Controller {
         }
 
         $data['details']=$this->super_model->select_custom_where("billing_details", "billing_id='$bsid' AND remaining_amount != '0' ORDER BY dr_date DESC");
-
+        $data['billing_id']=$bsid;
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('reports/print_billing',$data);
@@ -853,7 +854,7 @@ class Reports extends CI_Controller {
         $today = date("Y-m-d");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id,rd_id FROM fifo_in WHERE pr_no = '$pr'") AS $head){
+        foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id,rd_id,supplier_id,brand FROM fifo_in WHERE pr_no = '$pr' GROUP BY item_id") AS $head){
             $purpose_id = $this->super_model->select_column_where("receive_details","purpose_id","rd_id",$head->rd_id);
             $data['purpose'] = $this->super_model->select_column_where("purpose", "purpose_desc", "purpose_id", $purpose_id);
             $sales_good_rem_qty = $this->super_model->select_sum_where("fifo_out","remaining_qty","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
@@ -871,24 +872,28 @@ class Reports extends CI_Controller {
             $count_damage = $this->super_model->count_custom_where("damage_details","in_id='$head->in_id'");
             $count_repair = $this->super_model->count_custom_where("repair_details","in_id='$head->in_id'");
             $sales_good_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
+            $received_qty = $this->super_model->select_sum_where("fifo_in","quantity","item_id='$head->item_id' AND supplier_id='$head->supplier_id' AND brand='$head->brand'");
             $sales_ret = ($return_qty - $return_qty_serv) + ($damageret_qty - $damageret_qty_serv);
             $sales_all = $sales_good_qty - $return_qty - $return_qty_serv - $damageret_qty - $damageret_qty_serv;
-            $in_balance = ($head->quantity - $sales_good_qty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+            $in_balance = ($received_qty - $sales_good_qty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
             if($count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
-                $final_balance = $head->quantity;
+                $final_balance = $received_qty;
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage==0 && $count_expired==0){
-                $final_balance = $head->quantity - $sales_good_qty;
+                $final_balance = $received_qty - $sales_good_qty;
+            }else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0)  && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired==0){
                 $final_balance =  $in_balance; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
-                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired==0){
-                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv; 
-            }else if((($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired!=0)){
-                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv; 
+            }else if((($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage!=0 && $count_repair==0 && $count_expired==0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired!=0)){
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
             }
+
             $data['pr_no'][] = array(
-                "recqty"=>$head->quantity,
+                "recqty"=>$received_qty,
                 "item"=>$this->super_model->select_column_where("items", "item_name", "item_id", $head->item_id),
                 "sales_quantity"=>$sales_all,
                 "expired_qty"=>$expired_qty,
@@ -910,7 +915,8 @@ class Reports extends CI_Controller {
         $today = date("Y-m-d");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id FROM fifo_in WHERE item_id = '$item_id' GROUP BY pr_no") AS $head){
+        $final_balance=0;
+        foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id,supplier_id,brand FROM fifo_in WHERE item_id = '$item_id' GROUP BY pr_no") AS $head){
             //$sales_serv_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type='Sales Services'");
 
             //$sales_good_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
@@ -932,27 +938,28 @@ class Reports extends CI_Controller {
             $count_damage = $this->super_model->count_custom_where("damage_details","in_id='$head->in_id'");
             $count_repair = $this->super_model->count_custom_where("repair_details","in_id='$head->in_id'");
             $sales_good_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
+            $received_qty = $this->super_model->select_sum_where("fifo_in","quantity","item_id='$head->item_id' AND supplier_id='$head->supplier_id' AND brand='$head->brand'");
             $sales_ret = ($return_qty - $return_qty_serv) + ($damageret_qty - $damageret_qty_serv);
             $sales_all = $sales_good_qty - $return_qty - $return_qty_serv - $damageret_qty - $damageret_qty_serv;
-            $in_balance = ($head->quantity - $sales_good_qty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+            $in_balance = ($received_qty - $sales_good_qty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
             if($count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
-                $final_balance = $head->quantity;
+                $final_balance = $received_qty;
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage==0 && $count_expired==0){
-                $final_balance = $head->quantity - $sales_good_qty;
+                $final_balance = $received_qty - $sales_good_qty;
             }else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
-                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0)  && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired==0){
                 $final_balance =  $in_balance; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
-                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired==0){
-                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv; 
-            }else if((($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired!=0)){
-                $final_balance =  ($head->quantity - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv; 
+            }else if((($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage!=0 && $count_repair==0 && $count_expired==0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired!=0)){
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
             }
             $data['item_pr'][] = array(
                 "prno"=>$head->pr_no,
-                "recqty"=>$head->quantity,
+                "recqty"=>$received_qty,
                 "sales_quantity"=>$sales_all,
                 "expired_qty"=>$expired_qty,
                 "returnqty"=>number_format($sales_ret,2),

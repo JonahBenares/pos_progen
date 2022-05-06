@@ -39,7 +39,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="exampleInputEmail3">Item</label>
-                                    <select class="form-control" name='item' id='item'>
+                                    <select class="form-control select2" name='item' id='item'>
                                         <option>-Select Item-</option>
                                         <?php foreach($item AS $i){ ?>
                                             <option value="<?php echo $i->item_id; ?>"><?php echo $i->original_pn." - ".$i->item_name; ?></option>
@@ -219,7 +219,7 @@
                                             <td class="font14" width="10%">Accquisition Date</td>
                                             <td class="font14" width="10%">Accquisition Cost</td>
                                             <td class="font14" width="1%" align="center">
-                                                <a class="btn btn-gradient-info btn-xs" onclick="add_transaction()">
+                                                <a class="btn btn-gradient-info btn-xs" id='add' onclick="add_transaction()">
                                                     <span class="mdi mdi-plus"></span>
                                                 </a>
                                             </td>
