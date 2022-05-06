@@ -38,6 +38,60 @@ class Receive extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function export_receive(){
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Receive.xlsx";
+        $objPHPExcel = new PHPExcel();
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "Receive Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "Mrecf No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1', "DR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1', "PO No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1', "SI No.");
+        $num=2;
+        foreach($this->super_model->select_custom_where("receive_head","saved='1' ORDER BY receive_date ASC") AS $re){
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $re->receive_date);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $re->mrecf_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, $re->dr_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, $re->po_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, $re->si_no);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":J".$num)->applyFromArray($styleArray);
+            $objPHPExcel->getActiveSheet()->mergeCells('A'.$num.":B".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('C'.$num.":D".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('E'.$num.":F".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('G'.$num.":H".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('I'.$num.":J".$num);
+            $num++;
+        }
+        $objPHPExcel->getActiveSheet()->mergeCells('A1:B1');
+        $objPHPExcel->getActiveSheet()->mergeCells('C1:D1');
+        $objPHPExcel->getActiveSheet()->mergeCells('E1:F1');
+        $objPHPExcel->getActiveSheet()->mergeCells('G1:H1');
+        $objPHPExcel->getActiveSheet()->mergeCells('I1:J1');
+        $objPHPExcel->getActiveSheet()->getStyle('A1:J1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:J1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A1:J1")->applyFromArray($styleArray);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Receive.xlsx"');
+        readfile($exportfilename);
+    }
+
     public function add_receive()
     {
         $this->load->view('template/header');

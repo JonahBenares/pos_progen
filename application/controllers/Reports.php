@@ -251,6 +251,91 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function export_pendingbilling(){
+        $client = $this->uri->segment(3);
+        $type = $this->uri->segment(4);
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Pending Bill.xlsx";
+        $objPHPExcel = new PHPExcel();
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A3', "DR Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "DR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F3', "Total Amount");
+        if($type=='1'){
+            $grand_total =0;
+            $num=4;
+            foreach($this->super_model->select_custom_where("sales_good_head", "client_id='$client' AND billed='0'") AS $goods){
+                if($this->super_model->count_custom_where("return_head","dr_no = '$goods->dr_no'") != 0){
+                    $return_id = $this->super_model->select_column_where("return_head", "return_id", "dr_no", $goods->dr_no);
+                    $returned_amount =  $this->super_model->select_sum_join("total_amount","return_head","return_details", "return_id='$return_id' AND transaction_type='Goods'","return_id");
+                    $total_sales = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$goods->sales_good_head_id'");
+                    $total_amount = $total_sales - $returned_amount;
+                } else {
+                    $total_amount = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$goods->sales_good_head_id'");
+                }
+                $grand_total += $total_amount;
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', "Overall Total Amount");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G2', $grand_total);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $goods->sales_date);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $goods->dr_no);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $total_amount);
+                $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":G".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":G".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->mergeCells('A'.$num.":B".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('C'.$num.":E".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('F'.$num.":G".$num);
+                $num++;
+            }
+        } else if($type=='2') {
+            $grand_total =0;
+            $num=4;
+            foreach($this->super_model->select_custom_where("sales_services_head", "client_id='$client' AND billed='0'") AS $services){
+                $total_sales =  $this->super_model->select_sum_where("sales_serv_equipment", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'") + $this->super_model->select_sum_where("sales_serv_items", "total", "sales_serv_head_id='$services->sales_serv_head_id'") +  $this->super_model->select_sum_where("sales_serv_manpower", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'") + $this->super_model->select_sum_where("sales_serv_material", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'");
+                $returned_amount =  $this->super_model->select_sum_join("total_amount","return_head","return_details", "return_id='$return_id' AND transaction_type='Services'","return_id");
+                $total_amount = $total_sales - $returned_amount;
+                $grand_total += $total_amount;
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', "Overall Total Amount");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G2', $grand_total);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $re->sales_date);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $re->dr_no);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $total_amount);
+                $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":G".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":G".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->mergeCells('A'.$num.":B".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('C'.$num.":E".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('F'.$num.":G".$num);
+                $num++;
+            }
+        } 
+        $objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('G2')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+        $objPHPExcel->getActiveSheet()->mergeCells('A3:B3');
+        $objPHPExcel->getActiveSheet()->mergeCells('C3:E3');
+        $objPHPExcel->getActiveSheet()->mergeCells('F3:G3');
+        $objPHPExcel->getActiveSheet()->getStyle('A3:G3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:G3')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A3:G3")->applyFromArray($styleArray);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Pending Bill.xlsx"');
+        readfile($exportfilename);
+    }
+
     public function pending_popup(){
         $ids = $this->uri->segment(3);
         $client_id = $this->uri->segment(4);

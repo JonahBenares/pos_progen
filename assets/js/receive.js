@@ -310,3 +310,8 @@ function delete_receive_item(ri_id,count){
         }
     });  
 }
+
+function exportReceive(){
+    var loc= document.getElementById("baseurl").value;
+    window.location = loc+'receive/export_receive/';
+}

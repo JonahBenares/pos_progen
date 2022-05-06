@@ -1,5 +1,5 @@
-
-
+<script src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/reports.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -34,9 +34,9 @@
                                     <a href="<?php echo base_url(); ?>report/print_monthly_report" class="btn btn-gradient-info btn-sm btn-rounded">
                                         <b><span class="mdi mdi-printer"></span> Print</b>
                                     </a>                            
-                                    <button type="button" class="btn btn-gradient-warning btn-sm btn-rounded" data-toggle="modal" data-target="#updateSales">
+                                    <a href="<?php echo base_url(); ?>reports/export_pendingbilling/<?php echo $client; ?>/<?php echo $type; ?>" class="btn btn-gradient-warning btn-sm btn-rounded">
                                         <b><span class="mdi mdi-export"></span> Export</b>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
