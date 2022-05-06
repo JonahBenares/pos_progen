@@ -134,7 +134,6 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" onclick="filterItem()" class="btn btn-success">Filter</button>
                     </div>
@@ -153,7 +152,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form class="forms-sample">
+                        <form class="forms-sample" target="_blank">
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label for="exampleInputUsername1">Date From:</label>
@@ -168,7 +167,7 @@
                     </div>
                     <div class="modal-footer">
                         <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                        <button type="button" class="btn btn-info btn-block">Export Item</button>
+                        <button type="button" class="btn btn-info btn-block" onclick="exportItem()">Export Item</button>
                     </div>
                 </div>
             </div>
@@ -198,7 +197,7 @@
                 </div>
             </div>
         </div>
-
+        <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
     </div>
 </div>
         

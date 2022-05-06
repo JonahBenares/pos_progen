@@ -495,3 +495,10 @@ function filterItem(){
     }
     window.location = loc+'index.php/items/item_list/'+pn+'/'+itm+'/'+locs+'/'+rck;
 }
+
+function exportItem(){
+    var loc= document.getElementById("baseurl").value;
+    var date_from = document.getElementById("date_from").value;
+    var date_to = document.getElementById("date_to").value;
+    window.location = loc+'index.php/items/export_item/'+date_from+'/'+date_to;
+}
