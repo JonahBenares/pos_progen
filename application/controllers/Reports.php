@@ -1149,12 +1149,17 @@ class Reports extends CI_Controller {
     public function adjust_all(){
         $billing_no = $this->uri->segment(3);
         $this->load->view('template/header'); 
-        foreach($this->super_model->select_custom_where("billing_head","billing_no='$billing_no' AND status='2'") AS $bi){
-            $data['adjust'][]=array(
-                "billing_id"=>$bi->billing_id,
-                "billing_no"=>$bi->billing_no,
-                "adjustment_counter"=>$bi->adjustment_counter,
-            );
+        $rows=$this->super_model->count_custom_where("billing_head","billing_no='$billing_no' AND status='2'");
+        if($rows!=0){
+            foreach($this->super_model->select_custom_where("billing_head","billing_no='$billing_no' AND status='2'") AS $bi){
+                $data['adjust'][]=array(
+                    "billing_id"=>$bi->billing_id,
+                    "billing_no"=>$bi->billing_no,
+                    "adjustment_counter"=>$bi->adjustment_counter,
+                );
+            }
+        }else{
+            $data['adjust']=array();
         }
         $this->load->view('reports/adjust_all',$data);
         $this->load->view('template/footer');
