@@ -39,6 +39,69 @@ class Sales extends CI_Controller {
 
     }
 
+    public function export_salesgood(){
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Sales Good.xlsx";
+        $objPHPExcel = new PHPExcel();
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "Sales Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "Client");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1', "DR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1', "PGC PR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1', "PR Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M1', "PGC PO No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O1', "PO Date");
+        $num=2;
+         foreach($this->super_model->select_custom_where("sales_good_head","saved='1' ORDER BY sales_date ASC") AS $re){
+            $client=$this->super_model->select_column_where('client','buyer_name',"client_id",$re->client_id);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $re->sales_date);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $client);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, $re->dr_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, $re->pr_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $re->pr_date);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, $re->po_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, $re->po_date);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->applyFromArray($styleArray);
+            $objPHPExcel->getActiveSheet()->mergeCells('A'.$num.":B".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('C'.$num.":F".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('G'.$num.":H".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('I'.$num.":J".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('K'.$num.":L".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('M'.$num.":N".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('O'.$num.":P".$num);
+            $num++;
+        }
+        $objPHPExcel->getActiveSheet()->mergeCells('A1:B1');
+        $objPHPExcel->getActiveSheet()->mergeCells('C1:F1');
+        $objPHPExcel->getActiveSheet()->mergeCells('G1:H1');
+        $objPHPExcel->getActiveSheet()->mergeCells('I1:J1');
+        $objPHPExcel->getActiveSheet()->mergeCells('K1:L1');
+        $objPHPExcel->getActiveSheet()->mergeCells('M1:N1');
+        $objPHPExcel->getActiveSheet()->mergeCells('O1:P1');
+        $objPHPExcel->getActiveSheet()->getStyle('A1:P1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:P1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A1:P1")->applyFromArray($styleArray);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Sales Good.xlsx"');
+        readfile($exportfilename);
+    }
+
     public function get_name($table, $name, $column, $value){
         $val = $this->super_model->select_column_where($table, $name, $column, $value);
         return $val;
@@ -1086,6 +1149,70 @@ class Sales extends CI_Controller {
         }
         $this->load->view('sales/services_sales_list',$data);
         $this->load->view('template/footer');
+    }
+
+    public function export_salesserv(){
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Sales Service.xlsx";
+        $objPHPExcel = new PHPExcel();
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "Sales Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "Client");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1', "DR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1', "PGC JOR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1', "JOR Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M1', "PGC JOI No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O1', "JOI Date");
+        $num=2;
+         foreach($this->super_model->select_custom_where("sales_services_head","saved='1' ORDER BY sales_date ASC") AS $re){
+            $client=$this->super_model->select_column_where('client','buyer_name',"client_id",$re->client_id);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $re->sales_date);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $client);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, $re->dr_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, $re->jor_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $re->jor_date);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, $re->joi_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, $re->joi_date);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":P".$num)->applyFromArray($styleArray);
+            
+            $objPHPExcel->getActiveSheet()->mergeCells('A'.$num.":B".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('C'.$num.":F".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('G'.$num.":H".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('I'.$num.":J".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('K'.$num.":L".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('M'.$num.":N".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('O'.$num.":P".$num);
+            $num++;
+        }
+        $objPHPExcel->getActiveSheet()->mergeCells('A1:B1');
+        $objPHPExcel->getActiveSheet()->mergeCells('C1:F1');
+        $objPHPExcel->getActiveSheet()->mergeCells('G1:H1');
+        $objPHPExcel->getActiveSheet()->mergeCells('I1:J1');
+        $objPHPExcel->getActiveSheet()->mergeCells('K1:L1');
+        $objPHPExcel->getActiveSheet()->mergeCells('M1:N1');
+        $objPHPExcel->getActiveSheet()->mergeCells('O1:P1');
+        $objPHPExcel->getActiveSheet()->getStyle('A1:P1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:P1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A1:P1")->applyFromArray($styleArray);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Sales Service.xlsx"');
+        readfile($exportfilename);
     }
 
     public function services_add_sales_itemlist(){

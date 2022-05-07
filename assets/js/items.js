@@ -466,3 +466,39 @@ function confirmationDelete(anchor){
      if(conf)
      window.location=anchor.attr("href");
 }
+
+function filterItem(){
+    var loc= document.getElementById("baseurl").value;
+    var opn = document.getElementById("opn").value;
+    if(opn!=''){
+        var pn=opn;
+    }else{
+        var pn='null';
+    }
+    var item = document.getElementById("item").value;
+    if(item!=''){
+        var itm=item;
+    }else{
+        var itm='null';
+    }
+    var location = document.getElementById("location").value;
+    if(location!=''){
+        var locs=location;
+    }else{
+        var locs='null';
+    }
+    var rack = document.getElementById("rack").value;
+    if(rack!=''){
+        var rck=rack;
+    }else{
+        var rck='null';
+    }
+    window.location = loc+'index.php/items/item_list/'+pn+'/'+itm+'/'+locs+'/'+rck;
+}
+
+function exportItem(){
+    var loc= document.getElementById("baseurl").value;
+    var date_from = document.getElementById("date_from").value;
+    var date_to = document.getElementById("date_to").value;
+    window.location = loc+'index.php/items/export_item/'+date_from+'/'+date_to;
+}

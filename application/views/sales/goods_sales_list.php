@@ -1,4 +1,6 @@
 <?php $ci =& get_instance(); ?>
+<script src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/sales.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -29,9 +31,10 @@
                                     <a href="<?php echo base_url(); ?>sales/goods_add_sales_head" class="btn btn-gradient-primary btn-sm btn-rounded">
                                         <b><span class="mdi mdi-plus"></span> Add</b>
                                     </a>                         
-                                    <button type="button" class="btn btn-gradient-warning btn-sm btn-rounded" data-toggle="modal" data-target="#updateSales">
+                                    <button type="button" class="btn btn-gradient-warning btn-sm btn-rounded" onclick="exportSalesgood();">
                                         <b><span class="mdi mdi-export"></span> Export</b>
                                     </button>
+                                    <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
                                 </div>
                             </div>
                         </div>

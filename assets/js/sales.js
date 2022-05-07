@@ -640,3 +640,13 @@ function saveAR(){
         });
     }
 }
+
+function exportSalesgood(){
+    var loc= document.getElementById("baseurl").value;
+    window.location = loc+'sales/export_salesgood/';
+}
+
+function exportSalesserv(){
+    var loc= document.getElementById("baseurl").value;
+    window.location = loc+'sales/export_salesserv/';
+}

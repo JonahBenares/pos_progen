@@ -29,10 +29,18 @@ class Items extends CI_Controller {
     }
 
 
-    public function item_list()
-    {
+    public function item_list(){
+        $original_pn=$this->uri->segment(3);
+        $item=$this->uri->segment(4);
+        $location=$this->uri->segment(5);
+        $rack=$this->uri->segment(6);
+        $data['original_pn']=$original_pn;
+        $data['item']=$item;
+        $data['locations']=$location;
+        $data['racks']=$rack;
         $this->load->view('template/header');
         $this->load->view('template/navbar');
+        $data['item_drp'] = $this->super_model->select_all_order_by('items',"item_name","ASC");
         $data['category'] = $this->super_model->select_all('item_categories');
         $data['subcat'] = $this->super_model->select_all('item_subcat');
         $data['group'] = $this->super_model->select_all('groups');
@@ -40,38 +48,97 @@ class Items extends CI_Controller {
         $data['warehouse'] = $this->super_model->select_all('warehouse');
         $data['bin'] = $this->super_model->select_all('bin');
         $data['rack'] = $this->super_model->select_all('rack');
-        $row=$this->super_model->count_rows("items");
         $now = date("Y-m-d");
-        if($row!=0){
-            foreach($this->super_model->select_all('items') AS $itm){
-                $highest_cost=$this->super_model->get_max_where("fifo_in", "item_cost","item_id='$itm->item_id' AND (expiry_date='' OR expiry_date > '$now')");
-                $bin = $this->super_model->select_column_where('bin', 'bin_name', 'bin_id', $itm->bin_id);
-                $rack = $this->super_model->select_column_where('rack', 'rack_name', 'rack_id', $itm->rack_id);
-                $warehouse = $this->super_model->select_column_where('warehouse', 'warehouse_name', 
-                    'warehouse_id', $itm->warehouse_id);
-                $location = $this->super_model->select_column_where('location', 'location_name', 
-                    'location_id', $itm->location_id);
-                $unit = $this->super_model->select_column_where('uom', 'unit_name', 'unit_id', $itm->unit_id);
-                $totalqty= $this->super_model->select_sum_where("fifo_in", "remaining_qty", "item_id='$itm->item_id' AND (expiry_date='' OR expiry_date > '$now')");
-                $data['items'][] = array(
-                    'item_id'=>$itm->item_id,
-                    'original_pn'=>$itm->original_pn,
-                    'item_name'=>$itm->item_name,
-                    'category'=>$this->super_model->select_column_where('item_categories', 'cat_name', 
-                    'cat_id', $itm->category_id),
-                    'subcategory'=>$this->super_model->select_column_where('item_subcat', 'subcat_name', 
-                    'subcat_id', $itm->subcat_id),
-                    'bin'=>$bin,
-                    'rack'=>$rack,
-                    'quantity'=>$totalqty,
-                    'warehouse'=>$warehouse,
-                    'location'=>$location,                
-                    'highest_cost'=>$highest_cost,
-                    'uom'=>$unit
-                );
+        $sql="";
+        $filter='';
+        if($original_pn!='null' && $original_pn!=''){
+            $sql.= " original_pn = '$original_pn' AND";
+            $filter.=$original_pn.", ";
+        }
+
+        if($item!='null' && $item!=''){
+            $sql.= " item_id = '$item' AND";
+            $filter.=$this->super_model->select_column_where("items","item_name","item_id",$item).", ";
+        }
+
+        if($location!='null' && $location!=''){
+            $sql.= " location_id = '$location' AND";
+            $filter.=$this->super_model->select_column_where("location","location_name","location_id",$location).", ";
+        }
+
+        if($rack!='null' && $rack!=''){
+            $sql.= " rack_id = '$rack' AND";
+            $filter.=$this->super_model->select_column_where("rack","rack_name","rack_id",$rack).", ";
+        }
+        $query=substr($sql,0,-3);
+        $filter=substr($filter, 0, -2);
+        $data['filter']=$filter;
+        if($filter==''){
+            $row=$this->super_model->count_rows("items");
+            if($row!=0){
+                foreach($this->super_model->select_all('items') AS $itm){
+                    $highest_cost=$this->super_model->get_max_where("fifo_in", "item_cost","item_id='$itm->item_id' AND (expiry_date='' OR expiry_date > '$now')");
+                    $bin = $this->super_model->select_column_where('bin', 'bin_name', 'bin_id', $itm->bin_id);
+                    $rack = $this->super_model->select_column_where('rack', 'rack_name', 'rack_id', $itm->rack_id);
+                    $warehouse = $this->super_model->select_column_where('warehouse', 'warehouse_name', 
+                        'warehouse_id', $itm->warehouse_id);
+                    $location = $this->super_model->select_column_where('location', 'location_name', 
+                        'location_id', $itm->location_id);
+                    $unit = $this->super_model->select_column_where('uom', 'unit_name', 'unit_id', $itm->unit_id);
+                    $totalqty= $this->super_model->select_sum_where("fifo_in", "remaining_qty", "item_id='$itm->item_id' AND (expiry_date='' OR expiry_date > '$now')");
+                    $data['items'][] = array(
+                        'item_id'=>$itm->item_id,
+                        'original_pn'=>$itm->original_pn,
+                        'item_name'=>$itm->item_name,
+                        'category'=>$this->super_model->select_column_where('item_categories', 'cat_name', 
+                        'cat_id', $itm->category_id),
+                        'subcategory'=>$this->super_model->select_column_where('item_subcat', 'subcat_name', 
+                        'subcat_id', $itm->subcat_id),
+                        'bin'=>$bin,
+                        'rack'=>$rack,
+                        'quantity'=>$totalqty,
+                        'warehouse'=>$warehouse,
+                        'location'=>$location,                
+                        'highest_cost'=>$highest_cost,
+                        'uom'=>$unit
+                    );
+                }
+            }else{
+                $data['items'] = array();
             }
         }else{
-            $data['items'] = array();
+            $row=$this->super_model->count_custom("SELECT * FROM items WHERE $query");
+            if($row!=0){
+                foreach($this->super_model->custom_query("SELECT * FROM items WHERE $query") AS $itm){
+                    $highest_cost=$this->super_model->get_max_where("fifo_in", "item_cost","item_id='$itm->item_id' AND (expiry_date='' OR expiry_date > '$now')");
+                    $bin = $this->super_model->select_column_where('bin', 'bin_name', 'bin_id', $itm->bin_id);
+                    $rack = $this->super_model->select_column_where('rack', 'rack_name', 'rack_id', $itm->rack_id);
+                    $warehouse = $this->super_model->select_column_where('warehouse', 'warehouse_name', 
+                        'warehouse_id', $itm->warehouse_id);
+                    $location = $this->super_model->select_column_where('location', 'location_name', 
+                        'location_id', $itm->location_id);
+                    $unit = $this->super_model->select_column_where('uom', 'unit_name', 'unit_id', $itm->unit_id);
+                    $totalqty= $this->super_model->select_sum_where("fifo_in", "remaining_qty", "item_id='$itm->item_id' AND (expiry_date='' OR expiry_date > '$now')");
+                    $data['items'][] = array(
+                        'item_id'=>$itm->item_id,
+                        'original_pn'=>$itm->original_pn,
+                        'item_name'=>$itm->item_name,
+                        'category'=>$this->super_model->select_column_where('item_categories', 'cat_name', 
+                        'cat_id', $itm->category_id),
+                        'subcategory'=>$this->super_model->select_column_where('item_subcat', 'subcat_name', 
+                        'subcat_id', $itm->subcat_id),
+                        'bin'=>$bin,
+                        'rack'=>$rack,
+                        'quantity'=>$totalqty,
+                        'warehouse'=>$warehouse,
+                        'location'=>$location,                
+                        'highest_cost'=>$highest_cost,
+                        'uom'=>$unit
+                    );
+                }
+            }else{
+                $data['items'] = array();
+            }
         }
         $this->load->view('items/item_list', $data);
         $this->load->view('template/footer');
@@ -534,5 +601,68 @@ class Items extends CI_Controller {
         $this->load->view('template/footer');
     }
    
+    public function export_item(){
+        $date_from=$this->uri->segment(3);
+        $date_to=$this->uri->segment(4);
+        $now = date("Y-m-d");
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="items.xlsx";
+        $objPHPExcel = new PHPExcel();
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "Date From: ".date('F d,Y',strtotime($date_from)));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', "Date To: ".date('F d,Y',strtotime($date_to)));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A2', "Part Number");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B2', "Item Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F2', "Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G2', "UOM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H2', "Location");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I2', "Rack");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J2', "Highest Cost");
+        $num=3;
+        foreach($this->super_model->custom_query("SELECT * FROM fifo_in fi INNER JOIN items i ON i.item_id=fi.item_id WHERE receive_date BETWEEN '$date_from' AND '$date_to' GROUP BY fi.item_id") AS $itm){
+            $totalqty= $this->super_model->select_sum_where("fifo_in", "remaining_qty", "receive_date BETWEEN '$date_from' AND '$date_to' AND item_id='$itm->item_id' AND (expiry_date='' OR expiry_date > '$now')");
+            $highest_cost=$this->super_model->get_max_where("fifo_in", "item_cost","receive_date BETWEEN '$date_from' AND '$date_to' AND item_id='$itm->item_id' AND (expiry_date='' OR expiry_date > '$now')");
+            $rack = $this->super_model->select_column_where('rack', 'rack_name', 'rack_id', $itm->rack_id);
+            $location = $this->super_model->select_column_where('location', 'location_name','location_id', $itm->location_id);
+            $unit = $this->super_model->select_column_where('uom', 'unit_name', 'unit_id', $itm->unit_id);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $itm->original_pn);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $itm->item_name);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $totalqty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, $unit);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $location);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, $rack);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $highest_cost);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":J".$num)->applyFromArray($styleArray);
+            $objPHPExcel->getActiveSheet()->getStyle('F'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":G".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('J'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->mergeCells('B2:E2');
+            $objPHPExcel->getActiveSheet()->mergeCells('B'.$num.":E".$num);
+            $num++;
+        }
+        $objPHPExcel->getActiveSheet()->getStyle('A2:J2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:J2')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A2:J2")->applyFromArray($styleArray);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="items.xlsx"');
+        readfile($exportfilename);
+    }
 
 }
