@@ -27,12 +27,13 @@
                             $year=date('Y');
                             $series_rows = $this->super_model->count_custom_where("damage_head","damage_date LIKE '%$year%'");
                             if($series_rows==0){
-                                $pdr_no= "PRD-".$pdrdate."-1001";
+                                $pdr_no= "PRD-".$pdrdate."-0001";
                             } else {
                                 $pdr_max = $this->super_model->get_max_where("damage_head", "pdr_no","damage_date LIKE '%$year%'");
                                 $pdr_exp=explode("-", $pdr_max);
                                 $series = $pdr_exp[3]+1;
-                                $pdr_no = "PDR-".$pdrdate."-".$series;
+                                $nxts = str_pad($series, 4, "0", STR_PAD_LEFT);
+                                $pdr_no = "PDR-".$pdrdate."-".$nxts;
 
                             }  ?>
                             <div class="col-lg-6">
