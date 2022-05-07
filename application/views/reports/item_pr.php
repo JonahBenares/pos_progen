@@ -30,9 +30,15 @@
                                     <a href="<?php echo base_url(); ?>report/print_monthly_report" class="btn btn-gradient-info btn-sm btn-rounded">
                                         <b><span class="mdi mdi-printer"></span> Print</b>
                                     </a>                            
-                                    <button type="button" class="btn btn-gradient-warning btn-sm btn-rounded" data-toggle="modal" data-target="#updateSales">
+                                    <?php if($item_id!=''){ ?>                            
+                                    <a href="<?php echo base_url(); ?>reports/export_itempr/<?php echo $item_id;?>" class="btn btn-gradient-warning btn-sm btn-rounded">
                                         <b><span class="mdi mdi-export"></span> Export</b>
-                                    </button>
+                                    </a>
+                                    <?php } else { ?>
+                                    <a href="<?php echo base_url(); ?>reports/export_itemitem_idpr/" class="btn btn-gradient-warning btn-sm btn-rounded">
+                                        <b><span class="mdi mdi-export"></span> Export</b>
+                                    </a>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>

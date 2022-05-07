@@ -36,7 +36,7 @@ class Damage extends CI_Controller {
         $year=date('Y');
         $series_rows = $this->super_model->count_custom_where("damage_head","damage_date LIKE '%$year%'");
         if($series_rows==0){
-            $pdr_no= "PRD-".$pdrdate."-1000";
+            $pdr_no= "PRD-".$pdrdate."-1001";
         } else {
             $pdr_max = $this->super_model->get_max_where("damage_head", "pdr_no","damage_date LIKE '%$year%'");
             $pdr_exp=explode("-", $pdr_max);
