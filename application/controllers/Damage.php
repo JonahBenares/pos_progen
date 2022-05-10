@@ -229,7 +229,7 @@ class Damage extends CI_Controller {
             $assessment=$this->super_model->select_column_where("repair_details","assessment","damage_det_id",$damage_det_id);
             $saved=$this->super_model->select_column_where("repair_details","saved","damage_det_id",$damage_det_id);
 
-            if($repaired==0 AND $assessment==''){
+            if($repaired==0){
                 $status='Pending';
             } elseif ($repaired==1 AND $assessment==1 AND $saved==1) {
                 $status='Repaired';
