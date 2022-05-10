@@ -32,22 +32,10 @@
                                     </button> -->
                                     <a href="<?php echo base_url(); ?>report/print_monthly_report" class="btn btn-gradient-info btn-sm btn-rounded">
                                         <b><span class="mdi mdi-printer"></span> Print</b>
-                                    </a>                            
-<<<<<<< HEAD
+                                    </a>  
                                     <a href="<?php echo base_url(); ?>reports/export_summary_scgp/<?php echo $from; ?>/<?php echo $to; ?>/<?php echo $client_id; ?>" class="btn btn-gradient-warning btn-sm btn-rounded">
                                         <b><span class="mdi mdi-export"></span> Export</b>
                                     </a>
-=======
-                                   <?php if($from!='' || $to!='' || $client!=''){ ?>                         
-                                    <a href="<?php echo base_url(); ?>reports/export_summary_scgp/<?php echo $from;?>/<?php echo $to;?>/<?php echo $client;?>" class="btn btn-gradient-warning btn-sm btn-rounded">
-                                        <b><span class="mdi mdi-export"></span> Export</b>
-                                    </a>
-                                    <?php } else { ?>
-                                    <a href="<?php echo base_url(); ?>reports/export_summary_scgp/" class="btn btn-gradient-warning btn-sm btn-rounded">
-                                        <b><span class="mdi mdi-export"></span> Export</b>
-                                    </a>
-                                    <?php } ?>
->>>>>>> b59d82fe4b7231d4a2e38b665fbdabafde0dd775
                                 </div>
                             </div>
                         </div>

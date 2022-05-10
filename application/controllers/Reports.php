@@ -338,7 +338,7 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function export_summary_scgps(){
+    public function export_summary_scgp(){
         $from = $this->uri->segment(3);
         $to = $this->uri->segment(4);
         $client = $this->uri->segment(5);
