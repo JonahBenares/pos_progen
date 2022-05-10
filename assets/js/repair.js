@@ -32,7 +32,7 @@ function InsertRepair(){
 	        type: "POST",
 	        url: redirect,
 	        success: function(output){
-	        	//alert(output);
+	        	
 	        	window.location=loc+'repair/repair_item';  
 	        }
 	    }); 

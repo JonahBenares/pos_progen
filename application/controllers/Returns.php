@@ -35,19 +35,27 @@ class Returns extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         foreach($this->super_model->select_all_order_by("sales_good_head","dr_no","ASC") AS $dr){
-            $data['dr_no'][]=array(
-                    "sales_id"=>$dr->sales_good_head_id,
-                    "dr_no"=>$dr->dr_no,
-                    "transaction_type"=>"Goods"
-            );
+             $remaining_amount = $this->super_model->select_column_where("billing_details", "remaining_amount", "dr_no", $dr->dr_no);
+           
+            if($remaining_amount!=0){
+                $data['dr_no'][]=array(
+                        "sales_id"=>$dr->sales_good_head_id,
+                        "dr_no"=>$dr->dr_no,
+                        "transaction_type"=>"Goods"
+                );
+            }
         }
 
         foreach($this->super_model->select_all_order_by("sales_services_head","dr_no","ASC") AS $drs){
-            $data['dr_no'][]=array(
-                    "sales_id"=>$drs->sales_serv_head_id,
-                    "dr_no"=>$drs->dr_no,
-                    "transaction_type"=>"Services"
-            );
+            $remaining_amount = $this->super_model->select_column_where("billing_details", "remaining_amount", "dr_no", $drs->dr_no);
+           
+                if($remaining_amount!=0){
+                $data['dr_no'][]=array(
+                        "sales_id"=>$drs->sales_serv_head_id,
+                        "dr_no"=>$drs->dr_no,
+                        "transaction_type"=>"Services"
+                );
+            }
         }
         if($transaction_type=='Goods'){
         foreach($this->super_model->select_row_where("sales_good_head","sales_good_head_id",$sales_id) AS $sh){
@@ -387,16 +395,17 @@ class Returns extends CI_Controller {
 
             $client = $this->super_model->select_column_where("client", "buyer_name", "client_id", $client_id);
 
-            $data['head'][]=array(
-                "dr_no"=>$dr_no,
-                "pr_no"=>$pr_no,
-                "purpose"=>$purpose,
-                "department"=>$department,
-                "client"=>$client,
-                "description"=>$rh->description,
-                "type"=>$rh->transaction_type,
-                "date"=>date("F d,Y",strtotime($rh->return_date))
-            );
+                $data['head'][]=array(
+                    "dr_no"=>$dr_no,
+                    "pr_no"=>$pr_no,
+                    "purpose"=>$purpose,
+                    "department"=>$department,
+                    "client"=>$client,
+                    "description"=>$rh->description,
+                    "type"=>$rh->transaction_type,
+                    "date"=>date("F d,Y",strtotime($rh->return_date))
+                );
+            
             foreach($this->super_model->select_row_where("return_details","return_id",$rh->return_id) AS $rd){
                 $item_id=$this->super_model->select_column_where("fifo_in","item_id","in_id",$rd->in_id);
                 $item_name = $this->super_model->select_column_where("items","item_name","item_id",$item_id);
