@@ -109,8 +109,9 @@
                 var goods_url = baseurl+'sales/goods_add_sales_head';
                 var services_url = baseurl+'sales/services_add_sales_head';
                 var receive_url = baseurl+'receive/add_receive_head';
+                 var repair_url = baseurl+'repair/repair_form';
                 
-               if(curr_url == goods_url || curr_url == services_url || curr_url == receive_url){
+               if(curr_url == goods_url || curr_url == services_url || curr_url == receive_url || curr_url == repair_url){
                     var conf = confirm('Are you sure you want to leave? Unsaved transactions will be deleted.');
                     if(conf){
                         var redirect = baseurl+'index.php/masterfile/delete_unsave_sales';
@@ -138,8 +139,9 @@
                 var goods_url = baseurl+'sales/goods_add_sales_head';
                 var services_url = baseurl+'sales/services_add_sales_head';
                 var receive_url = baseurl+'receive/add_receive_head';
+                var repair_url = baseurl+'repair/repair_form';
                 
-               if(curr_url == goods_url || curr_url == services_url || curr_url == receive_url){
+               if(curr_url == goods_url || curr_url == services_url || curr_url == receive_url || curr_url == repair_url){
                     var conf = confirm('Are you sure you want to leave? Unsaved transactions will be deleted.');
                     if(conf){
                         var redirect = baseurl+'index.php/masterfile/delete_unsave';
@@ -167,8 +169,9 @@
                 var goods_url = baseurl+'sales/goods_add_sales_head';
                 var services_url = baseurl+'sales/services_add_sales_head';
                 var receive_url = baseurl+'receive/add_receive_head';
+                var repair_url = baseurl+'repair/repair_form';
                 
-               if(curr_url == goods_url || curr_url == services_url || curr_url == receive_url){
+               if(curr_url == goods_url || curr_url == services_url || curr_url == receive_url || curr_url == repair_url){
                     var conf = confirm('Are you sure you want to leave? Unsaved transactions will be deleted.');
                     if(conf){
                         var redirect = baseurl+'index.php/masterfile/delete_unsave';

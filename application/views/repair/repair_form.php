@@ -8,6 +8,13 @@
         margin-bottom: .3rem;
     }
 </style>
+<script type="text/javascript">
+   
+function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); };
+$(document).bind("keydown", disableF5);
+$(document).on("keydown", disableF5);
+
+</script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
