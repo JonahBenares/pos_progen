@@ -1497,19 +1497,19 @@ class Reports extends CI_Controller {
         foreach($this->super_model->custom_query("SELECT * FROM repair_details WHERE item_id = '$item_id' AND assessment='1'") AS $rep){
             //$client = $this->super_model->select_column_where("client", "buyer_name", "client_id", $rep->client_id);
             $receive_id = $this->super_model->select_column_where("fifo_in","receive_id","in_id",$rep->in_id);
-            $brand = $this->super_model->select_column_where("receive_items","brand","receive_id",$receive_id);
-            $catalog_no = $this->super_model->select_column_where("receive_items","catalog_no","receive_id",$receive_id);
-            $supplier_id = $this->super_model->select_column_where("receive_items","supplier_id","receive_id",$receive_id);
+            $brand = $this->super_model->select_column_where("fifo_in","brand","receive_id",$receive_id);
+            $catalog_no = $this->super_model->select_column_where("fifo_in","catalog_no","receive_id",$receive_id);
+            $supplier_id = $this->super_model->select_column_where("fifo_in","supplier_id","receive_id",$receive_id);
             $supplier = $this->super_model->select_column_where("supplier", "supplier_name", "supplier_id", $supplier_id);
-            $pr_no = $this->super_model->select_column_where("receive_details","pr_no","receive_id",$receive_id);
-            $po_no = $this->super_model->select_column_where("receive_head","po_no","receive_id",$receive_id);
+            $pr_no = $this->super_model->select_column_where("fifo_in","pr_no","receive_id",$receive_id);
+            //$po_no = $this->super_model->select_column_where("receive_head","po_no","receive_id",$receive_id);
             $total_cost = $rep->quantity*$rep->repair_price;
             $data['stockcard'][]=array(
                 'date'=>$rep->repair_date,
                 'create_date'=>$rep->create_date,
                 'supplier'=>$supplier,
                 'pr_no'=>$pr_no,
-                'po_no'=>$po_no,
+                'po_no'=>$rep->jo_no,
                 'catalog_no'=>$catalog_no,
                 'brand'=>$brand,
                 'item_cost'=>$total_cost,

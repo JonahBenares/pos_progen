@@ -97,7 +97,7 @@
                                     <br>
                                     <h3 class="page-title">
                                         <span class="page-title-icon bg-gradient-primary text-white mr-2 item-block" >
-                                            <span id='PRcount1' class='prcnt'><b><h4 class="m-0" style="padding-top:6px">01</h4></b></span>
+                                            <h4 class="pt-1"><span id='PRcount1' class='prcnt mt-2'>01</span></h4>
                                         </span>
                                     </h3>
                                 </div>
@@ -156,7 +156,7 @@
                                 <br>             
                                 <div class="col-lg-12">
                                     <div > <!-- style="width:100%;overflow-x: scroll;" -->
-                                        <table id="table-alt" class="table-bordered " width="100%">
+                                        <table id="table-alt" class="table-bordered table-alt" width="100%">
                                             <thead>
                                             <tr>
                                                 <td class="td-head" width="15%">Item Description</td>

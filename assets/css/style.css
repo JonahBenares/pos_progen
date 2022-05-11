@@ -13744,7 +13744,7 @@ dl {
   width: 100%!important;
 }
 
-table#table-alt{
+table.table-alt{
     width: 100%;
     font-size: 13px;
 }
