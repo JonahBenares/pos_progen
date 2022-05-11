@@ -5,6 +5,14 @@ function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); }
 $(document).bind("keydown", disableF5);
 $(document).on("keydown", disableF5);
 
+$(document).ready(function() {
+    window.history.pushState(null, "", window.location.href);        
+    window.onpopstate = function() {
+    window.history.pushState(null, "", window.location.href);
+
+  };
+
+
 </script>
 <div class="main-panel">
     <div class="content-wrapper">    
