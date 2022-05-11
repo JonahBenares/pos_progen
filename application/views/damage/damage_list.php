@@ -41,7 +41,7 @@
                                     <th width=""> Item Description </th>
                                     <th width="12%">Date/Time Reported</th>
                                     <th width="12%">Status</th>
-                                    <th width="1%"><center><span class="mdi mdi-menu"></span></center></th>
+                                    <th width="8%"><center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>    
                             <tbody>
@@ -54,7 +54,10 @@
                                     <td><?php echo $d['item']; ?></td>
                                     <td><?php echo date("Y-m-d H:i:s", strtotime($d['date_reported'])); ?></td>
                                     <td><?php echo $d['status']; ?></td>
-                                    <td><a  href="<?php echo base_url(); ?>damage/damage_print/<?php echo $d['damage_id']; ?>" class="btn btn-xs btn-gradient-warning btn-rounded" data-toggle="tooltip" data-placement="top" title="View"><span class="mdi mdi-eye"></span></a></td>
+                                    <td align="center">
+                                        <a  href="<?php echo base_url(); ?>damage/damage_print/<?php echo $d['damage_id']; ?>" class="btn btn-xs btn-gradient-warning btn-rounded" data-toggle="tooltip" data-placement="top" title="View Damage Report"><span class="mdi mdi-eye"></span></a>
+                                        <a  href="<?php echo base_url(); ?>damage/repair_details" class="btn btn-xs btn-gradient-success btn-rounded" data-toggle="tooltip" data-placement="top" title="View Repair Form"><span class="mdi mdi-eye"></span></a>
+                                    </td>
                                 </tr>
                                 <?php } 
                             } ?> 
