@@ -1,3 +1,5 @@
+<script src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/receive.js"></script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -31,7 +33,7 @@
                                     <!-- <button type="button" class="btn btn-gradient-success btn-sm btn-rounded" data-toggle="modal" data-target="#filterReceive">
                                         <b><span class="mdi mdi-filter"></span> Filter</b>
                                     </button>     -->                        
-                                    <button type="button" class="btn btn-gradient-warning btn-sm btn-rounded" data-toggle="modal" data-target="#updateBuyer">
+                                    <button type="button" class="btn btn-gradient-warning btn-sm btn-rounded" onclick="exportReceive()">
                                         <b><span class="mdi mdi-export"></span> Export</b>
                                     </button>
                                 </div>
@@ -170,7 +172,7 @@
                 </div>
             </div>
         </div>
-
+        <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
     </div>
 </div>
         

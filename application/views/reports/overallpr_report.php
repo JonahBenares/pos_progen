@@ -29,10 +29,16 @@
                                 <div class="pull-right">
                                     <a href="<?php echo base_url(); ?>report/print_monthly_report" class="btn btn-gradient-info btn-sm btn-rounded">
                                         <b><span class="mdi mdi-printer"></span> Print</b>
-                                    </a>                            
-                                    <button type="button" class="btn btn-gradient-warning btn-sm btn-rounded" data-toggle="modal" data-target="#updateSales">
+                                    </a>
+                                    <?php if($pr!=''){ ?>                            
+                                    <a href="<?php echo base_url(); ?>reports/export_overallpr/<?php echo $pr;?>" class="btn btn-gradient-warning btn-sm btn-rounded">
                                         <b><span class="mdi mdi-export"></span> Export</b>
-                                    </button>
+                                    </a>
+                                    <?php } else { ?>
+                                    <a href="<?php echo base_url(); ?>reports/export_overallpr/" class="btn btn-gradient-warning btn-sm btn-rounded">
+                                        <b><span class="mdi mdi-export"></span> Export</b>
+                                    </a>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -57,7 +63,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <small>PR No. :</small>
-                                <h3><b><?php echo $pr_disp; ?></h3></b>
+                                <h3><b><?php echo $pr; ?></h3></b>
                                 <table width="100%">
                                    <!--  <tr>
                                         <td width="10%">Enduse:</td>

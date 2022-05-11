@@ -22,10 +22,24 @@
                     <div class="card-body">       
                         <form id='damageHead'>     
                         <div class="row">
+                        <?php
+                            $pdrdate=date('Y-m');
+                            $year=date('Y');
+                            $series_rows = $this->super_model->count_custom_where("damage_head","damage_date LIKE '%$year%'");
+                            if($series_rows==0){
+                                $pdr_no= "PRD-".$pdrdate."-0001";
+                            } else {
+                                $pdr_max = $this->super_model->get_max_where("damage_head", "pdr_no","damage_date LIKE '%$year%'");
+                                $pdr_exp=explode("-", $pdr_max);
+                                $series = $pdr_exp[3]+1;
+                                $nxts = str_pad($series, 4, "0", STR_PAD_LEFT);
+                                $pdr_no = "PDR-".$pdrdate."-".$nxts;
+
+                            }  ?>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>PDR No</label>
-                                    <input type="text" class="form-control" name="pdr_no" id="pdr_no" placeholder="PDR No">
+                                    <input type="text" class="form-control" name="pdr_no" id="pdr_no" placeholder="<?php echo $pdr_no; ?>" value="<?php echo $pdr_no; ?>" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6">

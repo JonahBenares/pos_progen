@@ -35,6 +35,8 @@ class Reports extends CI_Controller {
         $data['client']=$this->super_model->select_all_order_by("client","buyer_name","buyer_name","ASC");
         $month = $this->uri->segment(3);
         $client_id = $this->uri->segment(4);
+        $data['month']=$month;
+        $data['client_id']=$client_id;
         $sql="";
         if($month!='null'){
             $sql.= " AND EXTRACT(MONTH from sales_date) = '$month' AND";
@@ -111,6 +113,161 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function export_monthlyreport(){
+        $month = $this->uri->segment(3);
+        $client_id = $this->uri->segment(4);
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Monthly Report.xlsx";
+        $objPHPExcel = new PHPExcel();
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $sql="";
+        if($month!='null'){
+            $sql.= " AND EXTRACT(MONTH from sales_date) = '$month' AND";
+        }
+
+        if($client_id!='null' && $month=='null'){
+            $sql.= " AND client_id = '$client_id' AND";
+        }else if($month!='null' && $client_id!='null'){
+            $sql.= " client_id = '$client_id' AND";
+        }
+        $query=substr($sql,0,-3);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "#");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', "Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', "DR No./AR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', "Part No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1', "Item Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1', "Serial No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N1', "Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O1', "UOM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P1', "PGC PR No/PO No");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R1', "Buyer");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T1', "Unit Cost");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U1', "Total Amt");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V1', "Remarks");
+        foreach($this->super_model->custom_query("SELECT * FROM sales_good_head sh INNER JOIN sales_good_details sd ON sh.sales_good_head_id=sd.sales_good_head_id WHERE saved='1' ".$query) AS $sg){
+            $item=$this->super_model->select_column_where("items","item_name","item_id",$sg->item_id);
+            $original_pn=$this->super_model->select_column_where("items","original_pn","item_id",$sg->item_id);
+            $unit_id=$this->super_model->select_column_where("items","unit_id","item_id",$sg->item_id);
+            $uom=$this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
+            $client=$this->super_model->select_column_where("client","buyer_name","client_id",$sg->client_id);
+            $in_id=$this->super_model->select_column_where("fifo_out","in_id","sales_details_id",$sg->sales_good_det_id);
+            $serial_no=$this->super_model->select_column_where("fifo_in","serial_no","in_id",$in_id);
+
+            $return_qty= $this->super_model->select_sum_join("return_qty","return_details","sales_good_details","return_details.item_id='$sg->item_id' AND sales_good_details.return_id!='0'","return_id");
+            $return_qty_serv= $this->super_model->select_sum_join("return_qty","return_details","sales_serv_items","return_details.item_id='$sg->item_id' AND sales_serv_items.return_id!='0'","return_id");
+            $damageret_qty= $this->super_model->select_sum_join("damage_qty","return_details","sales_good_details","return_details.item_id='$sg->item_id' AND sales_good_details.return_id!='0'","return_id");
+            $damageret_qty_serv= $this->super_model->select_sum_join("damage_qty","return_details","sales_serv_items","return_details.item_id='$sg->item_id' AND sales_serv_items.return_id!='0'","return_id");
+            $sales_good_qty = $sg->quantity - $return_qty - $return_qty_serv - $damageret_qty - $damageret_qty_serv;
+            $sales[]=array(
+                "sales_date"=>$sg->sales_date,
+                "dr_no"=>$sg->dr_no,
+                "original_pn"=>$original_pn,
+                "item"=>$item,
+                "serial_no"=>$serial_no,
+                "quantity"=>$sales_good_qty,
+                "uom"=>$uom,
+                "pr_no"=>$sg->pr_no,
+                "po_no"=>$sg->po_no,
+                "client"=>$client,
+                "unit_cost"=>$sg->unit_cost,
+                "total"=>$sg->total,
+                "remarks"=>$sg->remarks,
+            );
+        }
+
+        foreach($this->super_model->custom_query("SELECT * FROM sales_services_head sh INNER JOIN sales_serv_items si ON sh.sales_serv_head_id=si.sales_serv_head_id WHERE saved='1' ".$query) AS $sid){
+            $item=$this->super_model->select_column_where("items","item_name","item_id",$sid->item_id);
+            $original_pn=$this->super_model->select_column_where("items","original_pn","item_id",$sid->item_id);
+            $unit_id=$this->super_model->select_column_where("items","unit_id","item_id",$sid->item_id);
+            $uom=$this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
+            $client=$this->super_model->select_column_where("client","buyer_name","client_id",$sid->client_id);
+            $in_id=$this->super_model->select_column_where("fifo_out","in_id","sales_serv_items_id",$sid->sales_serv_items_id);
+            $serial_no=$this->super_model->select_column_where("fifo_in","serial_no","in_id",$in_id);
+            $return_qty= $this->super_model->select_sum_join("return_qty","return_details","sales_good_details","return_details.item_id='$sid->item_id' AND sales_good_details.return_id!='0'","return_id");
+            $return_qty_serv= $this->super_model->select_sum_join("return_qty","return_details","sales_serv_items","return_details.item_id='$sid->item_id' AND sales_serv_items.return_id!='0'","return_id");
+            $damageret_qty= $this->super_model->select_sum_join("damage_qty","return_details","sales_good_details","return_details.item_id='$sid->item_id' AND sales_good_details.return_id!='0'","return_id");
+            $damageret_qty_serv= $this->super_model->select_sum_join("damage_qty","return_details","sales_serv_items","return_details.item_id='$sid->item_id' AND sales_serv_items.return_id!='0'","return_id");
+            $sales_service_qty = $sid->quantity - $return_qty - $return_qty_serv - $damageret_qty - $damageret_qty_serv;
+            $sales[]=array(
+                "sales_date"=>$sid->sales_date,
+                "dr_no"=>$sid->dr_no,
+                "original_pn"=>$original_pn,
+                "item"=>$item,
+                "serial_no"=>$serial_no,
+                "quantity"=>$sales_service_qty,
+                "uom"=>$uom,
+                "pr_no"=>$sid->jor_no,
+                "po_no"=>$sid->joi_no,
+                "client"=>$client,
+                "unit_cost"=>$sid->unit_cost,
+                "total"=>$sid->total,
+                "remarks"=>$sid->remarks,
+            );
+        }
+        $num=2;
+        $x=1;
+        foreach($sales AS $s){
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $x);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $s['sales_date']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, $s['dr_no']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $s['original_pn']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $s['item']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $s['serial_no']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $s['quantity']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$num, $s['uom']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, $s['pr_no']."/".$s['po_no']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, $s['client']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, $s['unit_cost']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U'.$num, $s['total']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V'.$num, $s['remarks']);
+            $objPHPExcel->getActiveSheet()->getStyle("N".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getStyle("T".$num.':U'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":X".$num)->applyFromArray($styleArray);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('L'.$num.":M".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->mergeCells('B'.$num.":C".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('D'.$num.":E".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('F'.$num.":G".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('H'.$num.":K".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('L'.$num.":M".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('P'.$num.":Q".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('R'.$num.":S".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('V'.$num.":X".$num);
+            $num++;
+            $x++;
+        }
+        $objPHPExcel->getActiveSheet()->mergeCells('B1:C1');
+        $objPHPExcel->getActiveSheet()->mergeCells('D1:E1');
+        $objPHPExcel->getActiveSheet()->mergeCells('F1:G1');
+        $objPHPExcel->getActiveSheet()->mergeCells('H1:K1');
+        $objPHPExcel->getActiveSheet()->mergeCells('L1:M1');
+        $objPHPExcel->getActiveSheet()->mergeCells('P1:Q1');
+        $objPHPExcel->getActiveSheet()->mergeCells('R1:S1');
+        $objPHPExcel->getActiveSheet()->mergeCells('V1:X1');
+        $objPHPExcel->getActiveSheet()->getStyle('A1:X1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:X1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A1:X1")->applyFromArray($styleArray);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Monthly Report.xlsx"');
+        readfile($exportfilename);
+    }
+
     public function summary_scgp(){
         $data['clients'] = $this->super_model->select_all("client");
         $this->load->view('template/header');
@@ -118,6 +275,9 @@ class Reports extends CI_Controller {
         $from = $this->uri->segment(3);
         $to = $this->uri->segment(4);
         $client = $this->uri->segment(5);
+        $data['from']=$from;
+        $data['to']=$to;
+        $data['client_id']=$client;
         $sql="";
         if($from!='null' && $to!='null'){
            $sql.= " bh.billing_date BETWEEN '$from' AND '$to' AND";
@@ -176,6 +336,144 @@ class Reports extends CI_Controller {
         }
         $this->load->view('reports/summary_scgp',$data);
         $this->load->view('template/footer');
+    }
+
+
+    public function export_summary_scgp(){
+        $from = $this->uri->segment(3);
+        $to = $this->uri->segment(4);
+        $client = $this->uri->segment(5);
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Summary of Sales, Costs, And Gross Profit.xlsx";
+        $objPHPExcel = new PHPExcel();
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $sql="";
+        if($from!='null' && $to!='null'){
+           $sql.= " bh.billing_date BETWEEN '$from' AND '$to' AND";
+        }
+
+        if($client!='null'){
+            $sql.= " bh.client_id = '$client' AND";
+        }
+
+        $query=substr($sql,0,-3);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "#");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', "Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', "Item Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1', "Client");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1', "PO/JO No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M1', "Billing Statement No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P1', "Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q1', "UOM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R1', "Total Sales");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T1', "Total Cost");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V1', "Gross Profit");
+        $num=2;
+        $x=1;
+        foreach($this->super_model->custom_query("SELECT DISTINCT * FROM billing_head bh INNER JOIN billing_details bd ON bh.billing_id = bd.billing_id INNER JOIN fifo_out fo WHERE bh.client_id='$client' AND bh.status='1' AND ".$query."GROUP BY item_id ORDER BY bh.billing_date ASC") AS $head){
+            $sales_good_head_id = $this->super_model->select_column_where('sales_good_head', 'sales_good_head_id', 'sales_good_head_id', $head->sales_id);
+            $sales_serv_head_id = $this->super_model->select_column_where('sales_services_head', 'sales_serv_head_id', 'sales_serv_head_id', $head->sales_id);
+            $unit_id = $this->super_model->select_column_where('items', 'unit_id', 'item_id', $head->item_id);
+            $unit = $this->super_model->select_column_where('uom', 'unit_name', 'unit_id', $unit_id);
+            $client=$this->super_model->select_column_where("client", "buyer_name", "client_id", $head->client_id);
+            $item=$this->super_model->select_column_where("items", "item_name", "item_id", $head->item_id);
+            foreach($this->super_model->select_custom_where("fifo_out","sales_id='$head->sales_id' AND item_id = '$head->item_id'") AS $sales){
+                if($head->sales_type=='goods'){
+                        $po_jo = $this->super_model->select_column_where('sales_good_head', 'po_no', 'sales_good_head_id', $sales_good_head_id);
+                        $array_qty[] = $sales->quantity;
+                        $total_qty = array_sum($array_qty);
+                        $total_cost[] = $sales->quantity * $sales->unit_cost;
+                        $array_cost = array($total_cost);
+                        $total_unit_cost = array_sum($total_cost);
+                        $sum_sales[] = $sales->quantity * $sales->selling_price;
+                        $array_sales = array($sum_sales);
+                        $total_sales = array_sum($sum_sales);
+                        $gross_profit = $total_sales - $total_unit_cost;
+                }else if($head->sales_type=='services'){
+                        $po_jo = $this->super_model->select_column_where('sales_services_head', 'jor_no', 'sales_serv_head_id', $sales_serv_head_id);
+                        $array_qty[] = $sales->quantity;
+                        $total_qty = array_sum($array_qty);
+                        $total_cost[] = $sales->quantity * $sales->unit_cost;
+                        $array_cost = array($total_cost);
+                        $total_unit_cost = array_sum($total_cost);
+                        $sum_sales[] = $sales->quantity * $sales->selling_price;
+                        $array_sales = array($sum_sales);
+                        $total_sales = array_sum($sum_sales);
+                        $gross_profit = $total_sales - $total_unit_cost;
+                }
+            }
+            $totalsales[] = $total_sales;
+            $totalcost[] = $total_unit_cost;
+            $grossprofit[] = $gross_profit;
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $x);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $head->billing_date);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, $item);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$num, $client);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $po_jo);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$num, $head->billing_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, $total_qty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$num, $unit);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, $total_sales);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, $total_unit_cost);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V'.$num, $gross_profit);
+            $objPHPExcel->getActiveSheet()->getStyle("P".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getStyle("R".$num.':V'.$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":W".$num)->applyFromArray($styleArray);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('M'.$num.":V".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->mergeCells('B'.$num.":C".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('D'.$num.":F".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('G'.$num.":J".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('K'.$num.":L".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('M'.$num.":O".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('R'.$num.":S".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('T'.$num.":U".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('V'.$num.":W".$num);
+            $num++;
+            $x++;
+        }
+        $a = $num+1;
+        $objPHPExcel->getActiveSheet()->getStyle('Q'.$a)->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('R'.$a.":V".$a)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle("R".$a.':V'.$a)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+        $objPHPExcel->getActiveSheet()->setCellValue('Q'.$a, "TOTAL: ");
+        $objPHPExcel->getActiveSheet()->setCellValue('R'.$a, array_sum($totalsales));
+        $objPHPExcel->getActiveSheet()->setCellValue('T'.$a, array_sum($totalcost));
+        $objPHPExcel->getActiveSheet()->setCellValue('V'.$a, array_sum($grossprofit));
+        $objPHPExcel->getActiveSheet()->mergeCells('R'.$a.":S".$a);
+        $objPHPExcel->getActiveSheet()->mergeCells('T'.$a.":U".$a);
+        $objPHPExcel->getActiveSheet()->mergeCells('V'.$a.":W".$a);
+        $num--;
+        $objPHPExcel->getActiveSheet()->mergeCells('B1:C1');
+        $objPHPExcel->getActiveSheet()->mergeCells('D1:F1');
+        $objPHPExcel->getActiveSheet()->mergeCells('G1:J1');
+        $objPHPExcel->getActiveSheet()->mergeCells('K1:L1');
+        $objPHPExcel->getActiveSheet()->mergeCells('M1:O1');
+        $objPHPExcel->getActiveSheet()->mergeCells('R1:S1');
+        $objPHPExcel->getActiveSheet()->mergeCells('T1:U1');
+        $objPHPExcel->getActiveSheet()->mergeCells('V1:W1');
+        $objPHPExcel->getActiveSheet()->getStyle('A1:W1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:W1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A1:W1")->applyFromArray($styleArray);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Summary of Sales, Costs, And Gross Profit.xlsx"');
+        readfile($exportfilename);
     }
 
     public function pending_list(){
@@ -251,6 +549,91 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function export_pendingbilling(){
+        $client = $this->uri->segment(3);
+        $type = $this->uri->segment(4);
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Pending Bill.xlsx";
+        $objPHPExcel = new PHPExcel();
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A3', "DR Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "DR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F3', "Total Amount");
+        if($type=='1'){
+            $grand_total =0;
+            $num=4;
+            foreach($this->super_model->select_custom_where("sales_good_head", "client_id='$client' AND billed='0'") AS $goods){
+                if($this->super_model->count_custom_where("return_head","dr_no = '$goods->dr_no'") != 0){
+                    $return_id = $this->super_model->select_column_where("return_head", "return_id", "dr_no", $goods->dr_no);
+                    $returned_amount =  $this->super_model->select_sum_join("total_amount","return_head","return_details", "return_id='$return_id' AND transaction_type='Goods'","return_id");
+                    $total_sales = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$goods->sales_good_head_id'");
+                    $total_amount = $total_sales - $returned_amount;
+                } else {
+                    $total_amount = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$goods->sales_good_head_id'");
+                }
+                $grand_total += $total_amount;
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', "Overall Total Amount");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G2', $grand_total);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $goods->sales_date);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $goods->dr_no);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $total_amount);
+                $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":G".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":G".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->mergeCells('A'.$num.":B".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('C'.$num.":E".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('F'.$num.":G".$num);
+                $num++;
+            }
+        } else if($type=='2') {
+            $grand_total =0;
+            $num=4;
+            foreach($this->super_model->select_custom_where("sales_services_head", "client_id='$client' AND billed='0'") AS $services){
+                $total_sales =  $this->super_model->select_sum_where("sales_serv_equipment", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'") + $this->super_model->select_sum_where("sales_serv_items", "total", "sales_serv_head_id='$services->sales_serv_head_id'") +  $this->super_model->select_sum_where("sales_serv_manpower", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'") + $this->super_model->select_sum_where("sales_serv_material", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'");
+                $returned_amount =  $this->super_model->select_sum_join("total_amount","return_head","return_details", "return_id='$return_id' AND transaction_type='Services'","return_id");
+                $total_amount = $total_sales - $returned_amount;
+                $grand_total += $total_amount;
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', "Overall Total Amount");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G2', $grand_total);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $re->sales_date);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $re->dr_no);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $total_amount);
+                $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":G".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":G".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->mergeCells('A'.$num.":B".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('C'.$num.":E".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('F'.$num.":G".$num);
+                $num++;
+            }
+        } 
+        $objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('G2')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+        $objPHPExcel->getActiveSheet()->mergeCells('A3:B3');
+        $objPHPExcel->getActiveSheet()->mergeCells('C3:E3');
+        $objPHPExcel->getActiveSheet()->mergeCells('F3:G3');
+        $objPHPExcel->getActiveSheet()->getStyle('A3:G3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:G3')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A3:G3")->applyFromArray($styleArray);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Pending Bill.xlsx"');
+        readfile($exportfilename);
+    }
+
     public function pending_popup(){
         $ids = $this->uri->segment(3);
         $client_id = $this->uri->segment(4);
@@ -311,6 +694,68 @@ class Reports extends CI_Controller {
         $this->load->view('template/navbar');
         $this->load->view('reports/billed_list', $data);
         $this->load->view('template/footer');
+    }
+
+    public function export_billed(){
+        $client = $this->uri->segment(3);
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Billing Statement.xlsx";
+        $objPHPExcel = new PHPExcel();
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A3', "Billing Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Billing Statement No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F3', "Adjustments");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H3', "Total Amount");
+        $grand_total =0;
+        $num=4;
+        foreach($this->super_model->select_custom_where("billing_head", "client_id= '$client' AND status='0'") AS $bill){
+            // echo $bill->billing_id;
+            $total_amount = $this->super_model->select_sum_where("billing_details", "remaining_amount", "billing_id='$bill->billing_id'");
+            $grand_total += $total_amount;
+            $count_adjust = $this->check_adjustment($bill->billing_id);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1', "Overall Total Amount");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I2', $grand_total);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $bill->billing_date);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $bill->billing_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $bill->adjustment_counter);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $total_amount);
+            $objPHPExcel->getActiveSheet()->getStyle("H".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":I".$num)->applyFromArray($styleArray);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":F".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->mergeCells('A'.$num.":B".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('C'.$num.":E".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('F'.$num.":G".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('H'.$num.":I".$num);
+            $num++;
+        }
+        $objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('I2')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+        $objPHPExcel->getActiveSheet()->mergeCells('A3:B3');
+        $objPHPExcel->getActiveSheet()->mergeCells('C3:E3');
+        $objPHPExcel->getActiveSheet()->mergeCells('F3:G3');
+        $objPHPExcel->getActiveSheet()->mergeCells('H3:I3');
+        $objPHPExcel->getActiveSheet()->getStyle('A3:I3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:I3')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A3:I3")->applyFromArray($styleArray);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Billing Statement.xlsx"');
+        readfile($exportfilename);
     }
 
     public function check_adjustment($billing_id){
@@ -378,6 +823,83 @@ class Reports extends CI_Controller {
         $this->load->view('template/navbar');
         $this->load->view('reports/paid_list',$data);
         $this->load->view('template/footer');
+    }
+
+    public function export_paid(){
+        $client = $this->uri->segment(3);
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Paid Billing Statement.xlsx";
+        $objPHPExcel = new PHPExcel();
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A3', "Payment Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Billing Statement No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F3', "DR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H3', "Payment Type");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J3', "Check / Receipt No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L3', "Amount Paid");
+        $num=4;
+        $gtotal=0;
+        foreach($this->super_model->select_all("billing_payment") AS $p){
+            $billing_id = explode(",",$p->billing_id);
+            $billing_no = "";
+            $dr_no = "";
+            foreach($billing_id AS $bid){
+                $billing_no .= $this->super_model->select_column_where("billing_head", "billing_no", "billing_id", $bid) . ", ";
+                $dr_no .= $this->super_model->select_column_where("billing_details", "dr_no", "billing_id", $bid) . ", ";
+            }
+            $bill_no = substr($billing_no,0,-2);
+            $dr_no = substr($dr_no,0,-2);
+            $gtotal += $p->amount;
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1', "Overall Total Paid");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M2', $gtotal);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $p->payment_date);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $bill_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $dr_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $p->payment_type);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $p->check_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $p->amount);
+            $objPHPExcel->getActiveSheet()->getStyle("L".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":M".$num)->applyFromArray($styleArray);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('H'.$num.":M".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->mergeCells('A'.$num.":B".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('C'.$num.":E".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('F'.$num.":G".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('H'.$num.":I".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('J'.$num.":K".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('L'.$num.":M".$num);
+            $num++;
+        }
+        $objPHPExcel->getActiveSheet()->getStyle('L1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('M2')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+        $objPHPExcel->getActiveSheet()->mergeCells('A3:B3');
+        $objPHPExcel->getActiveSheet()->mergeCells('C3:E3');
+        $objPHPExcel->getActiveSheet()->mergeCells('F3:G3');
+        $objPHPExcel->getActiveSheet()->mergeCells('H3:I3');
+        $objPHPExcel->getActiveSheet()->mergeCells('J3:K3');
+        $objPHPExcel->getActiveSheet()->mergeCells('L3:M3');
+        $objPHPExcel->getActiveSheet()->getStyle('A3:M3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:M3')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A3:M3")->applyFromArray($styleArray);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Paid Billing Statement.xlsx"');
+        readfile($exportfilename);
     }
 
     public function save_billing_statement(){
@@ -569,6 +1091,7 @@ class Reports extends CI_Controller {
 
     public function stock_card(){
         $item_id = $this->uri->segment(3);
+        $data['item_id']=$item_id;
         $now = date("Y-m-d");
         $data['item_name']=$this->super_model->select_column_where('items',"item_name","item_id",$item_id);
         $data['items']=$this->super_model->select_all_order_by("items","item_name","ASC");
@@ -835,6 +1358,360 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function export_stockcard(){
+        $item_id = $this->uri->segment(3);
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Stockcard.xlsx";
+        $objPHPExcel = new PHPExcel();
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A3', "Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Supplier/Client");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F3', "PR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H3', "PO No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J3', "Catalog No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L3', "Brand");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N3', "Method");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P3', "Total Unit Cost");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R3', "Quantity");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T3', "Running Balance");
+        foreach($this->super_model->custom_query("SELECT rh.receive_id,rh.receive_date, ri.supplier_id, ri.brand, ri.catalog_no, ri.received_qty, ri.item_cost, ri.rd_id, ri.ri_id, rh.create_date, ri.shipping_fee, rh.po_no,ri.expiration_date FROM receive_head rh INNER JOIN receive_items ri ON rh.receive_id = ri.receive_id WHERE item_id = '$item_id' AND saved='1'") AS $stk){
+            $pr_no = $this->super_model->select_column_where("receive_details", "pr_no", "rd_id", $stk->rd_id);
+            $supplier = $this->super_model->select_column_where("supplier", "supplier_name", "supplier_id", $stk->supplier_id);
+            $total_cost = $stk->received_qty*$stk->item_cost;
+            if($stk->expiration_date=='' || $stk->expiration_date > $now){
+                $method = 'Receive';
+            }else {
+                $method = 'Expired';
+            }
+            $stockcard[]=array(
+                'date'=>$stk->receive_date,
+                'create_date'=>$stk->create_date,
+                'supplier'=>$supplier,
+                'pr_no'=>$pr_no,
+                'po_no'=>$stk->po_no,
+                'catalog_no'=>$stk->catalog_no,
+                'brand'=>$stk->brand,
+                'item_cost'=>$total_cost,
+                'quantity'=>$stk->received_qty,
+                'remaining_qty'=>'',
+                'series'=>'1',
+                'method'=>$method,
+            );
+
+            $balance[] = array(
+                'series'=>'1',
+                'method'=>$method,
+                'quantity'=>$stk->received_qty,
+                'remaining_qty'=>'',
+                'date'=>$stk->receive_date,
+                'create_date'=>$stk->create_date
+            );
+        }
+
+        foreach($this->super_model->custom_query("SELECT * FROM sales_good_head sh INNER JOIN sales_good_details sd ON sh.sales_good_head_id = sd.sales_good_head_id WHERE item_id = '$item_id' AND saved='1'") AS $sal){
+            $in_id = $this->super_model->select_column_where("fifo_out","in_id","sales_details_id",$sal->sales_good_det_id);
+            $brand = $this->super_model->select_column_where("fifo_in","brand","in_id",$in_id);
+            $catalog_no = $this->super_model->select_column_where("fifo_in","catalog_no","in_id",$in_id);
+            $client = $this->super_model->select_column_where("client", "buyer_name", "client_id", $sal->client_id);
+            $total_cost = $sal->quantity*$sal->unit_cost;
+            $stockcard[]=array(
+                'date'=>$sal->sales_date,
+                'create_date'=>$sal->create_date,
+                'supplier'=>$client,
+                'pr_no'=>$sal->pr_no,
+                'po_no'=>$sal->po_no,
+                'catalog_no'=>$catalog_no,
+                'brand'=>$brand,
+                'item_cost'=>$total_cost,
+                'quantity'=>$sal->quantity,
+                'remaining_qty'=>'',
+                'series'=>'3',
+                'method'=>'Sales Good',
+            );
+
+            $balance[] = array(
+                'series'=>'3',
+                'method'=>'Sales Good',
+                'quantity'=>$sal->quantity,
+                'remaining_qty'=>'',
+                'date'=>$sal->sales_date,
+                'create_date'=>$sal->create_date
+            );
+        }
+
+        foreach($this->super_model->custom_query("SELECT * FROM sales_services_head sh INNER JOIN sales_serv_items si ON sh.sales_serv_head_id = si.sales_serv_head_id WHERE item_id = '$item_id' AND saved='1'") AS $sas){
+            $in_id = $this->super_model->select_column_where("fifo_out","in_id","sales_serv_items_id",$sas->sales_serv_items_id);
+            $brand = $this->super_model->select_column_where("fifo_in","brand","in_id",$in_id);
+            $catalog_no = $this->super_model->select_column_where("fifo_in","catalog_no","in_id",$in_id);
+            $client = $this->super_model->select_column_where("client", "buyer_name", "client_id", $sas->client_id);
+            $total_cost = $sas->quantity*$sas->unit_cost;
+            $stockcard[]=array(
+                'date'=>$sas->sales_date,
+                'create_date'=>$sas->create_date,
+                'supplier'=>$client,
+                'pr_no'=>$sas->jor_no,
+                'po_no'=>$sas->joi_no,
+                'catalog_no'=>$catalog_no,
+                'brand'=>$brand,
+                'item_cost'=>$total_cost,
+                'quantity'=>$sas->quantity,
+                'remaining_qty'=>'',
+                'series'=>'4',
+                'method'=>'Sales Services',
+            );
+
+            $balance[] = array(
+                'series'=>'4',
+                'method'=>'Sales Services',
+                'quantity'=>$sas->quantity,
+                'remaining_qty'=>'',
+                'date'=>$sas->sales_date,
+                'create_date'=>$sas->create_date
+            );
+        }
+
+        foreach($this->super_model->custom_query("SELECT * FROM damage_head dh INNER JOIN damage_details dd ON dh.damage_id = dd.damage_id WHERE item_id = '$item_id'") AS $dam){
+            $receive_id = $this->super_model->select_column_where("fifo_in","receive_id","in_id",$dam->in_id);
+            $brand = $this->super_model->select_column_where("receive_items","brand","receive_id",$receive_id);
+            $catalog_no = $this->super_model->select_column_where("receive_items","catalog_no","receive_id",$receive_id);
+            $supplier_id = $this->super_model->select_column_where("receive_items","supplier_id","receive_id",$receive_id);
+            $supplier = $this->super_model->select_column_where("supplier", "supplier_name", "supplier_id", $supplier_id);
+            $pr_no = $this->super_model->select_column_where("receive_details","pr_no","receive_id",$receive_id);
+            $po_no = $this->super_model->select_column_where("receive_head","po_no","receive_id",$receive_id);
+            $item_cost = $this->super_model->select_column_where("receive_items","item_cost","receive_id",$receive_id);
+            $total_cost = $dam->damage_qty*$item_cost;
+            $stockcard[]=array(
+                'date'=>$dam->damage_date,
+                'create_date'=>$dam->create_date,
+                'supplier'=>$supplier,
+                'pr_no'=>$pr_no,
+                'po_no'=>$po_no,
+                'catalog_no'=>$catalog_no,
+                'brand'=>$brand,
+                'item_cost'=>$total_cost,
+                'quantity'=>$dam->damage_qty,
+                'remaining_qty'=>'',
+                'series'=>'5',
+                'method'=>'Damaged',
+            );
+
+            $balance[] = array(
+                'series'=>'5',
+                'method'=>'Damaged',
+                'quantity'=>$dam->damage_qty,
+                'remaining_qty'=>'',
+                'date'=>$dam->damage_date,
+                'create_date'=>$dam->create_date
+            );
+        }
+
+        foreach($this->super_model->custom_query("SELECT * FROM repair_details WHERE item_id = '$item_id' AND assessment='1'") AS $rep){
+            //$client = $this->super_model->select_column_where("client", "buyer_name", "client_id", $rep->client_id);
+            $receive_id = $this->super_model->select_column_where("fifo_in","receive_id","in_id",$rep->in_id);
+            $brand = $this->super_model->select_column_where("receive_items","brand","receive_id",$receive_id);
+            $catalog_no = $this->super_model->select_column_where("receive_items","catalog_no","receive_id",$receive_id);
+            $supplier_id = $this->super_model->select_column_where("receive_items","supplier_id","receive_id",$receive_id);
+            $supplier = $this->super_model->select_column_where("supplier", "supplier_name", "supplier_id", $supplier_id);
+            $pr_no = $this->super_model->select_column_where("receive_details","pr_no","receive_id",$receive_id);
+            $po_no = $this->super_model->select_column_where("receive_head","po_no","receive_id",$receive_id);
+            $total_cost = $rep->quantity*$rep->repair_price;
+            $stockcard[]=array(
+                'date'=>$rep->repair_date,
+                'create_date'=>$rep->create_date,
+                'supplier'=>$supplier,
+                'pr_no'=>$pr_no,
+                'po_no'=>$po_no,
+                'catalog_no'=>$catalog_no,
+                'brand'=>$brand,
+                'item_cost'=>$total_cost,
+                'quantity'=>$rep->quantity,
+                'remaining_qty'=>'',
+                'series'=>'6',
+                'method'=>'Repaired',
+            );
+
+            $balance[] = array(
+                'series'=>'6',
+                'method'=>'Repaired',
+                'quantity'=>$rep->quantity,
+                'remaining_qty'=>'',
+                'date'=>$rep->repair_date,
+                'create_date'=>$rep->create_date
+            );
+        }
+
+        foreach($this->super_model->custom_query("SELECT * FROM return_head rh INNER JOIN return_details rd ON rh.return_id = rd.return_id WHERE item_id = '$item_id'") AS $ret){
+            $receive_id = $this->super_model->select_column_where("fifo_in","receive_id","in_id",$ret->in_id);
+            $brand = $this->super_model->select_column_where("receive_items","brand","receive_id",$receive_id);
+            $catalog_no = $this->super_model->select_column_where("receive_items","catalog_no","receive_id",$receive_id);
+            $supplier_id = $this->super_model->select_column_where("receive_items","supplier_id","receive_id",$receive_id);
+            $supplier = $this->super_model->select_column_where("supplier", "supplier_name", "supplier_id", $supplier_id);
+            $pr_no = $this->super_model->select_column_where("receive_details","pr_no","receive_id",$receive_id);
+            $po_no = $this->super_model->select_column_where("receive_head","po_no","receive_id",$receive_id);
+            $item_cost = $this->super_model->select_column_where("receive_items","item_cost","receive_id",$receive_id);
+            $total_cost = ($ret->return_qty + $ret->damage_qty) *$item_cost;
+            $total_qty = $ret->return_qty + $ret->damage_qty;
+            $stockcard[]=array(
+                'date'=>$ret->return_date,
+                'create_date'=>$ret->create_date,
+                'supplier'=>$supplier,
+                'pr_no'=>$pr_no,
+                'po_no'=>$po_no,
+                'catalog_no'=>$catalog_no,
+                'brand'=>$brand,
+                'item_cost'=>$total_cost,
+                'quantity'=>$total_qty,
+                'remaining_qty'=>'',
+                'series'=>'7',
+                'method'=>'Return',
+            );
+
+            $balance[] = array(
+                'series'=>'7',
+                'method'=>'Return',
+                'quantity'=>$total_qty,
+                'remaining_qty'=>'',
+                'date'=>$ret->return_date,
+                'create_date'=>$ret->create_date
+            );
+        }
+
+        //DateTime//
+        if(!empty($stockcard)){
+            foreach ($stockcard as $key => $row) {
+                $date[$key]  = $row['date'];
+                $series[$key] = $row['series'];
+                $cdate[$key] = $row['create_date'];
+            }
+            array_multisort($date, SORT_ASC,  $cdate, SORT_ASC, $stockcard);
+        }
+        if(!empty($stockcard)){
+            foreach ($balance as $key => $row) {
+                $date[$key]  = $row['date'];
+                $series[$key] = $row['series'];
+                $cdate[$key] = $row['create_date'];
+            }
+
+            array_multisort($date, SORT_ASC, $cdate, SORT_ASC, $balance);
+            $total_bal=0;
+            foreach($balance AS $sc){
+                if($sc['method'] == 'Receive' || $sc['method'] == 'Repaired' || $sc['method'] == 'Return'){ 
+                    $total_bal += $sc['quantity'];
+                }else if($sc['method'] == 'Sales Good' || $sc['method'] == 'Sales Services' || $sc['method'] == 'Damaged') {
+                    $total_bal -= $sc['quantity'];
+                } 
+            }
+        }else {
+            $total_bal=0;
+        }
+        //DateTime//
+
+        //BALANCE//
+        if(!empty($stockcard)){
+            $run_bal=0;
+            foreach($balance AS $s){
+                if($s['method'] == 'Receive' || $s['method'] == 'Repaired' || $s['method'] == 'Return'){ 
+                    $run_bal += $s['quantity'];
+                }else if($s['method'] == 'Sales Good' || $s['method'] == 'Sales Services' || $s['method'] == 'Damaged') {
+                    $run_bal -= $s['quantity'];
+                } 
+                $bal[] = $run_bal;
+            }
+        }
+        //BALANCE//
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S1', 'Running Balance');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S2', $total_bal);
+        if(!empty($stockcard)){
+            $count = count($stockcard)-1;
+            $run_bal=0;
+            $num=4;
+            for($x=$count; $x>=0;$x--){ 
+                if($stockcard[$x]['method']=='Receive'){
+                    $badge = 'badge-primary';
+                }else if($stockcard[$x]['method']=='Sales Good'){
+                    $badge = 'badge-warning';
+                }else if($stockcard[$x]['method']=='Sales Services'){
+                    $badge = 'badge-warning';
+                }else if($stockcard[$x]['method']=='Return'){
+                    $badge = 'badge-info';
+                }else if($stockcard[$x]['method']=='Repaired'){
+                    $badge = 'badge-success';
+                }else if($stockcard[$x]['method']=='Damaged'){
+                    $badge = 'badge-danger';
+                }else if($stockcard[$x]['method']=='Expired'){
+                    $badge = 'badge-danger';
+                }
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $stockcard[$x]['date']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $stockcard[$x]['supplier']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $stockcard[$x]['pr_no']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $stockcard[$x]['po_no']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $stockcard[$x]['catalog_no']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $stockcard[$x]['brand']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $stockcard[$x]['method']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, $stockcard[$x]['item_cost']);
+                if($stockcard[$x]['method']== 'Sales Good' || $stockcard[$x]['method'] == 'Sales Services' || $stockcard[$x]['method'] == 'Damaged' || $stockcard[$x]['method'] == 'Expired'){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, "-".$stockcard[$x]['quantity']);
+                }else{
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, $stockcard[$x]['quantity']);
+                }
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, $bal[$x]);
+                $objPHPExcel->getActiveSheet()->mergeCells('A'.$num.":B".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('C'.$num.":E".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('F'.$num.":G".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('H'.$num.":I".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('J'.$num.":K".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('L'.$num.":M".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('N'.$num.":O".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('P'.$num.":Q".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('R'.$num.":S".$num);
+                $objPHPExcel->getActiveSheet()->mergeCells('T'.$num.":U".$num);
+                $objPHPExcel->getActiveSheet()->getStyle('P'.$num.":T".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->applyFromArray($styleArray);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('N'.$num.":T".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $num++;
+            }
+        }
+        $objPHPExcel->getActiveSheet()->getStyle("S1")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle("S2")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle('S1:U1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('S2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->mergeCells('S1:U1');
+        $objPHPExcel->getActiveSheet()->mergeCells('S2:U2');
+        $objPHPExcel->getActiveSheet()->mergeCells('A3:B3');
+        $objPHPExcel->getActiveSheet()->mergeCells('C3:E3');
+        $objPHPExcel->getActiveSheet()->mergeCells('F3:G3');
+        $objPHPExcel->getActiveSheet()->mergeCells('H3:I3');
+        $objPHPExcel->getActiveSheet()->mergeCells('J3:K3');
+        $objPHPExcel->getActiveSheet()->mergeCells('L3:M3');
+        $objPHPExcel->getActiveSheet()->mergeCells('N3:O3');
+        $objPHPExcel->getActiveSheet()->mergeCells('P3:Q3');
+        $objPHPExcel->getActiveSheet()->mergeCells('R3:S3');
+        $objPHPExcel->getActiveSheet()->mergeCells('T3:U3');
+        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A3:U3")->applyFromArray($styleArray);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Stockcard.xlsx"');
+        readfile($exportfilename);
+    }
+
     public function slash_replace($query){
         $search = ["/", " / "];
         $replace   = ["_"];
@@ -849,6 +1726,7 @@ class Reports extends CI_Controller {
 
     public function overallpr_report(){
         $pr = $this->uri->segment(3);
+        $data['pr']=$pr;
         $data['pr_disp']=$this->slash_unreplace(rawurldecode($pr));
         $data['pr_list']=$this->super_model->custom_query("SELECT * FROM receive_details GROUP BY pr_no");
         $today = date("Y-m-d");
@@ -908,8 +1786,196 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function export_overallpr(){
+        $pr = $this->uri->segment(3);
+        $today = date("Y-m-d");
+        $purpose_id = $this->super_model->select_column_where("receive_details","purpose_id","pr_no",$pr);
+        $purpose = $this->super_model->select_column_where("purpose", "purpose_desc", "purpose_id", $purpose_id);
+
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Overall PR Report.xlsx";
+
+         $gdImage = imagecreatefrompng('assets/images/progen_logow.png');
+        // Add a drawing to the worksheetecho date('H:i:s') . " Add a drawing to the worksheet\n";
+        $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
+        $objDrawing->setName('Sample image');
+        $objDrawing->setDescription('Sample image');
+        $objDrawing->setImageResource($gdImage);
+        $objDrawing->setRenderingFunction(PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
+        $objDrawing->setMimeType(PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+        $objDrawing->setHeight(75);
+        $objDrawing->setOffsetX(25);
+        $objDrawing->setCoordinates('A1');
+        $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A6', "PR:");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A7', "Purpose:");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A9', "No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B9', "Item Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F9', "Received Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H9', "Sales Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J9', "Initial Balance");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L9', "Return Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N9', "Damage Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P9', "Repaired Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R9', "Expired Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T9', "Final Balance");
+        
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "PROGEN Dieseltech Services Corp.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', "Purok San Jose, Brgy. Calumangan, Bago City");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Negros Occidental, Philippines 6101");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Tel. No. 476 - 7382");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M2', "OVERALL PR REPORT");
+        $num=10;
+
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C6', $pr);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C7', $purpose);
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $x = 1;
+        foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id,rd_id,supplier_id,brand FROM fifo_in WHERE pr_no = '$pr' GROUP BY item_id") AS $head){
+            $item = $this->super_model->select_column_where("items","item_name","item_id",$head->item_id);
+            $sales_good_rem_qty = $this->super_model->select_sum_where("fifo_out","remaining_qty","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
+            $expired_qty = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date!=''");
+            $return_qty= $this->super_model->select_sum_join("return_qty","return_details","sales_good_details","in_id='$head->in_id' AND sales_good_details.return_id!='0'","return_id");
+            $return_qty_serv= $this->super_model->select_sum_join("return_qty","return_details","sales_serv_items","in_id='$head->in_id' AND sales_serv_items.return_id!='0'","return_id");
+            $damageret_qty= $this->super_model->select_sum_join("damage_qty","return_details","sales_good_details","in_id='$head->in_id' AND sales_good_details.return_id!='0'","return_id");
+            $damageret_qty_serv= $this->super_model->select_sum_join("damage_qty","return_details","sales_serv_items","in_id='$head->in_id' AND sales_serv_items.return_id!='0'","return_id");
+            $damageqty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type = 'Damage'");
+            $repairqty= $this->super_model->select_sum_where("repair_details","quantity","in_id='$head->in_id' AND saved='1'");
+            $count_sales_good = $this->super_model->count_custom_where("fifo_out","in_id = '$head->in_id' AND transaction_type = 'Sales Goods'");
+            $count_sales_service = $this->super_model->count_custom_where("fifo_out","in_id = '$head->in_id' AND transaction_type = 'Sales Services'");
+            $count_expired = $this->super_model->count_custom_where("fifo_in","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date!=''");
+            $count_return = $this->super_model->count_join_where("return_details","return_head","in_id='$head->in_id' AND (transaction_type = 'Goods' OR transaction_type='Services')","return_id");
+            $count_damage = $this->super_model->count_custom_where("damage_details","in_id='$head->in_id'");
+            $count_repair = $this->super_model->count_custom_where("repair_details","in_id='$head->in_id'");
+            $sales_good_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
+            $received_qty = $this->super_model->select_sum_where("fifo_in","quantity","item_id='$head->item_id' AND supplier_id='$head->supplier_id' AND brand='$head->brand'");
+            $sales_ret = ($return_qty - $return_qty_serv) + ($damageret_qty - $damageret_qty_serv);
+            $sales_all = $sales_good_qty - $return_qty - $return_qty_serv - $damageret_qty - $damageret_qty_serv;
+            $in_balance = ($received_qty - $sales_good_qty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+            if($count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
+                $final_balance = $received_qty;
+            } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage==0 && $count_expired==0){
+                $final_balance = $received_qty - $sales_good_qty;
+            }else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
+            } else if(($count_sales_good!=0 || $count_sales_service!=0)  && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired==0){
+                $final_balance =  $in_balance; 
+            } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
+            } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired==0){
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv; 
+            }else if((($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage!=0 && $count_repair==0 && $count_expired==0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired!=0)){
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+            }
+
+
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $x);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $item);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $received_qty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $sales_all);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $in_balance);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $sales_ret); 
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $damageqty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, $repairqty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, $expired_qty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, $final_balance);
+            $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":U".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getProtection()->setSheet(true);    
+            $objPHPExcel->getActiveSheet()->protectCells('A'.$num.":U".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('B9:E9');
+            $objPHPExcel->getActiveSheet()->mergeCells('B'.$num.":E".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('F9:G9');
+            $objPHPExcel->getActiveSheet()->mergeCells('F'.$num.":G".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('H9:I9');
+            $objPHPExcel->getActiveSheet()->mergeCells('H'.$num.":I".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('J9:K9');
+            $objPHPExcel->getActiveSheet()->mergeCells('J'.$num.":K".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('L9:M9');
+            $objPHPExcel->getActiveSheet()->mergeCells('L'.$num.":M".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('N9:O9');
+            $objPHPExcel->getActiveSheet()->mergeCells('N'.$num.":O".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('P9:Q9');
+            $objPHPExcel->getActiveSheet()->mergeCells('P'.$num.":Q".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('R9:S9');
+            $objPHPExcel->getActiveSheet()->mergeCells('R'.$num.":S".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('T9:U9');
+            $objPHPExcel->getActiveSheet()->mergeCells('T'.$num.":U".$num);
+            $objPHPExcel->getActiveSheet()->getStyle('F10:U10')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":U".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':U'.$num)->applyFromArray($styleArray);
+            $num++;
+            $x++;
+        }
+        $objPHPExcel->getActiveSheet()->mergeCells('B9:E9');
+        $objPHPExcel->getActiveSheet()->mergeCells('F9:G9');
+        $objPHPExcel->getActiveSheet()->mergeCells('H9:I9');
+        $objPHPExcel->getActiveSheet()->mergeCells('J9:K9');
+        $objPHPExcel->getActiveSheet()->mergeCells('L9:M9');
+        $objPHPExcel->getActiveSheet()->mergeCells('N9:O9');
+        $objPHPExcel->getActiveSheet()->mergeCells('P9:Q9');
+        $objPHPExcel->getActiveSheet()->mergeCells('R9:S9');
+        $objPHPExcel->getActiveSheet()->mergeCells('T9:U9');
+        $objPHPExcel->getActiveSheet()->getStyle('A9')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('F9:U9')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A9:U9')->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:U2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:U2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:D1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('C5')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('G5')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('H2')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A9:U9')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("M2")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle("A6")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle("A7")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle("C6")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle("C7")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle('M2:U2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Overall PR Report.xlsx"');
+        readfile($exportfilename);
+    }
+
     public function item_pr(){
         $item_id = $this->uri->segment(3);
+        $data['item_id']=$item_id;
         $data['item_name']=$this->super_model->select_column_where("items","item_name","item_id",$item_id);
         $data['item']=$this->super_model->select_all_order_by("items","item_name","ASC");
         $today = date("Y-m-d");
@@ -971,6 +2037,190 @@ class Reports extends CI_Controller {
         }
         $this->load->view('reports/item_pr',$data);
         $this->load->view('template/footer');
+    }
+
+    public function export_itempr(){
+        $item_id = $this->uri->segment(3);
+        $today = date("Y-m-d");
+        $item = $this->super_model->select_column_where("items", "item_name", "item_id", $item_id);
+
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Item PR.xlsx";
+
+         $gdImage = imagecreatefrompng('assets/images/progen_logow.png');
+        // Add a drawing to the worksheetecho date('H:i:s') . " Add a drawing to the worksheet\n";
+        $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
+        $objDrawing->setName('Sample image');
+        $objDrawing->setDescription('Sample image');
+        $objDrawing->setImageResource($gdImage);
+        $objDrawing->setRenderingFunction(PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
+        $objDrawing->setMimeType(PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+        $objDrawing->setHeight(75);
+        $objDrawing->setOffsetX(25);
+        $objDrawing->setCoordinates('A1');
+        $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A6', "Item:");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A9', "No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B9', "PR No");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F9', "Received Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H9', "Sales Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J9', "Initial Balance");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L9', "Return Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N9', "Damage Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P9', "Repaired Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R9', "Expired Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T9', "Final Balance");
+        
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "PROGEN Dieseltech Services Corp.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', "Purok San Jose, Brgy. Calumangan, Bago City");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Negros Occidental, Philippines 6101");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Tel. No. 476 - 7382");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M2', "ITEM PR REPORT");
+        $num=10;
+
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C6', $item);
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $x = 1;
+        foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id,supplier_id,brand FROM fifo_in WHERE item_id = '$item_id' GROUP BY pr_no") AS $head){
+            $sales_good_rem_qty = $this->super_model->select_sum_where("fifo_out","remaining_qty","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
+            $expired_qty = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date!=''");
+            $return_qty= $this->super_model->select_sum_join("return_qty","return_details","sales_good_details","in_id='$head->in_id' AND sales_good_details.return_id!='0'","return_id");
+            $return_qty_serv= $this->super_model->select_sum_join("return_qty","return_details","sales_serv_items","in_id='$head->in_id' AND sales_serv_items.return_id!='0'","return_id");
+            $damageret_qty= $this->super_model->select_sum_join("damage_qty","return_details","sales_good_details","in_id='$head->in_id' AND sales_good_details.return_id!='0'","return_id");
+            $damageret_qty_serv= $this->super_model->select_sum_join("damage_qty","return_details","sales_serv_items","in_id='$head->in_id' AND sales_serv_items.return_id!='0'","return_id");
+            $damageqty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type = 'Damage'");
+            $repairqty= $this->super_model->select_sum_where("repair_details","quantity","in_id='$head->in_id' AND saved='1'");
+            $count_sales_good = $this->super_model->count_custom_where("fifo_out","in_id = '$head->in_id' AND transaction_type = 'Sales Goods'");
+            $count_sales_service = $this->super_model->count_custom_where("fifo_out","in_id = '$head->in_id' AND transaction_type = 'Sales Services'");
+            $count_expired = $this->super_model->count_custom_where("fifo_in","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date!=''");
+            $count_return = $this->super_model->count_join_where("return_details","return_head","in_id='$head->in_id' AND (transaction_type = 'Goods' OR transaction_type='Services')","return_id");
+            $count_damage = $this->super_model->count_custom_where("damage_details","in_id='$head->in_id'");
+            $count_repair = $this->super_model->count_custom_where("repair_details","in_id='$head->in_id'");
+            $sales_good_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
+            $received_qty = $this->super_model->select_sum_where("fifo_in","quantity","item_id='$head->item_id' AND supplier_id='$head->supplier_id' AND brand='$head->brand'");
+            $sales_ret = ($return_qty - $return_qty_serv) + ($damageret_qty - $damageret_qty_serv);
+            $sales_all = $sales_good_qty - $return_qty - $return_qty_serv - $damageret_qty - $damageret_qty_serv;
+            $in_balance = ($received_qty - $sales_good_qty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+            if($count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
+                $final_balance = $received_qty;
+            } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage==0 && $count_expired==0){
+                $final_balance = $received_qty - $sales_good_qty;
+            }else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
+            } else if(($count_sales_good!=0 || $count_sales_service!=0)  && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired==0){
+                $final_balance =  $in_balance; 
+            } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
+            } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired==0){
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv; 
+            }else if((($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage!=0 && $count_repair==0 && $count_expired==0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired!=0)){
+                $final_balance =  ($received_qty - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+            }
+
+
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $x);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $head->pr_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $received_qty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $sales_all);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $in_balance);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $sales_ret); 
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $damageqty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, $repairqty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, $expired_qty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, $final_balance);
+            $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":U".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getProtection()->setSheet(true);    
+            $objPHPExcel->getActiveSheet()->protectCells('A'.$num.":U".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('B9:E9');
+            $objPHPExcel->getActiveSheet()->mergeCells('B'.$num.":E".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('F9:G9');
+            $objPHPExcel->getActiveSheet()->mergeCells('F'.$num.":G".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('H9:I9');
+            $objPHPExcel->getActiveSheet()->mergeCells('H'.$num.":I".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('J9:K9');
+            $objPHPExcel->getActiveSheet()->mergeCells('J'.$num.":K".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('L9:M9');
+            $objPHPExcel->getActiveSheet()->mergeCells('L'.$num.":M".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('N9:O9');
+            $objPHPExcel->getActiveSheet()->mergeCells('N'.$num.":O".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('P9:Q9');
+            $objPHPExcel->getActiveSheet()->mergeCells('P'.$num.":Q".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('R9:S9');
+            $objPHPExcel->getActiveSheet()->mergeCells('R'.$num.":S".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('T9:U9');
+            $objPHPExcel->getActiveSheet()->mergeCells('T'.$num.":U".$num);
+            $objPHPExcel->getActiveSheet()->getStyle('F10:U10')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":U".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':U'.$num)->applyFromArray($styleArray);
+            $num++;
+            $x++;
+        }
+        $objPHPExcel->getActiveSheet()->mergeCells('B9:E9');
+        $objPHPExcel->getActiveSheet()->mergeCells('F9:G9');
+        $objPHPExcel->getActiveSheet()->mergeCells('H9:I9');
+        $objPHPExcel->getActiveSheet()->mergeCells('J9:K9');
+        $objPHPExcel->getActiveSheet()->mergeCells('L9:M9');
+        $objPHPExcel->getActiveSheet()->mergeCells('N9:O9');
+        $objPHPExcel->getActiveSheet()->mergeCells('P9:Q9');
+        $objPHPExcel->getActiveSheet()->mergeCells('R9:S9');
+        $objPHPExcel->getActiveSheet()->mergeCells('T9:U9');
+        $objPHPExcel->getActiveSheet()->getStyle('A9')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('F9:U9')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A9:U9')->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:U2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:U2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:D1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('C5')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('G5')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('H2')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A9:U9')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("M2")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle("A6")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle("A7")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle("C6")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle("C7")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle('M2:U2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Item PR.xlsx"');
+        readfile($exportfilename);
+        
     }
 
     public function aging_report(){
