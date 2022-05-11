@@ -1,4 +1,8 @@
-
+<script type="text/javascript">   
+function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); };
+$(document).bind("keydown", disableF5);
+$(document).on("keydown", disableF5);
+</script>
 <!-- <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script> -->
 <div class="main-panel">
     <div class="content-wrapper">    
