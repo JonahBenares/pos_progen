@@ -231,6 +231,8 @@ class Repair extends CI_Controller {
             $damage_det_id=$this->super_model->select_column_where("damage_details","damage_det_id","damage_det_id",$repair->damage_det_id);
             $damage_qty= $this->super_model->select_column_where("damage_details","damage_qty","damage_det_id",$damage_det_id);
             $repair_qty= $this->super_model->select_sum_where("repair_details", "quantity", "damage_det_id='$damage_det_id' AND saved='1' AND assessment='1'");
+            $cat_id = $this->super_model->select_column_where("items","category_id","item_id",$repair->item_id);
+            $subcat_id = $this->super_model->select_column_where("items","subcat_id","item_id",$repair->item_id);
             $avail_qty= $damage_qty-$repair_qty;
            // if($repair->saved == 0 AND $repair->unsaved==1){
                 /*$data['rep'][]=array(
@@ -248,8 +250,8 @@ class Repair extends CI_Controller {
                 'avail_qty'=>$avail_qty,
                 'pr_no'=>$pr_no,
                 'item_name'=>$item_name,
-                'category'=>$this->super_model->select_column_where('item_categories', 'cat_name', 'cat_id', $item_id),
-                'subcategory'=>$this->super_model->select_column_where('item_subcat', 'subcat_name', 'subcat_id', $item_id),
+                'category'=>$this->super_model->select_column_where('item_categories', 'cat_name', 'cat_id', $cat_id),
+                'subcategory'=>$this->super_model->select_column_where('item_subcat', 'subcat_name', 'subcat_id', $subcat_id),
             );
         }
         $this->load->view('repair/repair_form', $data);

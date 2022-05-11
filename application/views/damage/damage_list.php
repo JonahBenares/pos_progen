@@ -56,7 +56,9 @@
                                     <td><?php echo $d['status']; ?></td>
                                     <td align="center">
                                         <a  href="<?php echo base_url(); ?>damage/damage_print/<?php echo $d['damage_id']; ?>" class="btn btn-xs btn-gradient-warning btn-rounded" data-toggle="tooltip" data-placement="top" title="View Damage Report"><span class="mdi mdi-eye"></span></a>
-                                        <a  href="<?php echo base_url(); ?>damage/repair_details" class="btn btn-xs btn-gradient-success btn-rounded" data-toggle="tooltip" data-placement="top" title="View Repair Details"><span class="mdi mdi-eye"></span></a>
+                                        <?php if($d['status']=='Repaired'){ ?>
+                                        <a  href="<?php echo base_url(); ?>damage/repair_details/<?php echo $d['damage_det_id']; ?>" class="btn btn-xs btn-gradient-success btn-rounded" data-toggle="tooltip" data-placement="top" title="View Repair Details"><span class="mdi mdi-eye"></span></a>
+                                        <?php } ?>
                                     </td>
                                 </tr>
                                 <?php } 

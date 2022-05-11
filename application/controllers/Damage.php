@@ -245,6 +245,7 @@ class Damage extends CI_Controller {
 
             $data['damage'][] = array(
                 "damage_id"=>$dam->damage_id,
+                "damage_det_id"=>$damage_det_id,
                 "pdr_no"=>$dam->pdr_no,
                 "date_reported"=>$dam->reported_date,
                 "status"=>$status,
@@ -259,9 +260,37 @@ class Damage extends CI_Controller {
     }
 
     public function repair_details(){
+        $damage_det_id=$this->uri->segment(3);
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('damage/repair_details');
+        foreach($this->super_model->select_custom_where("repair_details","damage_det_id='$damage_det_id' AND saved='1'") AS $dd){
+            $receive_date=$this->super_model->select_column_where("fifo_in","receive_date","in_id",$dd->in_id);
+            $item_name = $this->super_model->select_column_where("items","item_name","item_id",$dd->item_id);
+            $cat_id = $this->super_model->select_column_where("items","category_id","item_id",$dd->item_id);
+            $subcat_id = $this->super_model->select_column_where("items","subcat_id","item_id",$dd->item_id);
+            $new_pn = $this->super_model->select_column_where("items","original_pn","item_id",$dd->item_id);
+            $pr_no=$this->super_model->select_column_where("fifo_in","pr_no","in_id",$dd->in_id);
+            $serial_no=$this->super_model->select_column_where("fifo_in","serial_no","in_id",$dd->in_id);
+            $received_by=$this->super_model->select_column_where("employees","employee_name","employee_id",$dd->received_by);
+            $data['repair'][]=array(
+                "receive_date"=>$receive_date,
+                "item_name"=>$item_name,
+                'category'=>$this->super_model->select_column_where('item_categories', 'cat_name', 'cat_id', $cat_id),
+                'subcategory'=>$this->super_model->select_column_where('item_subcat', 'subcat_name', 'subcat_id', $subcat_id),
+                "pr_no"=>$pr_no,
+                "repaired_by"=>$dd->repaired_by,
+                "repair_date"=>$dd->repair_date,
+                "repair_price"=>$dd->repair_price,
+                "assessment"=>$dd->assessment,
+                "received_by"=>$received_by,
+                "jo_no"=>$dd->jo_no,
+                "remarks"=>$dd->remarks,
+                "quantity"=>$dd->quantity,
+                "serial_no"=>$serial_no,
+                "new_pn"=>$new_pn,
+            );
+        }
+        $this->load->view('damage/repair_details',$data);
         $this->load->view('template/footer');
     }
 

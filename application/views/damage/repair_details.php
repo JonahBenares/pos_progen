@@ -19,11 +19,12 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>damage/damage_list">Damage list</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Repair Form</li>
+                    <li class="breadcrumb-item active" aria-current="page">Repair Details</li>
                 </ol>
             </nav>
         </div>
         <form id='InsertRepair'>
+            <?php $x=1; foreach($repair AS $r){ ?>
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -35,29 +36,29 @@
                                             <td width="10%" rowspan="4">
                                                 <h3 class="page-title">
                                                     <span class="page-title-icon bg-gradient-success text-white mr-2 item-block" style="height:90px">
-                                                        <span ><b><h2  style="padding-top:20px">01</h2></b></span>
+                                                        <span ><b><h2  style="padding-top:20px"><?php echo $x; ?></h2></b></span>
                                                     </span>
                                                 </h3>
                                             </td>
                                             <td width="2%" rowspan="4"></td>
                                             <td width="11%">Receive Date:</td>
-                                            <td width="50%"> July 09, 2020</td>
+                                            <td width="50%"> <?php echo date('F d,Y',strtotime($r['receive_date']));?></td>
                                             <td width="7%">PR No: </td>
-                                            <td width="20%">PR-12525556</td>
+                                            <td width="20%"><?php echo $r['pr_no']; ?></td>
                                         </tr>
                                         <tr>
                                             <td>Item Description:</td>
-                                            <td>Monitor</td>
+                                            <td><?php echo $r['item_name']; ?></td>
                                             <!-- <td>Serial No:</td>
                                             <td>2255414221</td> -->
                                         </tr>
                                         <tr>
                                             <td>Category:</td>
-                                            <td>Computer</td>
+                                            <td><?php echo $r['category']; ?></td>
                                         </tr>
                                         <tr>
                                             <td>Sub Category:</td>
-                                            <td>Computer</td>
+                                            <td><?php echo $r['subcategory']; ?></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -66,38 +67,38 @@
                             <table width="100%" class="table-bordsered">
                                 <tr>
                                     <td width="8%">Repaired by</td>
-                                    <td width="42%">:</td>
+                                    <td width="42%">: <?php echo $r['repaired_by']; ?></td>
                                     <td width="8%">JO/PR No.</td>
-                                    <td width="42%">:</td>
+                                    <td width="42%">: <?php echo $r['jo_no']; ?></td>
                                 </tr>
                                 <tr>
                                     <td width="8%">Repair Date</td>
-                                    <td width="42%">:</td>
-                                    <td width="8%">Receive by</td>
-                                    <td width="42%">:</td>
+                                    <td width="42%">: <?php echo date("F d,Y",strtotime($r['repair_date'])); ?></td>
+                                    <td width="8%">Received by</td>
+                                    <td width="42%">: <?php echo $r['received_by']; ?></td>
                                 </tr>
                                 <tr>
                                     <td width="8%">Repair Price</td>
-                                    <td width="42%">:</td>
+                                    <td width="42%">: <?php echo number_format($r['repair_price'],2); ?></td>
                                     <td width="8%">Quantity</td>
-                                    <td width="42%">:</td>
+                                    <td width="42%">: <?php echo $r['quantity']; ?></td>
                                 </tr>
                             </table>
                             <br>
                             <table width="100%" class="table-bordesred">
                                 <tr>
                                     <td width="10%">Assestment</td>
-                                    <td width="42%">: Repaired</td>
+                                    <td width="42%">: <?php echo ($r['assessment']==1) ? 'Repaired' : 'Beyond Repair';?></td>
                                     <td width="7%" rowspan="3" style="vertical-align:text-top;">Remarks</td>
-                                    <td width="42%" rowspan="3" style="vertical-align:text-top;">:</td>
+                                    <td width="42%" rowspan="3" style="vertical-align:text-top;">: <?php echo $r['remarks']; ?></td>
                                 </tr>
                                 <tr>
                                     <td>Serial Number</td>
-                                    <td>:</td>
+                                    <td>: <?php echo $r['serial_no'];?></td>
                                 </tr>
                                 <tr>
                                     <td>New PN</td>
-                                    <td>:</td>
+                                    <td>: <?php echo $r['new_pn']; ?></td>
                                 </tr>
                             </table>
                             <br>
@@ -186,6 +187,7 @@
                     </div>
                 </div>
             </div>
+            <?php $x++; } ?>
         </form> 
     </div>
 </div>
