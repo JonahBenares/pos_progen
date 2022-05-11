@@ -1024,7 +1024,7 @@ class Masterfile extends CI_Controller {
         $goods_url = $base.'sales/goods_add_sales_head';
         $services_url = $base.'sales/services_add_sales_head';
         $receive_url = $base.'receive/add_receive_head';
-        $repair_url = $base.'repair/repair_form';
+        $repair_url = $base.'repair/repair_form/';
         $damage_url = $base.'damage/damage_item';
        
        if($curr_url == $goods_url){

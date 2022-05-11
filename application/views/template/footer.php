@@ -109,7 +109,7 @@
                 var goods_url = baseurl+'sales/goods_add_sales_head';
                 var services_url = baseurl+'sales/services_add_sales_head';
                 var receive_url = baseurl+'receive/add_receive_head';
-                 var repair_url = baseurl+'repair/repair_form';
+                 var repair_url = baseurl+'repair/repair_form/';
                  var damage_url = baseurl+'damage/damage_item';
                 
                if(curr_url == goods_url || curr_url == services_url || curr_url == receive_url || curr_url == repair_url || curr_url == damage_url){
@@ -141,7 +141,7 @@
                 var goods_url = baseurl+'sales/goods_add_sales_head';
                 var services_url = baseurl+'sales/services_add_sales_head';
                 var receive_url = baseurl+'receive/add_receive_head';
-                var repair_url = baseurl+'repair/repair_form';
+                var repair_url = baseurl+'repair/repair_form/';
                 var damage_url = baseurl+'damage/damage_item';
 
 
@@ -174,7 +174,7 @@
                 var goods_url = baseurl+'sales/goods_add_sales_head';
                 var services_url = baseurl+'sales/services_add_sales_head';
                 var receive_url = baseurl+'receive/add_receive_head';
-                var repair_url = baseurl+'repair/repair_form';
+                var repair_url = baseurl+'repair/repair_form/';
                 var damage_url = baseurl+'damage/damage_item';
                 
                if(curr_url == goods_url || curr_url == services_url || curr_url == receive_url || curr_url == repair_url || curr_url == damage_url){
