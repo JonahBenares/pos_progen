@@ -30,17 +30,13 @@
                                                     <input type="checkbox" class="form-control" style="width:25px" onClick="toggle_multi(this)">
                                                 </center>
                                             </th>
+                                            <th><label class="label-table">PDR No</label></th>
                                             <th width="36%"><label class="label-table">Item Name</label></th>
                                             <th><label class="label-table">Quantity</label></th>
                                             <th><label class="label-table">Receive Date</label></th>
                                             <th><label class="label-table">PR No</label></th>
                                             <th><label class="label-table">Category</label></th>
-                                            <th><label class="label-table">Sub Category</label></th>
-                                            <th width="5%">
-                                                <center>
-                                                    <label class="label-table"><span class="mdi mdi-menu"></span></label>
-                                                </center>
-                                            </th>                                                                 
+                                            <th><label class="label-table">Sub Category</label></th>  
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -49,17 +45,18 @@
                                          $x=''; if(!empty($repair_items)){ $x=0; foreach($repair_items as $r){ ?>
                                         <tr>
                                             <td class="p-b-10 p-t-10" align="center"><input type="hidden" class="form-control"  style="width:25px" name="in_id[]" value="<?php echo $r['in_id']; ?>"><input type="hidden" class="form-control"  style="width:25px" name="item_id[]" value="<?php echo $r['item_id']; ?>"><input type="checkbox" class="form-control"  style="width:25px" name="damagedetid[]" value="<?php echo $r['damage_det_id']; ?>"></td>
+                                            <td><label class="label-table"><?php echo $r['pdr_no'];?></label></td>
                                             <td><label class="label-table"><?php echo $r['item_name'];?></label></td>
                                             <td><label class="label-table"><?php echo number_format($r['qty'],2);?></label></td>
                                             <td><label class="label-table"><?php echo date("M j, Y",strtotime($r['receive_date']))?></label></td>
                                             <td><label class="label-table"><?php echo $r['pr_no'];?></label></td>
                                             <td><label class="label-table"><?php echo $r['category'];?></label></td>
                                             <td><label class="label-table"><?php echo $r['subcategory'];?></label></td>
-                                            <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
                                         </tr>
                                         <?php $x++; } }?>
                                     </tbody>
                                 </table>
+                                <br>
                                 <input type = "button" class="btn btn-gradient-success btn-md btn-block" value = "Repair" onclick="redirect_repair();">
                                 <input type="hidden" id="count" name="count" class="form-control" value = "<?php echo $x;?>">
                                 <input type="hidden" name="user_id" value = "<?php echo $_SESSION['user_id'];?>">
