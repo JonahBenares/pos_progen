@@ -86,7 +86,7 @@
                             <br>
                             <table width="100%" class="table-bordesred">
                                 <tr>
-                                    <td width="10%">Assestment</td>
+                                    <td width="10%">Assessment</td>
                                     <td width="42%">: Repaired</td>
                                     <td width="7%" rowspan="3" style="vertical-align:text-top;">Remarks</td>
                                     <td width="42%" rowspan="3" style="vertical-align:text-top;">:</td>
