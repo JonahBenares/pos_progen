@@ -30,9 +30,9 @@
                                     <a href="<?php echo base_url(); ?>report/print_monthly_report" class="btn btn-gradient-info btn-sm btn-rounded">
                                         <b><span class="mdi mdi-printer"></span> Print</b>
                                     </a>                            
-                                    <button type="button" class="btn btn-gradient-warning btn-sm btn-rounded" data-toggle="modal" data-target="#updateSales">
+                                    <a href="<?php echo base_url(); ?>reports/export_inventory_rangedate/<?php echo $from; ?>/<?php echo $to; ?>/<?php echo $cat; ?>/<?php echo $subcat; ?>" class="btn btn-gradient-warning btn-sm btn-rounded">
                                         <b><span class="mdi mdi-export"></span> Export</b>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
