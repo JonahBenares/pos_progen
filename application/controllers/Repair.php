@@ -207,10 +207,12 @@ class Repair extends CI_Controller {
                     $this->super_model->update_where("repair_details", $update_item_id, "repair_id", $repair_id);
                  }
 
+
+
                  $damage_data = array(
                         'repaired'=>1,
                 ); 
-                $this->super_model->update_where("damage_details", $damage_data, "in_id", $inid);   
+                $this->super_model->update_custom_where("damage_details", $damage_data, "in_id='$inid' AND damage_det_id ='$damagedetid'");   
                 
 
             }
