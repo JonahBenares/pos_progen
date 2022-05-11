@@ -1050,7 +1050,7 @@ class Reports extends CI_Controller {
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $bill_no);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $dr_no);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $p->payment_type);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$num, $p->check_no);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $p->check_no." / ".$p->receipt_no);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $p->amount);
             $objPHPExcel->getActiveSheet()->getStyle("L".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
             $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":M".$num)->applyFromArray($styleArray);
