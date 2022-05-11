@@ -37,6 +37,7 @@ class Repair extends CI_Controller {
         if($row_avail!=0){
             foreach($this->super_model->select_all('damage_details') AS $repair){
                 $item_id=$this->super_model->select_column_where("fifo_in","item_id","in_id",$repair->in_id);
+                $pdr_no=$this->super_model->select_column_where("damage_head","pdr_no","damage_id",$repair->damage_id);
                 $in_id=$this->super_model->select_column_where("fifo_in","in_id","in_id",$repair->in_id);
                 $receive_date=$this->super_model->select_column_where("fifo_in","receive_date","in_id",$repair->in_id);
                 $pr_no=$this->super_model->select_column_where("fifo_in","pr_no","in_id",$repair->in_id);
@@ -51,6 +52,7 @@ class Repair extends CI_Controller {
                         'receive_date'=>$receive_date,
                         'qty'=>$damageqty,
                         'pr_no'=>$pr_no,
+                        'pdr_no'=>$pdr_no,
                         'category'=>$this->super_model->select_column_where('item_categories', 'cat_name', 'cat_id', $item_id),
                         'subcategory'=>$this->super_model->select_column_where('item_subcat', 'subcat_name', 'subcat_id', $item_id),
                         'item_name'=>$item_name,
