@@ -34,6 +34,7 @@ class Repair extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $row_avail=$this->super_model->count_rows('damage_details');
+        //echo $row_avail;
         if($row_avail!=0){
             foreach($this->super_model->select_all('damage_details') AS $repair){
                 $item_id=$this->super_model->select_column_where("fifo_in","item_id","in_id",$repair->in_id);
@@ -44,7 +45,8 @@ class Repair extends CI_Controller {
                 $item_name = $this->super_model->select_column_where("items","item_name","item_id",$item_id);
                 $repair_qty= $this->super_model->select_sum_where("repair_details", "quantity", "damage_det_id='$repair->damage_det_id' AND saved='1' AND (assessment='1' OR assessment='2')");
                 $damageqty= $repair->damage_qty-$repair_qty;
-                if($damageqty!='0'){
+              // echo $damageqty . " ";
+                if($damageqty!=0){
                     $data['repair_items'][] = array(
                         'damage_det_id'=>$repair->damage_det_id,
                         'in_id'=>$repair->in_id,
@@ -58,8 +60,6 @@ class Repair extends CI_Controller {
                         'item_name'=>$item_name,
 
                     );
-                } else {
-                    $data['repair_items']=array();
                 }
             }
         } else {
