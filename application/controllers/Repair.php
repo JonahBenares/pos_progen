@@ -89,7 +89,7 @@ class Repair extends CI_Controller {
 
     public function insert_repair(){
         $count = $this->input->post('count');
-        for($x=0;$x<$count;$x++){
+        for($x=1;$x<$count;$x++){
             $repair_id = $this->input->post('repair_id'.$x);
             $inid = $this->input->post('in_id'.$x);
             $repaired_by = $this->input->post('repaired_by'.$x);
@@ -119,13 +119,13 @@ class Repair extends CI_Controller {
             );
             $this->super_model->update_where("repair_details", $rep_data, "repair_id", $repair_id);
 
-            if($radio == 1){ ///if repaired
+            if($radio == 1){
 
                 $repaired_item = $this->super_model->select_column_custom_where("fifo_in", "item_id", "in_id ='$inid'");
                
-                $count_existing_repaired = $this->super_model->count_custom_where("repair_details", "repaired_item_id='$repaired_item'");
-               // echo  $count_existing_repaired;
-                if($count_existing_repaired == 1){
+                $count_existing_repaired = $this->super_model->count_custom_where("repair_details", "repaired_item_id='$repaired_item' AND item_id!='0'");
+                //echo $count_existing_repaired;
+               if($count_existing_repaired == 0){
 
                     $item_id = $this->super_model->select_column_where("fifo_in", "item_id", "in_id", $inid);
 
@@ -179,7 +179,7 @@ class Repair extends CI_Controller {
 
                         }
                     }
-                 } else if($count_existing_repaired > 1) {
+                 } else if($count_existing_repaired != 0) {
 
                     $existing_id = $this->super_model->custom_query_single("item_id", "SELECT item_id FROM repair_details WHERE repaired_item_id='$repaired_item' ORDER BY repair_id ASC LIMIT 1");
                    
@@ -212,23 +212,7 @@ class Repair extends CI_Controller {
                 
 
             }
-               // foreach($this->super_model->select_row_where('fifo_in', 'in_id', $inid) AS $in){
-                  /*  $remaining_qty = $this->super_model->select_column_where("fifo_in","remaining_qty","in_id",$inid);
-                    if($radio=='1'){
-                        $qty=$remaining_qty+$quantity;
-                        $in_data = array(
-                            'remaining_qty'=>$qty,
-                        ); 
-                        $this->super_model->update_where("fifo_in", $in_data, "in_id", $inid);
-                    }*/
-                   // }
-                    
-                   /* $damage_data = array(
-                        'repaired'=>1,
-                    ); 
-                    $this->super_model->update_where("damage_details", $damage_data, "in_id", $inid);*/
-                //}
-           // }
+           
         }
     }
 

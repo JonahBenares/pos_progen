@@ -312,7 +312,8 @@ function readPic1(input) {
                 alert('Error: File extension error.')
                } else {
                 alert('Item successfully Added!');
-                window.location = 'item_list/'+output;
+                //window.location = 'item_list/'+output;
+                window.location = 'item_list/';
                }
            }
         }); 

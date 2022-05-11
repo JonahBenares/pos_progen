@@ -32,7 +32,11 @@
                                     </button> -->
                                     <a href="<?php echo base_url(); ?>report/print_monthly_report" class="btn btn-gradient-info btn-sm btn-rounded">
                                         <b><span class="mdi mdi-printer"></span> Print</b>
-                                    </a>                            
+                                    </a>    
+                                    </a>  
+                                    <a href="<?php echo base_url(); ?>reports/export_summary_scgp/<?php echo $from; ?>/<?php echo $to; ?>/<?php echo $client_id; ?>" class="btn btn-gradient-warning btn-sm btn-rounded">
+                                        <b><span class="mdi mdi-export"></span> Export</b>
+                                    </a>
                                 </div>
                             </div>
                         </div>
