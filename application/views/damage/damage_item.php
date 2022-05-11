@@ -39,7 +39,7 @@ $(document).on("keydown", disableF5);
                                 $pdr_max = $this->super_model->get_max_where("damage_head", "pdr_no","damage_date LIKE '%$year%'");
                                 $pdr_exp=explode("-", $pdr_max);
                                 $series = $pdr_exp[3]+1;
-                                echo $pdr_max;
+                                //echo $pdr_max;
                                 //$nxts = str_pad($series, 4, "0", STR_PAD_LEFT);
                                 if(strlen($series)==1){
                                     $pdr_no = "PDR-".$pdrdate."-000".$series;
