@@ -36,12 +36,12 @@ class Back_order extends CI_Controller {
     }
 
     public function get_expected_qty($pr,$item){
-        $expected_qty = $this->super_model->select_sum_join("expected_qty","receive_items","receive_details", "pr_no = '$pr' AND item_id='$item' AND bo='0'","rd_id");
+        $expected_qty = $this->super_model->select_sum_join("expected_qty","receive_items","receive_details", "pr_no = '$pr' AND bo='0'","rd_id");
         return $expected_qty;
     }
 
      public function get_received_qty($pr,$item){
-        $received_qty = $this->super_model->select_sum_join("received_qty","receive_items","receive_details", "pr_no = '$pr' AND item_id='$item' AND bo='0'","rd_id");
+        $received_qty = $this->super_model->select_sum_join("received_qty","receive_items","receive_details", "pr_no = '$pr' AND bo='0'","rd_id");
         return $received_qty;
     }
 
