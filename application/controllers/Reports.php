@@ -120,6 +120,23 @@ class Reports extends CI_Controller {
         $objPHPExcel = new PHPExcel();
         $exportfilename="Monthly Report.xlsx";
         $objPHPExcel = new PHPExcel();
+        $gdImage = imagecreatefrompng('assets/images/progen_logow.png');
+        // Add a drawing to the worksheetecho date('H:i:s') . " Add a drawing to the worksheet\n";
+        $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
+        $objDrawing->setName('Sample image');
+        $objDrawing->setDescription('Sample image');
+        $objDrawing->setImageResource($gdImage);
+        $objDrawing->setRenderingFunction(PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
+        $objDrawing->setMimeType(PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+        $objDrawing->setHeight(75);
+        $objDrawing->setOffsetX(25);
+        $objDrawing->setCoordinates('A1');
+        $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "PROGEN Dieseltech Services Corp.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', "Purok San Jose, Brgy. Calumangan, Bago City");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Negros Occidental, Philippines 6101");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Tel. No. 476 - 7382");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H2', "MONTHLY REPORT");
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
         $styleArray = array(
@@ -140,19 +157,19 @@ class Reports extends CI_Controller {
             $sql.= " client_id = '$client_id' AND";
         }
         $query=substr($sql,0,-3);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "#");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', "Date");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', "DR No./AR No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', "Part No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1', "Item Description");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1', "Serial No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N1', "Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O1', "UOM");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P1', "PGC PR No/PO No");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R1', "Buyer");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T1', "Unit Cost");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U1', "Total Amt");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V1', "Remarks");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A6', "#");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B6', "Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D6', "DR No./AR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F6', "Part No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H6', "Item Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L6', "Serial No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N6', "Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O6', "UOM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P6', "PGC PR No/PO No");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R6', "Buyer");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T6', "Unit Cost");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U6', "Total Amt");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V6', "Remarks");
         foreach($this->super_model->custom_query("SELECT * FROM sales_good_head sh INNER JOIN sales_good_details sd ON sh.sales_good_head_id=sd.sales_good_head_id WHERE saved='1' ".$query) AS $sg){
             $item=$this->super_model->select_column_where("items","item_name","item_id",$sg->item_id);
             $original_pn=$this->super_model->select_column_where("items","original_pn","item_id",$sg->item_id);
@@ -213,7 +230,7 @@ class Reports extends CI_Controller {
                 "remarks"=>$sid->remarks,
             );
         }
-        $num=2;
+        $num=7;
         $x=1;
         foreach($sales AS $s){
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $x);
@@ -245,17 +262,42 @@ class Reports extends CI_Controller {
             $num++;
             $x++;
         }
-        $objPHPExcel->getActiveSheet()->mergeCells('B1:C1');
-        $objPHPExcel->getActiveSheet()->mergeCells('D1:E1');
-        $objPHPExcel->getActiveSheet()->mergeCells('F1:G1');
-        $objPHPExcel->getActiveSheet()->mergeCells('H1:K1');
-        $objPHPExcel->getActiveSheet()->mergeCells('L1:M1');
-        $objPHPExcel->getActiveSheet()->mergeCells('P1:Q1');
-        $objPHPExcel->getActiveSheet()->mergeCells('R1:S1');
-        $objPHPExcel->getActiveSheet()->mergeCells('V1:X1');
-        $objPHPExcel->getActiveSheet()->getStyle('A1:X1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A1:X1')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle("A1:X1")->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->mergeCells('B6:C6');
+        $objPHPExcel->getActiveSheet()->mergeCells('D6:E6');
+        $objPHPExcel->getActiveSheet()->mergeCells('F6:G6');
+        $objPHPExcel->getActiveSheet()->mergeCells('H6:K6');
+        $objPHPExcel->getActiveSheet()->mergeCells('L6:M6');
+        $objPHPExcel->getActiveSheet()->mergeCells('P6:Q6');
+        $objPHPExcel->getActiveSheet()->mergeCells('R6:S6');
+        $objPHPExcel->getActiveSheet()->mergeCells('V6:X6');
+        $objPHPExcel->getActiveSheet()->getStyle('A6:X6')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A6:X6')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A6:X6")->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->mergeCells('H2:X2');
+        $objPHPExcel->getActiveSheet()->getStyle('H2:X2')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('H2:X2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:X4')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:X1')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:X1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:X2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:X3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:X4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:X1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:X2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:X3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:X4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('X1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('X2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('X3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('X4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
         unlink($exportfilename);
@@ -347,6 +389,23 @@ class Reports extends CI_Controller {
         $objPHPExcel = new PHPExcel();
         $exportfilename="Summary of Sales, Costs, And Gross Profit.xlsx";
         $objPHPExcel = new PHPExcel();
+        $gdImage = imagecreatefrompng('assets/images/progen_logow.png');
+        // Add a drawing to the worksheetecho date('H:i:s') . " Add a drawing to the worksheet\n";
+        $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
+        $objDrawing->setName('Sample image');
+        $objDrawing->setDescription('Sample image');
+        $objDrawing->setImageResource($gdImage);
+        $objDrawing->setRenderingFunction(PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
+        $objDrawing->setMimeType(PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+        $objDrawing->setHeight(75);
+        $objDrawing->setOffsetX(25);
+        $objDrawing->setCoordinates('A1');
+        $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "PROGEN Dieseltech Services Corp.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', "Purok San Jose, Brgy. Calumangan, Bago City");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Negros Occidental, Philippines 6101");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Tel. No. 476 - 7382");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H2', "SUMMARY OF SALES, COSTS, AND GROSS PROFIT REPORT");
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
         $styleArray = array(
@@ -366,18 +425,18 @@ class Reports extends CI_Controller {
         }
 
         $query=substr($sql,0,-3);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "#");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', "Date");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', "Item Description");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1', "Client");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1', "PO/JO No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M1', "Billing Statement No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P1', "Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q1', "UOM");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R1', "Total Sales");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T1', "Total Cost");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V1', "Gross Profit");
-        $num=2;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A6', "#");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B6', "Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D6', "Item Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G6', "Client");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K6', "PO/JO No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M6', "Billing Statement No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P6', "Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q6', "UOM");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R6', "Total Sales");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T6', "Total Cost");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V6', "Gross Profit");
+        $num=7;
         $x=1;
         foreach($this->super_model->custom_query("SELECT DISTINCT * FROM billing_head bh INNER JOIN billing_details bd ON bh.billing_id = bd.billing_id INNER JOIN fifo_out fo WHERE bh.client_id='$client' AND bh.status='1' AND ".$query."GROUP BY item_id ORDER BY bh.billing_date ASC") AS $head){
             $sales_good_head_id = $this->super_model->select_column_where('sales_good_head', 'sales_good_head_id', 'sales_good_head_id', $head->sales_id);
@@ -453,17 +512,42 @@ class Reports extends CI_Controller {
         $objPHPExcel->getActiveSheet()->mergeCells('T'.$a.":U".$a);
         $objPHPExcel->getActiveSheet()->mergeCells('V'.$a.":W".$a);
         $num--;
-        $objPHPExcel->getActiveSheet()->mergeCells('B1:C1');
-        $objPHPExcel->getActiveSheet()->mergeCells('D1:F1');
-        $objPHPExcel->getActiveSheet()->mergeCells('G1:J1');
-        $objPHPExcel->getActiveSheet()->mergeCells('K1:L1');
-        $objPHPExcel->getActiveSheet()->mergeCells('M1:O1');
-        $objPHPExcel->getActiveSheet()->mergeCells('R1:S1');
-        $objPHPExcel->getActiveSheet()->mergeCells('T1:U1');
-        $objPHPExcel->getActiveSheet()->mergeCells('V1:W1');
-        $objPHPExcel->getActiveSheet()->getStyle('A1:W1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A1:W1')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle("A1:W1")->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->mergeCells('B6:C6');
+        $objPHPExcel->getActiveSheet()->mergeCells('D6:F6');
+        $objPHPExcel->getActiveSheet()->mergeCells('G6:J6');
+        $objPHPExcel->getActiveSheet()->mergeCells('K6:L6');
+        $objPHPExcel->getActiveSheet()->mergeCells('M6:O6');
+        $objPHPExcel->getActiveSheet()->mergeCells('R6:S6');
+        $objPHPExcel->getActiveSheet()->mergeCells('T6:U6');
+        $objPHPExcel->getActiveSheet()->mergeCells('V6:W6');
+        $objPHPExcel->getActiveSheet()->getStyle('A6:W6')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A6:W6')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A6:W6")->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->mergeCells('H2:W2');
+        $objPHPExcel->getActiveSheet()->getStyle('H2:W2')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('H2:W2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:W4')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:W1')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:W1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:W2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:W3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:W4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:W1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:W2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:W3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:W4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('W1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('W2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('W3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('W4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
         unlink($exportfilename);
@@ -556,6 +640,23 @@ class Reports extends CI_Controller {
         $objPHPExcel = new PHPExcel();
         $exportfilename="Pending Bill.xlsx";
         $objPHPExcel = new PHPExcel();
+        $gdImage = imagecreatefrompng('assets/images/progen_logow.png');
+        // Add a drawing to the worksheetecho date('H:i:s') . " Add a drawing to the worksheet\n";
+        $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
+        $objDrawing->setName('Sample image');
+        $objDrawing->setDescription('Sample image');
+        $objDrawing->setImageResource($gdImage);
+        $objDrawing->setRenderingFunction(PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
+        $objDrawing->setMimeType(PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+        $objDrawing->setHeight(75);
+        $objDrawing->setOffsetX(25);
+        $objDrawing->setCoordinates('A1');
+        $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "PROGEN Dieseltech Services Corp.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', "Purok San Jose, Brgy. Calumangan, Bago City");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Negros Occidental, Philippines 6101");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Tel. No. 476 - 7382");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H2', "PENDING BILLING REPORT");
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
         $styleArray = array(
@@ -565,12 +666,12 @@ class Reports extends CI_Controller {
                 )
             )
         );
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A3', "DR Date");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "DR No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F3', "Total Amount");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A8', "DR Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C8', "DR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F8', "Total Amount");
         if($type=='1'){
             $grand_total =0;
-            $num=4;
+            $num=9;
             foreach($this->super_model->select_custom_where("sales_good_head", "client_id='$client' AND billed='0'") AS $goods){
                 if($this->super_model->count_custom_where("return_head","dr_no = '$goods->dr_no'") != 0){
                     $return_id = $this->super_model->select_column_where("return_head", "return_id", "dr_no", $goods->dr_no);
@@ -581,9 +682,9 @@ class Reports extends CI_Controller {
                     $total_amount = $this->super_model->select_sum_where("sales_good_details", "total", "sales_good_head_id='$goods->sales_good_head_id'");
                 }
                 $grand_total += $total_amount;
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', "Overall Total Amount");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G2', $grand_total);
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $goods->sales_date);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F6', "Overall Total Amount");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G7', $grand_total);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, date('F d,Y',strtotime($goods->sales_date)));
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $goods->dr_no);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $total_amount);
                 $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":G".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
@@ -595,15 +696,15 @@ class Reports extends CI_Controller {
             }
         } else if($type=='2') {
             $grand_total =0;
-            $num=4;
+            $num=9;
             foreach($this->super_model->select_custom_where("sales_services_head", "client_id='$client' AND billed='0'") AS $services){
                 $total_sales =  $this->super_model->select_sum_where("sales_serv_equipment", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'") + $this->super_model->select_sum_where("sales_serv_items", "total", "sales_serv_head_id='$services->sales_serv_head_id'") +  $this->super_model->select_sum_where("sales_serv_manpower", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'") + $this->super_model->select_sum_where("sales_serv_material", "total_cost", "sales_serv_head_id='$services->sales_serv_head_id'");
                 $returned_amount =  $this->super_model->select_sum_join("total_amount","return_head","return_details", "return_id='$return_id' AND transaction_type='Services'","return_id");
                 $total_amount = $total_sales - $returned_amount;
                 $grand_total += $total_amount;
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', "Overall Total Amount");
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G2', $grand_total);
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $re->sales_date);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F6', "Overall Total Amount");
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G7', $grand_total);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, date('F d,Y',strtotime($re->sales_date)));
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $re->dr_no);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $total_amount);
                 $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":G".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
@@ -614,14 +715,39 @@ class Reports extends CI_Controller {
                 $num++;
             }
         } 
-        $objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('G2')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-        $objPHPExcel->getActiveSheet()->mergeCells('A3:B3');
-        $objPHPExcel->getActiveSheet()->mergeCells('C3:E3');
-        $objPHPExcel->getActiveSheet()->mergeCells('F3:G3');
-        $objPHPExcel->getActiveSheet()->getStyle('A3:G3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A3:G3')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle("A3:G3")->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->getStyle('F6')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('G7')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+        $objPHPExcel->getActiveSheet()->mergeCells('A8:B8');
+        $objPHPExcel->getActiveSheet()->mergeCells('C8:E8');
+        $objPHPExcel->getActiveSheet()->mergeCells('F8:G8');
+        $objPHPExcel->getActiveSheet()->getStyle('A8:G8')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A8:G8')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A8:G8")->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->mergeCells('H2:J2');
+        $objPHPExcel->getActiveSheet()->getStyle('H2:J2')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('H2:J2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:J4')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:J1')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:J1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:J2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:J3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:J4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:J1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:J2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:J3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:J4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('J1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('J2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('J3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('J4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
         unlink($exportfilename);
@@ -702,6 +828,23 @@ class Reports extends CI_Controller {
         $objPHPExcel = new PHPExcel();
         $exportfilename="Billing Statement.xlsx";
         $objPHPExcel = new PHPExcel();
+        $gdImage = imagecreatefrompng('assets/images/progen_logow.png');
+        // Add a drawing to the worksheetecho date('H:i:s') . " Add a drawing to the worksheet\n";
+        $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
+        $objDrawing->setName('Sample image');
+        $objDrawing->setDescription('Sample image');
+        $objDrawing->setImageResource($gdImage);
+        $objDrawing->setRenderingFunction(PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
+        $objDrawing->setMimeType(PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+        $objDrawing->setHeight(75);
+        $objDrawing->setOffsetX(25);
+        $objDrawing->setCoordinates('A1');
+        $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "PROGEN Dieseltech Services Corp.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', "Purok San Jose, Brgy. Calumangan, Bago City");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Negros Occidental, Philippines 6101");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Tel. No. 476 - 7382");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H2', "BILLED REPORT");
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
         $styleArray = array(
@@ -711,19 +854,19 @@ class Reports extends CI_Controller {
                 )
             )
         );
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A3', "Billing Date");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Billing Statement No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F3', "Adjustments");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H3', "Total Amount");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A8', "Billing Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C8', "Billing Statement No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F8', "Adjustments");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H8', "Total Amount");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H6', "Overall Total Amount");
         $grand_total =0;
-        $num=4;
+        $num=9;
         foreach($this->super_model->select_custom_where("billing_head", "client_id= '$client' AND status='0'") AS $bill){
             // echo $bill->billing_id;
             $total_amount = $this->super_model->select_sum_where("billing_details", "remaining_amount", "billing_id='$bill->billing_id'");
             $grand_total += $total_amount;
             $count_adjust = $this->check_adjustment($bill->billing_id);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1', "Overall Total Amount");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I2', $grand_total);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I7', $grand_total);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $bill->billing_date);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $bill->billing_no);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $bill->adjustment_counter);
@@ -737,15 +880,40 @@ class Reports extends CI_Controller {
             $objPHPExcel->getActiveSheet()->mergeCells('H'.$num.":I".$num);
             $num++;
         }
-        $objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('I2')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-        $objPHPExcel->getActiveSheet()->mergeCells('A3:B3');
-        $objPHPExcel->getActiveSheet()->mergeCells('C3:E3');
-        $objPHPExcel->getActiveSheet()->mergeCells('F3:G3');
-        $objPHPExcel->getActiveSheet()->mergeCells('H3:I3');
-        $objPHPExcel->getActiveSheet()->getStyle('A3:I3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A3:I3')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle("A3:I3")->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->getStyle('H6')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('I7')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+        $objPHPExcel->getActiveSheet()->mergeCells('A8:B8');
+        $objPHPExcel->getActiveSheet()->mergeCells('C8:E8');
+        $objPHPExcel->getActiveSheet()->mergeCells('F8:G8');
+        $objPHPExcel->getActiveSheet()->mergeCells('H8:I8');
+        $objPHPExcel->getActiveSheet()->getStyle('A8:I8')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A8:I8')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A8:I8")->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->mergeCells('H2:J2');
+        $objPHPExcel->getActiveSheet()->getStyle('H2:J2')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('H2:J2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:J4')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:J1')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:J1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:J2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:J3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:J4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:J1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:J2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:J3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:J4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('J1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('J2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('J3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('J4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
         unlink($exportfilename);
@@ -831,6 +999,23 @@ class Reports extends CI_Controller {
         $objPHPExcel = new PHPExcel();
         $exportfilename="Paid Billing Statement.xlsx";
         $objPHPExcel = new PHPExcel();
+        $gdImage = imagecreatefrompng('assets/images/progen_logow.png');
+        // Add a drawing to the worksheetecho date('H:i:s') . " Add a drawing to the worksheet\n";
+        $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
+        $objDrawing->setName('Sample image');
+        $objDrawing->setDescription('Sample image');
+        $objDrawing->setImageResource($gdImage);
+        $objDrawing->setRenderingFunction(PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
+        $objDrawing->setMimeType(PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+        $objDrawing->setHeight(75);
+        $objDrawing->setOffsetX(25);
+        $objDrawing->setCoordinates('A1');
+        $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "PROGEN Dieseltech Services Corp.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', "Purok San Jose, Brgy. Calumangan, Bago City");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Negros Occidental, Philippines 6101");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Tel. No. 476 - 7382");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H2', "PAID BILLING REPORT");
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
         $styleArray = array(
@@ -840,13 +1025,13 @@ class Reports extends CI_Controller {
                 )
             )
         );
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A3', "Payment Date");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Billing Statement No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F3', "DR No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H3', "Payment Type");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J3', "Check / Receipt No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L3', "Amount Paid");
-        $num=4;
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A8', "Payment Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C8', "Billing Statement No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F8', "DR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H8', "Payment Type");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J8', "Check / Receipt No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L8', "Amount Paid");
+        $num=9;
         $gtotal=0;
         foreach($this->super_model->select_all("billing_payment") AS $p){
             $billing_id = explode(",",$p->billing_id);
@@ -859,8 +1044,8 @@ class Reports extends CI_Controller {
             $bill_no = substr($billing_no,0,-2);
             $dr_no = substr($dr_no,0,-2);
             $gtotal += $p->amount;
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1', "Overall Total Paid");
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M2', $gtotal);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L6', "Overall Total Paid");
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M7', $gtotal);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $p->payment_date);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $bill_no);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $dr_no);
@@ -879,17 +1064,42 @@ class Reports extends CI_Controller {
             $objPHPExcel->getActiveSheet()->mergeCells('L'.$num.":M".$num);
             $num++;
         }
-        $objPHPExcel->getActiveSheet()->getStyle('L1')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('M2')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-        $objPHPExcel->getActiveSheet()->mergeCells('A3:B3');
-        $objPHPExcel->getActiveSheet()->mergeCells('C3:E3');
-        $objPHPExcel->getActiveSheet()->mergeCells('F3:G3');
-        $objPHPExcel->getActiveSheet()->mergeCells('H3:I3');
-        $objPHPExcel->getActiveSheet()->mergeCells('J3:K3');
-        $objPHPExcel->getActiveSheet()->mergeCells('L3:M3');
-        $objPHPExcel->getActiveSheet()->getStyle('A3:M3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A3:M3')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle("A3:M3")->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->getStyle('L6')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('M7')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+        $objPHPExcel->getActiveSheet()->mergeCells('A8:B8');
+        $objPHPExcel->getActiveSheet()->mergeCells('C8:E8');
+        $objPHPExcel->getActiveSheet()->mergeCells('F8:G8');
+        $objPHPExcel->getActiveSheet()->mergeCells('H8:I8');
+        $objPHPExcel->getActiveSheet()->mergeCells('J8:K8');
+        $objPHPExcel->getActiveSheet()->mergeCells('L8:M8');
+        $objPHPExcel->getActiveSheet()->getStyle('A8:M8')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A8:M8')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A8:M8")->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->mergeCells('H2:M2');
+        $objPHPExcel->getActiveSheet()->getStyle('H2:M2')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('H2:M2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:M4')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:M1')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:M1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:M2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:M3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:M4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:M1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:M2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:M3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:M4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('M1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('M2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('M3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('M4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
         unlink($exportfilename);
@@ -1364,6 +1574,23 @@ class Reports extends CI_Controller {
         $objPHPExcel = new PHPExcel();
         $exportfilename="Stockcard.xlsx";
         $objPHPExcel = new PHPExcel();
+        $gdImage = imagecreatefrompng('assets/images/progen_logow.png');
+        // Add a drawing to the worksheetecho date('H:i:s') . " Add a drawing to the worksheet\n";
+        $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
+        $objDrawing->setName('Sample image');
+        $objDrawing->setDescription('Sample image');
+        $objDrawing->setImageResource($gdImage);
+        $objDrawing->setRenderingFunction(PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
+        $objDrawing->setMimeType(PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+        $objDrawing->setHeight(75);
+        $objDrawing->setOffsetX(25);
+        $objDrawing->setCoordinates('A1');
+        $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "PROGEN Dieseltech Services Corp.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', "Purok San Jose, Brgy. Calumangan, Bago City");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Negros Occidental, Philippines 6101");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Tel. No. 476 - 7382");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L2', "STOCKCARD REPORT");
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
         $styleArray = array(
@@ -1373,16 +1600,16 @@ class Reports extends CI_Controller {
                 )
             )
         );
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A3', "Date");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Supplier/Client");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F3', "PR No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H3', "PO No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J3', "Catalog No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L3', "Brand");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N3', "Method");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P3', "Total Unit Cost");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R3', "Quantity");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T3', "Running Balance");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A8', "Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C8', "Supplier/Client");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F8', "PR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H8', "PO No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J8', "Catalog No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L8', "Brand");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N8', "Method");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P8', "Total Unit Cost");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R8', "Quantity");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T8', "Running Balance");
         foreach($this->super_model->custom_query("SELECT rh.receive_id,rh.receive_date, ri.supplier_id, ri.brand, ri.catalog_no, ri.received_qty, ri.item_cost, ri.rd_id, ri.ri_id, rh.create_date, ri.shipping_fee, rh.po_no,ri.expiration_date FROM receive_head rh INNER JOIN receive_items ri ON rh.receive_id = ri.receive_id WHERE item_id = '$item_id' AND saved='1'") AS $stk){
             $pr_no = $this->super_model->select_column_where("receive_details", "pr_no", "rd_id", $stk->rd_id);
             $supplier = $this->super_model->select_column_where("supplier", "supplier_name", "supplier_id", $stk->supplier_id);
@@ -1628,12 +1855,12 @@ class Reports extends CI_Controller {
             }
         }
         //BALANCE//
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S1', 'Running Balance');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S2', $total_bal);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S6', 'Running Balance');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S7', $total_bal);
         if(!empty($stockcard)){
             $count = count($stockcard)-1;
             $run_bal=0;
-            $num=4;
+            $num=9;
             for($x=$count; $x>=0;$x--){ 
                 if($stockcard[$x]['method']=='Receive'){
                     $badge = 'badge-primary';
@@ -1681,25 +1908,50 @@ class Reports extends CI_Controller {
                 $num++;
             }
         }
-        $objPHPExcel->getActiveSheet()->getStyle("S1")->getFont()->setBold(true)->setName('Arial Black');
-        $objPHPExcel->getActiveSheet()->getStyle("S2")->getFont()->setBold(true)->setName('Arial Black');
-        $objPHPExcel->getActiveSheet()->getStyle('S1:U1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('S2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->mergeCells('S1:U1');
-        $objPHPExcel->getActiveSheet()->mergeCells('S2:U2');
-        $objPHPExcel->getActiveSheet()->mergeCells('A3:B3');
-        $objPHPExcel->getActiveSheet()->mergeCells('C3:E3');
-        $objPHPExcel->getActiveSheet()->mergeCells('F3:G3');
-        $objPHPExcel->getActiveSheet()->mergeCells('H3:I3');
-        $objPHPExcel->getActiveSheet()->mergeCells('J3:K3');
-        $objPHPExcel->getActiveSheet()->mergeCells('L3:M3');
-        $objPHPExcel->getActiveSheet()->mergeCells('N3:O3');
-        $objPHPExcel->getActiveSheet()->mergeCells('P3:Q3');
-        $objPHPExcel->getActiveSheet()->mergeCells('R3:S3');
-        $objPHPExcel->getActiveSheet()->mergeCells('T3:U3');
-        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle("A3:U3")->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->getStyle("S6")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle("S7")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle('S6:U6')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('S7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->mergeCells('S6:U6');
+        $objPHPExcel->getActiveSheet()->mergeCells('S7:U7');
+        $objPHPExcel->getActiveSheet()->mergeCells('A8:B8');
+        $objPHPExcel->getActiveSheet()->mergeCells('C8:E8');
+        $objPHPExcel->getActiveSheet()->mergeCells('F8:G8');
+        $objPHPExcel->getActiveSheet()->mergeCells('H8:I8');
+        $objPHPExcel->getActiveSheet()->mergeCells('J8:K8');
+        $objPHPExcel->getActiveSheet()->mergeCells('L8:M8');
+        $objPHPExcel->getActiveSheet()->mergeCells('N8:O8');
+        $objPHPExcel->getActiveSheet()->mergeCells('P8:Q8');
+        $objPHPExcel->getActiveSheet()->mergeCells('R8:S8');
+        $objPHPExcel->getActiveSheet()->mergeCells('T8:U8');
+        $objPHPExcel->getActiveSheet()->getStyle('A8:U8')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A8:U8')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A8:U8")->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->mergeCells('L2:P2');
+        $objPHPExcel->getActiveSheet()->getStyle('L2:P2')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('L2:P2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:U2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:U2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
         unlink($exportfilename);
