@@ -1430,6 +1430,7 @@ class Reports extends CI_Controller {
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="Item PR.xlsx"');
         readfile($exportfilename);
+        
     }
 
     public function aging_report(){
