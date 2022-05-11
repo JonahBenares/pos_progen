@@ -118,6 +118,7 @@
                         var redirect = baseurl+'index.php/masterfile/delete_unsave_sales';
                          $.ajax({
                             type: "POST",
+                            data:"url="+curr_url+"&base="+baseurl,
                             url: redirect,
                             success: function(output){
                                
@@ -150,6 +151,7 @@
                         var redirect = baseurl+'index.php/masterfile/delete_unsave';
                          $.ajax({
                             type: "POST",
+                            data:"url="+curr_url+"&base="+baseurl,
                             url: redirect,
                             success: function(output){
                                
@@ -181,10 +183,11 @@
                         var redirect = baseurl+'index.php/masterfile/delete_unsave';
                          $.ajax({
                             type: "POST",
+                            data:"url="+curr_url+"&base="+baseurl,
                             url: redirect,
                             success: function(output){
                                
-                                //window.location=new_page;
+                              
                                 window.open(new_page, '_blank');
                               
                             }

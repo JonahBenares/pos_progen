@@ -174,6 +174,11 @@ class Damage extends CI_Controller {
             );
 
             $this->super_model->update_where("fifo_in", $data_in, "in_id", $in_id);
+
+            $data_head = array(
+                "saved"=>1
+            );
+            $this->super_model->update_where("damage_head", $data_head, "damage_id", $damage_id);
         }
         echo $damage_id;
     }
