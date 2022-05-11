@@ -2248,6 +2248,10 @@ class Reports extends CI_Controller {
         $to = $this->uri->segment(4);
         $cat = $this->uri->segment(5);
         $subcat = $this->uri->segment(6);
+        $data['from']=$from;
+        $data['to']=$to;
+        $data['cat']=$cat;
+        $data['subcat']=$subcat;
         $sql="";
         if($from!='null' && $to!='null'){
            $sql.= " rh.receive_date BETWEEN '$from' AND '$to' AND";
@@ -2275,6 +2279,133 @@ class Reports extends CI_Controller {
         }
         $this->load->view('reports/inventory_rangedate',$data);
         $this->load->view('template/footer');
+    }
+
+    public function export_inventory_rangedate(){
+        $from = $this->uri->segment(3);
+        $to = $this->uri->segment(4);
+        $cat = $this->uri->segment(5);
+        $subcat = $this->uri->segment(6);
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Inventory Range of Date.xlsx";
+        $objPHPExcel = new PHPExcel();
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $sql="";
+        if($from!='null' && $to!='null'){
+           $sql.= " rh.receive_date BETWEEN '$from' AND '$to' AND";
+        }
+
+        if($cat!='null'){
+            $sql.= " i.category_id = '$cat' AND";
+        }
+
+        if($subcat!='null'){
+            $sql.= " i.subcat_id = '$subcat' AND";
+        }
+
+        $query=substr($sql,0,-3);
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Item PR.xlsx";
+
+         $gdImage = imagecreatefrompng('assets/images/progen_logow.png');
+        // Add a drawing to the worksheetecho date('H:i:s') . " Add a drawing to the worksheet\n";
+        $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
+        $objDrawing->setName('Sample image');
+        $objDrawing->setDescription('Sample image');
+        $objDrawing->setImageResource($gdImage);
+        $objDrawing->setRenderingFunction(PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
+        $objDrawing->setMimeType(PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+        $objDrawing->setHeight(75);
+        $objDrawing->setOffsetX(25);
+        $objDrawing->setCoordinates('A1');
+        $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A7', "Part Number");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D7', "Item Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J7', "Avail Qty");
+        
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "PROGEN Dieseltech Services Corp.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', "Purok San Jose, Brgy. Calumangan, Bago City");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Negros Occidental, Philippines 6101");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Tel. No. 476 - 7382");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J2', "INVENTORY RANGE OF DATE");
+        $num=8;
+
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+         foreach($this->super_model->custom_query("SELECT DISTINCT rh.*,i.item_id  FROM receive_head rh INNER JOIN receive_items ri ON rh.receive_id = ri.receive_id INNER JOIN items i ON ri.item_id = i.item_id WHERE rh.saved='1' AND ".$query." GROUP BY item_name ORDER BY i.item_name ASC") AS $head){
+            $item = $this->super_model->select_column_where('items', 'item_name', 'item_id', $head->item_id);
+            $pn = $this->super_model->select_column_where('items', 'original_pn', 'item_id', $head->item_id);
+            $totalqty=$this->inventory_balance($head->item_id);
+
+
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $pn);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, $item);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $totalqty);
+            $objPHPExcel->getActiveSheet()->getStyle('J'.$num.":L".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->protectCells('A'.$num.":L".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('A'.$num.":C".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('A7:C7');
+            $objPHPExcel->getActiveSheet()->mergeCells('D'.$num.":I".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('D7:I7');
+            $objPHPExcel->getActiveSheet()->mergeCells('J'.$num.":L".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('J7:L7');
+            $objPHPExcel->getActiveSheet()->getStyle('A7:L7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('J'.$num.":L".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':L'.$num)->applyFromArray($styleArray);
+            $num++;
+        }
+        $objPHPExcel->getActiveSheet()->mergeCells('A7:C7');
+        $objPHPExcel->getActiveSheet()->mergeCells('D7:I7');
+        $objPHPExcel->getActiveSheet()->mergeCells('J7:L7');
+        $objPHPExcel->getActiveSheet()->getStyle('A7:L7')->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:L4')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:L1')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:L1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:L2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:L3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:L4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:L1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:L2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:L3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:L4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('L1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('L2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('L3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('L4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle("J2")->getFont()->setBold(true)->setName('Arial Black');
+        $objPHPExcel->getActiveSheet()->getStyle('J2:L2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Inventory Range of Date.xlsx"');
+        readfile($exportfilename);
+        
     }
 
     public function get_subcat(){

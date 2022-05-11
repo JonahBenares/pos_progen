@@ -109,13 +109,16 @@
                 var goods_url = baseurl+'sales/goods_add_sales_head';
                 var services_url = baseurl+'sales/services_add_sales_head';
                 var receive_url = baseurl+'receive/add_receive_head';
+                 var repair_url = baseurl+'repair/repair_form';
+                 var damage_url = baseurl+'damage/damage_item';
                 
-               if(curr_url == goods_url || curr_url == services_url || curr_url == receive_url){
+               if(curr_url == goods_url || curr_url == services_url || curr_url == receive_url || curr_url == repair_url || curr_url == damage_url){
                     var conf = confirm('Are you sure you want to leave? Unsaved transactions will be deleted.');
                     if(conf){
                         var redirect = baseurl+'index.php/masterfile/delete_unsave_sales';
                          $.ajax({
                             type: "POST",
+                            data:"url="+curr_url+"&base="+baseurl,
                             url: redirect,
                             success: function(output){
                                
@@ -138,13 +141,17 @@
                 var goods_url = baseurl+'sales/goods_add_sales_head';
                 var services_url = baseurl+'sales/services_add_sales_head';
                 var receive_url = baseurl+'receive/add_receive_head';
-                
-               if(curr_url == goods_url || curr_url == services_url || curr_url == receive_url){
+                var repair_url = baseurl+'repair/repair_form';
+                var damage_url = baseurl+'damage/damage_item';
+
+
+               if(curr_url == goods_url || curr_url == services_url || curr_url == receive_url || curr_url == repair_url || curr_url == damage_url){
                     var conf = confirm('Are you sure you want to leave? Unsaved transactions will be deleted.');
                     if(conf){
                         var redirect = baseurl+'index.php/masterfile/delete_unsave';
                          $.ajax({
                             type: "POST",
+                            data:"url="+curr_url+"&base="+baseurl,
                             url: redirect,
                             success: function(output){
                                
@@ -167,17 +174,20 @@
                 var goods_url = baseurl+'sales/goods_add_sales_head';
                 var services_url = baseurl+'sales/services_add_sales_head';
                 var receive_url = baseurl+'receive/add_receive_head';
+                var repair_url = baseurl+'repair/repair_form';
+                var damage_url = baseurl+'damage/damage_item';
                 
-               if(curr_url == goods_url || curr_url == services_url || curr_url == receive_url){
+               if(curr_url == goods_url || curr_url == services_url || curr_url == receive_url || curr_url == repair_url || curr_url == damage_url){
                     var conf = confirm('Are you sure you want to leave? Unsaved transactions will be deleted.');
                     if(conf){
                         var redirect = baseurl+'index.php/masterfile/delete_unsave';
                          $.ajax({
                             type: "POST",
+                            data:"url="+curr_url+"&base="+baseurl,
                             url: redirect,
                             success: function(output){
                                
-                                //window.location=new_page;
+                              
                                 window.open(new_page, '_blank');
                               
                             }
