@@ -59,7 +59,7 @@
                                     <div class="col-lg-5">
                                         <div class="form-group">
                                             <p class="text-muted mb-0">Category</p>
-                                            <p class="mb-0 mr-3 font-weight-semibold"<?php echo $det['category'];?></p>
+                                            <p class="mb-0 mr-3 font-weight-semibold"><?php echo $det['category'];?></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 offset-lg-1">
