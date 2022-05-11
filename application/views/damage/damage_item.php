@@ -1,5 +1,12 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/damage.js"></script>
+<script type="text/javascript">
+   
+function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); };
+$(document).bind("keydown", disableF5);
+$(document).on("keydown", disableF5);
+
+</script>
 <div class="main-panel">
     <div class="content-wrapper">    
         <div class="page-header">
@@ -27,13 +34,23 @@
                             $year=date('Y');
                             $series_rows = $this->super_model->count_custom_where("damage_head","damage_date LIKE '%$year%'");
                             if($series_rows==0){
-                                $pdr_no= "PRD-".$pdrdate."-0001";
+                                $pdr_no= "PDR-".$pdrdate."-0001";
                             } else {
                                 $pdr_max = $this->super_model->get_max_where("damage_head", "pdr_no","damage_date LIKE '%$year%'");
                                 $pdr_exp=explode("-", $pdr_max);
                                 $series = $pdr_exp[3]+1;
-                                $nxts = str_pad($series, 4, "0", STR_PAD_LEFT);
-                                $pdr_no = "PDR-".$pdrdate."-".$nxts;
+                                //echo $pdr_max;
+                                //$nxts = str_pad($series, 4, "0", STR_PAD_LEFT);
+                                if(strlen($series)==1){
+                                    $pdr_no = "PDR-".$pdrdate."-000".$series;
+                                } else if(strlen($series)==2){
+                                     $pdr_no = "PDR-".$pdrdate."-00".$series;
+                                } else if(strlen($series)==3){
+                                     $pdr_no = "PDR-".$pdrdate."-0".$series;
+                                } else if(strlen($series)==4){
+                                     $pdr_no = "PDR-".$pdrdate."-".$series;
+                                }
+                                //$pdr_no = "PDR-".$pdrdate."-".$nxts;
 
                             }  ?>
                             <div class="col-lg-6">

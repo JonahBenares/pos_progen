@@ -174,6 +174,11 @@ class Damage extends CI_Controller {
             );
 
             $this->super_model->update_where("fifo_in", $data_in, "in_id", $in_id);
+
+            $data_head = array(
+                "saved"=>1
+            );
+            $this->super_model->update_where("damage_head", $data_head, "damage_id", $damage_id);
         }
         echo $damage_id;
     }
@@ -250,6 +255,13 @@ class Damage extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('damage/damage_list',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function repair_details(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('damage/repair_details');
         $this->load->view('template/footer');
     }
 
