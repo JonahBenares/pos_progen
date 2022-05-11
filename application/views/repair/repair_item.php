@@ -36,12 +36,7 @@
                                             <th><label class="label-table">Receive Date</label></th>
                                             <th><label class="label-table">PR No</label></th>
                                             <th><label class="label-table">Category</label></th>
-                                            <th><label class="label-table">Sub Category</label></th>
-                                            <th width="5%">
-                                                <center>
-                                                    <label class="label-table"><span class="mdi mdi-menu"></span></label>
-                                                </center>
-                                            </th>                                                                 
+                                            <th><label class="label-table">Sub Category</label></th>  
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -57,11 +52,11 @@
                                             <td><label class="label-table"><?php echo $r['pr_no'];?></label></td>
                                             <td><label class="label-table"><?php echo $r['category'];?></label></td>
                                             <td><label class="label-table"><?php echo $r['subcategory'];?></label></td>
-                                            <td align="center"><a href="<?php echo base_url(); ?>damage/print_damage" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
                                         </tr>
                                         <?php $x++; } }?>
                                     </tbody>
                                 </table>
+                                <br>
                                 <input type = "button" class="btn btn-gradient-success btn-md btn-block" value = "Repair" onclick="redirect_repair();">
                                 <input type="hidden" id="count" name="count" class="form-control" value = "<?php echo $x;?>">
                                 <input type="hidden" name="user_id" value = "<?php echo $_SESSION['user_id'];?>">

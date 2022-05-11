@@ -258,5 +258,12 @@ class Damage extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function repair_details(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('damage/repair_details');
+        $this->load->view('template/footer');
+    }
+
    
 }
