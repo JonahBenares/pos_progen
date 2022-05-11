@@ -31,9 +31,9 @@
                                     <!-- <button type="button" class="btn btn-gradient-success btn-sm btn-rounded" data-toggle="modal" data-target="#filterBillingState">
                                         <b><span class="mdi mdi-filter"></span> Filter</b>
                                     </button>  -->
-                                    <a href="<?php echo base_url(); ?>report/print_monthly_report" class="btn btn-gradient-info btn-sm btn-rounded">
+                                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-gradient-info btn-sm btn-rounded">
                                         <b><span class="mdi mdi-printer"></span> Print</b>
-                                    </a>                            
+                                    </button>                            
                                     <a href="<?php echo base_url(); ?>reports/export_pendingbilling/<?php echo $client; ?>/<?php echo $type; ?>" class="btn btn-gradient-warning btn-sm btn-rounded">
                                         <b><span class="mdi mdi-export"></span> Export</b>
                                     </a>
@@ -42,8 +42,9 @@
                         </div>
                     </div>
                     <div class="card-body">   
+                        <div id="printableArea">
                         <div class="row">
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 prnt">
                                 <!-- <input type="" class="form-control" name="" placeholder="Customer"> -->
                                 <form method="POST"> 
                                 <select class="form-control" id='client'>
@@ -53,7 +54,7 @@
                                     <?php } ?>
                                 </select>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 prnt">
                                 <!-- <input type="" class="form-control" name="" placeholder="Customer"> -->
                                 <select class="form-control" id='type'>
                                     <option value="">--Type--</option>
@@ -61,7 +62,7 @@
                                     <option value='2'>Delivery Reciept - Services</option>
                                 </select>
                             </div>
-                            <div class="col-lg-2">
+                            <div class="col-lg-2 prnt">
                                  <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
                                 <input type="button" class="btn btn-md btn-gradient-success btn-block" name="pending_filter" value="Filter" id='pendingFilter'>
                             </div>
@@ -76,7 +77,6 @@
                         <hr>  
                          <?php if(!empty($client)){ ?>   
                         <form id='pendingTable'>   
-
                             <table class=" table-hover table-bordered" width="100%">
                                 <thead>
                                     <tr>
@@ -128,6 +128,7 @@
                             <?php } ?>
                                 </tbody>
                             </table>
+                        </div>
                             <br> 
                             <div class="row">
                                 <div class="col-lg-4"></div>

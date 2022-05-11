@@ -29,9 +29,9 @@
                                     <!-- <button type="button" class="btn btn-gradient-success btn-sm btn-rounded" data-toggle="modal" data-target="#filterBillingState">
                                         <b><span class="mdi mdi-filter"></span> Filter</b>
                                     </button>  -->
-                                    <a href="<?php echo base_url(); ?>report/print_monthly_report" class="btn btn-gradient-info btn-sm btn-rounded">
+                                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-gradient-info btn-sm btn-rounded">
                                         <b><span class="mdi mdi-printer"></span> Print</b>
-                                    </a>                            
+                                    </button>                                
                                     <a href="<?php echo base_url(); ?>reports/export_billed/<?php echo $client; ?>" class="btn btn-gradient-warning btn-sm btn-rounded">
                                         <b><span class="mdi mdi-export"></span> Export</b>
                                     </a>
@@ -40,8 +40,9 @@
                         </div>
                     </div>
                     <div class="card-body">   
-                        <div class="row">
-                            <div class="col-lg-6">
+                    <div id="printableArea"> 
+                        <div class="row ">
+                            <div class="col-lg-6 prnt">
                                 <!-- <input type="" class="form-control" name="" placeholder="Customer"> -->
                                    <select class="form-control" id='client'>
                                     <option value="">--Select Client--</option>
@@ -51,7 +52,7 @@
                                 </select>
                             </div>
                           
-                            <div class="col-lg-2">
+                            <div class="col-lg-2 prnt">
                                 <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
                                 <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="billedFilter" value="Filter" id='billedFilter'>
                             </div>
@@ -64,7 +65,8 @@
                         </div>
                         <hr>  
                          <?php if(!empty($client)){ ?> 
-                        <form>     
+                        <form>  
+                            
                             <table class=" table-hover table-bordered" width="100%">
                                 <thead>
                                     <tr>
@@ -108,6 +110,7 @@
                                    
                                 </tbody>
                             </table>
+                            </div>
                             <br> 
                             <div class="row">
                                 <div class="col-lg-4"></div>

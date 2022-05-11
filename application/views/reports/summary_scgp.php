@@ -30,9 +30,9 @@
                                     <!-- <button type="button" class="btn btn-gradient-success btn-sm btn-rounded" data-toggle="modal" data-target="#filterSales">
                                         <b><span class="mdi mdi-filter"></span> Filter</b>
                                     </button> -->
-                                    <a href="<?php echo base_url(); ?>report/print_monthly_report" class="btn btn-gradient-info btn-sm btn-rounded">
+                                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-gradient-info btn-sm btn-rounded">
                                         <b><span class="mdi mdi-printer"></span> Print</b>
-                                    </a> 
+                                    </button>    
                                     <a href="<?php echo base_url(); ?>reports/export_summary_scgp/<?php echo $from; ?>/<?php echo $to; ?>/<?php echo $client_id; ?>" class="btn btn-gradient-warning btn-sm btn-rounded">
                                         <b><span class="mdi mdi-export"></span> Export</b>
                                     </a>
@@ -61,7 +61,8 @@
                                 <input type="submit" class="btn btn-md btn-gradient-success btn-block" value="Filter" onclick="loadSCGP()">
                             </div>
                         </div>
-                        <hr>          
+                        <hr>  
+                        <div id="printableArea">          
                         <table class="table table-bordered table-hover" width="100%">
                             <?php if(!empty($head)){ ?>
                             <thead>
@@ -120,6 +121,7 @@
                             </tbody>    
                             <?php } ?>                        
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

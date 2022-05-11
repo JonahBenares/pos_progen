@@ -19,4 +19,11 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['user_id'] == '')) {
         <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/jquery.dataTables.min.css">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/scroller.dataTables.min.css">
     </head>
+    <style type="text/css">
+        @media print{
+            .prnt{
+                display: none;
+            }
+        }
+    </style>
   <body class="sidebar-icon-only">
