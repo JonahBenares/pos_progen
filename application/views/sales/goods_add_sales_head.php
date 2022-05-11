@@ -158,7 +158,7 @@ $(document).on("keydown", disableF5);
                                     </div>      
                                     <br>
                                     <br>                        
-                                    <table id="table-alt" class="table-bordered" width="100%">
+                                    <table id="table-alt" class="table-bordered table-alt" width="100%">
                                         <tr>
                                             <td class="td-head" width="1%">#</td>
                                             <td class="td-head" width="">Part No.</td>

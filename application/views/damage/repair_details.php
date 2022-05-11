@@ -66,31 +66,27 @@
                             <hr>
                             <table width="100%" class="table-bordsered">
                                 <tr>
-                                    <td width="8%">Repaired by</td>
+                                    <td width="10%">Repaired by</td>
                                     <td width="42%">: <?php echo $r['repaired_by']; ?></td>
                                     <td width="8%">JO/PR No.</td>
                                     <td width="42%">: <?php echo $r['jo_no']; ?></td>
                                 </tr>
                                 <tr>
-                                    <td width="8%">Repair Date</td>
-                                    <td width="42%">: <?php echo date("F d,Y",strtotime($r['repair_date'])); ?></td>
-                                    <td width="8%">Received by</td>
-                                    <td width="42%">: <?php echo $r['received_by']; ?></td>
+                                    <td >Repair Date</td>
+                                    <td >: <?php echo date("F d,Y",strtotime($r['repair_date'])); ?></td>
+                                    <td >Received by</td>
+                                    <td >: <?php echo $r['received_by']; ?></td>
                                 </tr>
                                 <tr>
-                                    <td width="8%">Repair Price</td>
-                                    <td width="42%">: <?php echo number_format($r['repair_price'],2); ?></td>
-                                    <td width="8%">Quantity</td>
-                                    <td width="42%">: <?php echo $r['quantity']; ?></td>
+                                    <td >Repair Price</td>
+                                    <td >: <?php echo number_format($r['repair_price'],2); ?></td>
+                                    <td >Quantity</td>
+                                    <td >: <?php echo $r['quantity']; ?></td>
                                 </tr>
-                            </table>
-                            <br>
-                            <table width="100%" class="table-bordesred">
-                                <tr>
-                                    <td width="10%">Assestment</td>
-                                    <td width="42%">: <?php echo ($r['assessment']==1) ? 'Repaired' : 'Beyond Repair';?></td>
-                                    <td width="7%" rowspan="3" style="vertical-align:text-top;">Remarks</td>
-                                    <td width="42%" rowspan="3" style="vertical-align:text-top;">: <?php echo $r['remarks']; ?></td>
+                                    <td >Assestment</td>
+                                    <td >: <?php echo ($r['assessment']==1) ? 'Repaired' : 'Beyond Repair';?></td>
+                                    <td  rowspan="3" style="vertical-align:text-top;">Remarks</td>
+                                    <td  rowspan="3" style="vertical-align:text-top;">: <?php echo $r['remarks']; ?></td>
                                 </tr>
                                 <tr>
                                     <td>Serial Number</td>
