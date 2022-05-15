@@ -27,9 +27,9 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="pull-right">
-                                    <a href="<?php echo base_url(); ?>report/print_monthly_report" class="btn btn-gradient-info btn-sm btn-rounded">
+                                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-gradient-info btn-sm btn-rounded">
                                         <b><span class="mdi mdi-printer"></span> Print</b>
-                                    </a>                          
+                                    </button>                          
                                     <a href="<?php echo base_url(); ?>reports/export_overallpr/<?php echo $pr;?>" class="btn btn-gradient-warning btn-sm btn-rounded">
                                         <b><span class="mdi mdi-export"></span> Export</b>
                                     </a>
@@ -53,6 +53,7 @@
                             </div>
                         </div>   
                         <hr> 
+                        <div id="printableArea"> 
                         <?php if(!empty($pr_no)){ ?>
                         <div class="row">
                             <div class="col-lg-12">
@@ -107,6 +108,7 @@
                                 <?php $x++; }  ?>
                             </tbody>                            
                         </table>
+                    </div>
                     </div>
                     <?php } ?>
                 </div>

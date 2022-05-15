@@ -72,20 +72,32 @@ class Repair extends CI_Controller {
     public function insert_redirect(){  
         $count = $this->input->post('count');
         $damagedetid = $this->input->post('damagedetid');
-        $in_id = $this->input->post('in_id');
-        $item_id = $this->input->post('item_id');
+        /*$in_id = $this->input->post('in_id');
+        $item_id = $this->input->post('item_id');*/
         $checked =count($damagedetid);
         for($x=0;$x<$checked;$x++){
-            foreach($this->super_model->select_row_where('damage_details', 'damage_det_id', $damagedetid[$x]) AS $rep){
+            $dam_exp=explode('-',$damagedetid[$x]);
+            $damage_details_id=$dam_exp[0];
+            $in_id=$dam_exp[1];
+            $item_id=$dam_exp[2];
+            $rep_data = array(
+                'damage_det_id'=>$damage_details_id,
+                'in_id'=>$in_id,
+                'repaired_item_id'=>$item_id,
+                "user_id"=>$_SESSION['user_id'],
+                'unsaved'=>1,
+            );
+            $this->super_model->insert_into("repair_details", $rep_data);
+            /*foreach($this->super_model->select_row_where('damage_details', 'damage_det_id', $damagedetid[$x]) AS $rep){
                 $rep_data = array(
                     'damage_det_id'=>$damagedetid[$x],
                     'in_id'=>$in_id[$x],
                     'repaired_item_id'=>$item_id[$x],
                     "user_id"=>$_SESSION['user_id'],
-                    /*'unsaved'=>1,*/
+                    'unsaved'=>1,
                 );
                 $this->super_model->insert_into("repair_details", $rep_data);
-            }
+            }*/
         }   
     }
 
@@ -235,8 +247,8 @@ class Repair extends CI_Controller {
             $damage_det_id=$this->super_model->select_column_where("damage_details","damage_det_id","damage_det_id",$repair->damage_det_id);
             $damage_qty= $this->super_model->select_column_where("damage_details","damage_qty","damage_det_id",$damage_det_id);
             $repair_qty= $this->super_model->select_sum_where("repair_details", "quantity", "damage_det_id='$damage_det_id' AND saved='1' AND assessment='1'");
-            $cat_id = $this->super_model->select_column_where("items","category_id","item_id",$repair->item_id);
-            $subcat_id = $this->super_model->select_column_where("items","subcat_id","item_id",$repair->item_id);
+            $cat_id = $this->super_model->select_column_where("items","category_id","item_id",$repair->repaired_item_id);
+            $subcat_id = $this->super_model->select_column_where("items","subcat_id","item_id",$repair->repaired_item_id);
             $avail_qty= $damage_qty-$repair_qty;
            // if($repair->saved == 0 AND $repair->unsaved==1){
                 /*$data['rep'][]=array(
