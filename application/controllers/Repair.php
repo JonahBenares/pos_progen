@@ -119,9 +119,11 @@ class Repair extends CI_Controller {
                 'saved'=>1,
                 /*'unsaved'=>0,*/
             );
-            $this->super_model->update_where("repair_details", $rep_data, "repair_id", $repair_id);
-
+            //$this->super_model->update_where("repair_details", $rep_data, "repair_id", $repair_id);
+            //echo $radio;
             if($radio == 1){
+  
+                
 
                 $repaired_item = $this->super_model->select_column_custom_where("fifo_in", "item_id", "in_id ='$inid'");
                
@@ -152,7 +154,7 @@ class Repair extends CI_Controller {
                             "weight"=>$it->weight
                         );
 
-                        $new_item_id = $this->super_model->insert_return_id("items", $dataitem);
+                       // $new_item_id = $this->super_model->insert_return_id("items", $dataitem);
 
                        
                         foreach($this->super_model->select_row_where('fifo_in', 'in_id', $inid) AS $in){
@@ -209,12 +211,12 @@ class Repair extends CI_Controller {
 
 
 
-                 $damage_data = array(
+                $damage_data = array(
                         'repaired'=>1,
                 ); 
-                $this->super_model->update_custom_where("damage_details", $damage_data, "in_id='$inid' AND damage_det_id ='$damagedetid'");   
-                
-
+                $this->super_model->update_custom_where("damage_details", $damage_data, "in_id='$inid' AND damage_det_id ='$damagedetid'"); 
+              
+               // echo "in_id='$inid' AND damage_det_id ='$damagedetid'";
             }
            
         }
