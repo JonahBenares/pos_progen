@@ -114,14 +114,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><a href="<?php echo base_url(); ?>reports/paid_details" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
-                                </tr>
+                                <?php 
+                                    if(!empty($paid)){
+                                    foreach($paid AS $b){
+                                    //echo $b['count_adjust']; ?>
+                                    <tr>
+                                       
+                                        <td> &nbsp; <?php echo date('F d, Y', strtotime($b['billing_date'])); ?></td>
+                                        <td> &nbsp; <?php echo $b['client']; ?></td>
+                                        <td> &nbsp; <a href="<?php echo base_url(); ?>reports/paid_details/<?php echo $b['billing_id']; ?>" target="_blank"><?php echo $b['billing_no']; ?></a></td>
+                                        <td> &nbsp; 
+                                            <a onclick="adjust_all('<?php echo base_url(); ?>','<?php echo $b['billing_no']; ?>')" class="btn btn-link"><?php echo $b['counter']; ?></a>
+                                        </td>
+                                        <td align="right">P <?php echo number_format($b['total_amount'],2); ?> &nbsp;</td>
+                                        <?php if($b['count_adjust']!= 0 ){ ?>
+                                        <td align="center"><a href="<?php echo base_url(); ?>reports/adjustment_list/<?php echo $b['billing_id']; ?>" target="_blank" class="btn btn-primary btn-xs btn-rounded">Adjust</a></td>
+                                    <?php } ?>
+                                    </tr>
+                                        <?php }
+                                        } ?>
                             </tbody>
                         </table>
                     </div>
