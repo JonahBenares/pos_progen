@@ -85,8 +85,9 @@
                                                 <input type="checkbox" class="form-control" style="width:25px">
                                             </center>
                                         </th>
-                                        <th width="30%"><label class="label-table">DR Date</label></th>
-                                        <th width="30%"><label class="label-table">DR No</label></th>
+                                        <th width="25%"><label class="label-table">DR Date</label></th>
+                                        <th width="25%"><label class="label-table">Client</label></th>
+                                        <th width="25%"><label class="label-table">DR No</label></th>
                                         <th width="31"><label class="label-table pull-right">Total Amount &nbsp;</label></th>         
                                     </tr>
                                 </thead>
@@ -102,6 +103,7 @@
                                             </center>
                                         </td>
                                         <td> &nbsp; <?php echo date('F d, Y', strtotime($sg['dr_date'])); ?></td>
+                                         <td> &nbsp; <?php echo $sg['client']; ?></td>
                                         <td> &nbsp; <?php echo $sg['dr_no']; ?></td>
                                         <td align="right">P <?php echo number_format($sg['total'],2); ?> &nbsp;</td>
                                     </tr>
