@@ -67,7 +67,7 @@
                         </div>
                         <hr>   
                       
-                         <?php if(!empty($client)){ ?>  
+                         <!-- <?php if(!empty($client)){ ?>  
                             <table class="table table-hover table-bordered" width="100%" id="myTable">
                                 <thead>
                                     <tr>
@@ -96,8 +96,34 @@
                                 </tbody>
                             </table>
                             </div>
-                        <?php } ?>
-                        
+                        <?php } ?> -->
+
+
+
+                        <table class="table table-hover table-bordered" width="100%" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th width="20%"><label class="label-table">Billing Date</label></th>
+                                    <th width="20%"><label class="label-table">Client</label></th>
+                                    <th width="20%"><label class="label-table">Billing Statement #</label></th>
+                                    <th width="10%"><label class="label-table">Adjustments</label></th>
+                                    <th width="21"><label class="label-table pull-right">Total Amount &nbsp;</label></th>
+                                    <th width="5%" align="center">
+                                        <center><span class="mdi mdi-menu"></span></center>
+                                    </th>                                                                
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><a href="<?php echo base_url(); ?>reports/paid_details" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -2811,5 +2811,11 @@ class Reports extends CI_Controller {
         $this->load->view('reports/adjust_all',$data);
         $this->load->view('template/footer');
     }
+    public function paid_details(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/paid_details');
+        $this->load->view('template/footer');
+    }
 
 }
