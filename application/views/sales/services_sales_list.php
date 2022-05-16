@@ -64,14 +64,16 @@
                                     <td><?php echo $sh['address'];?></td>   
                                     <td><?php echo $sh['jor_no'];?></td>
                                     <td><?php echo $sh['joi_no'];?></td>
-                                    <td></td>
+                                    <td><?php echo $sh['service_no'];?></td>
                                     <td align="center">
                                         <!-- <a href="<?php echo base_url(); ?>sales/services_update_sales_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a>
                                         <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteSales"><span class="mdi mdi-delete"></span></a> -->
                                         <a href="<?php echo base_url(); ?>sales/services_print_sales/<?php echo $sh['sales_serv_head_id']?>" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
+                                        <?php if($sh['service_no']==''){ ?>
                                         <span data-toggle="modal" data-target="#filterGroup">
-                                            <a href="#" class="btn btn-xs btn-gradient-success btn-rounded"><span class="mdi mdi-textbox" data-toggle="tooltip" data-placement="right" title="" data-original-title="Add Service Report Number" title="Add Service Report Number"></span></a>
+                                            <a href="#" class="btn btn-xs btn-gradient-success btn-rounded"><span class="mdi mdi-textbox" data-toggle="tooltip" data-placement="right" id="serviceno" data-id="<?php echo $sh['sales_serv_head_id'];?>" data-original-title="Add Service Report Number" title="Add Service Report Number"></span></a>
                                         </span>
+                                        <?php } ?>
                                     </td>
                                 </tr>
                                 <?php } } ?>
@@ -96,20 +98,22 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/search_group">
+            <form method="POST" id="saveServicenumber">
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Date</label>
-                        <input type="date" class="form-control" name="">
+                        <input type="date" class="form-control" name="service_date" id="service_date">
                     </div>
                     <div class="form-group">
                         <label>Service Report Number</label>
-                        <input type="text" class="form-control" name="group_name" placeholder="Service Report Number">
+                        <input type="text" class="form-control" name="service_no" id="service_no" placeholder="Service Report Number">
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <input type="hidden" id="sales_serv_head_id" name="sales_serv_head_id">
+                    <input type="hidden" id="baseurl" name="baseurl" value="<?php echo base_url();?>">
                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success">Add</button>
+                    <button type="button" class="btn btn-success" onclick="saveServicenumber();">Add</button>
                 </div>
             </form>
         </div>

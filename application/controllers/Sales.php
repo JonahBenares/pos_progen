@@ -1181,6 +1181,8 @@ class Sales extends CI_Controller {
                     'contact_no'=>$contact_no,
                     'tin'=>$tin,
                     'sales_date'=>$sh->sales_date,
+                    'service_date'=>$sh->service_date,
+                    'service_no'=>$sh->service_no,
                     'vat'=>$sh->vat,
                     'jor_no'=>$sh->jor_no,
                     'jor_date'=>$sh->jor_date,
@@ -1195,6 +1197,17 @@ class Sales extends CI_Controller {
         }
         $this->load->view('sales/services_sales_list',$data);
         $this->load->view('template/footer');
+    }
+
+    public function insert_servicenumber(){
+        $service_date=$this->input->post('service_date');
+        $service_no=$this->input->post('service_no');
+        $sales_serv_head_id=$this->input->post('sales_serv_head_id');
+        $data=array(
+            'service_date'=>$service_date,
+            'service_no'=>$service_no,
+        );
+        $this->super_model->update_where("sales_services_head",$data, "sales_serv_head_id", $sales_serv_head_id);
     }
 
     public function export_salesserv(){
