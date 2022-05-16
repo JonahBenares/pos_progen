@@ -64,7 +64,7 @@
                         VAT Reg. TIN: 008-726-170-001  
                         <br>
                         <br>
-                        <b>DELIVERY RECEIPT - SERVICES</b>
+                        <b>JOB ORDER SUMMARY REPORT</b> 
                         <br>
                     </td>
                 </tr>
