@@ -130,6 +130,7 @@
                                 <td width="30%">Item Description</td>
                                 <td width="15%">Serial No.</td>
                                 <td width="5%">Qty</td>
+                                <td width="5%">Expected Qty</td>
                                 <td width="5%">UOM</td>
                                 <td width="10%">Selling Price</td>
                                 <td width="8%">Discount</td>
@@ -144,6 +145,7 @@
                                 <td><?php echo $sd['item'];?></td>
                                 <td><?php echo $sd['serial_no'];?></td>
                                 <td><?php echo $sd['quantity'];?></td>
+                                <td><?php echo $sd['expected_qty'];?></td>
                                 <td><?php echo $sd['uom'];?></td>
                                 <td align="center"><?php echo number_format($sd['selling_price'],2);?></td>
                                 <td align="center"><?php echo number_format($sd['discount'],2);?></td>

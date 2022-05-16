@@ -36,6 +36,7 @@
                 <td width="5%"></td>
                 <td width="5%"></td>
             </tr>
+             <?php foreach($head AS $h){ ?>
             <tr>
                 <td colspan="20" align="center">                        
                     <b>PROGEN DIESELTECH SERVICES CORP.</b><br>
@@ -43,16 +44,19 @@
                     VAT Reg. TIN: 008-726-170-001  
                     <br>
                     <br>
-                    <b>TRANSACTION ADJUSTMENT</b>
+                    <?php if ($h['adjustment_counter'] == 0) { ?>
+                        <b>BILLING STATEMENT</b>
+                    <?php } elseif ($h['adjustment_counter'] > 0) { ?>
+                        <b>TRANSACTION ADJUSTMENT</b>
+                    <?php } ?>
                     <br>
                     <br>
                 </td>
             </tr>
-            <?php foreach($head AS $h){ ?>
             <tr>
                 <td></td>
                 <td colspan="2">No:</td>
-                <td colspan="4" class="bor-btm1"><?php echo $h['billing_no']; ?></td>
+                <td colspan="4" class="bor-btm1"><?php echo $h['billing_no'].(($h['adjustment_counter'] == 0) ? '' : '.a'.$h['adjustment_counter']); ?></td>
                 <td colspan="4"></td>
                 <td></td>
                 <td colspan="3"></td>

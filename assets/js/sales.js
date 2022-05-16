@@ -651,3 +651,26 @@ function exportSalesserv(){
     var loc= document.getElementById("baseurl").value;
     window.location = loc+'sales/export_salesserv/';
 }
+
+$(document).on("click", "#serviceno", function () {
+     var sales_serv_head_id = $(this).attr("data-id");
+     $("#sales_serv_head_id").val(sales_serv_head_id);
+
+});
+
+function saveServicenumber(){
+    var data = $("#saveServicenumber").serialize();
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/insert_servicenumber";
+    var conf = confirm('Are you sure you want to save this Sales service report number?');
+    if(conf){
+        $.ajax({
+            data: data,
+            type: "POST",
+            url: redirect,
+            success: function(output){
+                window.location=loc+'sales/services_sales_list/';  
+            }
+        }); 
+    }    
+}
