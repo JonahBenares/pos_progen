@@ -85,7 +85,7 @@ class Repair extends CI_Controller {
                 'in_id'=>$in_id,
                 'repaired_item_id'=>$item_id,
                 "user_id"=>$_SESSION['user_id'],
-                'unsaved'=>1,
+                //'unsaved'=>1,
             );
             $this->super_model->insert_into("repair_details", $rep_data);
             /*foreach($this->super_model->select_row_where('damage_details', 'damage_det_id', $damagedetid[$x]) AS $rep){
