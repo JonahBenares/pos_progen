@@ -46,8 +46,8 @@
                             <tr>
                                 <td colspan="5">
                                     <h4 class="m-0">
-                                        <b>BS-2022-0001</b>  <br>             
-                                        <small>Central Negros Power Reliability, Inc.</small>
+                                        <b><?php echo $billing_no; ?></b>  <br>             
+                                        <!-- <small>Central Negros Power Reliability, Inc.</small> -->
                                     </h4>
                                 </td>
                             </tr>
@@ -58,16 +58,21 @@
                                 <td>Check/Receipt #</td>
                                 <td width="12%">Amount Paid</td>
                             </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td align="right"></td>
-                            </tr>
+                           <?php 
+                                    if(!empty($payment)){
+                                        foreach($payment AS $p){ ?>
+                                        <tr>
+                                            <td> &nbsp; <?php echo date('F d, Y', strtotime($p['payment_date'])); ?></td>
+                                            <td> &nbsp; <?php echo $p['dr_no']; ?></td>
+                                            <td> &nbsp; <?php echo $p['payment_type']; ?> &nbsp;</td>
+                                            <td> &nbsp; <?php echo $p['check_no']. " / " .$p['receipt_no']; ?> &nbsp;</td>
+                                            <td align="right">P <?php echo number_format($p['amount'],2); ?> &nbsp;</td>
+                                        </tr>
+                                      <?php }
+                                  } ?>
                             <tr>
                                 <td colspan="4" align="right">Total:</td>
-                                <td align="right">P 09900.00</td>
+                                <td align="right"><?php echo number_format($grand_total,2); ?></td>
                             </tr>
                         </table>
                     </div>
