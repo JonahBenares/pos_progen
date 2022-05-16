@@ -186,10 +186,8 @@
                             data:"url="+curr_url+"&base="+baseurl,
                             url: redirect,
                             success: function(output){
-                               
-                              
+                                
                                 window.open(new_page, '_blank');
-                              
                             }
                         });
                     }

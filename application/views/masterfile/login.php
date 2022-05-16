@@ -9,8 +9,8 @@
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css">
     <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/images/favicon.ico" />
     </head>
-    <body>
-                    <?php
+    <body id="background">
+        <?php
             $error_msg= $this->session->flashdata('error_msg');  
         ?>
         <?php 
@@ -22,15 +22,16 @@
         <?php } ?>
         <div class="container-scroller">
             <div class="container-fluid page-body-wrapper full-page-wrapper">
-                <div class="content-wrapper d-flex align-items-center auth">
+                <div class="content-wrapper d-flex align-items-center auth" style="background: #ffffff00;"> 
                     <div class="row flex-grow">
-                        <div class="col-lg-4 mx-auto">
+                        <div class="col-lg-4 offset-lg-7 col-md-4 offset-md-4">
                             <div class="auth-form-light text-left p-5">
                                 <div class="brand-logo">
                                     <img src="<?php echo base_url(); ?>assets/images/logo.svg">
                                 </div>
                                 <h4>Hello! let's get started</h4>
                                 <h6 class="font-weight-light">Sign in to continue.</h6>
+                                <br>
                                 <form method = "POST" action="<?php echo base_url(); ?>index.php/masterfile/login_process">
                                     <div class="form-group">
                                         <input type="text" class="form-control form-control-lg" name="username" placeholder="Username">
@@ -38,14 +39,9 @@
                                     <div class="form-group">
                                         <input type="password" class="form-control form-control-lg" name="password" placeholder="Password">
                                     </div>
-                                    <center>
-                                        <br>
-                                        <button type = "submit" class="btn btn-info " style="width:50%">LOGIN</button>
-                                    </center>
-                                    
-                                    <!-- <div class="text-center mt-4 font-weight-light"> 
-                                        Show Dashboard? <a href="<?php echo base_url(); ?>masterfile/dashboard" class="text-primary">Proceed</a>
-                                    </div> -->  
+                                    <div class="form-group">
+                                        <button type = "submit" class="btn btn-primary btn-block  " >Login</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>

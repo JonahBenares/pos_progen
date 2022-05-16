@@ -14883,3 +14883,12 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
 .font13{font-size: 13px;}
 .font14{font-size: 14px;}
 .font15{font-size: 15px;}
+
+
+#background {
+  /*border: 2px solid black;
+  padding: 25px;*/
+  background: url(../../assets/images/background.png);
+  background-repeat: no-repeat;
+  background-size: auto;
+}
