@@ -57,7 +57,11 @@
                                             <td><label class="label-table"><?php echo $r['category'];?></label></td>
                                             <td><label class="label-table"><?php echo $r['subcategory'];?></label></td>
                                         </tr>
-                                        <?php $x++; } }?>
+                                        <?php $x++; } } else { ?>
+                                        <tr>
+                                            <td align="center" colspan='9'><center>No Data Available.</center></td>
+                                        </tr>
+                                        <?php } ?>
                                     </tbody>
                                 </table>
                                 <br>

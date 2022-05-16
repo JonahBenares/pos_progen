@@ -29,42 +29,37 @@ class Repair extends CI_Controller {
     } 
 
 
-    public function repair_item()
-    {
+    public function repair_item(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $row_avail=$this->super_model->count_rows('damage_details');
-        //echo $row_avail;
-        if($row_avail!=0){
-            foreach($this->super_model->select_all('damage_details') AS $repair){
-                $item_id=$this->super_model->select_column_where("fifo_in","item_id","in_id",$repair->in_id);
-                $pdr_no=$this->super_model->select_column_where("damage_head","pdr_no","damage_id",$repair->damage_id);
-                $in_id=$this->super_model->select_column_where("fifo_in","in_id","in_id",$repair->in_id);
-                $receive_date=$this->super_model->select_column_where("fifo_in","receive_date","in_id",$repair->in_id);
-                $pr_no=$this->super_model->select_column_where("fifo_in","pr_no","in_id",$repair->in_id);
-                $item_name = $this->super_model->select_column_where("items","item_name","item_id",$item_id);
-                $repair_qty= $this->super_model->select_sum_where("repair_details", "quantity", "damage_det_id='$repair->damage_det_id' AND saved='1' AND (assessment='1' OR assessment='2')");
-                $damageqty= $repair->damage_qty-$repair_qty;
-              // echo $damageqty . " ";
-                if($damageqty!=0){
-                    $data['repair_items'][] = array(
-                        'damage_det_id'=>$repair->damage_det_id,
-                        'in_id'=>$repair->in_id,
-                        'item_id'=>$item_id,
-                        'receive_date'=>$receive_date,
-                        'qty'=>$damageqty,
-                        'pr_no'=>$pr_no,
-                        'pdr_no'=>$pdr_no,
-                        'category'=>$this->super_model->select_column_where('item_categories', 'cat_name', 'cat_id', $item_id),
-                        'subcategory'=>$this->super_model->select_column_where('item_subcat', 'subcat_name', 'subcat_id', $item_id),
-                        'item_name'=>$item_name,
+        $data['repair_items']=array();
+        foreach($this->super_model->select_all('damage_details') AS $repair){
+            $item_id=$this->super_model->select_column_where("fifo_in","item_id","in_id",$repair->in_id);
+            $pdr_no=$this->super_model->select_column_where("damage_head","pdr_no","damage_id",$repair->damage_id);
+            $in_id=$this->super_model->select_column_where("fifo_in","in_id","in_id",$repair->in_id);
+            $receive_date=$this->super_model->select_column_where("fifo_in","receive_date","in_id",$repair->in_id);
+            $pr_no=$this->super_model->select_column_where("fifo_in","pr_no","in_id",$repair->in_id);
+            $item_name = $this->super_model->select_column_where("items","item_name","item_id",$item_id);
+            $repair_qty= $this->super_model->select_sum_where("repair_details", "quantity", "damage_det_id='$repair->damage_det_id' AND saved='1' AND (assessment='1' OR assessment='2')");
+            $damageqty= $repair->damage_qty-$repair_qty;
+          // echo $damageqty . " ";
+            if($damageqty!=0){
+                $data['repair_items'][] = array(
+                    'damage_det_id'=>$repair->damage_det_id,
+                    'in_id'=>$repair->in_id,
+                    'item_id'=>$item_id,
+                    'receive_date'=>$receive_date,
+                    'qty'=>$damageqty,
+                    'pr_no'=>$pr_no,
+                    'pdr_no'=>$pdr_no,
+                    'category'=>$this->super_model->select_column_where('item_categories', 'cat_name', 'cat_id', $item_id),
+                    'subcategory'=>$this->super_model->select_column_where('item_subcat', 'subcat_name', 'subcat_id', $item_id),
+                    'item_name'=>$item_name,
 
-                    );
-                }
+                );
             }
-        } else {
-                $data['repair_items']=array();
-            }
+        }
+        
         $this->load->view('repair/repair_item',$data);
         $this->load->view('template/footer');
     }
