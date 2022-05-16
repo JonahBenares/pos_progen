@@ -38,6 +38,23 @@
                         </div>
                     </div>
                     <div class="card-body">   
+                        <form method="POST">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                     
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <input type="date" class="form-control" name="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
+                                    <input type="button" class="btn btn-md btn-gradient-success btn-block" name="save" id="filter_sales" value="Filter" onclick="filter_monthlyreports()">
+                                </div>
+                            </div>   
+                        </form> 
+                        <hr>
                         <div id="printableArea">
                         <table class="table table-bordered table-hover" width="100%" id="myTable">
                             <thead>
