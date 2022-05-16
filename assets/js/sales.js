@@ -560,7 +560,8 @@ function equipment_append(){
 function equipment_total(){
     var days = document.getElementById("days").value;
     var rate = document.getElementById("rate").value;
-    var total = parseFloat(days) * parseFloat(rate);
+    var quantity = document.getElementById("quantity").value;
+    var total = parseFloat(days) * parseFloat(rate) * parseFloat(quantity);
     if(days!=''){
         document.getElementById("grandtotal").value  = parseFloat(total);
     }else{

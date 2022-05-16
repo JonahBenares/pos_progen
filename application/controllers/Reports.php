@@ -2495,7 +2495,8 @@ class Reports extends CI_Controller {
     }
 
     public function inventory_balance($itemid){
-        $recqty= $this->super_model->select_sum_join("received_qty","receive_items","receive_head", "item_id='$itemid' AND saved='1'","receive_id");
+        $now=date("Y-m-d");
+        $recqty= $this->super_model->select_sum_join("received_qty","receive_items","receive_head", "item_id='$itemid' AND saved='1' AND (expiration_date='' OR expiration_date > '$now')","receive_id");
         $sales_good_qty= $this->super_model->select_sum_join("quantity","sales_good_details","sales_good_head", "item_id='$itemid' AND saved='1'","sales_good_head_id");
         $sales_services_qty= $this->super_model->select_sum_join("quantity","sales_serv_items","sales_services_head", "item_id='$itemid' AND saved='1'","sales_serv_head_id");
         $return_qty= $this->super_model->select_sum_where("return_details","return_qty","item_id='$itemid'");
@@ -2516,6 +2517,7 @@ class Reports extends CI_Controller {
         $data['to']=$to;
         $data['cat']=$cat;
         $data['subcat']=$subcat;
+        $now=date("Y-m-d");
         $sql="";
         if($from!='null' && $to!='null'){
            $sql.= " rh.receive_date BETWEEN '$from' AND '$to' AND";

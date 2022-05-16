@@ -61,7 +61,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>PDR No</label>
-                                                <input type="text" class="form-control" name="pdr_no<?php echo $x; ?>" placeholder="PDR No">
+                                                <input type="text" class="form-control" name="pdr_no<?php echo $x; ?>" value="<?php echo $d['pdr_no'] ?>" readonly>
                                             </div>
                                         </div>
                                     </div>
