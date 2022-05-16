@@ -446,6 +446,25 @@ class Returns extends CI_Controller {
         $data['employees']=$this->super_model->select_all_order_by("employees",'employee_name',"ASC");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
+        $pdrdate=date('Y-m');
+        $year=date('Y');
+        $series_rows = $this->super_model->count_custom_where("damage_head","damage_date LIKE '%$year%'");
+        if($series_rows==0){
+            $pdr_no= "PDR-".$pdrdate."-0001";
+        } else {
+            $pdr_max = $this->super_model->get_max_where("damage_head", "pdr_no","damage_date LIKE '%$year%'");
+            $pdr_exp=explode("-", $pdr_max);
+            $series = $pdr_exp[3]+1;
+            if(strlen($series)==1){
+                $pdr_no = "PDR-".$pdrdate."-000".$series;
+            } else if(strlen($series)==2){
+                    $pdr_no = "PDR-".$pdrdate."-00".$series;
+            } else if(strlen($series)==3){
+                    $pdr_no = "PDR-".$pdrdate."-0".$series;
+            } else if(strlen($series)==4){
+                    $pdr_no = "PDR-".$pdrdate."-".$series;
+            }
+        }
          foreach($this->super_model->select_row_where('return_details','return_id',$return_id) AS $ret_dam){
             $item_id=$this->super_model->select_column_where("fifo_in","item_id","in_id",$ret_dam->in_id);
             $item_name = $this->super_model->select_column_where("items","item_name","item_id",$item_id);
@@ -460,6 +479,7 @@ class Returns extends CI_Controller {
                 'in_id'=>$ret_dam->in_id,
                 'return_id'=>$return_id,
                 'item_id'=>$item_id,
+                'pdr_no'=>$pdr_no,
                 'item_name'=>$item_name,
                 'brand'=>$brand,
                 'serial_no'=>$serial_no,
@@ -500,6 +520,7 @@ class Returns extends CI_Controller {
                 //"remarks"=>$this->input->post('remarks'.$x),
                 "create_date"=>date("Y-m-d H:i:s"),
                 "user_id"=>$_SESSION['user_id'],
+                "saved"=>1
             );
 
             $id= $this->super_model->insert_return_id("damage_head", $data);
