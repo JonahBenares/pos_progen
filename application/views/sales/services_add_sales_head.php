@@ -206,6 +206,7 @@ $(document).ready(function() {
                                             <td class="td-head" width="">Item Description</td>
                                             <td class="td-head" width="">Serial No.</td>
                                             <td class="td-head" width="5%">Qty</td>
+                                            <td class="td-head" width="5%">Expected Qty</td>
                                             <td class="td-head" width="3%">UOM</td>
                                             <td class="td-head" width="8%">Selling Price</td>
                                             <td class="td-head" width="8%">Discount</td>

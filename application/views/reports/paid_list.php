@@ -67,7 +67,7 @@
                         </div>
                         <hr>   
                       
-                         <?php if(!empty($client)){ ?>  
+                         <!-- <?php if(!empty($client)){ ?>  
                             <table class="table table-hover table-bordered" width="100%" id="myTable">
                                 <thead>
                                     <tr>
@@ -96,8 +96,45 @@
                                 </tbody>
                             </table>
                             </div>
-                        <?php } ?>
-                        
+                        <?php } ?> -->
+
+
+
+                        <table class="table table-hover table-bordered" width="100%" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th width="20%"><label class="label-table">Billing Date</label></th>
+                                    <th width="20%"><label class="label-table">Client</label></th>
+                                    <th width="20%"><label class="label-table">Billing Statement #</label></th>
+                                    <th width="10%"><label class="label-table">Adjustments</label></th>
+                                    <th width="21"><label class="label-table pull-right">Total Amount &nbsp;</label></th>
+                                    <th width="5%" align="center">
+                                        <center><span class="mdi mdi-menu"></span></center>
+                                    </th>                                                                
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+                                    if(!empty($paid)){
+                                    foreach($paid AS $b){
+                                    //echo $b['count_adjust']; ?>
+                                    <tr>
+                                       
+                                        <td> &nbsp; <?php echo date('F d, Y', strtotime($b['billing_date'])); ?></td>
+                                        <td> &nbsp; <?php echo $b['client']; ?></td>
+                                        <td> &nbsp; <a href="<?php echo base_url(); ?>reports/paid_details/<?php echo $b['billing_id']; ?>" target="_blank"><?php echo $b['billing_no']; ?></a></td>
+                                        <td> &nbsp; 
+                                            <a onclick="adjust_all('<?php echo base_url(); ?>','<?php echo $b['billing_no']; ?>')" class="btn btn-link"><?php echo $b['counter']; ?></a>
+                                        </td>
+                                        <td align="right">P <?php echo number_format($b['total_amount'],2); ?> &nbsp;</td>
+                                        <?php if($b['count_adjust']!= 0 ){ ?>
+                                        <td align="center"><a href="<?php echo base_url(); ?>reports/adjustment_list/<?php echo $b['billing_id']; ?>" target="_blank" class="btn btn-primary btn-xs btn-rounded">Adjust</a></td>
+                                    <?php } ?>
+                                    </tr>
+                                        <?php }
+                                        } ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

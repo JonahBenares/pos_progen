@@ -974,8 +974,26 @@ class Reports extends CI_Controller {
 
         $client = $this->uri->segment(3);
         $data['client']=$client;
-        $gtotal=0;
-        foreach($this->super_model->select_all("billing_payment") AS $p){
+        $grand_total=0;
+
+         foreach($this->super_model->select_custom_where("billing_head", "client_id= '$client' AND status='1'") AS $bill){
+
+            // echo $bill->billing_id;
+            $total_amount = $this->super_model->select_sum_where("billing_payment", "amount", "billing_id='$bill->billing_id'");
+            $grand_total += $total_amount;
+            $count_adjust = $this->check_adjustment($bill->billing_id);
+            $data['paid'][]= array(
+                "billing_id"=>$bill->billing_id,
+                "client"=>$this->super_model->select_column_where("client", "buyer_name", "client_id", $bill->client_id),
+                "billing_no"=>$bill->billing_no,
+                "billing_date"=>$bill->billing_date,
+                "total_amount"=>$total_amount,
+                "count_adjust"=>$count_adjust,
+                "counter"=>$bill->adjustment_counter
+            );
+        }
+
+      /*  foreach($this->super_model->select_all("billing_payment") AS $p){
 
            $billing_id = explode(",",$p->billing_id);
           
@@ -1000,8 +1018,8 @@ class Reports extends CI_Controller {
                 'receipt_no'=>$p->receipt_no,
                 'amount'=>$p->amount
             );
-        }
-        $data['grand_total'] = $gtotal;
+        }*/
+        $data['grand_total'] = $grand_total;
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('reports/paid_list',$data);
@@ -2815,6 +2833,48 @@ class Reports extends CI_Controller {
             $data['adjust']=array();
         }
         $this->load->view('reports/adjust_all',$data);
+        $this->load->view('template/footer');
+    }
+    public function paid_details(){
+        $billing_id = $this->uri->segment(3);
+        $data['billing_no']= $this->super_model->select_column_where("billing_head", "billing_no","billing_id",$billing_id);
+     
+         $gtotal=0;
+        foreach($this->super_model->select_row_where("billing_payment", "billing_id", $billing_id) AS $p){
+
+           $billing_id = explode(",",$p->billing_id);
+          
+           $billing_no = "";
+           $dr_no = "";
+           foreach($billing_id AS $bid){
+
+                $billing_no .= $this->super_model->select_column_where("billing_head", "billing_no", "billing_id", $bid) . ", ";
+                $dr_no .= $this->super_model->select_column_where("billing_details", "dr_no", "billing_id", $bid) . ", ";
+           }
+           $bill_no = substr($billing_no,0,-2);
+           $dr_no = substr($dr_no,0,-2);
+           $gtotal += $p->amount;
+            $data['payment'][] = array(
+                'payment_date'=>$p->payment_date,
+                'billing_no'=>$bill_no,
+                'payment_type'=>$p->payment_type,
+                'check_no'=>$p->check_no,
+                'dr_no'=>$dr_no,
+                'receipt_no'=>$p->receipt_no,
+                'amount'=>$p->amount
+            );
+        }
+        $data['grand_total'] = $gtotal;
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/paid_details',$data);
+        $this->load->view('template/footer');
+    }
+
+    public function expired_inventory(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/expired_inventory');
         $this->load->view('template/footer');
     }
 

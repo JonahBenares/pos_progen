@@ -64,7 +64,7 @@
                         VAT Reg. TIN: 008-726-170-001  
                         <br>
                         <br>
-                        <b>DELIVERY RECEIPT - SERVICES</b>
+                        <b>JOB ORDER SUMMARY REPORT</b> 
                         <br>
                     </td>
                 </tr>
@@ -133,6 +133,7 @@
                                 <td style="background:#efefef" width="30%">Item Description</td>
                                 <td style="background:#efefef" width="15%">Serial No.</td>
                                 <td style="background:#efefef" width="5%">Qty</td>
+                                <td style="background:#efefef" width="5%">Expected Qty</td>
                                 <td style="background:#efefef" width="5%">UOM</td>
                                 <td style="background:#efefef" width="10%">Selling Price</td>
                                 <td style="background:#efefef" width="8%">Discount</td>
@@ -148,6 +149,7 @@
                                 <td><?php echo $sd['item'];?></td>
                                 <td><?php echo $sd['serial_no'];?></td>
                                 <td><?php echo $sd['quantity'];?></td>
+                                <td><?php echo $sd['expected_qty'];?></td>
                                 <td><?php echo $sd['uom'];?></td>
                                 <td align="center"><?php echo number_format($sd['selling_price'],2);?></td>
                                 <td align="center"><?php echo number_format($sd['discount'],2);?></td>
