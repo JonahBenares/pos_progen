@@ -83,6 +83,10 @@
                                     <td >Quantity</td>
                                     <td >: <?php echo $r['quantity']; ?></td>
                                 </tr>
+                                <tr>
+                                    <td colspan="4"><br></td>
+                                </tr>
+                                <tr>
                                     <td >Assestment</td>
                                     <td >: <?php echo ($r['assessment']==1) ? 'Repaired' : 'Beyond Repair';?></td>
                                     <td  rowspan="3" style="vertical-align:text-top;">Remarks</td>
