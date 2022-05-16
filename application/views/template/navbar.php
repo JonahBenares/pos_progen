@@ -345,6 +345,9 @@
                             <li class="nav-item"> 
                                 <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'reports/inventory_rangedate')" >Inventory (Per Range of Date)</a>
                             </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'reports/expired_inventory')" >Expired Inventory</a>
+                            </li>
                         </ul>
                     </div>
                 </li>

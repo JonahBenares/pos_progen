@@ -2818,4 +2818,11 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function expired_inventory(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/expired_inventory');
+        $this->load->view('template/footer');
+    }
+
 }
