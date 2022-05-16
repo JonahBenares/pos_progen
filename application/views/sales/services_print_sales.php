@@ -65,7 +65,7 @@
                         <br>
                         <br>
                         <b>JOB ORDER SUMMARY REPORT</b> 
-                        <br>AS
+                        <br>
                     </td>
                 </tr>
                 <tr>
