@@ -591,6 +591,7 @@ class Reports extends CI_Controller {
                  $grand_total += $total_amount;
                 $data['sales_goods'][]=array(
                     "sales_id"=>$goods->sales_good_head_id,
+                    "client"=>$this->super_model->select_column_where("client","buyer_name","client_id",$goods->client_id),
                     "dr_no"=>$goods->dr_no,
                     "dr_date"=>$goods->sales_date,
                     "total"=>$total_amount,
@@ -817,6 +818,7 @@ class Reports extends CI_Controller {
             $count_adjust = $this->check_adjustment($bill->billing_id);
             $data['billed'][]= array(
                 "billing_id"=>$bill->billing_id,
+                "client"=>$this->super_model->select_column_where("client", "buyer_name", "client_id", $bill->client_id),
                 "billing_no"=>$bill->billing_no,
                 "billing_date"=>$bill->billing_date,
                 "total_amount"=>$total_amount,
