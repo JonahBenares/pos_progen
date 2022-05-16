@@ -45,13 +45,14 @@
                         <table class="table table-bordered table-hover" id="myTable" width="100%">
                             <thead>
                                 <tr>
-                                    <td width="10%">DR Date</td>
-                                    <td width="10%">DR No.</td>
-                                    <td width="10%">Client</td>
-                                    <td width="10%">Address</td>
-                                    <td width="10%">PGC JOR No.</td>   
-                                    <td width="10%">PGC JOI No.</td> 
-                                    <th width="8%"><center><span class="mdi mdi-menu"></span></center></th>
+                                    <td width="5%">DR Date</td>
+                                    <td width="5%">DR No.</td>
+                                    <td width="15%">Client</td>
+                                    <td width="15%">Address</td>
+                                    <td width="5%">PGC JOR No.</td>   
+                                    <td width="5%">PGC JOI No.</td> 
+                                    <td width="5%">Service Report No.</td> 
+                                    <th width="5%"><center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -63,10 +64,14 @@
                                     <td><?php echo $sh['address'];?></td>   
                                     <td><?php echo $sh['jor_no'];?></td>
                                     <td><?php echo $sh['joi_no'];?></td>
+                                    <td></td>
                                     <td align="center">
                                         <!-- <a href="<?php echo base_url(); ?>sales/services_update_sales_head" class="btn btn-xs btn-gradient-info btn-rounded" ><span class="mdi mdi-pencil"></span></a>
                                         <a href="" class="btn btn-xs btn-gradient-danger btn-rounded" data-toggle="modal" data-target="#deleteSales"><span class="mdi mdi-delete"></span></a> -->
                                         <a href="<?php echo base_url(); ?>sales/services_print_sales/<?php echo $sh['sales_serv_head_id']?>" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
+                                        <span data-toggle="modal" data-target="#filterGroup">
+                                            <a href="#" class="btn btn-xs btn-gradient-success btn-rounded"><span class="mdi mdi-textbox" data-toggle="tooltip" data-placement="right" title="" data-original-title="Add Service Report Number" title="Add Service Report Number"></span></a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <?php } } ?>
@@ -82,4 +87,31 @@
 
 
 
-
+<div class="modal fade" id="filterGroup" tabindex="-1" role="dialog" aria-labelledby="filterGroup" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header success-modalhead">
+                <h5 class="modal-title" id="exampleModalLabel">Add Service Report Number</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action = "<?php echo base_url();?>index.php/masterfile/search_group">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" class="form-control" name="">
+                    </div>
+                    <div class="form-group">
+                        <label>Service Report Number</label>
+                        <input type="text" class="form-control" name="group_name" placeholder="Service Report Number">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
