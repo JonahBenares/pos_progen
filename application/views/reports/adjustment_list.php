@@ -47,7 +47,7 @@
                                 <table width="100%" class="table-bordered">
                                     <tr>
                                         <td style="background:#efefef" colspan="3">
-                                            <h4 class="m-2"><b><?php echo "Billing #: " .$billing_no; ?></b></h4>
+                                            <h4 class="m-2"><b><?php echo "Billing #: " .$billing_no.(($adjustment_counter == 0) ? '' : '.a'.$badjustment_counter); ?></b></h4>
                                         </td>
                                     </tr>
                                     <tr>

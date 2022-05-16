@@ -820,6 +820,7 @@ class Reports extends CI_Controller {
                 "billing_id"=>$bill->billing_id,
                 "client"=>$this->super_model->select_column_where("client", "buyer_name", "client_id", $bill->client_id),
                 "billing_no"=>$bill->billing_no,
+                "adjustment_counter"=>$bill->adjustment_counter,
                 "billing_date"=>$bill->billing_date,
                 "total_amount"=>$total_amount,
                 "count_adjust"=>$count_adjust,
@@ -984,6 +985,7 @@ class Reports extends CI_Controller {
 
                 $billing_no .= $this->super_model->select_column_where("billing_head", "billing_no", "billing_id", $bid) . ", ";
                 $dr_no .= $this->super_model->select_column_where("billing_details", "dr_no", "billing_id", $bid) . ", ";
+                $adjustment_counter = $this->super_model->select_column_where("billing_head", "adjustment_counter", "billing_id", $bid);
            }
            $bill_no = substr($billing_no,0,-2);
            $dr_no = substr($dr_no,0,-2);
@@ -991,6 +993,7 @@ class Reports extends CI_Controller {
             $data['payment'][] = array(
                 'payment_date'=>$p->payment_date,
                 'billing_no'=>$bill_no,
+                'adjustment_counter'=>$adjustment_counter,
                 'payment_type'=>$p->payment_type,
                 'check_no'=>$p->check_no,
                 'dr_no'=>$dr_no,
@@ -1235,6 +1238,7 @@ class Reports extends CI_Controller {
             $data['head'][] = array(
                 "billing_no"=>$bs->billing_no,
                 "date"=>$bs->billing_date,
+                "adjustment_counter"=>$bs->adjustment_counter,
                 "client"=>$this->super_model->select_column_where("client", "buyer_name", "client_id", $bs->client_id),
                 "address"=>$this->super_model->select_column_where("client", "address", "client_id", $bs->client_id),
                 "tin"=>$this->super_model->select_column_where("client", "tin", "client_id", $bs->client_id),
@@ -2689,6 +2693,7 @@ class Reports extends CI_Controller {
         $this->load->view('template/navbar');
         $data['billing_id']=$billing_id;
         $data['billing_no'] = $this->super_model->select_column_where("billing_head","billing_no", "billing_id",$billing_id);
+        $data['adjustment_counter'] = $this->super_model->select_column_where("billing_head","adjustment_counter", "billing_id",$billing_id);
         $data['adjustments'] = $this->super_model->select_custom_where("billing_adjustment_history", "billing_id = '$billing_id' AND status = '0'");
         $this->load->view('reports/adjustment_list', $data);
         $this->load->view('template/footer');
@@ -2700,6 +2705,7 @@ class Reports extends CI_Controller {
             $data['head'][] = array(
                 "billing_no"=>$bs->billing_no,
                 "date"=>$bs->billing_date,
+                "adjustment_counter"=>$bs->adjustment_counter,
                 "client"=>$this->super_model->select_column_where("client", "buyer_name", "client_id", $bs->client_id),
                 "address"=>$this->super_model->select_column_where("client", "address", "client_id", $bs->client_id),
                 "tin"=>$this->super_model->select_column_where("client", "tin", "client_id", $bs->client_id),

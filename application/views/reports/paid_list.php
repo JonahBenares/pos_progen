@@ -85,7 +85,7 @@
                                         foreach($payment AS $p){ ?>
                                         <tr>
                                             <td> &nbsp; <?php echo date('F d, Y', strtotime($p['payment_date'])); ?></td>
-                                            <td> &nbsp; <?php echo $p['billing_no']; ?></td>
+                                            <td> &nbsp; <?php echo $p['billing_no'].(($p['adjustment_counter'] == 0) ? '' : '.a'.$p['adjustment_counter']); ?></td>
                                             <td> &nbsp; <?php echo $p['dr_no']; ?></td>
                                             <td> &nbsp; <?php echo $p['payment_type']; ?> &nbsp;</td>
                                             <td> &nbsp; <?php echo $p['check_no']. " / " .$p['receipt_no']; ?> &nbsp;</td>
