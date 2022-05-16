@@ -76,6 +76,7 @@
                                             </center>
                                         </th>
                                         <th width="20%"><label class="label-table">Billing Date</label></th>
+                                        <th width="20%"><label class="label-table">Client</label></th>
                                         <th width="20%"><label class="label-table">Billing Statement #</label></th>
                                         <th width="10%"><label class="label-table">Adjustments</label></th>
                                         <th width="21"><label class="label-table pull-right">Total Amount &nbsp;</label></th>
@@ -96,6 +97,7 @@
                                             </center>
                                         </td>
                                         <td> &nbsp; <?php echo date('F d, Y', strtotime($b['billing_date'])); ?></td>
+                                        <td> &nbsp; <?php echo $b['client']; ?></td>
                                         <td> &nbsp; <a href="<?php echo base_url(); ?>reports/print_billing/<?php echo $b['billing_id']; ?>" target="_blank"><?php echo $b['billing_no']; ?></a></td>
                                         <td> &nbsp; 
                                             <a onclick="adjust_all('<?php echo base_url(); ?>','<?php echo $b['billing_no']; ?>')" class="btn btn-link"><?php echo $b['counter']; ?></a>

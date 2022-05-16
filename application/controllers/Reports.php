@@ -591,6 +591,7 @@ class Reports extends CI_Controller {
                  $grand_total += $total_amount;
                 $data['sales_goods'][]=array(
                     "sales_id"=>$goods->sales_good_head_id,
+                    "client"=>$this->super_model->select_column_where("client","buyer_name","client_id",$goods->client_id),
                     "dr_no"=>$goods->dr_no,
                     "dr_date"=>$goods->sales_date,
                     "total"=>$total_amount,
@@ -817,6 +818,7 @@ class Reports extends CI_Controller {
             $count_adjust = $this->check_adjustment($bill->billing_id);
             $data['billed'][]= array(
                 "billing_id"=>$bill->billing_id,
+                "client"=>$this->super_model->select_column_where("client", "buyer_name", "client_id", $bill->client_id),
                 "billing_no"=>$bill->billing_no,
                 "billing_date"=>$bill->billing_date,
                 "total_amount"=>$total_amount,
@@ -2493,7 +2495,8 @@ class Reports extends CI_Controller {
     }
 
     public function inventory_balance($itemid){
-        $recqty= $this->super_model->select_sum_join("received_qty","receive_items","receive_head", "item_id='$itemid' AND saved='1'","receive_id");
+        $now=date("Y-m-d");
+        $recqty= $this->super_model->select_sum_join("received_qty","receive_items","receive_head", "item_id='$itemid' AND saved='1' AND (expiration_date='' OR expiration_date > '$now')","receive_id");
         $sales_good_qty= $this->super_model->select_sum_join("quantity","sales_good_details","sales_good_head", "item_id='$itemid' AND saved='1'","sales_good_head_id");
         $sales_services_qty= $this->super_model->select_sum_join("quantity","sales_serv_items","sales_services_head", "item_id='$itemid' AND saved='1'","sales_serv_head_id");
         $return_qty= $this->super_model->select_sum_where("return_details","return_qty","item_id='$itemid'");
@@ -2514,6 +2517,7 @@ class Reports extends CI_Controller {
         $data['to']=$to;
         $data['cat']=$cat;
         $data['subcat']=$subcat;
+        $now=date("Y-m-d");
         $sql="";
         if($from!='null' && $to!='null'){
            $sql.= " rh.receive_date BETWEEN '$from' AND '$to' AND";

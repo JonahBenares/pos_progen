@@ -85,7 +85,7 @@ class Repair extends CI_Controller {
                 'in_id'=>$in_id,
                 'repaired_item_id'=>$item_id,
                 "user_id"=>$_SESSION['user_id'],
-                'unsaved'=>1,
+                //'unsaved'=>1,
             );
             $this->super_model->insert_into("repair_details", $rep_data);
             /*foreach($this->super_model->select_row_where('damage_details', 'damage_det_id', $damagedetid[$x]) AS $rep){
@@ -131,7 +131,7 @@ class Repair extends CI_Controller {
                 'saved'=>1,
                 /*'unsaved'=>0,*/
             );
-            //$this->super_model->update_where("repair_details", $rep_data, "repair_id", $repair_id);
+            $this->super_model->update_where("repair_details", $rep_data, "repair_id", $repair_id);
             //echo $radio;
             if($radio == 1){
   
@@ -166,7 +166,7 @@ class Repair extends CI_Controller {
                             "weight"=>$it->weight
                         );
 
-                       // $new_item_id = $this->super_model->insert_return_id("items", $dataitem);
+                        $new_item_id = $this->super_model->insert_return_id("items", $dataitem);
 
                        
                         foreach($this->super_model->select_row_where('fifo_in', 'in_id', $inid) AS $in){
