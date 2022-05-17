@@ -70,7 +70,14 @@
                     <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                         <i class="mdi mdi-bell-outline"></i>
                         <?php  $count = $ci->super_model->count_rows_where("billing_adjustment_history", "status", 0); 
-                        $count_damage = $ci->super_model->count_custom("SELECT * FROM return_details rd INNER JOIN return_head rh ON rd.return_id=rh.return_id WHERE damage_qty!='0'");
+                        $count_damage=0;
+                         foreach($this->super_model->custom_query("SELECT * FROM return_details rd INNER JOIN return_head rh ON rd.return_id=rh.return_id WHERE damage_qty!='0'") AS $rd){
+                            $count_return_damage=$this->super_model->count_rows_where("damage_details","return_id",$rd->return_id);
+                            if($count_return_damage==0){
+                                $count_damage++;
+                            }
+                        }
+                       // $count_damage = $ci->super_model->count_custom("SELECT * FROM return_details rd INNER JOIN return_head rh ON rd.return_id=rh.return_id WHERE damage_qty!='0'");
                         if($count!=0  || $count_damage!=0){ ?>
                         <span class="count-symbol bg-danger"></span>
                         <?php } ?>
