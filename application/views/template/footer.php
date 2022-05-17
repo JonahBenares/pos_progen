@@ -187,7 +187,7 @@
                             url: redirect,
                             success: function(output){
                                 
-                                window.open(new_page, '_blank');
+                                window.open(new_page);
                             }
                         });
                     }
