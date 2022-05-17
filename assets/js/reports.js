@@ -148,7 +148,6 @@ function loadSCGP(){
 function LoadExpiredItems(){
     var date = document.getElementById("date").value;
     var loc= document.getElementById("baseurl").value;
-    var redirect = loc+"reports/expired_inventory";
     window.location.href = loc+"reports/expired_inventory/"+date;
 }
 
