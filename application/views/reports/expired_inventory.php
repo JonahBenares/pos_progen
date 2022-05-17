@@ -30,31 +30,29 @@
                                     <button type="button" onclick="printDiv('printableArea')" class="btn btn-gradient-info btn-sm btn-rounded">
                                         <b><span class="mdi mdi-printer"></span> Print</b>
                                     </button>                               
-                                    <a href="<?php echo base_url(); ?>" class="btn btn-gradient-warning btn-sm btn-rounded">
+                                    <a href="<?php echo base_url(); ?>reports/export_expired/<?php echo $date; ?>" class="btn btn-gradient-warning btn-sm btn-rounded">
                                         <b><span class="mdi mdi-export"></span> Export</b>
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">   
-                        <form method="POST">
+                    <div class="card-body">
                             <div class="row">
-                                <div class="col-lg-3">
-                                     
+                                <div class="col-lg-3"> 
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
-                                        <input type="date" class="form-control" name="">
+                                        <input type="date" class="form-control" type="text" name="date" id="date" onfocus="(this.type='date')">
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
                                     <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
-                                    <input type="button" class="btn btn-md btn-gradient-success btn-block" name="save" id="filter_sales" value="Filter" onclick="filter_monthlyreports()">
+                                    <input type="submit" class="btn btn-md btn-gradient-success btn-block" value="Filter" onclick="LoadExpiredItems()">
                                 </div>
                             </div>   
-                        </form> 
                         <hr>
+                        <?php if(!empty($date)){ ?>    
                         <div id="printableArea">
                         <table class="table table-bordered table-hover" width="100%" id="myTable">
                             <thead>
@@ -69,18 +67,28 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                 <?php 
+                                    if(!empty($expired)){
+                                    foreach($expired AS $e){ ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><a href="" class="btn btn-gradient-danger btn-rounded btn-xs" style="font-size:12px">Dispose</a></td>
+                                    <td><?php echo $e['item']; ?></td>
+                                    <td><?php echo number_format($e['received_qty'],2); ?></td>
+                                    <td><?php echo date('F d, Y', strtotime($e['expiration_date'])); ?></td>
+                                    <td><?php echo $e['pr_no']; ?></td>
+                                    <td><?php echo $e['brand']; ?></td>
+                                    <td><?php echo $e['catalog_no']; ?></td>
+                                    <?php if($e['dispose']=='0'){ ?>
+                                        <td><a href="<?php echo base_url(); ?>index.php/reports/dispose_item/<?php echo $e['ri_id']; ?>" class="btn btn-gradient-danger btn-rounded btn-xs" style="font-size:12px" onclick="return confirm('Are you sure you want to Dispose this item?')">Dispose</a></td>
+                                    <?php } else { ?>
+                                    <td>Disposed</td>
+                                    <?php } ?>
                                 </tr>
+                                <?php }
+                                        } ?>
                             </tbody>
                         </table>
                         </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

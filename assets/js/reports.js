@@ -145,6 +145,18 @@ function loadSCGP(){
     }
 }
 
+function LoadExpiredItems(){
+    var date = document.getElementById("date").value;
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"reports/expired_inventory";
+    if(date!=''){
+        var date = date;
+    }else{
+        var date = 'null';
+    }
+    window.location.href = loc+"reports/expired_inventory/"+date;
+}
+
 
 function bill_pay(baseurl){
     var client = document.getElementById("client_id").value;
