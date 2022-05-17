@@ -2871,7 +2871,7 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-        public function expired_inventory(){
+    public function expired_inventory(){
         $today = date("Y-m-d");
         $date = $this->uri->segment(3);
         $data['date']=$date;
@@ -2894,7 +2894,7 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-        public function dispose_item(){
+    public function dispose_item(){
         $data = array(
             'dispose'=>1,
         );
@@ -2905,7 +2905,7 @@ class Reports extends CI_Controller {
         }
     }
 
-        public function export_expired(){
+    public function export_expired(){
         $today = date("Y-m-d");
         $date = $this->uri->segment(3);
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
