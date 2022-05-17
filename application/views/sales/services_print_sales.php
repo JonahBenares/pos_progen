@@ -158,7 +158,7 @@
                             <?php } $itemtotal=array_sum($itmtotal); ?>
                             <tr>
                                 <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
-                                <td style="background:#efefef" colspan="5" align="center"><b>Engine Parts Cost Incurred</b></td>
+                                <td style="background:#efefef" colspan="6" align="center"><b>Engine Parts Cost Incurred</b></td>
                                 <td style="background:#efefef" align="left"><b><?php echo number_format($itemtotal,2);?></b></td>
                             </tr>
                         </table>
