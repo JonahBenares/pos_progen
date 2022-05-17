@@ -33,11 +33,26 @@ class Masterfile extends CI_Controller {
         $this->load->view('masterfile/login');
     }
 
-    public function dashboard()
-    {
+function dateDifference($date_1 , $date_2)
+{
+    $datetime2 = date_create($date_2);
+    $datetime1 = date_create($date_1 );
+    $interval = date_diff($datetime2, $datetime1);
+   
+    return $interval->format('%R%a');
+   
+}
+
+    public function dashboard(){
+        $today = date("Y-m-d");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('masterfile/dashboard');
+
+        $start_date = strtotime($today);
+        $end_date = strtotime("+7 day", $start_date);
+        $week = date('Y-m-d', $end_date);
+        $data['expired'] = $this->super_model->count_custom_where("receive_items", "expiration_date <= '$week' AND expiration_date >= '$today'");
+        $this->load->view('masterfile/dashboard', $data);
         $this->load->view('template/footer');
     }
 
