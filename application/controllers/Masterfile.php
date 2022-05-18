@@ -47,11 +47,14 @@ function dateDifference($date_1 , $date_2)
         $today = date("Y-m-d");
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-
         $start_date = strtotime($today);
         $end_date = strtotime("+3 months", $start_date);
         $week = date('Y-m-d', $end_date);
         $data['expired'] = $this->super_model->count_custom_where("receive_items", "expiration_date <= '$week' AND expiration_date >= '$today'");
+        $goods_count = $this->super_model->count_custom_where("sales_good_details", "quantity < expected_qty");
+        $services_count = $this->super_model->count_custom_where("sales_serv_items", "quantity < expected_qty");
+        $total_count = $goods_count + $services_count;
+        $data['sales_backorder'] = $total_count;
         $this->load->view('masterfile/dashboard', $data);
         $this->load->view('template/footer');
     }

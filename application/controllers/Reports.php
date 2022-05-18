@@ -2875,8 +2875,8 @@ class Reports extends CI_Controller {
         $today = date("Y-m-d");
         $date = $this->uri->segment(3);
         $data['date']=$date;
-        foreach($this->super_model->custom_query("SELECT * FROM receive_items WHERE (expiration_date <= '$today' OR  expiration_date <= '$date') AND (expiration_date = '$date' OR expiration_date !='') ORDER BY expiration_date ASC") AS $expired){
-        /*foreach($this->super_model->select_custom_where("receive_items", "expiration_date <= '$today' AND  expiration_date <= '$date' AND expiration_date = '$date' OR expiration_date !='' ORDER BY expiration_date ASC") AS $expired){*/
+/*        foreach($this->super_model->custom_query("SELECT * FROM receive_items WHERE (expiration_date <= '$today' OR  expiration_date <= '$date') AND (expiration_date = '$date' OR expiration_date !='') ORDER BY expiration_date ASC") AS $expired){*/
+            foreach($this->super_model->custom_query("SELECT * FROM receive_items WHERE expiration_date BETWEEN '$date' AND '$today' AND expiration_date !='' ORDER BY expiration_date ASC") AS $expired){
             $receive_id = $this->super_model->select_column_where('receive_head', 'receive_id', 'receive_id', $expired->receive_id);
             $data['expired'][]= array(
                 "ri_id"=>$expired->ri_id,
@@ -2946,7 +2946,7 @@ class Reports extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J8', "Brand");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L8', "Catalog No");
         $num=9;
-        foreach($this->super_model->select_custom_where("receive_items", "expiration_date <= '$today' AND  expiration_date <= '$date' AND expiration_date = '$date' OR expiration_date !='' ORDER BY expiration_date ASC") AS $expired){
+        foreach($this->super_model->custom_query("SELECT * FROM receive_items WHERE expiration_date BETWEEN '$date' AND '$today' AND expiration_date !='' ORDER BY expiration_date ASC") AS $expired){
             $receive_id = $this->super_model->select_column_where('receive_head', 'receive_id', 'receive_id', $expired->receive_id);
             $item = $this->super_model->select_column_where("items", "item_name", "item_id", $expired->item_id);
             $pr_no = $this->super_model->select_column_where("receive_details", "pr_no", "receive_id", $receive_id);
@@ -3012,9 +3012,44 @@ class Reports extends CI_Controller {
     }
 
     public function sales_backorder(){
+        $sales_date=$this->uri->segment(3);
+        $data['date']=$sales_date;
         $this->load->view('template/header');
-        $this->load->view('template/navbar');
-        $this->load->view('reports/sales_backorder');
+       $this->load->view('template/navbar');
+        foreach($this->super_model->select_custom_where("sales_good_head","sales_date LIKE '%$sales_date%' AND saved='1'") AS $bo){
+            $quantity = $this->super_model->select_column_where("sales_good_details", "quantity", "sales_good_head_id", $bo->sales_good_head_id);
+            $expected_qty = $this->super_model->select_column_where("sales_good_details", "expected_qty", "sales_good_head_id", $bo->sales_good_head_id);
+            $item_id = $this->super_model->select_column_where("sales_good_details", "item_id", "sales_good_head_id", $bo->sales_good_head_id);
+            if($quantity<=$expected_qty){
+                $data['sales_backorder'][]=array(
+                        "client"=>$this->super_model->select_column_where("client","buyer_name","client_id",$bo->client_id),
+                        "item"=>$this->super_model->select_column_where("items","item_name","item_id",$item_id),
+                        "dr_no"=>$bo->dr_no,
+                        "po_no"=>$bo->po_no,
+                        "pr_no"=>$bo->pr_no,
+                        "expected_qty"=>$expected_qty,
+                        "quantity"=>$quantity,
+                );
+            }
+        }
+
+        foreach($this->super_model->select_custom_where("sales_services_head","sales_date LIKE '%$sales_date%' AND saved='1'") AS $bos){
+            $quantity = $this->super_model->select_column_where("sales_serv_items", "quantity", "sales_serv_head_id", $bos->sales_serv_head_id);
+            $expected_qty = $this->super_model->select_column_where("sales_serv_items", "expected_qty", "sales_serv_head_id", $bos->sales_serv_head_id);
+            $item_id = $this->super_model->select_column_where("sales_serv_items", "item_id", "sales_serv_head_id", $bos->sales_serv_head_id);
+            if($quantity<=$expected_qty){
+                $data['sales_backorder'][]=array(
+                        "client"=>$this->super_model->select_column_where("client","buyer_name","client_id",$bos->client_id),
+                        "item"=>$this->super_model->select_column_where("items","item_name","item_id",$item_id),
+                        "dr_no"=>$bos->dr_no,
+                        "po_no"=>$bos->joi_no,
+                        "pr_no"=>$bos->jor_no,
+                        "expected_qty"=>$expected_qty,
+                        "quantity"=>$quantity,
+                );
+            }
+        }
+        $this->load->view('reports/sales_backorder', $data);
         $this->load->view('template/footer');
     }
 

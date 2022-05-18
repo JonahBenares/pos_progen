@@ -43,12 +43,12 @@
                 </div>
             </div> -->
             <div class="col-md-6 stretch-card">
-                <a href="<?php echo base_url(); ?>reports/sales_backorder" class="card bg-gradient-success card-img-holder text-white" style="text-decoration: none;" >
+                <a href="<?php echo base_url(); ?>reports/sales_backorder/<?php echo date('Y-m-d') ?>" class="card bg-gradient-success card-img-holder text-white" style="text-decoration: none;" >
                     <div class="card-body">
                         <img src="<?php echo base_url(); ?>assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
                         <h4 class="font-weight-normal mb-3">Sales Back Order </h4>
                         <i class="mdi mdi-replay float-right" style="position: absolute;font-size: 100px;top: 0;right: 0;margin: 25px;"></i>
-                        <h2 class="mb-5">95,5741</h2>
+                        <h2 class="mb-5"><?php echo $sales_backorder ?></h2>
                         <h6 class="card-text">Click to View</h6>
                     </div>
                 </a>

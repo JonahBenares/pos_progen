@@ -43,15 +43,18 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
-                                        <input type="date" class="form-control" type="text" name="date" id="date" onfocus="(this.type='date')">
+                                        <input type="date" class="form-control" type="text" name="sales_date" id="sales_date" onfocus="(this.type='date')">
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
-                                    <input type="hidden" name="baseurl" id="baseurl" value="">
-                                    <input type="submit" class="btn btn-md btn-gradient-success btn-block" value="Filter" onclick="">
+                                    <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
+                                    <input type="submit" class="btn btn-md btn-gradient-success btn-block" value="Filter" onclick="LoadSalesBO()">
                                 </div>
                             </div>   
-                        <hr>   
+                        <hr>
+                        <?php 
+                                if(!empty($date)){ 
+                        ?>   
                         <div id="printableArea">
                         <table class="table table-bordered table-hover" width="100%" id="myTable">
                             <thead>
@@ -67,18 +70,24 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <?php 
+                                if(!empty($sales_backorder)){ 
+                                    foreach($sales_backorder AS $sb) {
+                            ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><?php echo $sb['client']; ?></td>
+                                    <td><?php echo $sb['item']; ?></td>
+                                    <td><?php echo $sb['dr_no']; ?></td>
+                                    <td><?php echo $sb['quantity']; ?></td>
+                                    <td><?php echo $sb['expected_qty']; ?></td>
+                                    <td><?php echo $sb['po_no']; ?></td>
+                                    <td><?php echo $sb['pr_no']; ?></td>
                                     <td></td>
                                 </tr>
+                                <?php } } ?>
                             </tbody>
                         </table>
+                        <?php } ?>
                         </div>
                     </div>
                 </div>
