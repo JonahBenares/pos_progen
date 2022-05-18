@@ -193,7 +193,7 @@
                     }
                 } else {
                        //window.location=new_page;
-                         window.open(new_page, '_blank');
+                         window.open(new_page);
                 }
 
 
