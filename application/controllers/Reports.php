@@ -975,12 +975,18 @@ class Reports extends CI_Controller {
         $client = $this->uri->segment(3);
         $data['client']=$client;
         $grand_total=0;
+        $total_amount=0;
 
          foreach($this->super_model->select_custom_where("billing_head", "client_id= '$client' AND status='1'") AS $bill){
 
             // echo $bill->billing_id;
-            $total_amount = $this->super_model->select_sum_where("billing_payment", "amount", "billing_id='$bill->billing_id'");
+            //$total_amount = $this->super_model->select_sum_where("billing_payment", "amount", "billing_id='$bill->billing_id'");
+
+            foreach($this->super_model->custom_query("SELECT * FROM billing_payment WHERE FIND_IN_SET($bill->billing_id, billing_id)") AS $b){
+                    $total_amount+=$b->amount;
+            } 
             $grand_total += $total_amount;
+
             $count_adjust = $this->check_adjustment($bill->billing_id);
             $data['paid'][]= array(
                 "billing_id"=>$bill->billing_id,
@@ -991,6 +997,7 @@ class Reports extends CI_Controller {
                 "count_adjust"=>$count_adjust,
                 "counter"=>$bill->adjustment_counter
             );
+               $total_amount=0;
         }
 
       /*  foreach($this->super_model->select_all("billing_payment") AS $p){
@@ -2840,7 +2847,10 @@ class Reports extends CI_Controller {
         $data['billing_no']= $this->super_model->select_column_where("billing_head", "billing_no","billing_id",$billing_id);
      
          $gtotal=0;
-        foreach($this->super_model->select_row_where("billing_payment", "billing_id", $billing_id) AS $p){
+
+         
+
+        foreach($this->super_model->custom_query("SELECT * FROM billing_payment WHERE FIND_IN_SET($billing_id, billing_id)") AS $p){
 
            $billing_id = explode(",",$p->billing_id);
           

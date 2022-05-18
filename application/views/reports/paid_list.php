@@ -108,9 +108,9 @@
                                     <th width="20%"><label class="label-table">Billing Statement #</label></th>
                                     <th width="10%"><label class="label-table">Adjustments</label></th>
                                     <th width="21"><label class="label-table pull-right">Total Amount &nbsp;</label></th>
-                                    <th width="5%" align="center">
+                                    <!-- <th width="5%" align="center">
                                         <center><span class="mdi mdi-menu"></span></center>
-                                    </th>                                                                
+                                    </th>    -->                                                             
                                 </tr>
                             </thead>
                             <tbody>
@@ -128,7 +128,7 @@
                                         </td>
                                         <td align="right">P <?php echo number_format($b['total_amount'],2); ?> &nbsp;</td>
                                         <?php if($b['count_adjust']!= 0 ){ ?>
-                                        <td align="center"><a href="<?php echo base_url(); ?>reports/adjustment_list/<?php echo $b['billing_id']; ?>" target="_blank" class="btn btn-primary btn-xs btn-rounded">Adjust</a></td>
+                                      <!--   <td align="center"><a href="<?php echo base_url(); ?>reports/adjustment_list/<?php echo $b['billing_id']; ?>" target="_blank" class="btn btn-primary btn-xs btn-rounded">Adjust</a></td> -->
                                     <?php } ?>
                                     </tr>
                                         <?php }
