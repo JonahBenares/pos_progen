@@ -49,7 +49,6 @@
                                         <td width="15%">Brand </td>
                                         <td width="15%">Catalog No. </td>
                                         <td width="15%">Day/s Left </td>
-                                        <th width="5%"><center><span class="mdi mdi-menu"></span></center></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -64,7 +63,6 @@
                                     <td><?php echo $e['brand']; ?></td>
                                     <td><?php echo $e['catalog_no']; ?></td>
                                     <td><?php echo $e['daysleft']. " day/s"; ?></td>
-                                    <td></td>
                                     <!-- <?php if($e['dispose']=='0'){ ?>
                                         <td><a href="<?php echo base_url(); ?>index.php/reports/dispose_item/<?php echo $e['ri_id']; ?>" class="btn btn-gradient-danger btn-rounded btn-xs" style="font-size:12px" onclick="return confirm('Are you sure you want to Dispose this item?')">Dispose</a></td>
                                     <?php } else { ?>
