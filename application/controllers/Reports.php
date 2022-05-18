@@ -3010,5 +3010,12 @@ class Reports extends CI_Controller {
         readfile($exportfilename);
     }
 
+    public function sales_backorder(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/sales_backorder');
+        $this->load->view('template/footer');
+    }
+
 }
 

@@ -43,7 +43,7 @@
                 </div>
             </div> -->
             <div class="col-md-6 stretch-card">
-                <a href="<?php echo base_url(); ?>backorder/backorder_form" class="card bg-gradient-success card-img-holder text-white" style="text-decoration: none;" >
+                <a href="<?php echo base_url(); ?>reports/sales_backorder" class="card bg-gradient-success card-img-holder text-white" style="text-decoration: none;" >
                     <div class="card-body">
                         <img src="<?php echo base_url(); ?>assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
                         <h4 class="font-weight-normal mb-3">Sales Back Order </h4>
