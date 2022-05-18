@@ -11,7 +11,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active" aria-current="page">
-                        <span></span>Expired Inventory &nbsp;
+                        <span></span>Sales Backorder &nbsp;
                         <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                     </li>
                 </ol>
@@ -23,14 +23,14 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-lg-6">
-                                <h4 class="m-0">Expired Inventory</h4>
+                                <h4 class="m-0">Sales Backorder</h4>
                             </div>
                             <div class="col-lg-6">
                                 <div class="pull-right">
                                     <button type="button" onclick="printDiv('printableArea')" class="btn btn-gradient-info btn-sm btn-rounded">
                                         <b><span class="mdi mdi-printer"></span> Print</b>
                                     </button>                               
-                                    <a href="<?php echo base_url(); ?>reports/export_expired/<?php echo $date; ?>" class="btn btn-gradient-warning btn-sm btn-rounded">
+                                    <a href="<?php echo base_url(); ?>reports/export_expired/" class="btn btn-gradient-warning btn-sm btn-rounded">
                                         <b><span class="mdi mdi-export"></span> Export</b>
                                     </a>
                                 </div>
@@ -43,52 +43,52 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
-                                        <input type="date" class="form-control" type="text" name="date" id="date" onfocus="(this.type='date')">
+                                        <input type="date" class="form-control" type="text" name="sales_date" id="sales_date" onfocus="(this.type='date')">
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
                                     <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
-                                    <input type="submit" class="btn btn-md btn-gradient-success btn-block" value="Filter" onclick="LoadExpiredItems()">
+                                    <input type="submit" class="btn btn-md btn-gradient-success btn-block" value="Filter" onclick="LoadSalesBO()">
                                 </div>
                             </div>   
                         <hr>
-                        <?php if(!empty($date)){ ?>    
+                        <?php 
+                                if(!empty($date)){ 
+                        ?>   
                         <div id="printableArea">
-                        <table class="table table-bordered table-hover" width="100%" id="expiredinventory">
+                        <table class="table table-bordered table-hover" width="100%" id="myTable">
                             <thead>
                                 <tr>
-                                    <td width="30%">Item Name</td>
-                                    <td width="6%">Qty</td>
-                                    <td width="10%">Expiration Date</td>
-                                    <td width="15%">PR #</td>
-                                    <td width="15%">Brand </td>
-                                    <td width="15%">Catalog No. </td>
+                                    <th width="20%">Client</th>
+                                    <th width="20%">Item Name</th>
+                                    <th width="%">DR No</th>
+                                    <th width="7%">Qty</th>
+                                    <th width="7%">Expected qty </th>
+                                    <th width="%">PO No</th>
+                                    <th width="%">PR No</th>
                                     <th width="5%"><center><span class="mdi mdi-menu"></span></center></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                 <?php 
-                                    if(!empty($expired)){
-                                    foreach($expired AS $e){ ?>
+                            <?php 
+                                if(!empty($sales_backorder)){ 
+                                    foreach($sales_backorder AS $sb) {
+                            ?>
                                 <tr>
-                                    <td><?php echo $e['item']; ?></td>
-                                    <td><?php echo number_format($e['received_qty'],2); ?></td>
-                                    <td><?php echo date('F d, Y', strtotime($e['expiration_date'])); ?></td>
-                                    <td><?php echo $e['pr_no']; ?></td>
-                                    <td><?php echo $e['brand']; ?></td>
-                                    <td><?php echo $e['catalog_no']; ?></td>
-                                    <?php if($e['dispose']=='0'){ ?>
-                                        <td><a href="<?php echo base_url(); ?>index.php/reports/dispose_item/<?php echo $e['ri_id']; ?>" class="btn btn-gradient-danger btn-rounded btn-xs" style="font-size:12px" onclick="return confirm('Are you sure you want to Dispose this item?')">Dispose</a></td>
-                                    <?php } else { ?>
-                                    <td>Disposed</td>
-                                    <?php } ?>
+                                    <td><?php echo $sb['client']; ?></td>
+                                    <td><?php echo $sb['item']; ?></td>
+                                    <td><?php echo $sb['dr_no']; ?></td>
+                                    <td><?php echo $sb['quantity']; ?></td>
+                                    <td><?php echo $sb['expected_qty']; ?></td>
+                                    <td><?php echo $sb['po_no']; ?></td>
+                                    <td><?php echo $sb['pr_no']; ?></td>
+                                    <td></td>
                                 </tr>
-                                <?php }
-                                        } ?>
+                                <?php } } ?>
                             </tbody>
                         </table>
-                        </div>
                         <?php } ?>
+                        </div>
                     </div>
                 </div>
             </div>

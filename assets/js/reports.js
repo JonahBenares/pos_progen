@@ -151,6 +151,12 @@ function LoadExpiredItems(){
     window.location.href = loc+"reports/expired_inventory/"+date;
 }
 
+function LoadSalesBO(){
+    var sales_date = document.getElementById("sales_date").value;
+    var loc= document.getElementById("baseurl").value;
+    window.location.href = loc+"reports/sales_backorder/"+sales_date;
+}
+
 
 function bill_pay(baseurl){
     var client = document.getElementById("client_id").value;
