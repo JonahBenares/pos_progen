@@ -3053,8 +3053,6 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-
-
     public function near_expiry(){
         $today = date("Y-m-d");
         $start_date = strtotime($today);
@@ -3062,6 +3060,8 @@ class Reports extends CI_Controller {
         $week = date('Y-m-d', $end_date);
         $this->load->view('template/header');
         $this->load->view('template/navbar');
+        $count_row = $this->super_model->count_custom_query("SELECT * FROM receive_items WHERE expiration_date <= '$week' AND expiration_date >= '$today' AND expiration_date !='' ORDER BY expiration_date ASC");
+        if($count_row != 0){
             foreach($this->super_model->custom_query("SELECT * FROM receive_items WHERE expiration_date <= '$week' AND expiration_date >= '$today' AND expiration_date !='' ORDER BY expiration_date ASC") AS $expired){
             $receive_id = $this->super_model->select_column_where('receive_head', 'receive_id', 'receive_id', $expired->receive_id);
             $future = strtotime($expired->expiration_date);
@@ -3080,6 +3080,9 @@ class Reports extends CI_Controller {
                 "daysleft"=>$daysleft,
             );
         }
+            } else {
+                $data['expired']=array();
+            }
         $this->load->view('reports/near_expiry', $data);
         $this->load->view('template/footer');
     }
