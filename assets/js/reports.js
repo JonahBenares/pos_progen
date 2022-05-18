@@ -152,9 +152,14 @@ function LoadExpiredItems(){
 }
 
 function LoadSalesBO(){
-    var sales_date = document.getElementById("sales_date").value;
-    var loc= document.getElementById("baseurl").value;
-    window.location.href = loc+"reports/sales_backorder/"+sales_date;
+    var client = document.getElementById("client").value;
+    if(client==""){
+        alert('Client must not be empty!');
+    }  else {
+
+         var loc= document.getElementById("baseurl").value;
+        window.location.href = loc+"reports/sales_backorder/"+client;
+    }
 }
 
 

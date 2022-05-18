@@ -42,11 +42,12 @@
                                 <div class="col-lg-3"> 
                                 </div>
                                 <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <select class="form-control">
-                                            <option >-Select Client-</option>
-                                        </select>
-                                    </div>
+                                   <select class="form-control" id='client'>
+                                    <option value="">--Select Client--</option>
+                                    <?php foreach($clients AS $c){ ?>
+                                        <option value='<?php echo $c->client_id; ?>'><?php echo $c->buyer_name; ?></option>
+                                    <?php } ?>
+                                </select>
                                 </div>
                                 <div class="col-lg-2">
                                     <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
@@ -55,7 +56,7 @@
                             </div>   
                         <hr>
                         <?php 
-                                if(!empty($date)){ 
+                            if(!empty($client)){ 
                         ?>   
                         <div id="printableArea">
                         <table class="table table-bordered table-hover" width="100%" id="myTable">
@@ -73,7 +74,7 @@
                             </thead>
                             <tbody>
                             <?php 
-                                if(!empty($sales_backorder)){ 
+                                if(!empty($sales_backorder)){
                                     foreach($sales_backorder AS $sb) {
                             ?>
                                 <tr>
