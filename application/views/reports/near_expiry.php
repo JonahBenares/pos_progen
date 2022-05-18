@@ -30,7 +30,7 @@
                                     <button type="button" onclick="printDiv('printableArea')" class="btn btn-gradient-info btn-sm btn-rounded">
                                         <b><span class="mdi mdi-printer"></span> Print</b>
                                     </button>                               
-                                    <a href="<?php echo base_url(); ?>reports/export_expired/" class="btn btn-gradient-warning btn-sm btn-rounded">
+                                    <a href="<?php echo base_url(); ?>reports/export_near_expiry/" class="btn btn-gradient-warning btn-sm btn-rounded">
                                         <b><span class="mdi mdi-export"></span> Export</b>
                                     </a>
                                 </div>
@@ -48,19 +48,30 @@
                                         <td width="15%">PR #</td>
                                         <td width="15%">Brand </td>
                                         <td width="15%">Catalog No. </td>
+                                        <td width="15%">Day/s Left </td>
                                         <th width="5%"><center><span class="mdi mdi-menu"></span></center></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                    <?php 
+                                    if(!empty($expired)){
+                                    foreach($expired AS $e){ ?>
+                                <tr>
+                                    <td><?php echo $e['item']; ?></td>
+                                    <td><?php echo number_format($e['received_qty'],2); ?></td>
+                                    <td><?php echo date('F d, Y', strtotime($e['expiration_date'])); ?></td>
+                                    <td><?php echo $e['pr_no']; ?></td>
+                                    <td><?php echo $e['brand']; ?></td>
+                                    <td><?php echo $e['catalog_no']; ?></td>
+                                    <td><?php echo $e['daysleft']. " day/s"; ?></td>
+                                    <?php if($e['dispose']=='0'){ ?>
+                                        <td><a href="<?php echo base_url(); ?>index.php/reports/dispose_item/<?php echo $e['ri_id']; ?>" class="btn btn-gradient-danger btn-rounded btn-xs" style="font-size:12px" onclick="return confirm('Are you sure you want to Dispose this item?')">Dispose</a></td>
+                                    <?php } else { ?>
+                                    <td>Disposed</td>
+                                    <?php } ?>
+                                </tr>
+                                <?php }
+                                        } ?>
                                 </tbody>
                             </table>
                         </div>
