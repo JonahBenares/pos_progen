@@ -67,25 +67,23 @@
                         </div>
                         <hr>   
                       
-                         <!-- <?php if(!empty($client)){ ?>  
-                            <table class="table table-hover table-bordered" width="100%" id="myTable">
-                                <thead>
-                                    <tr>
-                                        <th><label class="label-table">Payment Date</label></th>
-                                        <th><label class="label-table">Billing Statement #</label></th>
-                                        <th><label class="label-table">DR #</label></th>
-                                        <th ><label class="label-table">Payment Type</label></th>
-                                        <th ><label class="label-table">Check/Receipt #</label></th>
-                                        <th ><label class="label-table">Amount Paid</label></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php 
+
+                          <table class="table table-hover table-bordered" width="100%" id="">
+                          
+                            <tr>
+                                <td>Payment Date</td>
+                                <td>Billing #</td>
+                                <td>DR #</td>
+                                <td>Payment Type</td>
+                                <td>Check/Receipt #</td>
+                                <td width="12%">Amount Paid</td>
+                            </tr>
+                           <?php 
                                     if(!empty($payment)){
                                         foreach($payment AS $p){ ?>
                                         <tr>
                                             <td> &nbsp; <?php echo date('F d, Y', strtotime($p['payment_date'])); ?></td>
-                                            <td> &nbsp; <?php echo $p['billing_no'].(($p['adjustment_counter'] == 0) ? '' : '.a'.$p['adjustment_counter']); ?></td>
+                                            <td> &nbsp; <?php echo $p['billing_no']; ?></td>
                                             <td> &nbsp; <?php echo $p['dr_no']; ?></td>
                                             <td> &nbsp; <?php echo $p['payment_type']; ?> &nbsp;</td>
                                             <td> &nbsp; <?php echo $p['check_no']. " / " .$p['receipt_no']; ?> &nbsp;</td>
@@ -93,48 +91,13 @@
                                         </tr>
                                       <?php }
                                   } ?>
-                                </tbody>
-                            </table>
-                            </div>
-                        <?php } ?> -->
-
-
-
-                        <table class="table table-hover table-bordered" width="100%" id="myTable">
-                            <thead>
-                                <tr>
-                                    <th width="20%"><label class="label-table">Billing Date</label></th>
-                                    <th width="20%"><label class="label-table">Client</label></th>
-                                    <th width="20%"><label class="label-table">Billing Statement #</label></th>
-                                    <th width="10%"><label class="label-table">Adjustments</label></th>
-                                    <th width="21"><label class="label-table pull-right">Total Amount &nbsp;</label></th>
-                                    <!-- <th width="5%" align="center">
-                                        <center><span class="mdi mdi-menu"></span></center>
-                                    </th>    -->                                                             
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php 
-                                    if(!empty($paid)){
-                                    foreach($paid AS $b){
-                                    //echo $b['count_adjust']; ?>
-                                    <tr>
-                                       
-                                        <td> &nbsp; <?php echo date('F d, Y', strtotime($b['billing_date'])); ?></td>
-                                        <td> &nbsp; <?php echo $b['client']; ?></td>
-                                        <td> &nbsp; <a href="<?php echo base_url(); ?>reports/paid_details/<?php echo $b['billing_id']; ?>" target="_blank"><?php echo $b['billing_no']; ?></a></td>
-                                        <td> &nbsp; 
-                                            <a onclick="adjust_all('<?php echo base_url(); ?>','<?php echo $b['billing_no']; ?>')" class="btn btn-link"><?php echo $b['counter']; ?></a>
-                                        </td>
-                                        <td align="right">P <?php echo number_format($b['total_amount'],2); ?> &nbsp;</td>
-                                        <?php if($b['count_adjust']!= 0 ){ ?>
-                                      <!--   <td align="center"><a href="<?php echo base_url(); ?>reports/adjustment_list/<?php echo $b['billing_id']; ?>" target="_blank" class="btn btn-primary btn-xs btn-rounded">Adjust</a></td> -->
-                                    <?php } ?>
-                                    </tr>
-                                        <?php }
-                                        } ?>
-                            </tbody>
+                            <tr>
+                                <td colspan="5" align="right">Total:</td>
+                                <td align="right"><strong>P <?php echo number_format($grand_total,2); ?></strong></td>
+                            </tr>
                         </table>
+
+                  
                     </div>
                 </div>
             </div>

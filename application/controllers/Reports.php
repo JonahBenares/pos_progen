@@ -974,13 +974,13 @@ class Reports extends CI_Controller {
 
         $client = $this->uri->segment(3);
         $data['client']=$client;
-        $grand_total=0;
-        $total_amount=0;
+        $gtotal=0;
+       // $total_amount=0;
 
-         foreach($this->super_model->select_custom_where("billing_head", "client_id= '$client'") AS $bill){
+       /*  foreach($this->super_model->select_custom_where("billing_head", "client_id= '$client'") AS $bill){
 
-            // echo $bill->billing_id;
-            //$total_amount = $this->super_model->select_sum_where("billing_payment", "amount", "billing_id='$bill->billing_id'");
+             echo $bill->billing_id;
+            $total_amount = $this->super_model->select_sum_where("billing_payment", "amount", "billing_id='$bill->billing_id'");
 
             foreach($this->super_model->custom_query("SELECT * FROM billing_payment WHERE FIND_IN_SET($bill->billing_id, billing_id)") AS $b){
                     $total_amount+=$b->amount;
@@ -998,23 +998,25 @@ class Reports extends CI_Controller {
                 "counter"=>$bill->adjustment_counter
             );
                $total_amount=0;
-        }
+        }*/
 
-      /*  foreach($this->super_model->select_all("billing_payment") AS $p){
+       foreach($this->super_model->select_all("billing_payment") AS $p){
 
            $billing_id = explode(",",$p->billing_id);
           
            $billing_no = "";
            $dr_no = "";
            foreach($billing_id AS $bid){
-
+           
                 $billing_no .= $this->super_model->select_column_where("billing_head", "billing_no", "billing_id", $bid) . ", ";
                 $dr_no .= $this->super_model->select_column_where("billing_details", "dr_no", "billing_id", $bid) . ", ";
                 $adjustment_counter = $this->super_model->select_column_where("billing_head", "adjustment_counter", "billing_id", $bid);
            }
+
            $bill_no = substr($billing_no,0,-2);
            $dr_no = substr($dr_no,0,-2);
            $gtotal += $p->amount;
+
             $data['payment'][] = array(
                 'payment_date'=>$p->payment_date,
                 'billing_no'=>$bill_no,
@@ -1025,8 +1027,8 @@ class Reports extends CI_Controller {
                 'receipt_no'=>$p->receipt_no,
                 'amount'=>$p->amount
             );
-        }*/
-        $data['grand_total'] = $grand_total;
+        }
+        $data['grand_total'] = $gtotal;
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('reports/paid_list',$data);
