@@ -54,7 +54,7 @@
                         <hr>
                         <?php if(!empty($date)){ ?>    
                         <div id="printableArea">
-                        <table class="table table-bordered table-hover" width="100%" id="myTable">
+                        <table class="table table-bordered table-hover" width="100%" id="expiredinventory">
                             <thead>
                                 <tr>
                                     <td width="30%">Item Name</td>
