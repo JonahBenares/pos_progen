@@ -64,11 +64,12 @@
                                     <td><?php echo $e['brand']; ?></td>
                                     <td><?php echo $e['catalog_no']; ?></td>
                                     <td><?php echo $e['daysleft']. " day/s"; ?></td>
-                                    <?php if($e['dispose']=='0'){ ?>
+                                    <td></td>
+                                    <!-- <?php if($e['dispose']=='0'){ ?>
                                         <td><a href="<?php echo base_url(); ?>index.php/reports/dispose_item/<?php echo $e['ri_id']; ?>" class="btn btn-gradient-danger btn-rounded btn-xs" style="font-size:12px" onclick="return confirm('Are you sure you want to Dispose this item?')">Dispose</a></td>
                                     <?php } else { ?>
                                     <td>Disposed</td>
-                                    <?php } ?>
+                                    <?php } ?> -->
                                 </tr>
                                 <?php }
                                         } ?>

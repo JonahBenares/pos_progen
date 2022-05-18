@@ -2885,8 +2885,8 @@ class Reports extends CI_Controller {
         $today = date("Y-m-d");
         $date = $this->uri->segment(3);
         $data['date']=$date;
-/*        foreach($this->super_model->custom_query("SELECT * FROM receive_items WHERE (expiration_date <= '$today' OR  expiration_date <= '$date') AND (expiration_date = '$date' OR expiration_date !='') ORDER BY expiration_date ASC") AS $expired){*/
-            foreach($this->super_model->custom_query("SELECT * FROM receive_items WHERE expiration_date BETWEEN '$date' AND '$today' AND expiration_date !='' ORDER BY expiration_date ASC") AS $expired){
+        foreach($this->super_model->custom_query("SELECT * FROM receive_items WHERE (expiration_date <= '$today' OR  expiration_date <= '$date') AND (expiration_date = '$date' OR expiration_date !='') AND dispose!='1'  ORDER BY expiration_date ASC") AS $expired){
+            /*foreach($this->super_model->custom_query("SELECT * FROM receive_items WHERE expiration_date BETWEEN '$date' AND '$today' AND expiration_date !='' ORDER BY expiration_date ASC") AS $expired){*/
             $receive_id = $this->super_model->select_column_where('receive_head', 'receive_id', 'receive_id', $expired->receive_id);
             $data['expired'][]= array(
                 "ri_id"=>$expired->ri_id,
@@ -2956,7 +2956,7 @@ class Reports extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J8', "Brand");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L8', "Catalog No");
         $num=9;
-        foreach($this->super_model->custom_query("SELECT * FROM receive_items WHERE expiration_date BETWEEN '$date' AND '$today' AND expiration_date !='' ORDER BY expiration_date ASC") AS $expired){
+        foreach($this->super_model->custom_query("SELECT * FROM receive_items WHERE (expiration_date <= '$today' OR  expiration_date <= '$date') AND (expiration_date = '$date' OR expiration_date !='') AND dispose!='1'  ORDER BY expiration_date ASC") AS $expired){
             $receive_id = $this->super_model->select_column_where('receive_head', 'receive_id', 'receive_id', $expired->receive_id);
             $item = $this->super_model->select_column_where("items", "item_name", "item_id", $expired->item_id);
             $pr_no = $this->super_model->select_column_where("receive_details", "pr_no", "receive_id", $receive_id);
