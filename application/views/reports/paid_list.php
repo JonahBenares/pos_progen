@@ -41,63 +41,44 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">   
+                    <div class="card-body pt-0">   
                         <div id="printableArea">
-                        <div class="row">
-                            <div class="col-lg-6 prnt">
-                                <!-- <input type="" class="form-control" name="" placeholder="Customer"> -->
-                                <select class="form-control" name='client' id='client'>
-                                     <option value="">--Select Client--</option>
-                                    <?php foreach($clients AS $c){ ?>
-                                        <option value='<?php echo $c->client_id; ?>'><?php echo $c->buyer_name; ?></option>
-                                    <?php } ?>
-                                </select>
+                            <div class="row">
+                                <div class="col-lg-3 offset-lg-9">
+                                    <small class="pull-right">Overall Total Paid</small><br>
+                                    <h2 class="pull-right">P <?php echo number_format($grand_total,2); ?></h2>
+                                </div>
                             </div>
-                           
-                            <div class="col-lg-2 prnt">
-                                <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
-                                <input type="submit" class="btn btn-md btn-gradient-success btn-block" name="paidFilter" value="Filter" id='paidFilter'>
-                            </div>
-                             <?php if(!empty($client)){ ?>
-                            <div class="col-lg-3 offset-lg-1">
-                                <small class="pull-right">Overall Total Paid</small><br>
-                                <h2 class="pull-right">P <?php echo number_format($grand_total,2); ?></h2>
-                            </div>
-                        <?php } ?>
                         </div>
-                        <hr>   
-                      
-
-                          <table class="table table-hover table-bordered" width="100%" id="">
-                          
-                            <tr>
-                                <td>Payment Date</td>
-                                <td>Billing #</td>
-                                <td>DR #</td>
-                                <td>Payment Type</td>
-                                <td>Check/Receipt #</td>
-                                <td width="12%">Amount Paid</td>
-                            </tr>
-                           <?php 
-                                    if(!empty($payment)){
-                                        foreach($payment AS $p){ ?>
-                                        <tr>
-                                            <td> &nbsp; <?php echo date('F d, Y', strtotime($p['payment_date'])); ?></td>
-                                            <td> &nbsp; <?php echo $p['billing_no']; ?></td>
-                                            <td> &nbsp; <?php echo $p['dr_no']; ?></td>
-                                            <td> &nbsp; <?php echo $p['payment_type']; ?> &nbsp;</td>
-                                            <td> &nbsp; <?php echo $p['check_no']. " / " .$p['receipt_no']; ?> &nbsp;</td>
-                                            <td align="right">P <?php echo number_format($p['amount'],2); ?> &nbsp;</td>
-                                        </tr>
-                                      <?php }
-                                  } ?>
-                            <tr>
-                                <td colspan="5" align="right">Total:</td>
-                                <td align="right"><strong>P <?php echo number_format($grand_total,2); ?></strong></td>
-                            </tr>
+                        <hr>
+                        <br>
+                        <table class="table table-hover table-bordered" width="100%" id="myTable">
+                            <thead>           
+                                <tr>
+                                    <th>Payment Date</th>
+                                    <th>Billing #</th>
+                                    <th>DR #</th>
+                                    <th>Payment Type</th>
+                                    <th>Check/Receipt #</th>
+                                    <th width="12%">Amount Paid</th>
+                                </tr>
+                            </thead>   
+                            <tbody>     
+                             <?php 
+                            if(!empty($payment)){
+                                foreach($payment AS $p){ ?>
+                                <tr>
+                                    <td> &nbsp; <?php echo date('F d, Y', strtotime($p['payment_date'])); ?></td>
+                                    <td> &nbsp; <?php echo $p['billing_no']; ?></td>
+                                    <td> &nbsp; <?php echo $p['dr_no']; ?></td>
+                                    <td> &nbsp; <?php echo $p['payment_type']; ?> &nbsp;</td>
+                                    <td> &nbsp; <?php echo $p['check_no']. " / " .$p['receipt_no']; ?> &nbsp;</td>
+                                    <td align="right">P <?php echo number_format($p['amount'],2); ?> &nbsp;</td>
+                                </tr>
+                              <?php }
+                            } ?>
+                            </tbody>
                         </table>
-
-                  
                     </div>
                 </div>
             </div>
