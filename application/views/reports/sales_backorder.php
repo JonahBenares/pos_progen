@@ -43,7 +43,9 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
-                                        <input type="date" class="form-control" type="text" name="sales_date" id="sales_date" onfocus="(this.type='date')">
+                                        <select class="form-control">
+                                            <option >-Select Client-</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
