@@ -41,6 +41,10 @@
                  $('#viewitem').DataTable({
                     "aaSorting": [[ 0, "desc" ]]
                 });
+
+                 $('#expiredinventory').DataTable({
+                    "aaSorting": [[ 0, "ASC" ]]
+                });
             });
 
             $(document).ready(function() {
