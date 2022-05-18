@@ -56,7 +56,7 @@
                             </div>   
                         <hr>
                         <?php 
-                            if(!empty($client)){ 
+                            if(!empty($sales_backorder)){
                         ?>   
                         <div id="printableArea">
                         <table class="table table-bordered table-hover" width="100%" id="myTable">
@@ -74,7 +74,6 @@
                             </thead>
                             <tbody>
                             <?php 
-                                if(!empty($sales_backorder)){
                                     foreach($sales_backorder AS $sb) {
                             ?>
                                 <tr>
@@ -87,11 +86,11 @@
                                     <td><?php echo $sb['pr_no']; ?></td>
                                     <td></td>
                                 </tr>
-                                <?php } } ?>
+                                <?php } ?>
                             </tbody>
                         </table>
-                        <?php } ?>
                         </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

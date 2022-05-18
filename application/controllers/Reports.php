@@ -3064,6 +3064,47 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+        public function sales_backorder_dash(){
+        $data['clients'] = $this->super_model->select_all("client");
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        foreach($this->super_model->select_custom_where("sales_good_head","saved='1'") AS $bo){
+            $quantity = $this->super_model->select_column_where("sales_good_details", "quantity", "sales_good_head_id", $bo->sales_good_head_id);
+            $expected_qty = $this->super_model->select_column_where("sales_good_details", "expected_qty", "sales_good_head_id", $bo->sales_good_head_id);
+            $item_id = $this->super_model->select_column_where("sales_good_details", "item_id", "sales_good_head_id", $bo->sales_good_head_id);
+             if($quantity<$expected_qty && $quantity!=$expected_qty){
+                $data['sales_backorder'][]=array(
+                        "client"=>$this->super_model->select_column_where("client","buyer_name","client_id",$bo->client_id),
+                        "item"=>$this->super_model->select_column_where("items","item_name","item_id",$item_id),
+                        "dr_no"=>$bo->dr_no,
+                        "po_no"=>$bo->po_no,
+                        "pr_no"=>$bo->pr_no,
+                        "expected_qty"=>$expected_qty,
+                        "quantity"=>$quantity,
+                );
+            }
+        }
+
+        foreach($this->super_model->select_custom_where("sales_services_head","saved='1'") AS $bos){
+            $quantity = $this->super_model->select_column_where("sales_serv_items", "quantity", "sales_serv_head_id", $bos->sales_serv_head_id);
+            $expected_qty = $this->super_model->select_column_where("sales_serv_items", "expected_qty", "sales_serv_head_id", $bos->sales_serv_head_id);
+            $item_id = $this->super_model->select_column_where("sales_serv_items", "item_id", "sales_serv_head_id", $bos->sales_serv_head_id);
+            if($quantity<$expected_qty && $quantity!=$expected_qty){
+                $data['sales_backorder'][]=array(
+                        "client"=>$this->super_model->select_column_where("client","buyer_name","client_id",$bos->client_id),
+                        "item"=>$this->super_model->select_column_where("items","item_name","item_id",$item_id),
+                        "dr_no"=>$bos->dr_no,
+                        "po_no"=>$bos->joi_no,
+                        "pr_no"=>$bos->jor_no,
+                        "expected_qty"=>$expected_qty,
+                        "quantity"=>$quantity,
+                );
+            }
+        }
+        $this->load->view('reports/sales_backorder', $data);
+        $this->load->view('template/footer');
+    }
+
     public function near_expiry(){
         $today = date("Y-m-d");
         $start_date = strtotime($today);
