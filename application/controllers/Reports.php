@@ -3031,7 +3031,7 @@ class Reports extends CI_Controller {
             $quantity = $this->super_model->select_column_where("sales_good_details", "quantity", "sales_good_head_id", $bo->sales_good_head_id);
             $expected_qty = $this->super_model->select_column_where("sales_good_details", "expected_qty", "sales_good_head_id", $bo->sales_good_head_id);
             $item_id = $this->super_model->select_column_where("sales_good_details", "item_id", "sales_good_head_id", $bo->sales_good_head_id);
-            if($quantity<=$expected_qty){
+             if($quantity<$expected_qty && $quantity!=$expected_qty){
                 $data['sales_backorder'][]=array(
                         "client"=>$this->super_model->select_column_where("client","buyer_name","client_id",$bo->client_id),
                         "item"=>$this->super_model->select_column_where("items","item_name","item_id",$item_id),
