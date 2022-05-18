@@ -20,7 +20,7 @@
                // if($diff<=7){ ?>
         <div class="row">
             <div class="col-md-6 stretch-card">
-              <a href="<?php echo base_url(); ?>reports/expired_inventory/<?php echo date('Y-m-d') ?>" class="card bg-gradient-danger card-img-holder text-white" style="text-decoration: none;" >
+              <a href="<?php echo base_url(); ?>reports/near_expiry/" class="card bg-gradient-danger card-img-holder text-white" style="text-decoration: none;" >
                 <div class="card-body">
                     <img src="<?php echo base_url(); ?>assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
                     <h4 class="font-weight-normal mb-3">Near Expiry Products </h4>

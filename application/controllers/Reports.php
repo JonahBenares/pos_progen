@@ -3053,5 +3053,14 @@ class Reports extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+
+
+    public function near_expiry(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('reports/near_expiry');
+        $this->load->view('template/footer');
+    }
+
 }
 
