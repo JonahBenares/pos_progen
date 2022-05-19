@@ -25,47 +25,6 @@
                         <i class="mdi mdi-fullscreen" id="fullscreen-button"></i>
                     </a>
                 </li>
-                <!-- <li class="nav-item dropdown">
-                    <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                        <i class="mdi mdi-email-outline"></i>
-                        <span class="count-symbol bg-warning"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-                        <h6 class="p-3 mb-0">Messages</h6>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                                <img src="<?php echo base_url(); ?>assets/images/faces/face4.jpg" alt="image" class="profile-pic">
-                            </div>
-                            <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                                <h6 class="preview-subject ellipsis mb-1 font-weight-normal">Mark send you a message</h6>
-                                <p class="text-gray mb-0"> 1 Minutes ago </p>
-                            </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                                <img src="<?php echo base_url(); ?>assets/images/faces/face2.jpg" alt="image" class="profile-pic">
-                            </div>
-                            <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                                <h6 class="preview-subject ellipsis mb-1 font-weight-normal">Cregh send you a message</h6>
-                                <p class="text-gray mb-0"> 15 Minutes ago </p>
-                            </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <img src="<?php echo base_url(); ?>assets/images/faces/face3.jpg" alt="image" class="profile-pic">
-                                </div>
-                                <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                                    <h6 class="preview-subject ellipsis mb-1 font-weight-normal">Profile picture updated</h6>
-                                    <p class="text-gray mb-0"> 18 Minutes ago </p>
-                                </div>
-                            </a>
-                        <div class="dropdown-divider"></div>
-                        <h6 class="p-3 mb-0 text-center">4 new messages</h6>
-                    </div>
-                </li> -->
                 <li class="nav-item dropdown">
                     <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                         <i class="mdi mdi-bell-outline"></i>
@@ -119,16 +78,8 @@
                         </a>
                         <?php } } ?>
                         <div class="dropdown-divider"></div>
-                       <!--  <center>
-                            <a href="<?php echo base_url(); ?>masterfile/notif_list" class="btn btn-link">See all notifications</a>
-                        </center> -->
                     </div>
                 </li>
-                <!-- <li class="nav-item nav-logout d-none d-lg-block">
-                    <a class="nav-link" href="#">
-                        <i class="mdi mdi-power"></i>
-                    </a>
-                </li> -->
                 <li class="nav-item nav-profile dropdown">
                     <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                         <div class="nav-profile-img">
@@ -278,33 +229,18 @@
                         </ul>
                     </div>
                 </li>
-                <!-- <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>returns/return_form">
-                        <span class="menu-title">Return</span>
-                        <i class="mdi mdi-sync menu-icon"></i>
-                    </a> -->
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'sales_backorder/backorder_form')" >
+                        <span class="menu-title">Sales Back Order</span>
+                        <i class="mdi mdi-backup-restore menu-icon"></i>
+                    </a>
+                </li>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'returns/return_goods_services')" >
                         <span class="menu-title">Return</span>
                         <i class="menu-arrow"></i>
                         <i class="mdi mdi-sync menu-icon"></i>
-                    </a>
-<!--                     <div class="collapse" id="return_list">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>returns/return_goods">Goods</a>
-                            </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" href="<?php echo base_url(); ?>returns/return_services">Services</a>
-                            </li>
-                        </ul>
-                    </div> -->
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'back_order/backorder_form')" >
-                        <span class="menu-title">Back Order</span>
-                        <i class="mdi mdi-backup-restore menu-icon"></i>
                     </a>
                 </li>
                 <li class="nav-item">
