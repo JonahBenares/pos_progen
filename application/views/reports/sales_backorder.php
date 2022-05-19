@@ -29,10 +29,14 @@
                                 <div class="pull-right">
                                     <button type="button" onclick="printDiv('printableArea')" class="btn btn-gradient-info btn-sm btn-rounded">
                                         <b><span class="mdi mdi-printer"></span> Print</b>
-                                    </button>                               
-                                    <a href="<?php echo base_url(); ?>reports/export_expired/" class="btn btn-gradient-warning btn-sm btn-rounded">
-                                        <b><span class="mdi mdi-export"></span> Export</b>
-                                    </a>
+                                    </button>
+                                    <?php if(!empty($client)){ ?>                              
+                                        <a href="<?php echo base_url(); ?>reports/export_sales_backorder/<?php echo $client; ?>" class="btn btn-gradient-warning btn-sm btn-rounded">
+                                        <b><span class="mdi mdi-export"></span> Export</b></a>
+                                         <?php } else { ?>
+                                        <a href="<?php echo base_url(); ?>reports/export_sales_backorder/null" class="btn btn-gradient-warning btn-sm btn-rounded">
+                                        <b><span class="mdi mdi-export"></span> Export</b></a>
+                                         <?php } ?>
                                 </div>
                             </div>
                         </div>

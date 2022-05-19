@@ -3027,6 +3027,7 @@ class Reports extends CI_Controller {
         $data['client']=$client;
         $this->load->view('template/header');
         $this->load->view('template/navbar');
+        if($client!='null'){
         foreach($this->super_model->select_custom_where("sales_good_head","client_id = '$client' AND saved='1'") AS $bo){
             $quantity = $this->super_model->select_column_where("sales_good_details", "quantity", "sales_good_head_id", $bo->sales_good_head_id);
             $expected_qty = $this->super_model->select_column_where("sales_good_details", "expected_qty", "sales_good_head_id", $bo->sales_good_head_id);
@@ -3060,15 +3061,8 @@ class Reports extends CI_Controller {
                 );
             }
         }
-        $this->load->view('reports/sales_backorder', $data);
-        $this->load->view('template/footer');
-    }
-
-        public function sales_backorder_dash(){
-        $data['clients'] = $this->super_model->select_all("client");
-        $this->load->view('template/header');
-        $this->load->view('template/navbar');
-        foreach($this->super_model->select_custom_where("sales_good_head","saved='1'") AS $bo){
+    }else{
+         foreach($this->super_model->select_custom_where("sales_good_head","saved='1'") AS $bo){
             $quantity = $this->super_model->select_column_where("sales_good_details", "quantity", "sales_good_head_id", $bo->sales_good_head_id);
             $expected_qty = $this->super_model->select_column_where("sales_good_details", "expected_qty", "sales_good_head_id", $bo->sales_good_head_id);
             $item_id = $this->super_model->select_column_where("sales_good_details", "item_id", "sales_good_head_id", $bo->sales_good_head_id);
@@ -3101,8 +3095,190 @@ class Reports extends CI_Controller {
                 );
             }
         }
+    }
         $this->load->view('reports/sales_backorder', $data);
         $this->load->view('template/footer');
+    }
+
+    public function export_sales_backorder(){
+        $client = $this->uri->segment(3);
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="Sales backorder.xlsx";
+        $objPHPExcel = new PHPExcel();
+        $gdImage = imagecreatefrompng('assets/images/progen_logow.png');
+        $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
+        $objDrawing->setName('Sample image');
+        $objDrawing->setDescription('Sample image');
+        $objDrawing->setImageResource($gdImage);
+        $objDrawing->setRenderingFunction(PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
+        $objDrawing->setMimeType(PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+        $objDrawing->setHeight(75);
+        $objDrawing->setOffsetX(25);
+        $objDrawing->setCoordinates('A1');
+        $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "PROGEN Dieseltech Services Corp.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', "Purok San Jose, Brgy. Calumangan, Bago City");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C3', "Negros Occidental, Philippines 6101");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C4', "Tel. No. 476 - 7382");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H2', "SALES BACKORDER");
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+/*        $sql="";
+        if($client!='null'){
+            $sql.= " AND client_id = '$client' AND";
+        }
+        $query=substr($sql,0,-3);*/
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A8', "Client");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E8', "Item Name");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I8', "DR No");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L8', "Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N8', "Expected_qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P8', "PO No");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S8', "PR No");
+        if($client!='null'){
+        foreach($this->super_model->select_custom_where("sales_good_head","client_id = '$client' AND saved='1'") AS $bo){
+            $quantity = $this->super_model->select_column_where("sales_good_details", "quantity", "sales_good_head_id", $bo->sales_good_head_id);
+            $expected_qty = $this->super_model->select_column_where("sales_good_details", "expected_qty", "sales_good_head_id", $bo->sales_good_head_id);
+            $item_id = $this->super_model->select_column_where("sales_good_details", "item_id", "sales_good_head_id", $bo->sales_good_head_id);
+             if($quantity<$expected_qty && $quantity!=$expected_qty){
+                $sales_backorder[]=array(
+                        "client"=>$this->super_model->select_column_where("client","buyer_name","client_id",$bo->client_id),
+                        "item"=>$this->super_model->select_column_where("items","item_name","item_id",$item_id),
+                        "dr_no"=>$bo->dr_no,
+                        "po_no"=>$bo->po_no,
+                        "pr_no"=>$bo->pr_no,
+                        "expected_qty"=>$expected_qty,
+                        "quantity"=>$quantity,
+                );
+            }
+        }
+
+        foreach($this->super_model->select_custom_where("sales_services_head","client_id = '$client' AND saved='1'") AS $bos){
+            $quantity = $this->super_model->select_column_where("sales_serv_items", "quantity", "sales_serv_head_id", $bos->sales_serv_head_id);
+            $expected_qty = $this->super_model->select_column_where("sales_serv_items", "expected_qty", "sales_serv_head_id", $bos->sales_serv_head_id);
+            $item_id = $this->super_model->select_column_where("sales_serv_items", "item_id", "sales_serv_head_id", $bos->sales_serv_head_id);
+            if($quantity<$expected_qty && $quantity!=$expected_qty){
+                $sales_backorder[]=array(
+                        "client"=>$this->super_model->select_column_where("client","buyer_name","client_id",$bos->client_id),
+                        "item"=>$this->super_model->select_column_where("items","item_name","item_id",$item_id),
+                        "dr_no"=>$bos->dr_no,
+                        "po_no"=>$bos->joi_no,
+                        "pr_no"=>$bos->jor_no,
+                        "expected_qty"=>$expected_qty,
+                        "quantity"=>$quantity,
+                );
+            }
+        }
+    }else{
+         foreach($this->super_model->select_custom_where("sales_good_head","saved='1'") AS $bo){
+            $quantity = $this->super_model->select_column_where("sales_good_details", "quantity", "sales_good_head_id", $bo->sales_good_head_id);
+            $expected_qty = $this->super_model->select_column_where("sales_good_details", "expected_qty", "sales_good_head_id", $bo->sales_good_head_id);
+            $item_id = $this->super_model->select_column_where("sales_good_details", "item_id", "sales_good_head_id", $bo->sales_good_head_id);
+             if($quantity<$expected_qty && $quantity!=$expected_qty){
+                $sales_backorder[]=array(
+                        "client"=>$this->super_model->select_column_where("client","buyer_name","client_id",$bo->client_id),
+                        "item"=>$this->super_model->select_column_where("items","item_name","item_id",$item_id),
+                        "dr_no"=>$bo->dr_no,
+                        "po_no"=>$bo->po_no,
+                        "pr_no"=>$bo->pr_no,
+                        "expected_qty"=>$expected_qty,
+                        "quantity"=>$quantity,
+                );
+            }
+        }
+
+        foreach($this->super_model->select_custom_where("sales_services_head","saved='1'") AS $bos){
+            $quantity = $this->super_model->select_column_where("sales_serv_items", "quantity", "sales_serv_head_id", $bos->sales_serv_head_id);
+            $expected_qty = $this->super_model->select_column_where("sales_serv_items", "expected_qty", "sales_serv_head_id", $bos->sales_serv_head_id);
+            $item_id = $this->super_model->select_column_where("sales_serv_items", "item_id", "sales_serv_head_id", $bos->sales_serv_head_id);
+            if($quantity<$expected_qty && $quantity!=$expected_qty){
+                $sales_backorder[]=array(
+                        "client"=>$this->super_model->select_column_where("client","buyer_name","client_id",$bos->client_id),
+                        "item"=>$this->super_model->select_column_where("items","item_name","item_id",$item_id),
+                        "dr_no"=>$bos->dr_no,
+                        "po_no"=>$bos->joi_no,
+                        "pr_no"=>$bos->jor_no,
+                        "expected_qty"=>$expected_qty,
+                        "quantity"=>$quantity,
+                );
+            }
+        }
+    }
+            $num=9;
+            foreach($sales_backorder AS $s){
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $s['client']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, $s['item']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$num, $s['dr_no']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $s['quantity']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $s['expected_qty']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, $s['po_no']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$num, $s['pr_no']);
+            $objPHPExcel->getActiveSheet()->getStyle("L".$num.":M".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getStyle("N".$num.":O".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->applyFromArray($styleArray);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":U".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->mergeCells('A'.$num.":D".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('E'.$num.":H".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('I'.$num.":K".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('L'.$num.":M".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('N'.$num.":O".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('P'.$num.":R".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('S'.$num.":U".$num);
+            $num++;
+        }
+        $objPHPExcel->getActiveSheet()->mergeCells('A8:D8');
+        $objPHPExcel->getActiveSheet()->mergeCells('E8:h8');
+        $objPHPExcel->getActiveSheet()->mergeCells('I8:K8');
+        $objPHPExcel->getActiveSheet()->mergeCells('L8:M8');
+        $objPHPExcel->getActiveSheet()->mergeCells('N8:O8');
+        $objPHPExcel->getActiveSheet()->mergeCells('P8:R8');
+        $objPHPExcel->getActiveSheet()->mergeCells('S8:U8');
+        $objPHPExcel->getActiveSheet()->getStyle('A8:U8')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A8:U8')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A8:U8")->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->mergeCells('H2:U2');
+        $objPHPExcel->getActiveSheet()->getStyle('H2:U2')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('H2:U2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:U2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:U2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('C4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('H4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('U4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Sales backorder.xlsx"');
+        readfile($exportfilename);
     }
 
     public function near_expiry(){
