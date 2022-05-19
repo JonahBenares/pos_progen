@@ -291,9 +291,9 @@
                             <li class="nav-item"> 
                                 <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'reports/expired_inventory')" >Expired Inventory</a>
                             </li>
-                            <li class="nav-item"> 
+                           <!--  <li class="nav-item"> 
                                 <a class="nav-link" href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'reports/sales_backorder')" >Sales Backorder</a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </li>
