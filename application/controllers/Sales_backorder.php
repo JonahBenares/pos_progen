@@ -423,6 +423,8 @@ class Sales_backorder extends CI_Controller {
         }
     }
 
+        echo $salesid;
+
     }
 
     public function print_backorder(){
