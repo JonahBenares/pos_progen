@@ -220,7 +220,7 @@ class Sales_backorder extends CI_Controller {
 
     public function saveBackorder(){
         $sales_id= $this->input->post('sales_id');
-        $type= $this->input->post('type');
+        $type= $this->input->post('transaction_type');
         $sales_item_id= $this->input->post('sales_item_id');
         $userid = $_SESSION['user_id'];
         $now=date('Y-m-d H:i:s');
@@ -228,6 +228,7 @@ class Sales_backorder extends CI_Controller {
         $salesbodate=$this->input->post('salesbo_date')." ".date("H:i:s");
 
         if($type=='Goods'){
+
         $rows=$this->super_model->count_custom_where("sales_good_head","create_date LIKE '$year_series%'");
         if($rows==0){
              $dr_no = "PROBCD-".$year_series."-DR-0001";
@@ -418,12 +419,10 @@ class Sales_backorder extends CI_Controller {
             );
             
             $this->super_model->insert_into("fifo_out",$fifo_items);
+            }
         }
     }
-    }
-        
 
-        echo $salesid;
     }
 
     public function print_backorder(){

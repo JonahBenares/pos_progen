@@ -56,9 +56,8 @@ function saveSalesBO(){
           success: function(output){
             $('#savebutton').show();
             $('#alt').hide();
+            window.location.href = loc+'index.php/sales_backorder/backorder_form/';
           window.open( loc+'index.php/sales_backorder/print_backorder/'+output,'_blank');
-
-           
           }
         });
       }
