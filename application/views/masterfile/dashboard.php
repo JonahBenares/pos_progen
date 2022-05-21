@@ -48,7 +48,11 @@
                         <img src="<?php echo base_url(); ?>assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
                         <h4 class="font-weight-normal mb-3">Sales Back Order </h4>
                         <i class="mdi mdi-replay float-right" style="position: absolute;font-size: 100px;top: 0;right: 0;margin: 25px;"></i>
+                        <?php if(!empty($sales_backorder)) { ?>
                         <h2 class="mb-5"><?php echo $sales_backorder ?></h2>
+                        <?php }else { ?>
+                            <h2 class="mb-5">0</h2>
+                        <?php } ?>
                         <h6 class="card-text">Click to View</h6>
                     </div>
                 </a>

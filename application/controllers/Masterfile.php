@@ -43,6 +43,26 @@ function dateDifference($date_1 , $date_2)
    
 }
 
+    public function get_expected_qty_goods($dr,$item){
+        $expected_qty = $this->super_model->select_sum_join("expected_qty","sales_good_details","sales_good_head", "dr_no = '$dr' AND bo='0'","sales_good_head_id");
+        return $expected_qty;
+    }
+
+     public function get_received_qty_goods($dr,$item){
+        $received_qty = $this->super_model->select_sum_join("quantity","sales_good_details","sales_good_head", "dr_no = '$dr' AND bo='0'","sales_good_head_id");
+        return $received_qty;
+    }
+
+    public function get_expected_qty_services($dr,$item){
+        $expected_qty = $this->super_model->select_sum_join("expected_qty","sales_serv_items","sales_services_head", "dr_no = '$dr' AND bo='0'","sales_serv_head_id");
+        return $expected_qty;
+    }
+
+     public function get_received_qty_services($dr,$item){
+        $received_qty = $this->super_model->select_sum_join("quantity","sales_serv_items","sales_services_head", "dr_no = '$dr' AND bo='0'","sales_serv_head_id");
+        return $received_qty;
+    }
+
     public function dashboard(){
         $today = date("Y-m-d");
         $this->load->view('template/header');
@@ -51,10 +71,30 @@ function dateDifference($date_1 , $date_2)
         $end_date = strtotime("+3 months", $start_date);
         $week = date('Y-m-d', $end_date);
         $data['expired'] = $this->super_model->count_custom_where("receive_items", "expiration_date <= '$week' AND expiration_date >= '$today'");
-        $goods_count = $this->super_model->count_custom_where("sales_good_details", "quantity < expected_qty");
-        $services_count = $this->super_model->count_custom_where("sales_serv_items", "quantity < expected_qty");
-        $total_count = $goods_count + $services_count;
-        $data['sales_backorder'] = $total_count;
+        foreach($this->super_model->custom_query("SELECT DISTINCT dr_no, item_id,  sd.sales_good_head_id FROM sales_good_details sd INNER JOIN sales_good_head sh ON sd.sales_good_head_id = sh.sales_good_head_id WHERE saved='1' AND bo='0' GROUP BY dr_no") AS $dr){
+        $expected_qty_goods= $this->get_expected_qty_goods($dr->dr_no,$dr->item_id);
+        $received_qty_goods= $this->get_received_qty_goods($dr->dr_no,$dr->item_id);
+        if($expected_qty_goods>$received_qty_goods){
+        $goods_count = $this->super_model->count_custom_query("SELECT DISTINCT dr_no, item_id,  sd.sales_good_head_id FROM sales_good_details sd INNER JOIN sales_good_head sh ON sd.sales_good_head_id = sh.sales_good_head_id WHERE saved='1' AND bo='0' GROUP BY dr_no");
+    }
+}
+        //$goods_count = $this->super_model->count_custom_where("sales_good_details", "'$received_qty_goods' < '$expected_qty_goods'");
+        foreach($this->super_model->custom_query("SELECT DISTINCT dr_no, item_id, si.sales_serv_head_id FROM sales_serv_items si INNER JOIN sales_services_head sh ON si.sales_serv_head_id = sh.sales_serv_head_id WHERE saved='1' AND bo='0' GROUP BY dr_no") AS $drs){
+        $expected_qty_services= $this->get_expected_qty_services($dr->dr_no,$dr->item_id);
+        $received_qty_services= $this->get_received_qty_services($dr->dr_no,$dr->item_id);
+        if($expected_qty_services>$received_qty_services){
+        $service_count = $this->super_model->count_custom_query("SELECT DISTINCT dr_no, item_id, si.sales_serv_head_id FROM sales_serv_items si INNER JOIN sales_services_head sh ON si.sales_serv_head_id = sh.sales_serv_head_id WHERE saved='1' AND bo='0' GROUP BY dr_no");
+    }
+        //$services_count = $this->super_model->count_custom_where("sales_serv_items", "'$received_qty_services' < '$expected_qty_services'");
+
+}       
+        if(!empty($goods_count)){
+            $data['sales_backorder'] = $goods_count;
+        }elseif (!empty($service_count)) {
+            $data['sales_backorder'] = $service_count;
+        }elseif (!empty($goods_count) && !empty($service_count)) {
+            $data['sales_backorder'] = $goods_count + $service_count;
+        }
         $this->load->view('masterfile/dashboard', $data);
         $this->load->view('template/footer');
     }

@@ -281,6 +281,7 @@ class Sales_backorder extends CI_Controller {
         for($a=0;$a<$counter;$a++){
             $quantity=$this->input->post('quantity['.$a.']');
             $unit_cost= $this->input->post('item_cost['.$a.']');
+            $total=$quantity*$unit_cost;
              foreach($this->super_model->select_row_where("sales_good_details", "sales_good_det_id", $this->input->post('sales_item_id['.$a.']')) AS $sd){
            
                 $items = array(
@@ -294,7 +295,8 @@ class Sales_backorder extends CI_Controller {
                 'expected_qty'=>$this->input->post('expqty['.$a.']'),
                 'quantity'=>$quantity,
                 'remarks'=> $this->input->post('remarks['.$a.']'),
-                'total'=> $this->input->post('total_cost['.$a.']'),
+                //'total'=> $this->input->post('total_cost['.$a.']'),
+                'total'=> $total,
             );
             
            $sales_item_id = $this->super_model->insert_return_id("sales_good_details", $items);
@@ -379,6 +381,7 @@ class Sales_backorder extends CI_Controller {
         for($a=0;$a<$counter;$a++){
             $quantity=$this->input->post('quantity['.$a.']');
             $unit_cost= $this->input->post('item_cost['.$a.']');
+            $total=$quantity*$unit_cost;
              foreach($this->super_model->select_row_where("sales_serv_items", "sales_serv_items_id", $this->input->post('sales_item_id['.$a.']')) AS $sd){
            
                 $items = array(
@@ -388,12 +391,13 @@ class Sales_backorder extends CI_Controller {
                 'discount_percent'=> $sd->discount_percent,
                 'discount_amount'=> $sd->discount_amount,
                 'group_id'=> $sd->group_id,
-                // /'serial_no'=>$this->input->post('serial_no['.$a.']'),
+                //'serial_no'=>$this->input->post('serial_no['.$a.']'),
                 'unit_cost'=> $this->input->post('item_cost['.$a.']'),
                 'expected_qty'=>$this->input->post('expqty['.$a.']'),
                 'quantity'=>$quantity,
                 'remarks'=> $this->input->post('remarks['.$a.']'),
-                'total'=> $this->input->post('total_cost['.$a.']'),
+                //'total'=> $this->input->post('total_cost['.$a.']'),
+                'total'=> $total,
             );
             
            $sales_item_id = $this->super_model->insert_return_id("sales_serv_items", $items);

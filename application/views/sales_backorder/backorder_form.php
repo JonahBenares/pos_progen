@@ -136,11 +136,11 @@
                                             <td><?php echo $sb['supplier']; ?></td>
                                             <td><?php echo $sb['item']; ?></td>
                                             <td><?php echo $sb['brand']; ?></td>
-                                            <td align="right"><span name='total_cost[]' id="total_cost<?php echo $ct; ?>"><?php echo number_format($sb['total_cost'],2); ?></span></td>
+                                            <td align="right"><span id="total_cost<?php echo $ct; ?>"><?php echo number_format($sb['total_cost'],2); ?></span></td>
                                             <td class="p-0"><textarea class="form-control" name='remarks[]' id='remarks[]'></textarea></td>
                                         </tr>
                                         <input type='hidden' name='expqty[]' value="<?php echo $sb['quantity']; ?>" style='width:50px' max="<?php echo $sb['quantity']; ?>">
-                                        <input type='hidden' name='total_cost[]' value="<?php echo $sb['quantity']; ?>" style='width:50px'"">
+                                        <!-- <input type='hidden' name='total_cost[]' value="<?php echo $sb['quantity']; ?>" style='width:50px'""> -->
                                     <?php 
                                         $ct++;
                                         }

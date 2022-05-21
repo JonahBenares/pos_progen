@@ -39,6 +39,13 @@ function changeQty(count){
   document.getElementById("total_cost"+count).innerHTML  =item_total;
 }
 
+function changePrice(count){
+   var cost = document.getElementById("item_cost"+count).value;
+   var qty = document.getElementById("quantity"+count).value;
+   var item_total = parseFloat(cost) * parseFloat(qty);
+    document.getElementById("total_cost").innerHTML  =item_total;
+}
+
 function saveSalesBO(){
   var backorderdata = $("#sales_bo").serialize();
   var loc= document.getElementById("baseurl").value;
