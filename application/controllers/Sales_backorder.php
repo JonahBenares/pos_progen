@@ -413,7 +413,7 @@ class Sales_backorder extends CI_Controller {
                 'selling_price'=>$so->selling_price,
                 'unit_cost'=>$unit_cost,
                 'transaction_type'=>'Sales Services',
-                'sales_id'=>$sales_id,
+                'sales_id'=>$salesid,
                 'sales_serv_items_id'=>$sales_item_id,
                 'damage_id'=>0,
                 'quantity'=>$quantity,
