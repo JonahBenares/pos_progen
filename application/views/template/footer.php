@@ -41,6 +41,10 @@
                  $('#viewitem').DataTable({
                     "aaSorting": [[ 0, "desc" ]]
                 });
+
+                 $('#expiredinventory').DataTable({
+                    "aaSorting": [[ 0, "ASC" ]]
+                });
             });
 
             $(document).ready(function() {
@@ -187,13 +191,13 @@
                             url: redirect,
                             success: function(output){
                                 
-                                window.open(new_page, '_blank');
+                                window.open(new_page);
                             }
                         });
                     }
                 } else {
                        //window.location=new_page;
-                         window.open(new_page, '_blank');
+                         window.open(new_page);
                 }
 
 

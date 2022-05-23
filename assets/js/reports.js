@@ -145,6 +145,23 @@ function loadSCGP(){
     }
 }
 
+function LoadExpiredItems(){
+    var date = document.getElementById("date").value;
+    var loc= document.getElementById("baseurl").value;
+    window.location.href = loc+"reports/expired_inventory/"+date;
+}
+
+function LoadSalesBO(){
+    var client = document.getElementById("client").value;
+    if(client==""){
+        alert('Client must not be empty!');
+    }  else {
+
+         var loc= document.getElementById("baseurl").value;
+        window.location.href = loc+"reports/sales_backorder/"+client;
+    }
+}
+
 
 function bill_pay(baseurl){
     var client = document.getElementById("client_id").value;

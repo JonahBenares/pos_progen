@@ -17,18 +17,22 @@
                 </ul>
             </nav>
         </div>
+        <?php
+                //$diff = dateDifference($expiration_date, $today);
+               // if($diff<=7){ ?>
         <div class="row">
             <div class="col-md-6 stretch-card">
-              <a href="<?php echo base_url(); ?>reports/expired_inventory" class="card bg-gradient-danger card-img-holder text-white" style="text-decoration: none;" >
+              <a href="<?php echo base_url(); ?>reports/near_expiry/" class="card bg-gradient-danger card-img-holder text-white" style="text-decoration: none;" >
                 <div class="card-body">
                     <img src="<?php echo base_url(); ?>assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
                     <h4 class="font-weight-normal mb-3">Near Expiry Products </h4>
                     <i class="mdi mdi-timer float-right" style="position: absolute;font-size: 100px;top: 0;right: 0;margin: 25px;"></i>
-                    <h2 class="mb-5"> 99,099</h2>
+                      <h2 class="mb-5"><?php echo $expired ?></h2>
                     <h6 class="card-text">Click to View</h6>
                 </div>
               </a>
             </div>
+            <?php //}?>
             <!-- <div class="col-md-4 stretch-card">
                 <div class="card bg-gradient-primary card-img-holder text-white">
                     <div class="card-body">
@@ -41,12 +45,16 @@
                 </div>
             </div> -->
             <div class="col-md-6 stretch-card">
-                <a href="<?php echo base_url(); ?>backorder/backorder_form" class="card bg-gradient-success card-img-holder text-white" style="text-decoration: none;" >
+                <a href="<?php echo base_url(); ?>sales_backorder/backorder_form/" class="card bg-gradient-success card-img-holder text-white" style="text-decoration: none;" >
                     <div class="card-body">
                         <img src="<?php echo base_url(); ?>assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
                         <h4 class="font-weight-normal mb-3">Sales Back Order </h4>
                         <i class="mdi mdi-replay float-right" style="position: absolute;font-size: 100px;top: 0;right: 0;margin: 25px;"></i>
-                        <h2 class="mb-5">95,5741</h2>
+                        <?php if(!empty($sales_backorder)) { ?>
+                        <h2 class="mb-5"><?php echo $sales_backorder ?></h2>
+                        <?php }else { ?>
+                            <h2 class="mb-5">0</h2>
+                        <?php } ?>
                         <h6 class="card-text">Click to View</h6>
                     </div>
                 </a>
@@ -331,9 +339,7 @@
                     </li>
                   </ul>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
     </div>
   <!-- content-wrapper ends -->

@@ -239,7 +239,11 @@
                                                     <td><?php echo $in['catalog_no'];?></td>
                                                     <td><?php echo $in['brand'];?></td>
                                                     <td><?php echo $in['serial_no'];?></td>
-                                                    <td><?php echo ($in['expiry_date']!='') ? date("Y-m-d",strtotime($in['expiry_date'])) : '' ;?></td>
+                                                    <?php if($in['disposed']==1){ ?>
+                                                        <td><?php echo ($in['expiry_date']!='') ? date("Y-m-d",strtotime($in['expiry_date']))."/"."disposed"  : '' ;?></td>
+                                                    <?php } else{ ?>
+                                                        <td><?php echo ($in['expiry_date']!='') ? date("Y-m-d",strtotime($in['expiry_date'])) : '' ;?></td>
+                                                    <?php } ?>
                                                     <td><?php echo number_format($in['item_cost'],2);?></td>
                                                     <td><?php echo number_format($in['quantity'],2);?></td>
                                                     <td><?php echo number_format($in['remaining_qty'],2);?></td>

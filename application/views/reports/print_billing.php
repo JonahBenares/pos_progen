@@ -80,7 +80,7 @@
                 <tr>
                     <td></td>
                     <td colspan="2">No:</td>
-                    <td colspan="4" class="bor-btm1"><?php echo $h['billing_no'].(($h['adjustment_counter'] == 0) ? '' : '.a'.$h['adjustment_counter']); ?></td>
+                    <td colspan="4" class="bor-btm1"><?php echo $h['billing_no'].(($h['adjustment_counter'] == 0) ? '' : '.r'.$h['adjustment_counter']); ?></td>
                     <td colspan="4"></td>
                     <td></td>
                     <td colspan="3"></td>

@@ -558,6 +558,8 @@ class Items extends CI_Controller {
                             'quantity'=>$in->quantity,
                             'remaining_qty'=>$in->remaining_qty,
                             'supplier'=>$this->super_model->select_column_where('supplier', 'supplier_name','supplier_id', $in->supplier_id),
+                            'disposed'=>$this->super_model->select_column_where('receive_items', 'dispose','receive_id', $in->receive_id),
+
                         );
                 } 
             } 
