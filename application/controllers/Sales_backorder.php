@@ -120,13 +120,14 @@ class Sales_backorder extends CI_Controller {
             );
         }
         foreach($this->super_model->select_custom_where("sales_good_head","sales_good_head_id = '$sales_id' AND saved='1'") AS $bo){
-            $quantity = $this->super_model->select_column_where("sales_good_details", "quantity", "sales_good_head_id", $bo->sales_good_head_id);
+            $sales_qty = $this->super_model->select_column_where("sales_good_details", "quantity", "sales_good_head_id", $bo->sales_good_head_id);
             $expected_qty = $this->super_model->select_column_where("sales_good_details", "expected_qty", "sales_good_head_id", $bo->sales_good_head_id);
             $sales_good_det_id = $this->super_model->select_column_where("sales_good_details", "sales_good_det_id", "sales_good_head_id", $bo->sales_good_head_id);
             $item_id = $this->super_model->select_column_where("sales_good_details", "item_id", "sales_good_head_id", $bo->sales_good_head_id);
             $receive_id = $this->super_model->select_column_where("fifo_in", "receive_id", "in_id", $in_id);
             $supplier_id = $this->super_model->select_column_where("receive_items", "supplier_id", "receive_id", $receive_id);
             $item_cost = $this->super_model->select_column_where("sales_serv_items", "unit_cost", "sales_serv_head_id", $bo->sales_good_head_id);
+            $quantity = $expected_qty - $sales_qty;
             if($expected_qty > $quantity){
             $boqty=$this->backorder_qty_goods($bo->sales_good_head_id);
             $total_cost=$boqty * $item_cost;
@@ -169,13 +170,14 @@ class Sales_backorder extends CI_Controller {
             );
         }
         foreach($this->super_model->select_custom_where("sales_services_head","sales_serv_head_id = '$sales_id' AND saved='1'") AS $bos){
-            $quantity = $this->super_model->select_column_where("sales_serv_items", "quantity", "sales_serv_head_id", $bos->sales_serv_head_id);
+            $sales_qty = $this->super_model->select_column_where("sales_serv_items", "quantity", "sales_serv_head_id", $bos->sales_serv_head_id);
             $expected_qty = $this->super_model->select_column_where("sales_serv_items", "expected_qty", "sales_serv_head_id", $bos->sales_serv_head_id);
             $sales_serv_head_id = $this->super_model->select_column_where("sales_serv_items", "sales_serv_head_id", "sales_serv_head_id", $bos->sales_serv_head_id);
             $item_id = $this->super_model->select_column_where("sales_serv_items", "item_id", "sales_serv_head_id", $bos->sales_serv_head_id);
             $receive_id = $this->super_model->select_column_where("fifo_in", "receive_id", "in_id", $in_id);
             $supplier_id = $this->super_model->select_column_where("receive_items", "supplier_id", "receive_id", $receive_id);
             $item_cost = $this->super_model->select_column_where("sales_serv_items", "unit_cost", "sales_serv_head_id", $bos->sales_serv_head_id);
+            $quantity = $expected_qty - $sales_qty;
             if($expected_qty > $quantity){
             $boqty=$this->backorder_qty_services($bos->sales_serv_head_id);
             $total_cost=$boqty * $item_cost;
@@ -281,7 +283,7 @@ class Sales_backorder extends CI_Controller {
         for($a=0;$a<$counter;$a++){
             $quantity=$this->input->post('quantity['.$a.']');
             $unit_cost= $this->input->post('item_cost['.$a.']');
-            $total=$quantity*$unit_cost;
+            //$total=$quantity*$unit_cost;
              foreach($this->super_model->select_row_where("sales_good_details", "sales_good_det_id", $this->input->post('sales_item_id['.$a.']')) AS $sd){
            
                 $items = array(
@@ -295,8 +297,7 @@ class Sales_backorder extends CI_Controller {
                 'expected_qty'=>$this->input->post('expqty['.$a.']'),
                 'quantity'=>$quantity,
                 'remarks'=> $this->input->post('remarks['.$a.']'),
-                //'total'=> $this->input->post('total_cost['.$a.']'),
-                'total'=> $total,
+                'total'=> $this->input->post('total_cost['.$a.']'),
             );
             
            $sales_item_id = $this->super_model->insert_return_id("sales_good_details", $items);
@@ -381,7 +382,7 @@ class Sales_backorder extends CI_Controller {
         for($a=0;$a<$counter;$a++){
             $quantity=$this->input->post('quantity['.$a.']');
             $unit_cost= $this->input->post('item_cost['.$a.']');
-            $total=$quantity*$unit_cost;
+            //$total=$quantity*$unit_cost;
              foreach($this->super_model->select_row_where("sales_serv_items", "sales_serv_items_id", $this->input->post('sales_item_id['.$a.']')) AS $sd){
            
                 $items = array(
@@ -396,8 +397,7 @@ class Sales_backorder extends CI_Controller {
                 'expected_qty'=>$this->input->post('expqty['.$a.']'),
                 'quantity'=>$quantity,
                 'remarks'=> $this->input->post('remarks['.$a.']'),
-                //'total'=> $this->input->post('total_cost['.$a.']'),
-                'total'=> $total,
+                'total'=> $this->input->post('total_cost['.$a.']'),
             );
             
            $sales_item_id = $this->super_model->insert_return_id("sales_serv_items", $items);
