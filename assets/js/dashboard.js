@@ -201,7 +201,7 @@
               }
             })
     }
-    if ($("#visit-sale-chart").length) {
+    /*if ($("#visit-sale-chart").length) {
       Chart.defaults.global.legend.labels.usePointStyle = true;
       var ctx = document.getElementById('visit-sale-chart').getContext("2d");
 
@@ -319,7 +319,7 @@
           }
       })
       $("#visit-sale-chart-legend").html(myChart.generateLegend());
-    }
+    }*/
     if ($("#visit-sale-chart-dark").length) {
       Chart.defaults.global.legend.labels.usePointStyle = true;
       var ctx = document.getElementById('visit-sale-chart-dark').getContext("2d");

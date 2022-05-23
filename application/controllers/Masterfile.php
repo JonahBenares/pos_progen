@@ -41,6 +41,113 @@ class Masterfile extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function custom_query($q){
+        $col = $this->super_model->custom_query($q);
+        return $col;
+    }
+
+    public function get_name($column, $table, $where){
+        $col = $this->super_model->select_column_custom_where($table, $column, $where);
+        return $col;
+    }
+
+    public function count_custom_where($table, $where){
+        $col = $this->super_model->count_custom_where($table, $where);
+        return $col;
+    }
+
+    public function graph_display_goods(){
+
+        header('Content-Type: application/json');
+        $data = array();
+        $ranges = array(
+            '1_JAN',
+            '2_FEB',
+            '3_MAR',
+            '4_APR',
+            '5_MAY',
+            '6_JUN',
+            '7_JUL',
+            '8_AUG',
+            '9_SEP',
+            '10_OCT',
+            '11_NOV',
+            '12_DEC',
+        );
+
+        for ($i = 0; $i <= count($ranges) - 1; $i++) {
+            $range = explode('_', $ranges[$i]);
+            $month= $range[0];
+            $count_sales1=$this->super_model->count_custom_where('sales_good_head',"client_id='1' AND saved='1' AND MONTH(sales_date) LIKE '%$month%'");
+            $count_sales2=$this->super_model->count_custom_where('sales_good_head',"client_id='2' AND saved='1' AND MONTH(sales_date) LIKE '%$month%'");
+            //$client_name=$this->super_model->select_column_where("client","buyer_name","client_id",$g->client_id);
+            $data[] = array('client_name'=>"",'count_sales1'=>$count_sales1,'count_sales2'=>$count_sales2,'sales_date'=>$range[1]);
+        }
+        /*foreach($this->super_model->custom_query("SELECT * FROM sales_good_head WHERE saved='1' GROUP BY MONTH(sales_date)") AS $g){
+            $date=date("F",strtotime($g->sales_date));
+            //$sales_date=date("Y-m",strtotime($g->sales_date));
+            $sales_date=date("m",strtotime($g->sales_date));
+            $count_sales1=$this->super_model->count_custom_where('sales_good_head',"client_id='1' AND saved='1' AND sales_date LIKE '%$sales_date%'");
+            $count_sales2=$this->super_model->count_custom_where('sales_good_head',"client_id='2' AND saved='1' AND sales_date LIKE '%$sales_date%'");
+            $client_name=$this->super_model->select_column_where("client","buyer_name","client_id",$g->client_id);
+            $data[] = array('client_name'=>$client_name,'count_sales1'=>$count_sales1,'count_sales2'=>$count_sales2,'sales_date'=>$date);
+        }*/
+        echo json_encode($data);
+
+        /*foreach ($this->super_model->custom_query("SELECT client_id,sales_date FROM sales_good_head WHERE saved='1' GROUP BY MONTH(sales_date) ORDER BY client_id ASC") as $row) {
+            $client_name=$this->super_model->select_column_where("client","buyer_name","client_id",$row->client_id);
+            $count_sales_transaction = $this->super_model->count_custom_where("sales_good_head","client_id='$row->client_id' AND saved='1'");
+            $sales_date=date("F",strtotime($row->sales_date));
+            $data[] = array('client_name'=>$client_name,'count_transaction'=>$count_sales_transaction,'sales_date'=>$sales_date);
+        }*/
+    }
+
+    public function graph_display_services(){
+
+        header('Content-Type: application/json');
+        $data = array();
+        $ranges = array(
+            '1_JAN',
+            '2_FEB',
+            '3_MAR',
+            '4_APR',
+            '5_MAY',
+            '6_JUN',
+            '7_JUL',
+            '8_AUG',
+            '9_SEP',
+            '10_OCT',
+            '11_NOV',
+            '12_DEC',
+        );
+
+        for ($i = 0; $i <= count($ranges) - 1; $i++) {
+            $range = explode('_', $ranges[$i]);
+            $month= $range[0];
+            $count_sales1=$this->super_model->count_custom_where('sales_services_head',"client_id='1' AND saved='1' AND MONTH(sales_date) LIKE '%$month%'");
+            $count_sales2=$this->super_model->count_custom_where('sales_services_head',"client_id='2' AND saved='1' AND MONTH(sales_date) LIKE '%$month%'");
+            //$client_name=$this->super_model->select_column_where("client","buyer_name","client_id",$g->client_id);
+            $data[] = array('client_name'=>"",'count_sales1'=>$count_sales1,'count_sales2'=>$count_sales2,'sales_date'=>$range[1]);
+        }
+        /*foreach($this->super_model->custom_query("SELECT * FROM sales_good_head WHERE saved='1' GROUP BY MONTH(sales_date)") AS $g){
+            $date=date("F",strtotime($g->sales_date));
+            //$sales_date=date("Y-m",strtotime($g->sales_date));
+            $sales_date=date("m",strtotime($g->sales_date));
+            $count_sales1=$this->super_model->count_custom_where('sales_good_head',"client_id='1' AND saved='1' AND sales_date LIKE '%$sales_date%'");
+            $count_sales2=$this->super_model->count_custom_where('sales_good_head',"client_id='2' AND saved='1' AND sales_date LIKE '%$sales_date%'");
+            $client_name=$this->super_model->select_column_where("client","buyer_name","client_id",$g->client_id);
+            $data[] = array('client_name'=>$client_name,'count_sales1'=>$count_sales1,'count_sales2'=>$count_sales2,'sales_date'=>$date);
+        }*/
+        echo json_encode($data);
+
+        /*foreach ($this->super_model->custom_query("SELECT client_id,sales_date FROM sales_good_head WHERE saved='1' GROUP BY MONTH(sales_date) ORDER BY client_id ASC") as $row) {
+            $client_name=$this->super_model->select_column_where("client","buyer_name","client_id",$row->client_id);
+            $count_sales_transaction = $this->super_model->count_custom_where("sales_good_head","client_id='$row->client_id' AND saved='1'");
+            $sales_date=date("F",strtotime($row->sales_date));
+            $data[] = array('client_name'=>$client_name,'count_transaction'=>$count_sales_transaction,'sales_date'=>$sales_date);
+        }*/
+    }
+
     public function login_process(){
         $username=$this->input->post('username');
         $password=$this->input->post('password');
