@@ -128,7 +128,7 @@
                                         <tr>
                                             <td class="p-0"><input type='number' class="form-control" name='quantity[]' id="quantity<?php echo $ct; ?>" value="<?php echo $sb['quantity']; ?>" style='width:90px' max="<?php echo $sb['quantity']; ?>"  onkeyup="changeQty(<?php echo $ct; ?>)"></td>
                                             <input type='hidden' name='avail_qty' id='avail_qty<?php echo $ct; ?>' value="<?php echo number_format($sb['quantity']); ?>">
-                                            <td align="right"><?php echo $sb['quantity']; ?></td>
+                                            <td align="right"><?php echo number_format($sb['quantity'],2); ?></td>
                                             <td class="p-0"><input type='text' class="form-control" name='item_cost[]' id="item_cost<?php echo $ct; ?>" value="<?php echo $sb['item_cost']; ?>" style='width:100px' onkeyup="changePrice(<?php echo $ct; ?>)"></td>
                                             <!-- <td class="p-0"><input type="text" class="form-control" name='serial_no[]' id="serial_no<?php echo $ct; ?>" value="<?php echo $sb['serial_no']; ?>"></td> -->
                                             <td><?php echo $sb['serial_no']; ?></td>
