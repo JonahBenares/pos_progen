@@ -351,6 +351,7 @@
     </div>
   </footer>
   <!-- partial -->
+  <canvas id="mybarChart"></canvas>
   <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url();?>">
 </div> 
 <?php 
@@ -380,17 +381,51 @@
         var loc= document.getElementById("baseurl").value;
         var redirect = loc+"masterfile/graph_display_goods";
         $.post(redirect,function (data){
-            //Setup Block
-            var count_sales1 = [];
-            var count_sales2 = [];
-            var sales_date = [];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var start;
+            start = 0;
+            var year;
+            year = parseInt(2022);
+            var salesMonths = [],sumSales = [];
             var client_name = [];
-
-            for (var i in data) {
+            //Setup Block
+            /*var count_sales1 = [];
+            var sales_date = [];*/
+           
+            /*for (var i in data) {
                 count_sales1.push(parseInt(data[i].count_sales1));
-                count_sales2.push(parseInt(data[i].count_sales2));
+                //count_sales2.push(parseInt(data[i].count_sales2));
                 sales_date.push(data[i].sales_date);
                 client_name.push(data[i].client_name);
+            }*/
+
+            //Display Data
+            var Result = [];
+            for (var i in data) {
+                Result.push({
+                    Months:data[i].sales_date,
+                    Counts:data[i].count_sales1
+                });
+                client_name.push(data[i].client_name);
+            }
+
+            //Months Label
+            for (var i = 0; i < 12; i++) {
+                var months = monthNames[start];
+                var monthValue = 0;
+                salesMonths.push(months);
+                start = start + 1;
+                if (start == 12) {
+                    start = 0;
+                    year = year + 1;
+                }
+                var dataObj = $.grep(Result, function(a) {
+                    return a.Months == months
+                })[0];
+
+                //Sum Data 
+                var monthValue = dataObj !== undefined ? dataObj.Counts : 0;
+                sumSales.push(monthValue);
             }
 
             Chart.defaults.global.legend.labels.usePointStyle = true;
@@ -411,9 +446,11 @@
             var gradientLegendRed = 'linear-gradient(to right, rgba(255, 191, 150, 1), rgba(254, 112, 150, 1))';
             var colors=[gradientStrokeViolet,gradientStrokeBlue,gradientStrokeRed]; 
             var colors_legend=[gradientLegendViolet,gradientLegendBlue,gradientLegendRed]; 
+
+            //Legend / Bar Graph / Design Settings
             var data={
-                labels: sales_date,
-                /*datasets: client_name.map((ds, i) => ({
+                labels: salesMonths,
+                datasets: client_name.map((ds, i) => ({
                     label: client_name[i],
                     borderColor: colors[i],
                     backgroundColor: colors[i],
@@ -423,10 +460,10 @@
                     fill: false,
                     borderWidth: 1,
                     fill: 'origin',
-                    data: count_sales1
-                })) */
+                    data: sumSales
+                })) 
 
-                datasets:[
+                /*datasets:[
                     {
                         label: "Central Negros Power Reliability, Inc.",
                         borderColor: gradientStrokeViolet,
@@ -451,10 +488,10 @@
                         fill: 'origin',
                         data: count_sales2
                     },
-                ]
+                ]*/
             };
 
-            //Config Block
+            //Config Block / Display Data
             var config = {
                 type: 'bar',
                 data,
@@ -480,7 +517,8 @@
                                 display: false,
                                 min: 0,
                                 stepSize: 20,
-                                max: 80
+                                maxTicksLimit: 1
+                                //max: 1000000
                             },
                             gridLines: {
                                 drawBorder: false,
@@ -500,8 +538,8 @@
                                 fontColor: "#9c9fa6",
                                 autoSkip: true,
                             },
-                            categoryPercentage: 0.8,
-                            barPercentage:  0.8,
+                            categoryPercentage: 0.7,
+                            barPercentage:  0.7,
                              
                         }]
                     }

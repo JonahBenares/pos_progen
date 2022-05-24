@@ -119,27 +119,31 @@ function dateDifference($date_1 , $date_2)
         header('Content-Type: application/json');
         $data = array();
         $ranges = array(
-            '1_JAN',
-            '2_FEB',
-            '3_MAR',
-            '4_APR',
-            '5_MAY',
-            '6_JUN',
-            '7_JUL',
-            '8_AUG',
-            '9_SEP',
-            '10_OCT',
-            '11_NOV',
-            '12_DEC',
+            '1_Jan',
+            '2_Feb',
+            '3_Mar',
+            '4_Apr',
+            '5_May',
+            '6_Jun',
+            '7_Jul',
+            '8_Aug',
+            '9_Sep',
+            '10_Oct',
+            '11_Nov',
+            '12_Dec',
         );
 
         for ($i = 0; $i <= count($ranges) - 1; $i++) {
             $range = explode('_', $ranges[$i]);
-            $month= $range[0];
-            $count_sales1=$this->super_model->count_custom_where('sales_good_head',"client_id='1' AND saved='1' AND MONTH(sales_date) LIKE '%$month%'");
-            $count_sales2=$this->super_model->count_custom_where('sales_good_head',"client_id='2' AND saved='1' AND MONTH(sales_date) LIKE '%$month%'");
-            //$client_name=$this->super_model->select_column_where("client","buyer_name","client_id",$g->client_id);
-            $data[] = array('client_name'=>"",'count_sales1'=>$count_sales1,'count_sales2'=>$count_sales2,'sales_date'=>$range[1]);
+            foreach($this->super_model->select_custom_where("sales_good_head","MONTH(sales_date)='$range[0]' AND saved='1' GROUP BY MONTH(sales_date)") AS $g){
+                $month= $range[0];
+                $year=date("Y",strtotime($g->sales_date));
+                //$count_sales1=$this->super_model->count_custom_where('sales_good_head',"client_id='1' AND saved='1' AND MONTH(sales_date) LIKE '%$month%'");
+                $count_sales1=$this->super_model->select_sum_join('total',"sales_good_head","sales_good_details","client_id='$g->client_id' AND saved='1' AND MONTH(sales_date) LIKE '%$month%' AND YEAR(sales_date) LIKE '%$year%'","sales_good_head_id");
+                //$count_sales2=$this->super_model->count_custom_where('sales_good_head',"client_id='2' AND saved='1' AND MONTH(sales_date) LIKE '%$month%'");
+                $client_name=$this->super_model->select_column_where("client","buyer_name","client_id",$g->client_id);
+                $data[] = array('client_name'=>$client_name,'count_sales1'=>$count_sales1,'sales_date'=>$range[1]);
+            }
         }
         /*foreach($this->super_model->custom_query("SELECT * FROM sales_good_head WHERE saved='1' GROUP BY MONTH(sales_date)") AS $g){
             $date=date("F",strtotime($g->sales_date));
@@ -150,6 +154,7 @@ function dateDifference($date_1 , $date_2)
             $client_name=$this->super_model->select_column_where("client","buyer_name","client_id",$g->client_id);
             $data[] = array('client_name'=>$client_name,'count_sales1'=>$count_sales1,'count_sales2'=>$count_sales2,'sales_date'=>$date);
         }*/
+        
         echo json_encode($data);
 
         /*foreach ($this->super_model->custom_query("SELECT client_id,sales_date FROM sales_good_head WHERE saved='1' GROUP BY MONTH(sales_date) ORDER BY client_id ASC") as $row) {
