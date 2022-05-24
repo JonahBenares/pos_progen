@@ -324,6 +324,15 @@ class Sales_backorder extends CI_Controller {
             
             $this->super_model->insert_into("fifo_out",$fifo_items);
 
+            $rem_qty = $this->super_model->select_column_where("fifo_in", "remaining_qty", "in_id", $so->in_id);
+
+            $new_rem_qty = $rem_qty- $quantity;
+
+            $data_update = array(
+                'remaining_qty'=>$new_rem_qty
+            );
+            $this->super_model->update_where("fifo_in",$data_update, "in_id", $so->in_id);
+
             }
     }
     } else if($type=='Services') {
@@ -423,6 +432,17 @@ class Sales_backorder extends CI_Controller {
             );
             
             $this->super_model->insert_into("fifo_out",$fifo_items);
+
+
+            $rem_qty = $this->super_model->select_column_where("fifo_in", "remaining_qty", "in_id", $so->in_id);
+
+            $new_rem_qty = $rem_qty- $quantity;
+
+            $data_update = array(
+                'remaining_qty'=>$new_rem_qty
+            );
+            $this->super_model->update_where("fifo_in",$data_update, "in_id", $so->in_id);
+
             }
         }
     }
