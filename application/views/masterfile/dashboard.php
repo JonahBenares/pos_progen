@@ -71,7 +71,7 @@
             </div>
         </div>
         <hr>
-        
+<!--         
         <div class="row">
           <div class="col-md-6 grid-margin stretch-card">
             <div class="card">
@@ -95,7 +95,26 @@
               </div>
             </div>
           </div>
+        </div> -->
+
+
+  <div class="row">
+          <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <div class="clearfix">
+                  <h4 class="card-title float-left">Sales Good Statistics</h4>
+                  <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>
+                </div>
+                <canvas id="visit-sale-chart" class="mt-4"></canvas>
+              </div>
+            </div>
+          </div>
+        
         </div>
+
+
+
         <div class="row">
           <div class="col-12 grid-margin">
             <div class="card">
@@ -372,12 +391,127 @@
     }*/
 ?>
 <script type="text/javascript">
-    $(document).ready(function () {
+   /* $(document).ready(function () {
         showGoodGraph();
         showServiceGraph();
-    });
+    });*/
 
-    function showGoodGraph(){ {
+
+      if ($("#visit-sale-chart").length) {
+      Chart.defaults.global.legend.labels.usePointStyle = true;
+      var ctx = document.getElementById('visit-sale-chart').getContext("2d");
+
+      var gradientStroke1 = ctx.createLinearGradient(0, 0, 0, 181);
+      gradientStroke1.addColorStop(0, 'rgba(218, 140, 255, 1)');
+      gradientStroke1.addColorStop(1, 'rgba(154, 85, 255, 1)');
+      var gradientLegend1 = 'linear-gradient(to right, rgba(218, 140, 255, 1), rgba(154, 85, 255, 1))';
+      
+
+      var gradientStroke2 = ctx.createLinearGradient(0, 0, 0, 300);
+      gradientStroke2.addColorStop(0, 'rgba(255, 191, 150, 1)');
+      gradientStroke2.addColorStop(1, 'rgba(254, 112, 150, 1)');
+      var gradientLegend2 = 'linear-gradient(to right, rgba(255, 191, 150, 1), rgba(254, 112, 150, 1))';
+
+      var gradientStroke3 = ctx.createLinearGradient(0, 0, 0, 360);
+      gradientStroke3.addColorStop(0, 'rgba(54, 215, 232, 1)');
+      gradientStroke3.addColorStop(1, 'rgba(177, 148, 250, 1)');
+      var gradientLegend3 = 'linear-gradient(to right, rgba(54, 215, 232, 1), rgba(177, 148, 250, 1))';
+
+    
+
+      var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+            datasets: [
+             <?php 
+             $color=1;
+             foreach($ci->super_model->select_all("client") AS $c){ ?>
+              {
+                label: "<?php echo $c->short_name; ?>",
+                borderColor: gradientStroke<?php echo $color; ?>,
+                backgroundColor: gradientStroke<?php echo $color; ?>,
+                hoverBackgroundColor: gradientStroke<?php echo $color; ?>,
+                legendColor: gradientLegend<?php echo $color; ?>,
+                pointRadius: 0,
+                fill: false,
+                borderWidth: 1,
+                fill: 'origin',
+                data: [
+                  <?php
+                    for($x=1;$x<=12;$x++){
+
+                      echo $ci->graphic_goods($c->client_id, $x).",";
+                    }
+                  ?>
+                ]
+              },
+            <?php $color++; } ?>
+
+           
+          ]
+        },
+        options: {
+          responsive: true,
+          legend: false,
+          legendCallback: function(chart) {
+            var text = []; 
+            text.push('<ul>'); 
+            for (var i = 0; i < chart.data.datasets.length; i++) { 
+                text.push('<li><span class="legend-dots" style="background:' + 
+                           chart.data.datasets[i].legendColor + 
+                           '"></span>'); 
+                if (chart.data.datasets[i].label) { 
+                    text.push(chart.data.datasets[i].label); 
+                } 
+                text.push('</li>'); 
+            } 
+            text.push('</ul>'); 
+            return text.join('');
+          },
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      display: false,
+                      min: 0,
+                      stepSize: 20,
+                      max: 1000000
+                  },
+                  gridLines: {
+                    drawBorder: false,
+                    color: 'rgba(235,237,242,1)',
+                    zeroLineColor: 'rgba(235,237,242,1)'
+                  }
+              }],
+              xAxes: [{
+                  gridLines: {
+                    display:false,
+                    drawBorder: false,
+                    color: 'rgba(0,0,0,1)',
+                    zeroLineColor: 'rgba(235,237,242,1)'
+                  },
+                  ticks: {
+                      padding: 20,
+                      fontColor: "#9c9fa6",
+                      autoSkip: true,
+                  },
+                  categoryPercentage: 0.5,
+                  barPercentage: 0.5
+              }]
+            }
+          },
+          elements: {
+            point: {
+              radius: 0
+            }
+          }
+      })
+      $("#visit-sale-chart-legend").html(myChart.generateLegend());
+    }
+
+
+
+    function showGoodGraph1(){ {
         var loc= document.getElementById("baseurl").value;
         var redirect = loc+"masterfile/graph_display_goods";
         $.post(redirect,function (data){

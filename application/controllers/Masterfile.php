@@ -211,6 +211,16 @@ function dateDifference($date_1 , $date_2)
         }*/
     }
 
+    public function graphic_goods($client, $month){
+       /* $client=1;
+        $month=4;*/
+        $mo = sprintf("%02d", $month);
+        $date_ym = date('Y')."-".$mo;
+       
+        $sales_goods=$this->super_model->select_sum_join("total","sales_good_head","sales_good_details", "client_id='$client' AND saved='1' AND sales_date LIKE '$date_ym%'","sales_good_head_id");
+        return $sales_goods;
+    }
+
     public function login_process(){
         $username=$this->input->post('username');
         $password=$this->input->post('password');
