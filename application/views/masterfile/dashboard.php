@@ -71,50 +71,30 @@
             </div>
         </div>
         <hr>
-<!--         
         <div class="row">
-          <div class="col-md-6 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <div class="clearfix">
-                  <h4 class="card-title float-left">Sales Good Statistics</h4>
-                  <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="clearfix">
+                            <h4 class="card-title float-left">Sales Good Statistics</h4>
+                            <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>
+                        </div>
+                        <canvas id="visit-sale-chart" class="mt-4"></canvas>
+                    </div>
                 </div>
-                <canvas id="visit-sale-chart" class="mt-4"></canvas>
-              </div>
             </div>
-          </div>
-          <div class="col-md-6 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <div class="clearfix">
-                  <h4 class="card-title float-left">Sales Services Statistics</h4>
-                  <div id="visit-service-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="clearfix">
+                            <h4 class="card-title float-left">Sales Services Statistics</h4>
+                            <div id="visit-service-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>
+                        </div>
+                        <canvas id="visit-service-chart" class="mt-4"></canvas>
+                    </div>
                 </div>
-                <canvas id="visit-service-chart" class="mt-4"></canvas>
-              </div>
             </div>
-          </div>
-        </div> -->
-
-
-  <div class="row">
-          <div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <div class="clearfix">
-                  <h4 class="card-title float-left">Sales Good Statistics</h4>
-                  <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>
-                </div>
-                <canvas id="visit-sale-chart" class="mt-4"></canvas>
-              </div>
-            </div>
-          </div>
-        
         </div>
-
-
-
         <div class="row">
           <div class="col-12 grid-margin">
             <div class="card">
@@ -373,101 +353,71 @@
   <canvas id="mybarChart"></canvas>
   <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url();?>">
 </div> 
-<?php 
-    /*$client_array=array();
-    $count_sales1=array();
-    $count_sales2=array();
-    $date=array();
-    foreach($ci->custom_query("SELECT * FROM client") AS $c){
-        $client_array[]=$c->buyer_name;
-    }*/
-
-   /*foreach($ci->custom_query("SELECT * FROM sales_good_head WHERE saved='1' GROUP BY MONTH(sales_date)") AS $g){
-        
-        $date[]=date("F",strtotime($g->sales_date));
-        $sales_date=date("m",strtotime($g->sales_date));
-        $count_sales1[]=$ci->count_custom_where('sales_good_head',"client_id='$g->client_id' AND saved='1'");
-        $count_sales2[]=$ci->count_custom_where('sales_good_head',"client_id='2' AND saved='1' AND sales_date LIKE '%$sales_date%'");
-    }*/
-?>
 <script type="text/javascript">
-   /* $(document).ready(function () {
-        showGoodGraph();
-        showServiceGraph();
-    });*/
+    if ($("#visit-sale-chart").length) {
+        Chart.defaults.global.legend.labels.usePointStyle = true;
+        var ctx = document.getElementById('visit-sale-chart').getContext("2d");
+
+        var gradientStroke1 = ctx.createLinearGradient(0, 0, 0, 181);
+        gradientStroke1.addColorStop(0, 'rgba(218, 140, 255, 1)');
+        gradientStroke1.addColorStop(1, 'rgba(154, 85, 255, 1)');
+        var gradientLegend1 = 'linear-gradient(to right, rgba(218, 140, 255, 1), rgba(154, 85, 255, 1))';
 
 
-      if ($("#visit-sale-chart").length) {
-      Chart.defaults.global.legend.labels.usePointStyle = true;
-      var ctx = document.getElementById('visit-sale-chart').getContext("2d");
+        var gradientStroke2 = ctx.createLinearGradient(0, 0, 0, 300);
+        gradientStroke2.addColorStop(0, 'rgba(255, 191, 150, 1)');
+        gradientStroke2.addColorStop(1, 'rgba(254, 112, 150, 1)');
+        var gradientLegend2 = 'linear-gradient(to right, rgba(255, 191, 150, 1), rgba(254, 112, 150, 1))';
 
-      var gradientStroke1 = ctx.createLinearGradient(0, 0, 0, 181);
-      gradientStroke1.addColorStop(0, 'rgba(218, 140, 255, 1)');
-      gradientStroke1.addColorStop(1, 'rgba(154, 85, 255, 1)');
-      var gradientLegend1 = 'linear-gradient(to right, rgba(218, 140, 255, 1), rgba(154, 85, 255, 1))';
-      
-
-      var gradientStroke2 = ctx.createLinearGradient(0, 0, 0, 300);
-      gradientStroke2.addColorStop(0, 'rgba(255, 191, 150, 1)');
-      gradientStroke2.addColorStop(1, 'rgba(254, 112, 150, 1)');
-      var gradientLegend2 = 'linear-gradient(to right, rgba(255, 191, 150, 1), rgba(254, 112, 150, 1))';
-
-      var gradientStroke3 = ctx.createLinearGradient(0, 0, 0, 360);
-      gradientStroke3.addColorStop(0, 'rgba(54, 215, 232, 1)');
-      gradientStroke3.addColorStop(1, 'rgba(177, 148, 250, 1)');
-      var gradientLegend3 = 'linear-gradient(to right, rgba(54, 215, 232, 1), rgba(177, 148, 250, 1))';
-
-    
-
-      var myChart = new Chart(ctx, {
+        var gradientStroke3 = ctx.createLinearGradient(0, 0, 0, 360);
+        gradientStroke3.addColorStop(0, 'rgba(54, 215, 232, 1)');
+        gradientStroke3.addColorStop(1, 'rgba(177, 148, 250, 1)');
+        var gradientLegend3 = 'linear-gradient(to right, rgba(54, 215, 232, 1), rgba(177, 148, 250, 1))';
+        var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
             datasets: [
-             <?php 
-             $color=1;
-             foreach($ci->super_model->select_all("client") AS $c){ ?>
-              {
-                label: "<?php echo $c->short_name; ?>",
-                borderColor: gradientStroke<?php echo $color; ?>,
-                backgroundColor: gradientStroke<?php echo $color; ?>,
-                hoverBackgroundColor: gradientStroke<?php echo $color; ?>,
-                legendColor: gradientLegend<?php echo $color; ?>,
-                pointRadius: 0,
-                fill: false,
-                borderWidth: 1,
-                fill: 'origin',
-                data: [
-                  <?php
-                    for($x=1;$x<=12;$x++){
-
-                      echo $ci->graphic_goods($c->client_id, $x).",";
-                    }
-                  ?>
-                ]
-              },
-            <?php $color++; } ?>
-
-           
-          ]
+                <?php 
+                    $color=1;
+                    foreach($ci->super_model->select_all("client") AS $c){ 
+                ?>
+                {
+                    label: "<?php echo $c->short_name; ?>",
+                    borderColor: gradientStroke<?php echo $color; ?>,
+                    backgroundColor: gradientStroke<?php echo $color; ?>,
+                    hoverBackgroundColor: gradientStroke<?php echo $color; ?>,
+                    legendColor: gradientLegend<?php echo $color; ?>,
+                    pointRadius: 0,
+                    fill: false,
+                    borderWidth: 1,
+                    fill: 'origin',
+                    data: [
+                        <?php
+                            for($x=1;$x<=12;$x++){
+                                echo $ci->graphic_goods($c->client_id, $x).",";
+                            }
+                        ?>
+                    ]
+                },
+                <?php $color++; } ?>
+            ]
         },
         options: {
-          responsive: true,
-          legend: false,
-          legendCallback: function(chart) {
-            var text = []; 
-            text.push('<ul>'); 
-            for (var i = 0; i < chart.data.datasets.length; i++) { 
-                text.push('<li><span class="legend-dots" style="background:' + 
-                           chart.data.datasets[i].legendColor + 
-                           '"></span>'); 
-                if (chart.data.datasets[i].label) { 
-                    text.push(chart.data.datasets[i].label); 
+            responsive: true,
+            legend: false,
+            legendCallback: function(chart) {
+                var text = []; 
+                text.push('<ul>'); 
+                for (var i = 0; i < chart.data.datasets.length; i++) { 
+                    text.push('<li><span class="legend-dots" style="background:' + chart.data.datasets[i].legendColor + '"></span>'); 
+                    if (chart.data.datasets[i].label) { 
+                        text.push(chart.data.datasets[i].label); 
+                    } 
+                    text.push('</li>'); 
                 } 
-                text.push('</li>'); 
-            } 
-            text.push('</ul>'); 
-            return text.join('');
+                text.push('</ul>'); 
+                return text.join('');
           },
           scales: {
               yAxes: [{
