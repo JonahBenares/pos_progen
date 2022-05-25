@@ -220,10 +220,8 @@ class Damage extends CI_Controller {
                 "acquisition_cost"=>$det->acquisition_cost
             );
         }
-        $this->load->view('template/header');
-        $this->load->view('template/navbar');
+        $this->load->view('template/print_head');
         $this->load->view('damage/damage_print', $data);
-        $this->load->view('template/footer');
     }
 
     public function damage_list(){

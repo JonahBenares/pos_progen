@@ -370,8 +370,6 @@ class Returns extends CI_Controller {
     public function print_return_goods_services(){
         $return_id=$this->uri->segment(3);
         $data['return_id']=$return_id;
-        $this->load->view('template/header');
-        $this->load->view('template/navbar');
         foreach($this->super_model->select_row_where("return_head","return_id",$return_id) AS $rh){
             $in_id = $this->super_model->select_column_where("return_details","in_id","return_id",$rh->return_id);
             $receive_id=$this->super_model->select_column_where("fifo_in","receive_id","in_id",$in_id);
@@ -437,8 +435,8 @@ class Returns extends CI_Controller {
         $data['client_id']=$client_id;
         $data['damage_qty'] = $this->super_model->select_sum_where("return_details", "damage_qty", "return_id = '$return_id'");
         $data['adjustment_qty'] = $this->super_model->count_custom_where("billing_adjustment_history", "return_id='$return_id' AND status='0'");
+        $this->load->view('template/print_head');
         $this->load->view('returns/print_return_goods_services',$data);
-        $this->load->view('template/footer');
     }
 
     public function return_damage(){

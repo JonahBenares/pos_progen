@@ -12,6 +12,7 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['user_id'] == '')) {
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>POS - PROGEN</title>
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style2.css">
+        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendors/mdi/css/materialdesignicons.min.css">
         <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/images/favicon.ico" />
     </head>
   <body>

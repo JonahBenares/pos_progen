@@ -83,3 +83,10 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+
+define('LOGO','assets/images/logo/progen_logo.png');
+define('COMPANY_NAME','PROGEN DIESELTECH SERVICES CORP.');
+define('ADDRESS','Prk. San Jose, Brgy. Calumangan, Bago City, Neg. Occ.');
+define('TIN','VAT Reg. TIN: 008-726-170-001');
+define('TEL_NO','Tel. No.: (034) 435-1932/476-7382');

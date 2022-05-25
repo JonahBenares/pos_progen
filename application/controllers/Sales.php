@@ -502,8 +502,6 @@ class Sales extends CI_Controller {
 
     public function goods_print_sales(){
         $sales_good_head_id = $this->uri->segment(3);
-        $this->load->view('template/header');
-        $this->load->view('template/navbar');
         foreach($this->super_model->select_custom_where("sales_good_head","sales_good_head_id = '$sales_good_head_id'") AS $sh){
             $client = $this->super_model->select_column_where("client","buyer_name","client_id",$sh->client_id);
             $address = $this->super_model->select_column_where("client","address","client_id",$sh->client_id);
@@ -546,8 +544,8 @@ class Sales extends CI_Controller {
                 );
             }
         }
+        $this->load->view('template/print_head');
         $this->load->view('sales/goods_print_sales',$data);
-        $this->load->view('template/footer');
     }
 
     public function get_serial($sales_details_id, $status){
@@ -934,7 +932,6 @@ class Sales extends CI_Controller {
 
     public function services_print_sales(){
         $sales_serv_head_id = $this->uri->segment(3);
-        $this->load->view('template/header');
         foreach($this->super_model->select_custom_where("sales_services_head","sales_serv_head_id = '$sales_serv_head_id'") AS $sh){
             $client = $this->super_model->select_column_where("client","buyer_name","client_id",$sh->client_id);
             $address = $this->super_model->select_column_where("client","address","client_id",$sh->client_id);
@@ -1035,9 +1032,8 @@ class Sales extends CI_Controller {
                 $data['service_equipment']=array();
             }
         }
-        $this->load->view('template/navbar');
+        $this->load->view('template/print_head');
         $this->load->view('sales/services_print_sales',$data);
-        $this->load->view('template/footer');
     }
 
 
@@ -1045,7 +1041,6 @@ class Sales extends CI_Controller {
         $sales_serv_head_id = $this->uri->segment(3);
         $data['sales_serv_head_id']=$sales_serv_head_id;
         $data['shipping']=$this->super_model->select_all_order_by("shipping_company","company_name","ASC");
-        $this->load->view('template/header');
         foreach($this->super_model->select_custom_where("sales_services_head","sales_serv_head_id = '$sales_serv_head_id'") AS $sh){
             $client = $this->super_model->select_column_where("client","buyer_name","client_id",$sh->client_id);
             $shipping = $this->super_model->select_column_where("shipping_company","company_name","ship_comp_id",$sh->shipped_via);
@@ -1148,9 +1143,8 @@ class Sales extends CI_Controller {
                 $data['service_equipment']=array();
             }
         }
-        $this->load->view('template/navbar');
+        $this->load->view('template/print_head');
         $this->load->view('sales/services_acknow_print', $data);
-        $this->load->view('template/footer');
     }
 
     public function save_ar(){

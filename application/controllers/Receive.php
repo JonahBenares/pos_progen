@@ -421,10 +421,8 @@ class Receive extends CI_Controller {
           // $data['items'][]=array();
 
         }
-        $this->load->view('template/header');
-        $this->load->view('template/navbar');
+        $this->load->view('template/print_head');
         $this->load->view('receive/print_receive',$data);
-        $this->load->view('template/footer');
     }
 
 }

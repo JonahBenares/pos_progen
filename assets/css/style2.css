@@ -3788,6 +3788,102 @@ page[size="A5"][layout="landscape"] {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.alert {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem; }
+
+.alert-heading {
+  color: inherit; }
+
+.alert-link {
+  font-weight: 700; }
+
+.alert-dismissible {
+  padding-right: 4rem; }
+  .alert-dismissible .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    padding: 0.75rem 1.25rem;
+    color: inherit; }
+
+.alert-primary {
+  color: #5f3985;
+  background-color: #f0e2ff;
+  border-color: #ebd6ff; }
+  .alert-primary hr {
+    border-top-color: #dfbdff; }
+  .alert-primary .alert-link {
+    color: #462a61; }
+
+.alert-secondary {
+  color: #656262;
+  background-color: #f3f2f2;
+  border-color: #eeeded; }
+  .alert-secondary hr {
+    border-top-color: #e2e0e0; }
+  .alert-secondary .alert-link {
+    color: #4b4949; }
+
+.alert-success {
+  color: #0e6c5e;
+  background-color: #d1f5f0;
+  border-color: #bff2ea; }
+  .alert-success hr {
+    border-top-color: #aaeee3; }
+  .alert-success .alert-link {
+    color: #083f37; }
+
+.alert-info {
+  color: #0d4876;
+  background-color: #d1e8f9;
+  border-color: #bfdef7; }
+  .alert-info hr {
+    border-top-color: #a8d2f4; }
+  .alert-info .alert-link {
+    color: #082c48; }
+
+.alert-warning {
+  color: #84700a;
+  background-color: #fff7d0;
+  border-color: #fff4bd; }
+  .alert-warning hr {
+    border-top-color: #fff0a4; }
+  .alert-warning .alert-link {
+    color: #554806; }
+
+.alert-danger {
+  color: #84404e;
+  background-color: #ffe5ea;
+  border-color: #ffdae2; }
+  .alert-danger hr {
+    border-top-color: #ffc1ce; }
+  .alert-danger .alert-link {
+    color: #622f3a; }
+
+.alert-light {
+  color: #818182;
+  background-color: #fefefe;
+  border-color: #fdfdfe; }
+  .alert-light hr {
+    border-top-color: #ececf6; }
+  .alert-light .alert-link {
+    color: #686868; }
+
+.alert-dark {
+  color: #20272f;
+  background-color: #d8dbde;
+  border-color: #c9cdd1; }
+  .alert-dark hr {
+    border-top-color: #bbc0c5; }
+  .alert-dark .alert-link {
+    color: #0b0e11; }
+
 @media print {
     page {
         background: white;
@@ -3843,4 +3939,68 @@ table tr td{ font-size: 13px }
 }
 .btn-round{
     border-radius: 20px
+}
+
+.logo-print{
+  /*position: absolute;*/
+  width: 70px;
+}
+
+fieldset {
+    border: solid 2px #e5e5e5;
+    display: block;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-top: 0.35em;
+    padding-bottom: 0.625em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    margin-bottom: 10px;
+}
+
+legend {
+    background-color: #e5e5e5;
+    color: black;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    width: 350px;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: .5rem;
+    line-height: inherit;
+    white-space: normal;
+} 
+
+@media print{
+  fieldset {
+      border: solid 2px #e5e5e5;
+      display: block;
+      margin-left: 2px;
+      margin-right: 2px;
+      padding-top: 0.35em;
+      padding-bottom: 0.625em;
+      padding-left: 0.75em;
+      padding-right: 0.75em;
+      margin-bottom: 10px;
+  }
+
+  legend {
+      background-color: #e5e5e5!important;
+      color: black;
+      padding: 5px 10px;
+      font-size: 14px;
+      font-weight: 600;
+      width: 350px;
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: .5rem;
+      line-height: inherit;
+      white-space: normal;
+  } 
+  body{
+    background: #fff!important;
+  }
 }
