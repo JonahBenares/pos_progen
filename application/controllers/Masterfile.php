@@ -72,22 +72,21 @@ function dateDifference($date_1 , $date_2)
         $week = date('Y-m-d', $end_date);
         $data['expired'] = $this->super_model->count_custom_where("receive_items", "expiration_date <= '$week' AND expiration_date >= '$today'");
         foreach($this->super_model->custom_query("SELECT DISTINCT dr_no, item_id,  sd.sales_good_head_id FROM sales_good_details sd INNER JOIN sales_good_head sh ON sd.sales_good_head_id = sh.sales_good_head_id WHERE saved='1' AND bo='0' GROUP BY dr_no") AS $dr){
-        $expected_qty_goods= $this->get_expected_qty_goods($dr->dr_no,$dr->item_id);
-        $received_qty_goods= $this->get_received_qty_goods($dr->dr_no,$dr->item_id);
-        if($expected_qty_goods>$received_qty_goods){
-        $goods_count = $this->super_model->count_custom_query("SELECT DISTINCT dr_no, item_id,  sd.sales_good_head_id FROM sales_good_details sd INNER JOIN sales_good_head sh ON sd.sales_good_head_id = sh.sales_good_head_id WHERE saved='1' AND bo='0' GROUP BY dr_no");
-    }
-}
+                $expected_qty_goods= $this->get_expected_qty_goods($dr->dr_no,$dr->item_id);
+                $received_qty_goods= $this->get_received_qty_goods($dr->dr_no,$dr->item_id);
+                if($expected_qty_goods>$received_qty_goods){
+                $goods_count = $this->super_model->count_custom_query("SELECT DISTINCT dr_no, item_id,  sd.sales_good_head_id FROM sales_good_details sd INNER JOIN sales_good_head sh ON sd.sales_good_head_id = sh.sales_good_head_id WHERE saved='1' AND bo='0' GROUP BY dr_no");
+            }
+        }
         //$goods_count = $this->super_model->count_custom_where("sales_good_details", "'$received_qty_goods' < '$expected_qty_goods'");
         foreach($this->super_model->custom_query("SELECT DISTINCT dr_no, item_id, si.sales_serv_head_id FROM sales_serv_items si INNER JOIN sales_services_head sh ON si.sales_serv_head_id = sh.sales_serv_head_id WHERE saved='1' AND bo='0' GROUP BY dr_no") AS $drs){
-        $expected_qty_services= $this->get_expected_qty_services($dr->dr_no,$dr->item_id);
-        $received_qty_services= $this->get_received_qty_services($dr->dr_no,$dr->item_id);
-        if($expected_qty_services>$received_qty_services){
-        $service_count = $this->super_model->count_custom_query("SELECT DISTINCT dr_no, item_id, si.sales_serv_head_id FROM sales_serv_items si INNER JOIN sales_services_head sh ON si.sales_serv_head_id = sh.sales_serv_head_id WHERE saved='1' AND bo='0' GROUP BY dr_no");
-    }
-        //$services_count = $this->super_model->count_custom_where("sales_serv_items", "'$received_qty_services' < '$expected_qty_services'");
-
-}       
+                $expected_qty_services= $this->get_expected_qty_services($dr->dr_no,$dr->item_id);
+                $received_qty_services= $this->get_received_qty_services($dr->dr_no,$dr->item_id);
+                if($expected_qty_services>$received_qty_services){
+                $service_count = $this->super_model->count_custom_query("SELECT DISTINCT dr_no, item_id, si.sales_serv_head_id FROM sales_serv_items si INNER JOIN sales_services_head sh ON si.sales_serv_head_id = sh.sales_serv_head_id WHERE saved='1' AND bo='0' GROUP BY dr_no");
+            }
+            //$services_count = $this->super_model->count_custom_where("sales_serv_items", "'$received_qty_services' < '$expected_qty_services'");
+        }       
         if(!empty($goods_count)){
             $data['sales_backorder'] = $goods_count;
         }elseif (!empty($service_count)) {
@@ -99,118 +98,6 @@ function dateDifference($date_1 , $date_2)
         $this->load->view('template/footer');
     }
 
-    public function custom_query($q){
-        $col = $this->super_model->custom_query($q);
-        return $col;
-    }
-
-    public function get_name($column, $table, $where){
-        $col = $this->super_model->select_column_custom_where($table, $column, $where);
-        return $col;
-    }
-
-    public function count_custom_where($table, $where){
-        $col = $this->super_model->count_custom_where($table, $where);
-        return $col;
-    }
-
-    public function graph_display_goods(){
-
-        header('Content-Type: application/json');
-        $data = array();
-        $ranges = array(
-            '1_Jan',
-            '2_Feb',
-            '3_Mar',
-            '4_Apr',
-            '5_May',
-            '6_Jun',
-            '7_Jul',
-            '8_Aug',
-            '9_Sep',
-            '10_Oct',
-            '11_Nov',
-            '12_Dec',
-        );
-
-        for ($i = 0; $i <= count($ranges) - 1; $i++) {
-            $range = explode('_', $ranges[$i]);
-            foreach($this->super_model->select_custom_where("sales_good_head","MONTH(sales_date)='$range[0]' AND saved='1' GROUP BY MONTH(sales_date)") AS $g){
-                $month= $range[0];
-                $year=date("Y",strtotime($g->sales_date));
-                //$count_sales1=$this->super_model->count_custom_where('sales_good_head',"client_id='1' AND saved='1' AND MONTH(sales_date) LIKE '%$month%'");
-                $count_sales1=$this->super_model->select_sum_join('total',"sales_good_head","sales_good_details","client_id='$g->client_id' AND saved='1' AND MONTH(sales_date) LIKE '%$month%' AND YEAR(sales_date) LIKE '%$year%'","sales_good_head_id");
-                //$count_sales2=$this->super_model->count_custom_where('sales_good_head',"client_id='2' AND saved='1' AND MONTH(sales_date) LIKE '%$month%'");
-                $client_name=$this->super_model->select_column_where("client","buyer_name","client_id",$g->client_id);
-                $data[] = array('client_name'=>$client_name,'count_sales1'=>$count_sales1,'sales_date'=>$range[1]);
-            }
-        }
-        /*foreach($this->super_model->custom_query("SELECT * FROM sales_good_head WHERE saved='1' GROUP BY MONTH(sales_date)") AS $g){
-            $date=date("F",strtotime($g->sales_date));
-            //$sales_date=date("Y-m",strtotime($g->sales_date));
-            $sales_date=date("m",strtotime($g->sales_date));
-            $count_sales1=$this->super_model->count_custom_where('sales_good_head',"client_id='1' AND saved='1' AND sales_date LIKE '%$sales_date%'");
-            $count_sales2=$this->super_model->count_custom_where('sales_good_head',"client_id='2' AND saved='1' AND sales_date LIKE '%$sales_date%'");
-            $client_name=$this->super_model->select_column_where("client","buyer_name","client_id",$g->client_id);
-            $data[] = array('client_name'=>$client_name,'count_sales1'=>$count_sales1,'count_sales2'=>$count_sales2,'sales_date'=>$date);
-        }*/
-        
-        echo json_encode($data);
-
-        /*foreach ($this->super_model->custom_query("SELECT client_id,sales_date FROM sales_good_head WHERE saved='1' GROUP BY MONTH(sales_date) ORDER BY client_id ASC") as $row) {
-            $client_name=$this->super_model->select_column_where("client","buyer_name","client_id",$row->client_id);
-            $count_sales_transaction = $this->super_model->count_custom_where("sales_good_head","client_id='$row->client_id' AND saved='1'");
-            $sales_date=date("F",strtotime($row->sales_date));
-            $data[] = array('client_name'=>$client_name,'count_transaction'=>$count_sales_transaction,'sales_date'=>$sales_date);
-        }*/
-    }
-
-    public function graph_display_services(){
-
-        header('Content-Type: application/json');
-        $data = array();
-        $ranges = array(
-            '1_JAN',
-            '2_FEB',
-            '3_MAR',
-            '4_APR',
-            '5_MAY',
-            '6_JUN',
-            '7_JUL',
-            '8_AUG',
-            '9_SEP',
-            '10_OCT',
-            '11_NOV',
-            '12_DEC',
-        );
-
-        for ($i = 0; $i <= count($ranges) - 1; $i++) {
-            $range = explode('_', $ranges[$i]);
-            $month= $range[0];
-            $count_sales1=$this->super_model->count_custom_where('sales_services_head',"client_id='1' AND saved='1' AND MONTH(sales_date) LIKE '%$month%'");
-            $count_sales2=$this->super_model->count_custom_where('sales_services_head',"client_id='2' AND saved='1' AND MONTH(sales_date) LIKE '%$month%'");
-            //$client_name=$this->super_model->select_column_where("client","buyer_name","client_id",$g->client_id);
-            $data[] = array('client_name'=>"",'count_sales1'=>$count_sales1,'count_sales2'=>$count_sales2,'sales_date'=>$range[1]);
-        }
-        /*foreach($this->super_model->custom_query("SELECT * FROM sales_good_head WHERE saved='1' GROUP BY MONTH(sales_date)") AS $g){
-            $date=date("F",strtotime($g->sales_date));
-            //$sales_date=date("Y-m",strtotime($g->sales_date));
-            $sales_date=date("m",strtotime($g->sales_date));
-            $count_sales1=$this->super_model->count_custom_where('sales_good_head',"client_id='1' AND saved='1' AND sales_date LIKE '%$sales_date%'");
-            $count_sales2=$this->super_model->count_custom_where('sales_good_head',"client_id='2' AND saved='1' AND sales_date LIKE '%$sales_date%'");
-            $client_name=$this->super_model->select_column_where("client","buyer_name","client_id",$g->client_id);
-            $data[] = array('client_name'=>$client_name,'count_sales1'=>$count_sales1,'count_sales2'=>$count_sales2,'sales_date'=>$date);
-        }*/
-        echo json_encode($data);
-
-        /*foreach ($this->super_model->custom_query("SELECT client_id,sales_date FROM sales_good_head WHERE saved='1' GROUP BY MONTH(sales_date) ORDER BY client_id ASC") as $row) {
-            $client_name=$this->super_model->select_column_where("client","buyer_name","client_id",$row->client_id);
-            $count_sales_transaction = $this->super_model->count_custom_where("sales_good_head","client_id='$row->client_id' AND saved='1'");
-            $sales_date=date("F",strtotime($row->sales_date));
-            $data[] = array('client_name'=>$client_name,'count_transaction'=>$count_sales_transaction,'sales_date'=>$sales_date);
-        }*/
-    }
-
     public function graphic_goods($client, $month){
        /* $client=1;
         $month=4;*/
@@ -218,6 +105,16 @@ function dateDifference($date_1 , $date_2)
         $date_ym = date('Y')."-".$mo;
        
         $sales_goods=$this->super_model->select_sum_join("total","sales_good_head","sales_good_details", "client_id='$client' AND saved='1' AND sales_date LIKE '$date_ym%'","sales_good_head_id");
+        return $sales_goods;
+    }
+
+    public function graphic_services($client, $month){
+       /* $client=1;
+        $month=4;*/
+        $mo = sprintf("%02d", $month);
+        $date_ym = date('Y')."-".$mo;
+       
+        $sales_goods=$this->super_model->select_sum_join("total","sales_services_head","sales_serv_items", "client_id='$client' AND saved='1' AND sales_date LIKE '$date_ym%'","sales_serv_head_id");
         return $sales_goods;
     }
 
