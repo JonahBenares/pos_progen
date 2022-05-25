@@ -27,7 +27,7 @@
                         <div class="col-lg-4 offset-lg-7 col-md-4 offset-md-4">
                             <div class="auth-form-light text-left p-5">
                                 <div class="brand-logo">
-                                    <img src="<?php echo base_url(); ?>assets/images/logo.svg">
+                                    <img src="<?php echo base_url(); ?>assets/images/logo.png">
                                 </div>
                                 <h4>Hello! let's get started</h4>
                                 <h6 class="font-weight-light">Sign in to continue.</h6>
