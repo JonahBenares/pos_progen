@@ -1144,7 +1144,14 @@ function dateDifference($date_1 , $date_2)
          }
     
     }
-         
+        
+
+    public function bulk_upload(){
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('masterfile/bulk_upload');
+        $this->load->view('template/footer');
+    } 
 
 
     

@@ -6851,6 +6851,15 @@ a.close.disabled {
       content: "";
       border-color: transparent;
       border-style: solid; }
+.tooltip-info .tooltip-inner {
+    background: -webkit-gradient(linear, left top, right top, from(#90caf9), color-stop(99%, #047edf));
+    background: linear-gradient(to right, #90caf9, #047edf 99%);
+    color: #ffffff;
+}
+.tooltip-info.bs-tooltip-bottom .arrow::before, .tooltip-info.bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
+    border-bottom-color: #198ae3!!important;
+}
+
 
 .bs-tooltip-top, .bs-tooltip-auto[x-placement^="top"] {
   padding: 0.4rem 0; }
@@ -6890,7 +6899,7 @@ a.close.disabled {
     .bs-tooltip-left .arrow::before, .bs-tooltip-auto[x-placement^="left"] .arrow::before {
       left: 0;
       border-width: 0.4rem 0 0.4rem 0.4rem;
-      border-left-color: #000; }
+      border-left-color: #198ae3; }
 
 .tooltip-inner {
   max-width: 200px;

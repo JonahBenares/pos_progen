@@ -1,4 +1,7 @@
 <?php $ci =& get_instance(); ?>
+<style type="text/css">
+    
+</style>
 <div class="container-scroller">
     <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
@@ -19,7 +22,12 @@
                   </div>
                 </form>
             </div>
-            <ul class="navbar-nav navbar-nav-right">                
+            <ul class="navbar-nav navbar-nav-right">     
+                <li class="nav-item d-none d-lg-block ">
+                    <a href="<?php echo base_url(); ?>masterfile/bulk_upload" class="nav-link" data-toggle="tooltip" data-placement="left" data-custom-class="tooltip-info" title="" data-original-title="Bulk Upload">
+                        <i class="mdi mdi-upload"></i>
+                    </a>
+                </li>           
                 <li class="nav-item d-none d-lg-block full-screen-link">
                     <a class="nav-link">
                         <i class="mdi mdi-fullscreen" id="fullscreen-button"></i>
