@@ -35,10 +35,13 @@
                                 <td width=""></td>
                             </tr>
                             <tr>
+                            <form method='POST' action='upload_excel' enctype="multipart/form-data">
                                 <td class="pt-0 pb-0">Item Inventory</td>
-                                <td class="pt-0 pb-0"><a href="">Download Inventory Format</a></td>
-                                <td class="pt-0 pb-0"><input type="file" class="form-control" name=""></td>
-                                <td class="pt-0 pb-0"><input type="button" class="btn btn-info btn-sm btn-block btn-rounded" name="" value="Upload"></td>
+                                <td class="pt-0 pb-0"><a href='<?php echo base_url(); ?>index.php/masterfile/export_inventory'>Download Inventory Format</a></td>
+                                <td class="pt-0 pb-0"><input type='file' class="form-control" name='excelfile' id = "file" required></td>
+                                <!-- <td class="pt-0 pb-0"><input type="button" class="btn btn-info btn-sm btn-block btn-rounded" name="" value="Upload"></td> -->
+                                <td class="pt-0 pb-0"><button type = "submit" class="btn btn-info btn-sm btn-block btn-rounded"  name='uploadexcel' id="submitButton" >Upload</button></td>
+                            </form>
                             </tr>
                             <tr>
                                 <td class="pt-0 pb-0">Beginning Balance</td>

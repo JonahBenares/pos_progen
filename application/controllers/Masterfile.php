@@ -1153,6 +1153,218 @@ function dateDifference($date_1 , $date_2)
         $this->load->view('template/footer');
     } 
 
+    public function export_inventory(){
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $exportfilename="inventory_format.xlsx";
+       
+        $objPHPExcel = new PHPExcel();
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', "Item Description");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', "Cat ID");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "Subcat ID");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', "Subcat Prefix");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1', "Unit");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', "PN No");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1', "Rack ID");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1', "Group ID");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1', "WH ID");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1', "Location ID");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1', "Instructions:");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L2', "Get Cat ID, Subcat CatID and Subcat Prefix in the reference sheet");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L3', "Leave PN No. column blank if there's none, system will generate if empty");
+        $objPHPExcel->getActiveSheet()->getStyle('A1:J1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('L1')->getFont()->setBold(true);
+
+        $Category = $objPHPExcel->createSheet();
+        $Category->setTitle("Category");
+        $objPHPExcel->setActiveSheetIndex(1)->setCellValue('A1', "Cat/Subcat ID");
+        $objPHPExcel->setActiveSheetIndex(1)->setCellValue('B1', "Category/Subcategory Name");
+        $objPHPExcel->setActiveSheetIndex(1)->setCellValue('C1', "Subcategory Prefix");
+        $objPHPExcel->setActiveSheetIndex(1)->setCellValue('G1', "Instructions:");
+        $objPHPExcel->setActiveSheetIndex(1)->setCellValue('G2', "Highlighted in yellow are the categories");
+        $objPHPExcel->setActiveSheetIndex(1)->setCellValue('G3', "Below are its subcategories");
+        $num = 2;
+       // $num1=3;
+        foreach($this->super_model->select_all("item_categories") AS $cat){
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":C".$num)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('f4e542');
+                $objPHPExcel->setActiveSheetIndex(1)->setCellValue('A'.$num, $cat->cat_id);
+                $objPHPExcel->setActiveSheetIndex(1)->setCellValue('B'.$num, $cat->cat_name);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num.":C".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('A1:G1')->getFont()->setBold(true);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getFont()->setBold(true);
+                $objPHPExcel->getActiveSheet()->getStyle('B'.$num)->getFont()->setBold(true);
+            foreach($this->super_model->select_row_where("item_subcat","cat_id",$cat->cat_id) AS $sub){
+                $num++;
+                $objPHPExcel->setActiveSheetIndex(1)->setCellValue('A'.$num, $sub->subcat_id);
+                $objPHPExcel->setActiveSheetIndex(1)->setCellValue('B'.$num, $sub->subcat_name);
+                $objPHPExcel->setActiveSheetIndex(1)->setCellValue('C'.$num, $sub->subcat_prefix);
+                $objPHPExcel->getActiveSheet()->getStyle('A'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $objPHPExcel->getActiveSheet()->getStyle('C'.$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            } 
+            $num++;
+        }
+        $Rack = $objPHPExcel->createSheet();
+        $Rack->setTitle("Rack");
+        $objPHPExcel->setActiveSheetIndex(2)->setCellValue('A1', "Rack ID");
+        $objPHPExcel->setActiveSheetIndex(2)->setCellValue('B1', "Rack Name");
+        $num=2;
+        foreach($this->super_model->select_all("rack") AS $rack){
+            $objPHPExcel->setActiveSheetIndex(2)->setCellValue('A'.$num, $rack->rack_id);
+            $objPHPExcel->setActiveSheetIndex(2)->setCellValue('B'.$num, $rack->rack_name);
+            $num++;
+        }
+
+        $Group = $objPHPExcel->createSheet();
+        $Group->setTitle("Group");
+            $objPHPExcel->setActiveSheetIndex(3)->setCellValue('A1', "Group ID");
+            $objPHPExcel->setActiveSheetIndex(3)->setCellValue('B1', "Group Name");
+            $num=2;
+            foreach($this->super_model->select_all("groups") AS $group){
+                $objPHPExcel->setActiveSheetIndex(3)->setCellValue('A'.$num, $group->group_id);
+                $objPHPExcel->setActiveSheetIndex(3)->setCellValue('B'.$num, $group->group_name);
+                $num++;
+            }
+        $location = $objPHPExcel->createSheet();
+        $location->setTitle("Location");
+            $objPHPExcel->setActiveSheetIndex(4)->setCellValue('A1', "Location ID");
+            $objPHPExcel->setActiveSheetIndex(4)->setCellValue('B1', "Location Name");
+            $num=2;
+            foreach($this->super_model->select_all("location") AS $location){
+                $objPHPExcel->setActiveSheetIndex(4)->setCellValue('A'.$num, $location->location_id);
+                $objPHPExcel->setActiveSheetIndex(4)->setCellValue('B'.$num, $location->location_name);
+                $num++;
+            }
+        $warehouse = $objPHPExcel->createSheet();
+        $warehouse->setTitle("Warehouse");
+            $objPHPExcel->setActiveSheetIndex(5)->setCellValue('A1', "Warehouse ID");
+            $objPHPExcel->setActiveSheetIndex(5)->setCellValue('B1', "Warehouse Name");
+            $num=2;
+            foreach($this->super_model->select_all("warehouse") AS $warehouse){
+                $objPHPExcel->setActiveSheetIndex(5)->setCellValue('A'.$num, $warehouse->warehouse_id);
+                $objPHPExcel->setActiveSheetIndex(5)->setCellValue('B'.$num, $warehouse->warehouse_name);
+                $num++;
+            }
+        $unit = $objPHPExcel->createSheet();
+        $unit->setTitle("UOM");
+            $objPHPExcel->setActiveSheetIndex(6)->setCellValue('A1', "Unit ID");
+            $objPHPExcel->setActiveSheetIndex(6)->setCellValue('B1', "Unit Name");
+            $num=2;
+            foreach($this->super_model->select_all("uom") AS $unit){
+                $objPHPExcel->setActiveSheetIndex(6)->setCellValue('A'.$num, $unit->unit_id);
+                $objPHPExcel->setActiveSheetIndex(6)->setCellValue('B'.$num, $unit->unit_name);
+                $num++;
+            }
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if (file_exists($exportfilename))
+        unlink($exportfilename);
+        $objWriter->save($exportfilename);
+        unset($objPHPExcel);
+        unset($objWriter);   
+        ob_end_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="inventory_format.xlsx"');
+        readfile($exportfilename);
+        echo "<script>window.location = 'import_items';</script>";
+    }
+
+    public function upload_excel(){
+         $dest= realpath(APPPATH . '../uploads/excel/');
+         $error_ext=0;
+        if(!empty($_FILES['excelfile']['name'])){
+            $exc= basename($_FILES['excelfile']['name']);
+            $exc=explode('.',$exc);
+            $ext1=$exc[1];
+            if($ext1=='php' || $ext1!='xlsx'){
+                $error_ext++;
+            } 
+            else {
+                $filename1='item_inventory.'.$ext1;
+                if(move_uploaded_file($_FILES["excelfile"]['tmp_name'], $dest.'/'.$filename1)){
+                     $this->readExcel_inv();
+                }        
+            }
+        }
+    }
+
+    public function readExcel_inv(){
+        require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
+        $objPHPExcel = new PHPExcel();
+        $inputFileName =realpath(APPPATH.'../uploads/excel/item_inventory.xlsx');
+        try {
+            $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objReader->load($inputFileName);
+        } 
+        catch(Exception $e) {
+            die('Error loading file"'.pathinfo($inputFileName,PATHINFO_BASENAME).'": '.$e->getMessage());
+        }
+        $objPHPExcel->setActiveSheetIndex(0);
+        $highestRow = $objPHPExcel->getActiveSheet()->getHighestRow(); 
+        for($x=2;$x<=$highestRow;$x++){
+            $timestamp = date('Y-m-d H:i:s');
+            $desc = $objPHPExcel->getActiveSheet()->getCell('A'.$x)->getValue();
+            $cat_id = trim($objPHPExcel->getActiveSheet()->getCell('B'.$x)->getValue());
+            $subcat_id = trim($objPHPExcel->getActiveSheet()->getCell('C'.$x)->getValue());
+            $prefix = trim($objPHPExcel->getActiveSheet()->getCell('D'.$x)->getValue());
+            $unit = trim($objPHPExcel->getActiveSheet()->getCell('E'.$x)->getValue());
+            $pn = trim($objPHPExcel->getActiveSheet()->getCell('F'.$x)->getValue());
+            $rack_id = trim($objPHPExcel->getActiveSheet()->getCell('G'.$x)->getValue());
+            $group_id = trim($objPHPExcel->getActiveSheet()->getCell('H'.$x)->getValue());
+            $wh_id = trim($objPHPExcel->getActiveSheet()->getCell('I'.$x)->getValue());
+            $location_id = trim($objPHPExcel->getActiveSheet()->getCell('J'.$x)->getValue());
+            //echo $desc . "<br>";
+            if(empty($pn)){
+                $count=$this->super_model->count_rows_where("pn_series","subcat_prefix",$prefix);
+                if($count==0){
+                    $newpn='1001';
+                    $orig_pn = $prefix."_".$newpn;
+                } else {
+                    $maxid=$this->super_model->get_max_where("pn_series", "series", "subcat_prefix = '$prefix'");
+                    $newpn=$maxid+1;
+                    $orig_pn = $prefix."_".$newpn;
+                }
+                $data_pn = array(
+                    'subcat_prefix'=>$prefix,
+                    'series'=>$newpn
+                );
+                //print_r($data_pn);//
+                $this->super_model->insert_into("pn_series", $data_pn);
+                $data_items = array(
+                    'item_name'=>$desc,
+                    'category_id'=>$cat_id,
+                    'subcat_id'=>$subcat_id,
+                    'unit_id'=>$unit,
+                    'original_pn'=>$orig_pn,
+                    'rack_id'=>$rack_id,
+                    'group_id'=>$group_id,
+                    'warehouse_id'=>$wh_id,
+                    'location_id'=>$location_id,
+                    'date_uploaded'=>$timestamp,
+                    'uploaded_by'=>$_SESSION['user_id']
+                );
+                //print_r($data_items);//
+                $this->super_model->insert_into("items", $data_items);
+            } else {
+                $data_items = array(
+                    'item_name'=>$desc,
+                    'category_id'=>$cat_id,
+                    'subcat_id'=>$subcat_id,
+                    'unit_id'=>$unit,
+                    'original_pn'=>$pn,
+                    'rack_id'=>$rack_id,
+                    'group_id'=>$group_id,
+                    'warehouse_id'=>$wh_id,
+                    'location_id'=>$location_id,
+                    'date_uploaded'=>$timestamp,
+                    'uploaded_by'=>$_SESSION['user_id']
+                );
+              //  print_r($data_items);//
+                $this->super_model->insert_into("items", $data_items);
+            }
+        }
+        echo "<script>alert('Successfully uploaded!'); window.location = 'bulk_upload';</script>";
+    }
+
 
     
 
