@@ -1562,6 +1562,7 @@ function dateDifference($date_1 , $date_2)
     }
 
     public function export_begbal(){
+        $date = date("Y-m-d");
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
         $objPHPExcel = new PHPExcel();
         $exportfilename="begbal_format.xlsx";
@@ -1571,6 +1572,7 @@ function dateDifference($date_1 , $date_2)
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', "Item Description");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "Remarks");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', "Quantity");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1', "Date");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1', "Instructions:");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I2', "Just fill out quantity column. Do not edit other columns.");
         $num=2;
@@ -1579,9 +1581,10 @@ function dateDifference($date_1 , $date_2)
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $items->item_name);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, 'begbal');
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, '');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, $date);
             $num++;
         }
-        $objPHPExcel->getActiveSheet()->getStyle('A1:D1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('I1')->getFont()->setBold(true);
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
@@ -1632,12 +1635,13 @@ function dateDifference($date_1 , $date_2)
             $itemid = trim($objPHPExcel->getActiveSheet()->getCell('A'.$x)->getValue());
             $catalog = trim($objPHPExcel->getActiveSheet()->getCell('C'.$x)->getValue());
             $qty = trim($objPHPExcel->getActiveSheet()->getCell('D'.$x)->getValue());
+            $begbal_date = trim($objPHPExcel->getActiveSheet()->getCell('E'.$x)->getValue());
             
             $data_begbal = array(
                 'item_id'=>$itemid,
                 'catalog_no'=>$catalog,
                 'quantity'=>$qty,
-                'begbal_date'=>date("Y-m-d H:i:s"),
+                'begbal_date'=>$begbal_date." ".date("H:i:s"),
                 "date_uploaded"=>date("Y-m-d H:i:s"),
                 "uploaded_by"=>$_SESSION['user_id'],
             );
@@ -1648,7 +1652,9 @@ function dateDifference($date_1 , $date_2)
                 'item_id'=>$itemid,
                 'catalog_no'=>$catalog,
                 'quantity'=>$qty,
-                'remaining_qty'=>$qty
+                'remaining_qty'=>$qty,
+                'expiry_date'=>'',
+                'receive_date'=>$begbal_date." ".date("H:i:s"),
             );
             $this->super_model->insert_into("fifo_in", $data_items);
         }
