@@ -2183,8 +2183,8 @@ class Reports extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A7', "Purpose:");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A9', "No.");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B9', "Item Description");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F9', "Received Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H9', "Begbal Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F9', "Begbal Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H9', "Received Qty");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J9', "Sales Qty");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L9', "Initial Balance");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N9', "Return Qty");
@@ -2253,8 +2253,8 @@ class Reports extends CI_Controller {
 
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $x);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $item);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $received_qty);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $begbal);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $begbal);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $received_qty);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $sales_all);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $in_balance);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $sales_ret); 
@@ -2446,8 +2446,8 @@ class Reports extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A6', "Item:");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A9', "No.");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B9', "PR No");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F9', "Received Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H9', "Begbal Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F9', "Begbal Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H9', "Received Qty");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J9', "Sales Qty");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L9', "Initial Balance");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N9', "Return Qty");
@@ -2514,8 +2514,8 @@ class Reports extends CI_Controller {
 
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $x);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $head->pr_no);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $received_qty);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $begbal);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $begbal);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $received_qty);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $sales_all);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $in_balance);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $sales_ret); 
