@@ -2098,7 +2098,7 @@ class Reports extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id,rd_id,supplier_id,brand FROM fifo_in WHERE pr_no = '$pr' GROUP BY item_id") AS $head){
-            $begbal = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date='' AND catalog_no='begbal'");
+            $begbal = $this->super_model->select_sum_where("fifo_in","quantity","item_id='$head->item_id' AND catalog_no='begbal'");
             $purpose_id = $this->super_model->select_column_where("receive_details","purpose_id","rd_id",$head->rd_id);
             $data['purpose'] = $this->super_model->select_column_where("purpose", "purpose_desc", "purpose_id", $purpose_id);
             $sales_good_rem_qty = $this->super_model->select_sum_where("fifo_out","remaining_qty","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
@@ -2211,7 +2211,7 @@ class Reports extends CI_Controller {
         );
         $x = 1;
         foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id,rd_id,supplier_id,brand FROM fifo_in WHERE pr_no = '$pr' GROUP BY item_id") AS $head){
-            $begbal = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date='' AND catalog_no='begbal'");
+            $begbal = $this->super_model->select_sum_where("fifo_in","quantity","item_id='$head->item_id' AND catalog_no='begbal'");
             $item = $this->super_model->select_column_where("items","item_name","item_id",$head->item_id);
             $sales_good_rem_qty = $this->super_model->select_sum_where("fifo_out","remaining_qty","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
             $expired_qty = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date!=''");
@@ -2365,7 +2365,7 @@ class Reports extends CI_Controller {
             //$sales_good_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
             $sales_good_rem_qty = $this->super_model->select_sum_where("fifo_out","remaining_qty","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
             //$sales_service_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type='Sales Services'");
-            $begbal = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date='' AND catalog_no='begbal'");
+            $begbal = $this->super_model->select_sum_where("fifo_in","quantity","item_id='$head->item_id' AND catalog_no='begbal'");
             $expired_qty = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date!=''");
             $return_qty= $this->super_model->select_sum_join("return_qty","return_details","sales_good_details","in_id='$head->in_id' AND sales_good_details.return_id!='0'","return_id");
             $return_qty_serv= $this->super_model->select_sum_join("return_qty","return_details","sales_serv_items","in_id='$head->in_id' AND sales_serv_items.return_id!='0'","return_id");
@@ -2473,7 +2473,7 @@ class Reports extends CI_Controller {
         );
         $x = 1;
         foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id,supplier_id,brand FROM fifo_in WHERE item_id = '$item_id' GROUP BY pr_no") AS $head){
-            $begbal = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date='' AND catalog_no='begbal'");
+            $begbal = $this->super_model->select_sum_where("fifo_in","quantity","item_id='$head->item_id' AND catalog_no='begbal'");
             $sales_good_rem_qty = $this->super_model->select_sum_where("fifo_out","remaining_qty","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
             $expired_qty = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date!=''");
             $return_qty= $this->super_model->select_sum_join("return_qty","return_details","sales_good_details","in_id='$head->in_id' AND sales_good_details.return_id!='0'","return_id");
