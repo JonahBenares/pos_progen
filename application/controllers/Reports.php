@@ -1605,6 +1605,41 @@ class Reports extends CI_Controller {
                 'create_date'=>$ret->create_date
             );
         }
+
+        foreach($this->super_model->custom_query("SELECT * FROM begbal WHERE item_id = '$item_id'") AS $beg){
+            //$client = $this->super_model->select_column_where("client", "buyer_name", "client_id", $rep->client_id);
+            //$receive_id = $this->super_model->select_column_where("fifo_in","receive_id","in_id",$rep->in_id);
+            $brand = $this->super_model->select_column_where("fifo_in","brand","begbal_id",$beg->begbal_id);
+            $catalog_no = $this->super_model->select_column_where("fifo_in","catalog_no","begbal_id",$beg->begbal_id);
+            //$supplier_id = $this->super_model->select_column_where("fifo_in","supplier_id","begbal_id",$beg->begbal_id);
+            //$supplier = $this->super_model->select_column_where("supplier", "supplier_name", "supplier_id", $supplier_id);
+            //$pr_no = $this->super_model->select_column_where("fifo_in","pr_no","receive_id",$receive_id);
+            //$po_no = $this->super_model->select_column_where("receive_head","po_no","receive_id",$receive_id);
+            //$total_cost = $rep->quantity*$rep->repair_price;
+            $data['stockcard'][]=array(
+                'date'=>$beg->begbal_date,
+                'create_date'=>$beg->date_uploaded,
+                'supplier'=>'',
+                'pr_no'=>'',
+                'po_no'=>'',
+                'catalog_no'=>$beg->catalog_no,
+                'brand'=>'',
+                'item_cost'=>'0.00',
+                'quantity'=>$beg->quantity,
+                'remaining_qty'=>'',
+                'series'=>'8',
+                'method'=>'Begbal',
+            );
+
+            $data['balance'][] = array(
+                'series'=>'8',
+                'method'=>'Begbal',
+                'quantity'=>$beg->quantity,
+                'remaining_qty'=>'',
+                'date'=>$beg->begbal_date,
+                'create_date'=>$beg->date_uploaded
+            );
+        }
         $this->load->view('reports/stock_card',$data);
         $this->load->view('template/footer');
     }
@@ -1853,6 +1888,41 @@ class Reports extends CI_Controller {
             );
         }
 
+        foreach($this->super_model->custom_query("SELECT * FROM begbal WHERE item_id = '$item_id'") AS $beg){
+            //$client = $this->super_model->select_column_where("client", "buyer_name", "client_id", $rep->client_id);
+            //$receive_id = $this->super_model->select_column_where("fifo_in","receive_id","in_id",$rep->in_id);
+            $brand = $this->super_model->select_column_where("fifo_in","brand","begbal_id",$beg->begbal_id);
+            $catalog_no = $this->super_model->select_column_where("fifo_in","catalog_no","begbal_id",$beg->begbal_id);
+            //$supplier_id = $this->super_model->select_column_where("fifo_in","supplier_id","begbal_id",$beg->begbal_id);
+            //$supplier = $this->super_model->select_column_where("supplier", "supplier_name", "supplier_id", $supplier_id);
+            //$pr_no = $this->super_model->select_column_where("fifo_in","pr_no","receive_id",$receive_id);
+            //$po_no = $this->super_model->select_column_where("receive_head","po_no","receive_id",$receive_id);
+            //$total_cost = $rep->quantity*$rep->repair_price;
+            $data['stockcard'][]=array(
+                'date'=>$beg->begbal_date,
+                'create_date'=>$beg->date_uploaded,
+                'supplier'=>'',
+                'pr_no'=>'',
+                'po_no'=>'',
+                'catalog_no'=>$beg->catalog_no,
+                'brand'=>'',
+                'item_cost'=>'0.00',
+                'quantity'=>$beg->quantity,
+                'remaining_qty'=>'',
+                'series'=>'8',
+                'method'=>'Begbal',
+            );
+
+            $data['balance'][] = array(
+                'series'=>'8',
+                'method'=>'Begbal',
+                'quantity'=>$beg->quantity,
+                'remaining_qty'=>'',
+                'date'=>$beg->begbal_date,
+                'create_date'=>$beg->date_uploaded
+            );
+        }
+
         //DateTime//
         if(!empty($stockcard)){
             foreach ($stockcard as $key => $row) {
@@ -1872,7 +1942,7 @@ class Reports extends CI_Controller {
             array_multisort($date, SORT_ASC, $cdate, SORT_ASC, $balance);
             $total_bal=0;
             foreach($balance AS $sc){
-                if($sc['method'] == 'Receive' || $sc['method'] == 'Repaired' || $sc['method'] == 'Return'){ 
+                if($sc['method'] == 'Receive' || $sc['method'] == 'Repaired' || $sc['method'] == 'Return' || $sc['method'] == 'Begbal'){ 
                     $total_bal += $sc['quantity'];
                 }else if($sc['method'] == 'Sales Good' || $sc['method'] == 'Sales Services' || $sc['method'] == 'Damaged') {
                     $total_bal -= $sc['quantity'];
@@ -1887,7 +1957,7 @@ class Reports extends CI_Controller {
         if(!empty($stockcard)){
             $run_bal=0;
             foreach($balance AS $s){
-                if($s['method'] == 'Receive' || $s['method'] == 'Repaired' || $s['method'] == 'Return'){ 
+                if($s['method'] == 'Receive' || $s['method'] == 'Repaired' || $s['method'] == 'Return' || $s['method'] == 'Begbal'){ 
                     $run_bal += $s['quantity'];
                 }else if($s['method'] == 'Sales Good' || $s['method'] == 'Sales Services' || $s['method'] == 'Damaged') {
                     $run_bal -= $s['quantity'];
@@ -1917,6 +1987,8 @@ class Reports extends CI_Controller {
                     $badge = 'badge-danger';
                 }else if($stockcard[$x]['method']=='Expired'){
                     $badge = 'badge-danger';
+                }else if($stockcard[$x]['method']=='Begbal'){
+                    $badge = 'badge-warning';
                 }
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $stockcard[$x]['date']);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $stockcard[$x]['supplier']);
@@ -2026,6 +2098,7 @@ class Reports extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id,rd_id,supplier_id,brand FROM fifo_in WHERE pr_no = '$pr' GROUP BY item_id") AS $head){
+            $begbal = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date='' AND catalog_no='begbal'");
             $purpose_id = $this->super_model->select_column_where("receive_details","purpose_id","rd_id",$head->rd_id);
             $data['purpose'] = $this->super_model->select_column_where("purpose", "purpose_desc", "purpose_id", $purpose_id);
             $sales_good_rem_qty = $this->super_model->select_sum_where("fifo_out","remaining_qty","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
@@ -2046,25 +2119,28 @@ class Reports extends CI_Controller {
             $received_qty = $this->super_model->select_sum_where("fifo_in","quantity","item_id='$head->item_id' AND supplier_id='$head->supplier_id' AND brand='$head->brand'");
             $sales_ret = ($return_qty - $return_qty_serv) + ($damageret_qty - $damageret_qty_serv);
             $sales_all = $sales_good_qty - $return_qty - $return_qty_serv - $damageret_qty - $damageret_qty_serv;
-            $in_balance = ($received_qty - $sales_good_qty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
-            if($count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
+            $in_balance = ($received_qty + $begbal - $sales_good_qty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+            if($begbal==0 && $count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
                 $final_balance = $received_qty;
+            } else if($received_qty==0 && $count_sales_good==0 && $count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
+                $final_balance = $begbal;
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage==0 && $count_expired==0){
-                $final_balance = $received_qty - $sales_good_qty;
+                $final_balance = $received_qty + $begbal - $sales_good_qty;
             }else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0)  && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired==0){
                 $final_balance =  $in_balance; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired==0){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv; 
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv; 
             }else if((($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage!=0 && $count_repair==0 && $count_expired==0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired!=0)){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
             }
 
             $data['pr_no'][] = array(
                 "recqty"=>$received_qty,
+                "begbal"=>$begbal,
                 "item"=>$this->super_model->select_column_where("items", "item_name", "item_id", $head->item_id),
                 "sales_quantity"=>$sales_all,
                 "expired_qty"=>$expired_qty,
@@ -2108,13 +2184,14 @@ class Reports extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A9', "No.");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B9', "Item Description");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F9', "Received Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H9', "Sales Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J9', "Initial Balance");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L9', "Return Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N9', "Damage Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P9', "Repaired Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R9', "Expired Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T9', "Final Balance");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H9', "Begbal Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J9', "Sales Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L9', "Initial Balance");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N9', "Return Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P9', "Damage Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R9', "Repaired Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T9', "Expired Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V9', "Final Balance");
         
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "PROGEN Dieseltech Services Corp.");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', "Purok San Jose, Brgy. Calumangan, Bago City");
@@ -2134,6 +2211,7 @@ class Reports extends CI_Controller {
         );
         $x = 1;
         foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id,rd_id,supplier_id,brand FROM fifo_in WHERE pr_no = '$pr' GROUP BY item_id") AS $head){
+            $begbal = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date='' AND catalog_no='begbal'");
             $item = $this->super_model->select_column_where("items","item_name","item_id",$head->item_id);
             $sales_good_rem_qty = $this->super_model->select_sum_where("fifo_out","remaining_qty","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
             $expired_qty = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date!=''");
@@ -2153,35 +2231,38 @@ class Reports extends CI_Controller {
             $received_qty = $this->super_model->select_sum_where("fifo_in","quantity","item_id='$head->item_id' AND supplier_id='$head->supplier_id' AND brand='$head->brand'");
             $sales_ret = ($return_qty - $return_qty_serv) + ($damageret_qty - $damageret_qty_serv);
             $sales_all = $sales_good_qty - $return_qty - $return_qty_serv - $damageret_qty - $damageret_qty_serv;
-            $in_balance = ($received_qty - $sales_good_qty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
-            if($count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
+            $in_balance = ($received_qty + $begbal - $sales_good_qty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+            if($begbal==0 && $count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
                 $final_balance = $received_qty;
+            } else if($received_qty==0 && $count_sales_good==0 && $count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
+                $final_balance = $begbal;
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage==0 && $count_expired==0){
-                $final_balance = $received_qty - $sales_good_qty;
+                $final_balance = $received_qty + $begbal - $sales_good_qty;
             }else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0)  && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired==0){
                 $final_balance =  $in_balance; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired==0){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv; 
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv; 
             }else if((($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage!=0 && $count_repair==0 && $count_expired==0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired!=0)){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
             }
 
 
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $x);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $item);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $received_qty);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $sales_all);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $in_balance);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $sales_ret); 
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $damageqty);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, $repairqty);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, $expired_qty);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, $final_balance);
-            $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":U".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $begbal);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $sales_all);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $in_balance);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $sales_ret); 
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, $damageqty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, $repairqty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, $expired_qty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V'.$num, $final_balance);
+            $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":W".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
             $objPHPExcel->getActiveSheet()->getProtection()->setSheet(true);    
             $objPHPExcel->getActiveSheet()->protectCells('A'.$num.":U".$num);
             $objPHPExcel->getActiveSheet()->mergeCells('B9:E9');
@@ -2202,9 +2283,11 @@ class Reports extends CI_Controller {
             $objPHPExcel->getActiveSheet()->mergeCells('R'.$num.":S".$num);
             $objPHPExcel->getActiveSheet()->mergeCells('T9:U9');
             $objPHPExcel->getActiveSheet()->mergeCells('T'.$num.":U".$num);
-            $objPHPExcel->getActiveSheet()->getStyle('F10:U10')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":U".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':U'.$num)->applyFromArray($styleArray);
+            $objPHPExcel->getActiveSheet()->mergeCells('V9:W9');
+            $objPHPExcel->getActiveSheet()->mergeCells('V'.$num.":W".$num);
+            $objPHPExcel->getActiveSheet()->getStyle('F10:W10')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":W".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':W'.$num)->applyFromArray($styleArray);
             $num++;
             $x++;
         }
@@ -2217,19 +2300,20 @@ class Reports extends CI_Controller {
         $objPHPExcel->getActiveSheet()->mergeCells('P9:Q9');
         $objPHPExcel->getActiveSheet()->mergeCells('R9:S9');
         $objPHPExcel->getActiveSheet()->mergeCells('T9:U9');
+        $objPHPExcel->getActiveSheet()->mergeCells('V9:W9');
         $objPHPExcel->getActiveSheet()->getStyle('A9')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('F9:U9')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A9:U9')->applyFromArray($styleArray);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A2:U2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A2:U2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('F9:W9')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A9:W9')->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:W4')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:W1')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:W1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:W2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:W3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:W4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:W1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:W2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:W3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:W4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objPHPExcel->getActiveSheet()->getStyle('C1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objPHPExcel->getActiveSheet()->getStyle('C2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objPHPExcel->getActiveSheet()->getStyle('C3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
@@ -2238,22 +2322,22 @@ class Reports extends CI_Controller {
         $objPHPExcel->getActiveSheet()->getStyle('H2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objPHPExcel->getActiveSheet()->getStyle('H3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objPHPExcel->getActiveSheet()->getStyle('H4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('U1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('U2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('U3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('U4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('W1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('W2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('W3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('W4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objPHPExcel->getActiveSheet()->getStyle('A1:D1')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('C5')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('G5')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('H2')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A9:U9')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A9:W9')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("M2")->getFont()->setBold(true)->setName('Arial Black');
         $objPHPExcel->getActiveSheet()->getStyle("A6")->getFont()->setBold(true)->setName('Arial Black');
         $objPHPExcel->getActiveSheet()->getStyle("A7")->getFont()->setBold(true)->setName('Arial Black');
         $objPHPExcel->getActiveSheet()->getStyle("C6")->getFont()->setBold(true)->setName('Arial Black');
         $objPHPExcel->getActiveSheet()->getStyle("C7")->getFont()->setBold(true)->setName('Arial Black');
-        $objPHPExcel->getActiveSheet()->getStyle('M2:U2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('M2:W2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
         unlink($exportfilename);
@@ -2281,6 +2365,7 @@ class Reports extends CI_Controller {
             //$sales_good_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
             $sales_good_rem_qty = $this->super_model->select_sum_where("fifo_out","remaining_qty","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
             //$sales_service_qty = $this->super_model->select_sum_where("fifo_out","quantity","in_id='$head->in_id' AND transaction_type='Sales Services'");
+            $begbal = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date='' AND catalog_no='begbal'");
             $expired_qty = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date!=''");
             $return_qty= $this->super_model->select_sum_join("return_qty","return_details","sales_good_details","in_id='$head->in_id' AND sales_good_details.return_id!='0'","return_id");
             $return_qty_serv= $this->super_model->select_sum_join("return_qty","return_details","sales_serv_items","in_id='$head->in_id' AND sales_serv_items.return_id!='0'","return_id");
@@ -2300,24 +2385,27 @@ class Reports extends CI_Controller {
             $received_qty = $this->super_model->select_sum_where("fifo_in","quantity","item_id='$head->item_id' AND supplier_id='$head->supplier_id' AND brand='$head->brand'");
             $sales_ret = ($return_qty - $return_qty_serv) + ($damageret_qty - $damageret_qty_serv);
             $sales_all = $sales_good_qty - $return_qty - $return_qty_serv - $damageret_qty - $damageret_qty_serv;
-            $in_balance = ($received_qty - $sales_good_qty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
-            if($count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
+            $in_balance = ($received_qty + $begbal - $sales_good_qty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+            if($begbal==0 && $count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
                 $final_balance = $received_qty;
+            } else if($received_qty==0 && $count_sales_good==0 && $count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
+                $final_balance = $begbal;
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage==0 && $count_expired==0){
-                $final_balance = $received_qty - $sales_good_qty;
+                $final_balance = $received_qty + $begbal - $sales_good_qty;
             }else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0)  && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired==0){
                 $final_balance =  $in_balance; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired==0){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv; 
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv; 
             }else if((($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage!=0 && $count_repair==0 && $count_expired==0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired!=0)){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
             }
             $data['item_pr'][] = array(
                 "prno"=>$head->pr_no,
+                "begbal"=>$begbal,
                 "recqty"=>$received_qty,
                 "sales_quantity"=>$sales_all,
                 "expired_qty"=>$expired_qty,
@@ -2359,13 +2447,14 @@ class Reports extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A9', "No.");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B9', "PR No");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F9', "Received Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H9', "Sales Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J9', "Initial Balance");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L9', "Return Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N9', "Damage Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P9', "Repaired Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R9', "Expired Qty");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T9', "Final Balance");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H9', "Begbal Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J9', "Sales Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L9', "Initial Balance");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N9', "Return Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P9', "Damage Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R9', "Repaired Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T9', "Expired Qty");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V9', "Final Balance");
         
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "PROGEN Dieseltech Services Corp.");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C2', "Purok San Jose, Brgy. Calumangan, Bago City");
@@ -2384,6 +2473,7 @@ class Reports extends CI_Controller {
         );
         $x = 1;
         foreach($this->super_model->custom_query("SELECT pr_no, quantity,item_id, remaining_qty,in_id,supplier_id,brand FROM fifo_in WHERE item_id = '$item_id' GROUP BY pr_no") AS $head){
+            $begbal = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date='' AND catalog_no='begbal'");
             $sales_good_rem_qty = $this->super_model->select_sum_where("fifo_out","remaining_qty","in_id='$head->in_id' AND (transaction_type = 'Sales Goods' OR transaction_type='Sales Services')");
             $expired_qty = $this->super_model->select_sum_where("fifo_in","remaining_qty","in_id='$head->in_id' AND remaining_qty!='0' AND expiry_date <= '$today' AND expiry_date!=''");
             $return_qty= $this->super_model->select_sum_join("return_qty","return_details","sales_good_details","in_id='$head->in_id' AND sales_good_details.return_id!='0'","return_id");
@@ -2402,35 +2492,38 @@ class Reports extends CI_Controller {
             $received_qty = $this->super_model->select_sum_where("fifo_in","quantity","item_id='$head->item_id' AND supplier_id='$head->supplier_id' AND brand='$head->brand'");
             $sales_ret = ($return_qty - $return_qty_serv) + ($damageret_qty - $damageret_qty_serv);
             $sales_all = $sales_good_qty - $return_qty - $return_qty_serv - $damageret_qty - $damageret_qty_serv;
-            $in_balance = ($received_qty - $sales_good_qty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
-            if($count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
+            $in_balance = ($received_qty + $begbal - $sales_good_qty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+            if($begbal==0 && $count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
                 $final_balance = $received_qty;
+            } else if($received_qty==0 && $count_sales_good==0 && $count_sales_good==0 && $count_sales_service==0 && $count_return==0 && $count_damage==0 && $count_expired==0){
+                $final_balance = $begbal;
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage==0 && $count_expired==0){
-                $final_balance = $received_qty - $sales_good_qty;
+                $final_balance = $received_qty + $begbal - $sales_good_qty;
             }else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return==0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0)  && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired==0){
                 $final_balance =  $in_balance; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired==0){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv + $repairqty; 
             } else if(($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired==0){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv; 
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty) + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv; 
             }else if((($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair!=0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage==0 && $count_repair==0 && $count_expired!=0) || (($count_sales_good==0 || $count_sales_service==0) && $count_return==0 && $count_damage!=0 && $count_repair==0 && $count_expired==0) || (($count_sales_good!=0 || $count_sales_service!=0) && $count_return!=0 && $count_damage!=0 && $count_repair==0 && $count_expired!=0)){
-                $final_balance =  ($received_qty - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
+                $final_balance =  ($received_qty + $begbal - $sales_good_qty - $damageqty - $expired_qty) + $repairqty + $return_qty + $return_qty_serv + $damageret_qty + $damageret_qty_serv;
             }
 
 
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $x);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$num, $head->pr_no);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $received_qty);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $sales_all);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $in_balance);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $sales_ret); 
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $damageqty);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, $repairqty);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, $expired_qty);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, $final_balance);
-            $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":U".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$num, $begbal);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$num, $sales_all);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$num, $in_balance);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$num, $sales_ret); 
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$num, $damageqty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$num, $repairqty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$num, $expired_qty);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('V'.$num, $final_balance);
+            $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":W".$num)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
             $objPHPExcel->getActiveSheet()->getProtection()->setSheet(true);    
             $objPHPExcel->getActiveSheet()->protectCells('A'.$num.":U".$num);
             $objPHPExcel->getActiveSheet()->mergeCells('B9:E9');
@@ -2451,9 +2544,11 @@ class Reports extends CI_Controller {
             $objPHPExcel->getActiveSheet()->mergeCells('R'.$num.":S".$num);
             $objPHPExcel->getActiveSheet()->mergeCells('T9:U9');
             $objPHPExcel->getActiveSheet()->mergeCells('T'.$num.":U".$num);
+            $objPHPExcel->getActiveSheet()->mergeCells('V9:W9');
+            $objPHPExcel->getActiveSheet()->mergeCells('V'.$num.":W".$num);
             $objPHPExcel->getActiveSheet()->getStyle('F10:U10')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":U".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':U'.$num)->applyFromArray($styleArray);
+            $objPHPExcel->getActiveSheet()->getStyle('F'.$num.":W".$num)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$num.':W'.$num)->applyFromArray($styleArray);
             $num++;
             $x++;
         }
@@ -2466,19 +2561,20 @@ class Reports extends CI_Controller {
         $objPHPExcel->getActiveSheet()->mergeCells('P9:Q9');
         $objPHPExcel->getActiveSheet()->mergeCells('R9:S9');
         $objPHPExcel->getActiveSheet()->mergeCells('T9:U9');
+        $objPHPExcel->getActiveSheet()->mergeCells('V9:W9');
         $objPHPExcel->getActiveSheet()->getStyle('A9')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('F9:U9')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A9:U9')->applyFromArray($styleArray);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A2:U2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A2:U2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A3:U3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('A4:U4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('F9:W9')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A9:W9')->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:W4')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:W1')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:W1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:W2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:W3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:W4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:W1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A2:W2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A3:W3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('A4:W4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objPHPExcel->getActiveSheet()->getStyle('C1')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objPHPExcel->getActiveSheet()->getStyle('C2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objPHPExcel->getActiveSheet()->getStyle('C3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
@@ -2487,22 +2583,22 @@ class Reports extends CI_Controller {
         $objPHPExcel->getActiveSheet()->getStyle('H2')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objPHPExcel->getActiveSheet()->getStyle('H3')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objPHPExcel->getActiveSheet()->getStyle('H4')->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('U1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('U2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('U3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $objPHPExcel->getActiveSheet()->getStyle('U4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('W1')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('W2')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('W3')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $objPHPExcel->getActiveSheet()->getStyle('W4')->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
         $objPHPExcel->getActiveSheet()->getStyle('A1:D1')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('C5')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('G5')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('H2')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A9:U9')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A9:W9')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("M2")->getFont()->setBold(true)->setName('Arial Black');
         $objPHPExcel->getActiveSheet()->getStyle("A6")->getFont()->setBold(true)->setName('Arial Black');
         $objPHPExcel->getActiveSheet()->getStyle("A7")->getFont()->setBold(true)->setName('Arial Black');
         $objPHPExcel->getActiveSheet()->getStyle("C6")->getFont()->setBold(true)->setName('Arial Black');
         $objPHPExcel->getActiveSheet()->getStyle("C7")->getFont()->setBold(true)->setName('Arial Black');
-        $objPHPExcel->getActiveSheet()->getStyle('M2:U2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('M2:W2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
         unlink($exportfilename);

@@ -19,7 +19,7 @@
         array_multisort($date, SORT_ASC, $cdate, SORT_ASC, $balance);
         $total_bal=0;
         foreach($balance AS $sc){
-            if($sc['method'] == 'Receive' || $sc['method'] == 'Repaired' || $sc['method'] == 'Return'){ 
+            if($sc['method'] == 'Receive' || $sc['method'] == 'Repaired' || $sc['method'] == 'Return' || $sc['method'] == 'Begbal'){ 
                 $total_bal += $sc['quantity'];
             }else if($sc['method'] == 'Sales Good' || $sc['method'] == 'Sales Services' || $sc['method'] == 'Damaged') {
                 $total_bal -= $sc['quantity'];
@@ -107,7 +107,7 @@
                             if(!empty($stockcard)){
                                 $run_bal=0;
                                 foreach($balance AS $s){
-                                    if($s['method'] == 'Receive' || $s['method'] == 'Repaired' || $s['method'] == 'Return'){ 
+                                    if($s['method'] == 'Receive' || $s['method'] == 'Repaired' || $s['method'] == 'Return' || $s['method'] == 'Begbal'){ 
                                         $run_bal += $s['quantity'];
                                     }else if($s['method'] == 'Sales Good' || $s['method'] == 'Sales Services' || $s['method'] == 'Damaged') {
                                         $run_bal -= $s['quantity'];
@@ -150,6 +150,8 @@
                                             }else if($stockcard[$x]['method']=='Damaged'){
                                                 $badge = 'badge-danger';
                                             }else if($stockcard[$x]['method']=='Expired'){
+                                                $badge = 'badge-danger';
+                                            }else if($stockcard[$x]['method']=='Begbal'){
                                                 $badge = 'badge-danger';
                                             }
                                 ?>
