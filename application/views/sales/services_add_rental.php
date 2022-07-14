@@ -82,6 +82,14 @@
                                 </div>                            
                             </div>
                             <div class="row">
+                                <div class="col-lg-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label >Remarks</label>
+                                        <textarea class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-12">
                                     <div class="pull-right">
                                         <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">

@@ -106,6 +106,23 @@
                 <td colspan="2" align="right">JOI Date:</td>
                 <td colspan="4" class="bor-btm1">&nbsp;<?php echo $sh['joi_date'];?></td>
             </tr>
+            <tr>
+                <td colspan="3">PGC <b>JOI </b>No:</td>
+                <td colspan="10" class="bor-btm1"><?php echo $sh['joi_no'];?></td>
+                <td colspan="1"></td>
+                <td colspan="2" align="right">JOI Date:</td>
+                <td colspan="4" class="bor-btm1">&nbsp;<?php echo $sh['joi_date'];?></td>
+            </tr>
+            <tr>
+                <td colspan="3">Date Started:</td>
+                <td colspan="3" class="bor-btm1">2022-08-022</td>
+                <td ></td>
+                <td colspan="3">Date Completed:</td>
+                <td colspan="3" class="bor-btm1">2022-08-02</td>
+                <td ></td>
+                <td colspan="2">Duration:</td>
+                <td colspan="4" class="bor-btm1">Actual Working Days</td>
+            </tr>
             <?php } ?>
            <!--  <tr>
                 <td colspan="3"></td>
@@ -129,8 +146,9 @@
                             <td style="background:#efefef" width="10%">Selling Price</td>
                             <td style="background:#efefef" width="8%">Discount</td>
                             <td style="background:#efefef" width="12%">Total Price</td>
+                            <td style="background:#efefef" width="12%">Remarks</td>
                         </tr>
-                         <?php 
+                        <?php 
                             $itmtotal[]=0;
                             foreach($service_details AS $sd){ 
                                 $itmtotal[] = $sd['total'];
@@ -145,11 +163,12 @@
                             <td align="center"><?php echo number_format($sd['selling_price'],2);?></td>
                             <td align="center"><?php echo number_format($sd['discount'],2);?></td>
                             <td><?php echo number_format($sd['total'],2);?></td>
+                            <td> Tasdasdasdas</td>
                         </tr>
                         <?php } $itemtotal=array_sum($itmtotal); ?>
                         <tr>
                             <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
-                            <td style="background:#efefef" colspan="6" align="center"><b>Engine Parts Cost Incurred</b></td>
+                            <td style="background:#efefef" colspan="7" align="center"><b>Engine Parts Cost Incurred</b></td>
                             <td style="background:#efefef" align="left"><b><?php echo number_format($itemtotal,2);?></b></td>
                         </tr>
                     </table>
@@ -171,6 +190,7 @@
                             <td style="background:#efefef" width="8%">UOM</td>
                             <td style="background:#efefef" width="14%">Unit Cost</td>
                             <td style="background:#efefef" width="12%">Total Cost</td>
+                            <td style="background:#efefef" width="12%">Remarks</td>
                         </tr>
                         <?php 
                             $x=1;
@@ -185,6 +205,7 @@
                             <td><?php echo $sm['uom'];?></td>
                             <td><?php echo $sm['unit_cost'];?></td>
                             <td><?php echo $sm['total_cost'];?></td>
+                            <td></td>
                         </tr>
                         <?php 
                             $x++; } 
@@ -192,7 +213,7 @@
                         ?>
                         <tr>
                             <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
-                            <td style="background:#efefef" colspan="3" align="center"><b>Material Cost Incurred</b></td>
+                            <td style="background:#efefef" colspan="4" align="center"><b>Material Cost Incurred</b></td>
                             <td style="background:#efefef" align="left"><b><?php echo number_format($mtotal,2); ?></b></td>
                         </tr>
 
@@ -215,6 +236,7 @@
                             <td style="background:#efefef" width="8%">Rate</td>
                             <td style="background:#efefef" width="14%">Overtime</td>
                             <td style="background:#efefef" width="12%">Total</td>
+                            <td style="background:#efefef" width="12%">Remarks</td>
                         </tr>
                         <?php 
                             $x=1;
@@ -229,6 +251,7 @@
                             <td><?php echo $sman['rate']; ?></td>
                             <td><?php echo $sman['overtime']; ?></td>
                             <td><?php echo $sman['total_cost']; ?></td>
+                            <td></td>
                         </tr>
                         <?php 
                             $x++; }
@@ -236,7 +259,7 @@
                         ?>
                         <tr>
                             <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
-                            <td style="background:#efefef" colspan="3" align="center"><b>Labor Cost Incurred</b></td>
+                            <td style="background:#efefef" colspan="4" align="center"><b>Labor Cost Incurred</b></td>
                             <td style="background:#efefef" align="left"><b><?php echo number_format($mntotal,2); ?></b></td>
                         </tr>
 
@@ -259,6 +282,7 @@
                             <td style="background:#efefef" width="8%">Unit</td>
                             <td style="background:#efefef" width="14%">Days</td>
                             <td style="background:#efefef" width="12%">Total Cost</td>
+                            <td style="background:#efefef" width="12%">Remarks</td>
                         </tr>
                         <?php 
                             $x=1;
@@ -273,6 +297,7 @@
                             <td><?php echo $se['uom']; ?></td>
                             <td><?php echo $se['days']; ?></td>
                             <td><?php echo $se['total_cost']; ?></td>
+                            <td></td>
                         </tr>
                         <?php 
                             $x++; }
@@ -280,18 +305,18 @@
                         ?>
                         <tr>
                             <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
-                            <td style="background:#efefef" colspan="3" align="center"><b>Rental Cost</b></td>
+                            <td style="background:#efefef" colspan="4" align="center"><b>Rental Cost</b></td>
                             <td style="background:#efefef" align="left"><b><?php echo number_format($eqtotal,2); ?></b></td>
                         </tr>
                         <tr>
-                            <td colspan="6" style="background:#efefef"><br></td>
+                            <td colspan="7" style="background:#efefef"><br></td>
                         </tr>
                         <?php 
                             $grand_total = $itemtotal + $mtotal + $mntotal + $eqtotal;
                         ?>
                         <tr>
                             <td style="background:#fff700" colspan="2" align="center"><b>GRAND TOTAL</b></td>
-                            <td style="background:#fff700" colspan="3" align="center"><b>Actual Project Cost</b></td>
+                            <td style="background:#fff700" colspan="4" align="center"><b>Actual Project Cost</b></td>
                             <td style="background:#fff700" align="left"><b><?php echo number_format($grand_total,2); ?></b></td>
                         </tr>
                     </table>
