@@ -85,7 +85,7 @@
                                 <div class="col-lg-12 col-sm-12">
                                     <div class="form-group">
                                         <label >Remarks</label>
-                                        <textarea class="form-control"></textarea>
+                                        <textarea class="form-control" name="remarks" id="remarks"></textarea>
                                     </div>
                                 </div>
                             </div>

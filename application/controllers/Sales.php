@@ -616,6 +616,9 @@ class Sales extends CI_Controller {
             "jor_date"=>$this->input->post('jor_date'),
             "joi_no"=>$this->input->post('joi_no'),
             "joi_date"=>$this->input->post('joi_date'),
+            "date_started"=>$this->input->post('date_started'),
+            "date_completed"=>$this->input->post('date_completed'),
+            "duration"=>$this->input->post('duration'),
             "dr_no"=>$this->input->post('dr_no'),
             "vat"=>$this->input->post('vat'),
             "remarks"=>$this->input->post('remarks'),
@@ -688,6 +691,7 @@ class Sales extends CI_Controller {
             "total"=>$this->input->post('total_cost'),
             "quantity"=>$this->input->post('quantity'),
             "expected_qty"=>$this->input->post('exp_quantity'),
+            "remarks"=>$this->input->post('remarks'),
         );
         $details_id = $this->super_model->insert_return_id("sales_serv_items", $data);
         $count_item = $this->super_model->count_rows_where("sales_serv_items","sales_serv_head_id",$sales_serv_head_id);
@@ -722,7 +726,7 @@ class Sales extends CI_Controller {
             $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
             $serial_no = $this->get_serial_services($app->sales_serv_items_id,'temp');
             //$serial_no = $this->super_model->select_column_where("fifo_in","serial_no","in_id",$in_id);
-            echo '<tr id="load_data'.$count_item.'"><td>'.$count_item.'</td><td>'.$original_pn.'</td><td>'.$item_name.'</td><td>'.$serial_no.'</td><td>'.$app->quantity.'</td><td>'.$app->expected_qty.'</td><td>'.$unit.'</td><td>'.number_format($app->selling_price,2).'</td><td>'.number_format($app->discount_amount,2).'</td><td>'.number_format($app->total,2).'</td>  <td><a onclick="delete_service_item('.$app->sales_serv_items_id.','.$count_item.')" class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
+            echo '<tr id="load_data'.$count_item.'"><td>'.$count_item.'</td><td>'.$original_pn.'</td><td>'.$item_name.'</td><td>'.$serial_no.'</td><td>'.$app->quantity.'</td><td>'.$app->expected_qty.'</td><td>'.$unit.'</td><td>'.number_format($app->selling_price,2).'</td><td>'.number_format($app->discount_amount,2).'</td><td>'.number_format($app->total,2).'</td><td>'.$app->remarks.'</td>  <td><a onclick="delete_service_item('.$app->sales_serv_items_id.','.$count_item.')" class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
             $count_item++;
         }    
     }
@@ -773,11 +777,12 @@ class Sales extends CI_Controller {
             "uom"=>$this->input->post('uom'),
             "unit_cost"=>$this->input->post('unit_cost'),
             "total_cost"=>$this->input->post('total_cost'),
+            "remarks"=>$this->input->post('remarks'),
         );
         $details_id = $this->super_model->insert_return_id("sales_serv_material", $data);
         $count_item = $this->super_model->count_rows_where("sales_serv_material","sales_serv_head_id",$sales_serv_head_id);
         foreach($this->super_model->custom_query("SELECT * FROM sales_serv_material WHERE sales_serv_head_id='$sales_serv_head_id' ORDER BY sales_serv_mat_id DESC LIMIT 1") AS $app){
-            echo '<tr id="load_material'.$count_item.'"><td>'.$count_item.'</td><td>'.$app->item_description.'</td><td>'.$app->quantity.'</td><td>'.$app->uom.'</td><td>'.number_format($app->unit_cost,2).'</td><td>'.number_format($app->total_cost,2).'</td><td><a onclick="delete_service_materials('.$app->sales_serv_mat_id.','.$count_item.')" class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
+            echo '<tr id="load_material'.$count_item.'"><td>'.$count_item.'</td><td>'.$app->item_description.'</td><td>'.$app->quantity.'</td><td>'.$app->uom.'</td><td>'.number_format($app->unit_cost,2).'</td><td>'.number_format($app->total_cost,2).'</td><td>'.$app->remarks.'</td><td><a onclick="delete_service_materials('.$app->sales_serv_mat_id.','.$count_item.')" class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
             $count_item++;
         }    
     }
@@ -804,12 +809,13 @@ class Sales extends CI_Controller {
             "rate"=>$this->input->post('rate'),
             "overtime"=>$this->input->post('overtime'),
             "total_cost"=>$this->input->post('total_cost'),
+            "remarks"=>$this->input->post('remarks'),
         );
         $details_id = $this->super_model->insert_return_id("sales_serv_manpower", $data);
         $count_item = $this->super_model->count_rows_where("sales_serv_manpower","sales_serv_head_id",$sales_serv_head_id);
         foreach($this->super_model->custom_query("SELECT * FROM sales_serv_manpower WHERE sales_serv_head_id='$sales_serv_head_id' ORDER BY sales_serv_manpower_id DESC LIMIT 1") AS $app){
             $employee_name=$this->super_model->select_column_where("manpower","employee_name","manpower_id",$app->manpower_id);
-            echo '<tr id="load_manpower'.$count_item.'"><td>'.$count_item.'</td><td>'.$employee_name.'</td><td>'.$app->days.'</td><td>'.number_format($app->rate,2).'</td><td>'.number_format($app->overtime,2).'</td><td>'.number_format($app->total_cost,2).'</td><td><a onclick="delete_service_manpower('.$app->sales_serv_manpower_id.','.$count_item.')" class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
+            echo '<tr id="load_manpower'.$count_item.'"><td>'.$count_item.'</td><td>'.$employee_name.'</td><td>'.$app->days.'</td><td>'.number_format($app->rate,2).'</td><td>'.number_format($app->overtime,2).'</td><td>'.number_format($app->total_cost,2).'</td><td>'.$app->remarks.'</td><td><a onclick="delete_service_manpower('.$app->sales_serv_manpower_id.','.$count_item.')" class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
             $count_item++;
         }    
     }
@@ -846,12 +852,13 @@ class Sales extends CI_Controller {
             "days"=>$this->input->post('days'),
             "total_cost"=>$this->input->post('total_cost'),
             "rate_flag"=>$this->input->post('rate_selection'),
+            "remarks"=>$this->input->post('remarks'),
         );
         $details_id = $this->super_model->insert_return_id("sales_serv_equipment", $data);
         $count_item = $this->super_model->count_rows_where("sales_serv_equipment","sales_serv_head_id",$sales_serv_head_id);
         foreach($this->super_model->custom_query("SELECT * FROM sales_serv_equipment WHERE sales_serv_head_id='$sales_serv_head_id' ORDER BY sales_serv_equipment_id DESC LIMIT 1") AS $app){
             $equipment_name=$this->super_model->select_column_where("equipment","equipment_name","equipment_id",$app->equipment_id);
-            echo '<tr id="load_equipment'.$count_item.'"><td>'.$count_item.'</td><td>'.$equipment_name.'</td><td>'.$app->quantity.'</td><td>'.number_format($app->rate,2).'</td><td>'.$app->uom.'</td><td>'.$app->days.'</td><td>'.number_format($app->total_cost,2).'</td><td><a onclick="delete_service_equipment('.$app->sales_serv_equipment_id.','.$count_item.')" class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
+            echo '<tr id="load_equipment'.$count_item.'"><td>'.$count_item.'</td><td>'.$equipment_name.'</td><td>'.$app->quantity.'</td><td>'.number_format($app->rate,2).'</td><td>'.$app->uom.'</td><td>'.$app->days.'</td><td>'.number_format($app->total_cost,2).'</td><td>'.$app->remarks.'</td><td><a onclick="delete_service_equipment('.$app->sales_serv_equipment_id.','.$count_item.')" class="btn btn-danger btn-xxs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
             $count_item++;
         }    
     }
@@ -953,6 +960,9 @@ class Sales extends CI_Controller {
                 'jor_date'=>$sh->jor_date,
                 'joi_no'=>$sh->joi_no,
                 'joi_date'=>$sh->joi_date,
+                'date_started'=>$sh->date_started,
+                'date_completed'=>$sh->date_completed,
+                'duration'=>$sh->duration,
                 'dr_no'=>$sh->dr_no,
                 'remarks'=>$sh->remarks,
             );
@@ -977,6 +987,7 @@ class Sales extends CI_Controller {
                         'selling_price'=>$sd->selling_price,
                         'discount'=>$sd->discount_amount,
                         'total'=>$sd->total,
+                        'i_remarks'=>$sd->remarks,
                     );
                 }
             }else{
@@ -993,6 +1004,7 @@ class Sales extends CI_Controller {
                         'uom'=>$sm->uom,
                         'unit_cost'=>$sm->unit_cost,
                         'total_cost'=>$sm->total_cost,
+                        'mat_remarks'=>$sm->remarks,
                     );
                 }
             }else{
@@ -1009,6 +1021,7 @@ class Sales extends CI_Controller {
                         'rate'=>$sman->rate,
                         'overtime'=>$sman->overtime,
                         'total_cost'=>$sman->total_cost,
+                        'man_remarks'=>$sman->remarks,
                     );
                 }
             }else{
@@ -1026,6 +1039,7 @@ class Sales extends CI_Controller {
                         'uom'=>$seq->uom,
                         'days'=>$seq->days,
                         'total_cost'=>$seq->total_cost,
+                        'e_remarks'=>$seq->remarks,
                     );
                 }
             }else{

@@ -107,21 +107,14 @@
                 <td colspan="4" class="bor-btm1">&nbsp;<?php echo $sh['joi_date'];?></td>
             </tr>
             <tr>
-                <td colspan="3">PGC <b>JOI </b>No:</td>
-                <td colspan="10" class="bor-btm1"><?php echo $sh['joi_no'];?></td>
-                <td colspan="1"></td>
-                <td colspan="2" align="right">JOI Date:</td>
-                <td colspan="4" class="bor-btm1">&nbsp;<?php echo $sh['joi_date'];?></td>
-            </tr>
-            <tr>
                 <td colspan="3">Date Started:</td>
-                <td colspan="3" class="bor-btm1">2022-08-022</td>
+                <td colspan="3" class="bor-btm1">&nbsp;<?php echo $sh['date_started'];?></td>
                 <td ></td>
                 <td colspan="3">Date Completed:</td>
-                <td colspan="3" class="bor-btm1">2022-08-02</td>
+                <td colspan="3" class="bor-btm1">&nbsp;<?php echo $sh['date_completed'];?></td>
                 <td ></td>
                 <td colspan="2">Duration:</td>
-                <td colspan="4" class="bor-btm1">Actual Working Days</td>
+                <td colspan="4" class="bor-btm1">&nbsp;<?php echo $sh['duration'];?></td>
             </tr>
             <?php } ?>
            <!--  <tr>
@@ -163,7 +156,7 @@
                             <td align="center"><?php echo number_format($sd['selling_price'],2);?></td>
                             <td align="center"><?php echo number_format($sd['discount'],2);?></td>
                             <td><?php echo number_format($sd['total'],2);?></td>
-                            <td> Tasdasdasdas</td>
+                            <td><?php echo $sd['i_remarks'];?></td>
                         </tr>
                         <?php } $itemtotal=array_sum($itmtotal); ?>
                         <tr>
@@ -205,7 +198,7 @@
                             <td><?php echo $sm['uom'];?></td>
                             <td><?php echo $sm['unit_cost'];?></td>
                             <td><?php echo $sm['total_cost'];?></td>
-                            <td></td>
+                            <td><?php echo $sm['mat_remarks'];?></td>
                         </tr>
                         <?php 
                             $x++; } 
@@ -251,7 +244,7 @@
                             <td><?php echo $sman['rate']; ?></td>
                             <td><?php echo $sman['overtime']; ?></td>
                             <td><?php echo $sman['total_cost']; ?></td>
-                            <td></td>
+                            <td><?php echo $sman['man_remarks']; ?></td>
                         </tr>
                         <?php 
                             $x++; }
@@ -297,7 +290,7 @@
                             <td><?php echo $se['uom']; ?></td>
                             <td><?php echo $se['days']; ?></td>
                             <td><?php echo $se['total_cost']; ?></td>
-                            <td></td>
+                            <td><?php echo $se['e_remarks']; ?></td>
                         </tr>
                         <?php 
                             $x++; }

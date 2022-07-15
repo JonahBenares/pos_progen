@@ -147,13 +147,13 @@ $(document).ready(function() {
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Date Started</label>
-                                                <input type="Date" class="form-control"  name="" id="" >
+                                                <input type="Date" class="form-control"  name="date_started" id="date_started" >
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Date Completed</label>
-                                                <input type="Date" class="form-control"  name="" id="" >
+                                                <input type="Date" class="form-control"  name="date_completed" id="date_completed" >
                                             </div>
                                         </div>
                                     </div>      
@@ -161,7 +161,7 @@ $(document).ready(function() {
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 <label>Duration</label>
-                                                <textarea class="form-control" rows="1" placeholder="Duration" name="purpose" id="purpose"></textarea>
+                                                <textarea class="form-control" rows="1" placeholder="Duration" name="duration" id="duration"></textarea>
                                             </div>
                                         </div>
                                     </div>                          
@@ -232,22 +232,24 @@ $(document).ready(function() {
                                             <td class="td-head" width="8%">Selling Price</td>
                                             <td class="td-head" width="8%">Discount</td>
                                             <td class="td-head" width="8%">Total Cost</td>
+                                            <td class="td-head" width="8%">Remarks</td>
                                             <td class="td-head" width="2%">
                                                 <span class="mdi mdi-menu"></span>
                                             </td>
                                         </tr>
                                         <tbody id="append_data2"></tbody>
                                         <tr id = "total_cost">
-                                            <td class="td-head" colspan="3" align="center"><b>Sub-Total</b></td>
+                                            <td class="td-head" colspan="4" align="center"><b>Sub-Total</b></td>
                                             <td class="td-head" colspan="4" align="center"><b>Engine Parts Cost Incurred</b></td>
                                             <td class="td-head" colspan="2" align="right"><b><div id="subtotal"></div></b></td>
+                                            <td class="td-head" align="right"><b></b></td>
                                             <td class="td-head" align="right"><b></b></td>
                                         </tr>
                                     </table>
                                     <br>
                                     <table id="table-alt"  class="table-bordered" width="100%">
                                         <tr>
-                                            <td class="td-head" colspan="7"><center><b>Consumables and Other Materials</b></center></td> 
+                                            <td class="td-head" colspan="8"><center><b>Consumables and Other Materials</b></center></td> 
                                         </tr>
                                         <tr>
                                             <td class="td-head" width="5%">No.</td>
@@ -256,22 +258,24 @@ $(document).ready(function() {
                                             <td class="td-head" width="8%">UOM</td>
                                             <td class="td-head" width="14%">Unit Cost</td>
                                             <td class="td-head" width="12%">Total Cost</td>
+                                            <td class="td-head" width="12%">Remarks</td>
                                             <td class="td-head" width="2%">
                                                 <span class="mdi mdi-menu"></span>
                                             </td>
                                         </tr>
                                         <tbody id = "append_data3"></tbody>
                                         <tr>
-                                            <td class="td-head" colspan="2" align="center"><b>Sub-Total</b></td>
-                                            <td class="td-head" colspan="3" align="center"><b>Material Cost Incurred</b></td>
+                                            <td class="td-head" colspan="3" align="center"><b>Sub-Total</b></td>
+                                            <td class="td-head" colspan="2" align="center"><b>Material Cost Incurred</b></td>
                                             <td class="td-head" align="right"><b><div id="subtotal2"></div></b></td>
+                                            <td class="td-head" align="right"><b></b></td>
                                             <td class="td-head" align="right"><b></b></td>
                                         </tr>
                                     </table>
                                     <br>
                                     <table id="table-alt"  class="table-bordered" width="100%">
                                         <tr >
-                                            <td class="td-head" colspan="7"><center><b>Manpower</b></center></td>
+                                            <td class="td-head" colspan="8"><center><b>Manpower</b></center></td>
                                         </tr>
                                         <tr>
                                             <td class="td-head" width="5%">No.</td>
@@ -280,22 +284,24 @@ $(document).ready(function() {
                                             <td class="td-head" width="8%">Rate</td>
                                             <td class="td-head" width="14%">Overtime</td>
                                             <td class="td-head" width="12%">Total</td>
+                                            <td class="td-head" width="12%">Remarks</td>
                                             <td class="td-head" width="2%">
                                                 <span class="mdi mdi-menu"></span>
                                             </td>
                                         </tr>
                                         <tbody id="append_data4"></tbody>
                                         <tr>
-                                            <td class="td-head" colspan="2" align="center"><b>Sub-Total</b></td>
-                                            <td class="td-head" colspan="3" align="center"><b>Labor Cost Incurred</b></td>
+                                            <td class="td-head" colspan="3" align="center"><b>Sub-Total</b></td>
+                                            <td class="td-head" colspan="2" align="center"><b>Labor Cost Incurred</b></td>
                                             <td class="td-head" align="right"><b><div id="subtotal3"></div></b></td>
+                                            <td class="td-head" align="right"><b></b></td>
                                             <td class="td-head" align="right"><b></b></td>
                                         </tr>
                                     </table>
                                     <br>
                                     <table id="table-alt"  class="table-bordered" width="100%">
                                         <tr>
-                                            <td class="td-head" colspan="8"><center><b>Actual Rental Cost</b></center></td>
+                                            <td class="td-head" colspan="9"><center><b>Actual Rental Cost</b></center></td>
                                         </tr>
                                         <tr>
                                             <td class="td-head" width="5%">No.</td>
@@ -305,15 +311,17 @@ $(document).ready(function() {
                                             <td class="td-head" width="8%">Unit</td>
                                             <td class="td-head" width="14%">Days/Hours</td>
                                             <td class="td-head" width="12%">Total Cost</td>
+                                            <td class="td-head" width="12%">Remarks</td>
                                             <td class="td-head" width="2%">
                                                 <span class="mdi mdi-menu"></span>
                                             </td>
                                         </tr>
                                         <tbody id="append_data5"></tbody>
                                         <tr>
-                                            <td class="td-head" colspan="2" align="center"><b>Sub-Total</b></td>
-                                            <td class="td-head" colspan="4" align="center"><b>Rental Cost</b></td>
+                                            <td class="td-head" colspan="3" align="center"><b>Sub-Total</b></td>
+                                            <td class="td-head" colspan="3" align="center"><b>Rental Cost</b></td>
                                             <td class="td-head" align="right"><b><div id="subtotal4"></div></b></td>
+                                            <td class="td-head" align="right"><b></b></td>
                                             <td class="td-head" align="right"><b></b></td>
                                         </tr>
                                     </table>

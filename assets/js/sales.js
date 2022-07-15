@@ -289,6 +289,9 @@ function proceed_sales_service(){
                     document.getElementById('joi_no').readOnly = true;
                     document.getElementById('jor_date').readOnly = true;
                     document.getElementById('joi_date').readOnly = true;
+                    document.getElementById('date_started').readOnly = true;
+                    document.getElementById('date_completed').readOnly = true;
+                    document.getElementById('duration').readOnly = true;
                     document.getElementById('purpose').readOnly = true;
                     document.getElementById('ar_description').readOnly = true;
                     document.getElementById('remarks').readOnly = true;
