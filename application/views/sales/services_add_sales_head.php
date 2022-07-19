@@ -164,9 +164,17 @@ $(document).ready(function() {
                                                 <textarea class="form-control" rows="1" placeholder="Duration" name="duration" id="duration"></textarea>
                                             </div>
                                         </div>
-                                    </div>                          
+                                    </div>                 
                                 </div>
                             </div>  
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>Overall Remarks</label>
+                                        <textarea class="form-control" rows="3" name="overall_remarks" id="overall_remarks" placeholder="Overall Remarks..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
                             <hr> 
                             <small><b>Preparation for AR</b></small><br><br>
                             <div class="row">
@@ -237,7 +245,7 @@ $(document).ready(function() {
                                                 <span class="mdi mdi-menu"></span>
                                             </td>
                                         </tr>
-                                        <tbody id="append_data2"></tbody>
+                                        <tbody id="append_data2"><!-- <tr id="temp_disp_item"><td align="center" colspan='20'><center>Provided by PGC</center></td></tr> --></tbody>
                                         <tr id = "total_cost">
                                             <td class="td-head" colspan="4" align="center"><b>Sub-Total</b></td>
                                             <td class="td-head" colspan="4" align="center"><b>Engine Parts Cost Incurred</b></td>
@@ -263,7 +271,7 @@ $(document).ready(function() {
                                                 <span class="mdi mdi-menu"></span>
                                             </td>
                                         </tr>
-                                        <tbody id = "append_data3"></tbody>
+                                        <tbody id = "append_data3"><!-- <tr id="temp_disp_material"><td align="center" colspan='20'><center>Provided by PGC</center></td></tr> --></tbody>
                                         <tr>
                                             <td class="td-head" colspan="3" align="center"><b>Sub-Total</b></td>
                                             <td class="td-head" colspan="2" align="center"><b>Material Cost Incurred</b></td>
@@ -289,7 +297,7 @@ $(document).ready(function() {
                                                 <span class="mdi mdi-menu"></span>
                                             </td>
                                         </tr>
-                                        <tbody id="append_data4"></tbody>
+                                        <tbody id="append_data4"><!-- <tr id="temp_disp_manpower"><td align="center" colspan='20'><center>Provided by PGC</center></td></tr> --></tbody>
                                         <tr>
                                             <td class="td-head" colspan="3" align="center"><b>Sub-Total</b></td>
                                             <td class="td-head" colspan="2" align="center"><b>Labor Cost Incurred</b></td>
@@ -316,7 +324,7 @@ $(document).ready(function() {
                                                 <span class="mdi mdi-menu"></span>
                                             </td>
                                         </tr>
-                                        <tbody id="append_data5"></tbody>
+                                        <tbody id="append_data5"><!-- <tr id="temp_disp_rental"><td align="center" colspan='20'><center>No equipment use</center></td></tr> --></tbody>
                                         <tr>
                                             <td class="td-head" colspan="3" align="center"><b>Sub-Total</b></td>
                                             <td class="td-head" colspan="3" align="center"><b>Rental Cost</b></td>

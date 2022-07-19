@@ -292,6 +292,7 @@ function proceed_sales_service(){
                     document.getElementById('date_started').readOnly = true;
                     document.getElementById('date_completed').readOnly = true;
                     document.getElementById('duration').readOnly = true;
+                    document.getElementById('overall_remarks').readOnly = true;
                     document.getElementById('purpose').readOnly = true;
                     document.getElementById('ar_description').readOnly = true;
                     document.getElementById('remarks').readOnly = true;
@@ -353,6 +354,10 @@ function save_service_item(){
                         url: total,
                         data:data,
                         success:function(output){
+                            /*$('#temp_disp').hide();*/
+                            //window.opener.document.getElementById("temp_disp").hide();
+                            // var proc = window.opener.document.getElementById("temp_disp_item");
+                            // proc.style.display = "none";
                             window.opener.document.getElementById("subtotal").innerHTML = output;
                             window.close();
                         }
@@ -397,6 +402,8 @@ function save_service_materials(){
                         url: total,
                         data:data,
                         success:function(output){
+                            // var proc = window.opener.document.getElementById("temp_disp_material");
+                            // proc.style.display = "none";
                             window.opener.document.getElementById("subtotal2").innerHTML = output;
                             window.close();
                         }
@@ -448,6 +455,8 @@ function save_service_manpower(){
                         url: total,
                         data:data,
                         success:function(output){
+                            /*var proc = window.opener.document.getElementById("temp_disp_manpower");
+                            proc.style.display = "none";*/
                             window.opener.document.getElementById("subtotal3").innerHTML = output;
                             window.close();
                         }
@@ -519,6 +528,8 @@ function save_service_equipment(){
                         url: total,
                         data:data,
                         success:function(output){
+                            // var proc = window.opener.document.getElementById("temp_disp_rental");
+                            // proc.style.display = "none";
                             window.opener.document.getElementById("subtotal4").innerHTML = output;
                             window.close();
                         }

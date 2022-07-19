@@ -373,9 +373,7 @@ class Sales extends CI_Controller {
                 $serial_no = $this->get_serial($app->sales_good_det_id, 'temp');
                 echo '<tr id="load_data'.$count_item.'"><td>'.$count_item.'</td><td>'.$original_pn.'</td><td>'.$item_name.'</td><td>'.$serial_no.'</td><td>'.$app->quantity.'</td><td>'.$app->expected_qty.'</td><td>'.$unit.'</td><td>'.number_format($app->selling_price,2).'</td><td>'.number_format($app->discount_amount,2).'</td><td>'.number_format($app->total,2).'</td>  <td><a onclick="delete_sales_item('.$app->sales_good_det_id.','.$count_item.')" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td> </tr>';
                 $count_item++;
-            } 
-          
-
+        } 
       /*  $count_item = $this->super_model->count_rows_where("sales_good_details","sales_good_head_id",$sales_good_head_id);
         foreach($this->super_model->custom_query("SELECT * FROM sales_good_details WHERE sales_good_head_id='$sales_good_head_id' ORDER BY sales_good_det_id DESC LIMIT 1") AS $app){
             $item_id = $this->super_model->select_column_where("fifo_in","item_id","in_id",$app->in_id);
@@ -619,6 +617,7 @@ class Sales extends CI_Controller {
             "date_started"=>$this->input->post('date_started'),
             "date_completed"=>$this->input->post('date_completed'),
             "duration"=>$this->input->post('duration'),
+            "overall_remarks"=>$this->input->post('overall_remarks'),
             "dr_no"=>$this->input->post('dr_no'),
             "vat"=>$this->input->post('vat'),
             "remarks"=>$this->input->post('remarks'),
@@ -965,6 +964,7 @@ class Sales extends CI_Controller {
                 'duration'=>$sh->duration,
                 'dr_no'=>$sh->dr_no,
                 'remarks'=>$sh->remarks,
+                'overall_remarks'=>$sh->overall_remarks,
             );
 
             $count_itm = $this->super_model->count_rows_where("sales_serv_items","sales_serv_head_id",$sh->sales_serv_head_id);

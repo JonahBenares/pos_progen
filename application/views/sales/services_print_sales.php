@@ -141,7 +141,7 @@
                             <td style="background:#efefef" width="12%">Total Price</td>
                             <td style="background:#efefef" width="12%">Remarks</td>
                         </tr>
-                        <?php 
+                        <?php
                             $itmtotal[]=0;
                             foreach($service_details AS $sd){ 
                                 $itmtotal[] = $sd['total'];
@@ -185,7 +185,7 @@
                             <td style="background:#efefef" width="12%">Total Cost</td>
                             <td style="background:#efefef" width="12%">Remarks</td>
                         </tr>
-                        <?php 
+                        <?php  
                             $x=1;
                             $mattotal[]=0;
                             foreach($service_materials AS $sm){
@@ -200,9 +200,7 @@
                             <td><?php echo $sm['total_cost'];?></td>
                             <td><?php echo $sm['mat_remarks'];?></td>
                         </tr>
-                        <?php 
-                            $x++; } 
-                            $mtotal =array_sum($mattotal);
+                        <?php  $x++; } $mtotal =array_sum($mattotal);
                         ?>
                         <tr>
                             <td style="background:#efefef" colspan="2" align="center"><b>Sub-Total</b></td>
@@ -246,8 +244,8 @@
                             <td><?php echo $sman['total_cost']; ?></td>
                             <td><?php echo $sman['man_remarks']; ?></td>
                         </tr>
-                        <?php 
-                            $x++; }
+                        <?php $x++; 
+                             }
                             $mntotal =array_sum($mantotal);
                         ?>
                         <tr>
@@ -292,8 +290,7 @@
                             <td><?php echo $se['total_cost']; ?></td>
                             <td><?php echo $se['e_remarks']; ?></td>
                         </tr>
-                        <?php 
-                            $x++; }
+                        <?php $x++; }
                             $eqtotal =array_sum($eqptotal);
                         ?>
                         <tr>
@@ -318,6 +315,18 @@
             <tr>
                 <td colspan="20"><br></td>
             </tr>
+            <?php if (!empty($sh['overall_remarks'])) {?>
+            <tr>
+                <td colspan="20" class="bor-btm1">OVERALL REMARKS:
+                    <br>
+                    <br>
+                    <?php echo $sh['overall_remarks'];?>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="20"><br></td>
+            </tr>
+            <?php } ?>
             <tr>
                 <?php foreach($service_head AS $sh){ ?>
                 <td colspan="5"></td>  
