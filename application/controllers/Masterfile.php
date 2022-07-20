@@ -1661,11 +1661,72 @@ function dateDifference($date_1 , $date_2)
         echo "<script>alert('Successfully uploaded!'); window.location = 'bulk_upload';</script>";
     }
 
+        public function insert_signatory(){
+        $count = $this->input->post('count');
+        for($x=1;$x<$count;$x++){
+            $employee_id = $this->input->post('employee_id'.$x);
+            $pre_rel = $this->input->post('pre_rel'.$x);
+            $received = $this->input->post('received'.$x);
+            $verified = $this->input->post('verified'.$x);
+            $approved = $this->input->post('approved'.$x);
+            if(!empty($pre_rel) || !empty($received) || !empty($verified) || !empty($approved)){
+                if(empty($pre_rel)) $pre_rel = 0;
+                else $pre_rel=1;
+                if(empty($received)) $rec = 0;
+                else $rec=1;
+                if(empty($verified)) $ver = 0;
+                else $ver=1;
+                if(empty($approved)) $app = 0;
+                else $app=1; 
+                $data = array(
+                    'employee_id' => $employee_id, 
+                    'prepared_released' => $pre_rel,
+                    'received' => $rec,
+                    'verified' => $ver,
+                    'approved' => $app,
+                );
+                foreach($this->super_model->select_row_where('employees', 'employee_id', $employee_id) AS $empa){   
+                    $row=$this->super_model->count_custom_where('signatories',"employee_id = '$empa->employee_id'"); 
+                    if($row>0){
+                       if($this->super_model->update_where("signatories", $data,'employee_id',$employee_id)){
+                            echo "<script>alert('Successfully Updated!'); 
+                                window.location ='".base_url()."index.php/masterfile/signatory_list'; </script>"; 
+                        }
+                    }else{
+                        if($this->super_model->insert_into("signatories", $data)){
+                           echo "<script>alert('Successfully Added!'); 
+                                window.location ='".base_url()."index.php/masterfile/signatory_list'; </script>";
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public function signatory_list()
     {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('masterfile/signatory_list');
+        $row=$this->super_model->count_rows("employees");
+        if($row != 0){
+            foreach($this->super_model->select_all_order_by('employees','employee_name','ASC') AS $sig){
+                $employee = $this->super_model->select_column_where("employees", "employee_name", "employee_id", $sig->employee_id);
+                $received =$this->super_model->select_column_where("signatories", "received", "employee_id", $sig->employee_id);
+                $verified =$this->super_model->select_column_where("signatories", "verified", "employee_id", $sig->employee_id);
+                $approved =$this->super_model->select_column_where("signatories", "approved", "employee_id", $sig->employee_id);
+                $pre_rel =$this->super_model->select_column_where("signatories", "prepared_released", "employee_id", $sig->employee_id);
+                $data['signatory'][] = array(
+                    'employee'=>$employee,
+                    'received'=>$received,
+                    'verified'=>$verified,
+                    'approved'=>$approved,
+                    'pre_rel'=>$pre_rel,
+                );
+            }
+        }else{
+            $data['signatory'] = array();
+        }
+        $this->load->view('masterfile/signatory_list',$data);
         $this->load->view('template/footer');
     }
 
@@ -1673,7 +1734,23 @@ function dateDifference($date_1 , $date_2)
     {
         $this->load->view('template/header');
         $this->load->view('template/navbar');
-        $this->load->view('masterfile/signatory_add');
+        foreach($this->super_model->select_all_order_by('employees','employee_name','ASC') AS $emp){
+                $employee = $this->super_model->select_column_where("employees", "employee_name", "employee_id", $emp->employee_id);
+                $pre_rel =$this->super_model->select_column_where("signatories", "prepared_released", "employee_id", $emp->employee_id);
+                $received =$this->super_model->select_column_where("signatories", "received", "employee_id", $emp->employee_id);
+                $verified =$this->super_model->select_column_where("signatories", "verified", "employee_id", $emp->employee_id);
+                $approved =$this->super_model->select_column_where("signatories", "approved", "employee_id", $emp->employee_id);
+            
+            $data['employee'][] = array(
+                'employeeid'=>$emp->employee_id,
+                'employee'=>$emp->employee_name,
+                'pre_rel'=>$pre_rel,
+                'received'=>$received,
+                'verified'=>$verified,
+                'approved'=>$approved,
+            );
+        }
+        $this->load->view('masterfile/signatory_add',$data);
         $this->load->view('template/footer');
     }
 

@@ -27,7 +27,7 @@
                             <div class="col-lg-6">
                                 <div class="pull-right">          
                                     <a class=" btn btn-gradient-primary btn-rounded btn-sm"  href="<?php echo base_url(); ?>masterfile/signatory_add">
-                                        <span class="mdi mdi-plus"></span> Add
+                                        <span class="mdi mdi-plus"></span> Update
                                     </a>              
                                 </div>
                                 
@@ -39,78 +39,38 @@
                             <thead>
                                 <tr style="font-size: 13px">
                                     <th style="padding:10px;" width="30%">Employee Name</th>
-                                    <th style="padding:10px;text-align: center">Noted By</th>
-                                    <th style="padding:10px;text-align: center">Inspected By</th>
-                                    <th style="padding:10px;text-align: center">Delivered By</th>
-                                    <th style="padding:10px;text-align: center">Reviewed By</th>
+                                    <th style="padding:10px;text-align: center">Prepared and Released By</th>
                                     <th style="padding:10px;text-align: center">Received By</th>
-                                    <th style="padding:10px;text-align: center">Released By</th>
-                                    <th style="padding:10px;text-align: center">Requested By</th>
-                                    <th style="padding:10px;text-align: center">Approved By</th>        
-                                    <th style="padding:10px;text-align: center">Acknowledge By</th>                                     
+                                    <th style="padding:10px;text-align: center">Verified By</th>
+                                    <th style="padding:10px;text-align: center">Approved By</th>                                         
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php foreach($signatory AS $sig){ ?>
                                 <tr>
-                                    <td>Employee</td>
-                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class="mdi mdi-check-circle"></span></p></td>
-                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class="mdi mdi-check-circle"></span></p></td>
-                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class="mdi mdi-check-circle"></span></p></td>
-                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class="mdi mdi-check-circle"></span></p></td>
-                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class="mdi mdi-check-circle"></span></p></td>
-                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class="mdi mdi-check-circle"></span></p></td>
-                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class="mdi mdi-check-circle"></span></p></td>
-                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class="mdi mdi-check-circle"></span></p></td>
-                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class="mdi mdi-check-circle"></span></p></td>
-                                </tr>
-                                <!-- <tr>
                                     <td><?php echo $sig['employee']; ?></td>
-                                    <?php if($sig['noted'] == '1'){ ?>
-                                    <td align="center"><p style="font-size: 19px;color:green;"><span class="fa fa-check"></span></p></td>
+                                    <?php if($sig['pre_rel'] == '1'){ ?>
+                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class="mdi mdi-check-circle"></span></p></td>
                                     <?php } else { ?>
-                                    <td align="center"><p style="font-size: 19px;color:red;"><span class=""></span></p></td>
-                                    <?php } ?>
-                                    <?php if($sig['inspected'] == '1'){ ?>
-                                    <td align="center"><p style="font-size: 19px;color:green;"><span class="fa fa-check"></span></p></td>
-                                    <?php }else{ ?>
-                                    <td align="center"><p style="font-size: 19px;color:red;"><span class=""></span></p></td>
-                                    <?php } ?>
-                                    <?php if($sig['delivered'] == '1'){ ?>
-                                    <td align="center"><p style="font-size: 19px;color:green;"><span class="fa fa-check"></span></p></td>
-                                    <?php }else{ ?>
-                                    <td align="center"><p style="font-size: 19px;color:red;"><span class=""></span></p></td>
-                                    <?php } ?>
-                                    <?php if($sig['reviewed'] == '1'){ ?>
-                                    <td align="center"><p style="font-size: 19px;color:green;"><span class="fa fa-check"></span></p></td>
-                                    <?php }else{ ?>
-                                    <td align="center"><p style="font-size: 19px;color:red;"><span class=""></span></p></td>    
+                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class=""></span></p></td>
                                     <?php } ?>
                                     <?php if($sig['received'] == '1'){ ?>
-                                    <td align="center"><p style="font-size: 19px;color:green;"><span class="fa fa-check"></span></p></td>
-                                    <?php }else{ ?>
-                                    <td align="center"><p style="font-size: 19px;color:red;"><span class=""></span></p></td>    
+                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class="mdi mdi-check-circle"></span></p></td>
+                                    <?php } else { ?>
+                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class=""></span></p></td>
                                     <?php } ?>
-                                    <?php if($sig['released'] == '1'){ ?>
-                                    <td align="center"><p style="font-size: 19px;color:green;"><span class="fa fa-check"></span></p></td>
-                                    <?php } else{ ?>
-                                    <td align="center"><p style="font-size: 19px;color:red;"><span class=""></span></p></td>    
-                                    <?php } ?>
-                                    <?php if($sig['requested'] == '1'){ ?>
-                                    <td align="center"><p style="font-size: 19px;color:green;"><span class="fa fa-check"></span></p></td>
-                                    <?php } else{ ?>
-                                    <td align="center"><p style="font-size: 19px;color:red;"><span class=""></span></p></td>    
+                                    <?php if($sig['verified'] == '1'){ ?>
+                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class="mdi mdi-check-circle"></span></p></td>
+                                    <?php } else { ?>
+                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class=""></span></p></td>
                                     <?php } ?>
                                     <?php if($sig['approved'] == '1'){ ?>
-                                    <td align="center"><p style="font-size: 19px;color:green;"><span class="fa fa-check"></span></p></td>
+                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class="mdi mdi-check-circle"></span></p></td>
                                     <?php } else { ?>
-                                    <td align="center"><p style="font-size: 19px;color:red;"><span class=""></span></p></td>    
+                                    <td align="center"><p style="color:green;font-size: 22px;" class="m-0"><span class=""></span></p></td>
                                     <?php } ?>
-                                    <?php if($sig['acknowledged'] == '1'){ ?>
-                                    <td align="center"><p style="font-size: 19px;color:green;"><span class="fa fa-check"></span></p></td>
-                                    <?php } else { ?>
-                                    <td align="center"><p style="font-size: 19px;color:red;"><span class=""></span></p></td>    
-                                    <?php } ?>
-                                </tr> -->
+                                </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>
