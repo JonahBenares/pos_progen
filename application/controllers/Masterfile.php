@@ -1661,6 +1661,22 @@ function dateDifference($date_1 , $date_2)
         echo "<script>alert('Successfully uploaded!'); window.location = 'bulk_upload';</script>";
     }
 
+    public function signatory_list()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('masterfile/signatory_list');
+        $this->load->view('template/footer');
+    }
+
+    public function signatory_add()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('masterfile/signatory_add');
+        $this->load->view('template/footer');
+    }
+
 
     
 
