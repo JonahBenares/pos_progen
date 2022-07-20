@@ -1055,6 +1055,7 @@ class Sales extends CI_Controller {
         $sales_serv_head_id = $this->uri->segment(3);
         $data['sales_serv_head_id']=$sales_serv_head_id;
         $data['shipping']=$this->super_model->select_all_order_by("shipping_company","company_name","ASC");
+        $data['client_id'] = $this->super_model->select_column_where("sales_services_head","client_id","sales_serv_head_id",$sales_serv_head_id);
         foreach($this->super_model->select_custom_where("sales_services_head","sales_serv_head_id = '$sales_serv_head_id'") AS $sh){
             $client = $this->super_model->select_column_where("client","buyer_name","client_id",$sh->client_id);
             $shipping = $this->super_model->select_column_where("shipping_company","company_name","ship_comp_id",$sh->shipped_via);

@@ -126,6 +126,7 @@
                 <td colspan="20"><br></td>
             </tr>
             <?php } ?>
+            <?php if($client_id == '1') {?>
             <tr>
                 <td colspan="6"><b>Prepared and Released by:</b></td>
                 <td></td>
@@ -138,29 +139,23 @@
             </tr>
             <tr>
                 <td colspan="6" class="bor-btm1" align="center">
-                   <select style="width:100%;border:0px solid #fff;-webkit-appearance: none;text-align: center;">
-                        <option>Mary Grace BUgna</option>
-                    </select> 
+                    Mary Grace Bugna
                 </td>
                 <td></td>
                 <td colspan="6" class="bor-btm1" align="center">
-                    <select style="width:100%;border:0px solid #fff;-webkit-appearance: none;text-align: center;">
-                        <option>Mary Grace BUgna</option>
-                    </select>
+                    Eric Jabiniar
                 </td>
                 <td></td>
                 <td colspan="6" class="bor-btm1" align="center">
-                    <select style="width:100%;border:0px solid #fff;-webkit-appearance: none;text-align: center;">
-                        <option>Mary Grace BUgna</option>
-                    </select>
+                    Roan Renz Liao
                 </td>
             </tr>
             <tr>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Sales Officer</td>
+                <td colspan="6" align="center" style="vertical-align:text-top;">Sales Commercial / Commercial & Parts Analyst</td>
                 <td></td>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Warehouse Assistant</td>
+                <td colspan="6" align="center" style="vertical-align:text-top;">Plant Director</td>
                 <td></td>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Warehouse Supervisor</td>
+                <td colspan="6" align="center" style="vertical-align:text-top;">Sr Parts Engineer</td>
             </tr>
 
             <tr>
@@ -178,9 +173,7 @@
             </tr>
             <tr>
                 <td colspan="6" class="bor-btm1" align="center">
-                    <select style="width:100%;border:0px solid #fff;-webkit-appearance: none;text-align: center;">
-                        <option>Mary Grace BUgna</option>
-                    </select>
+                    Merry Michelle Dato
                 </td>
                 <td></td>
                 <td colspan="6"></td>
@@ -190,7 +183,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Projects and Assets Management</td>
+                <td colspan="6" align="center" style="vertical-align:text-top;">Assets and Projects Management Assistant</td>
                 <td></td>
                 <td colspan="6" align="center" style="vertical-align:text-top;"></td>
                 <td></td>
@@ -203,9 +196,82 @@
                 <td colspan="6" align="center" style="vertical-align:text-top;"></td>
                 <td></td>
                 <td colspan="2" align="left" style="vertical-align:text-top;">Date/Time:</td>
-                <td colspan="4" align="right" style="vertical-align:text-top;">10/10/22 - 16:10</td>
+                <td colspan="4" align="right" style="vertical-align:text-top;"><?php echo date('d F Y, h:i:s A'); ?></td>
                 <td></td>
             </tr>
+        <?php }else{ ?>
+                        <tr>
+                <td colspan="6"><b>Prepared and Released by:</b></td>
+                <td></td>
+                <td colspan="6"><b></b></td>
+                <td></td>
+                <td colspan="6"><b>Verified by:</b></td>
+            </tr>
+            <tr>
+                <td colspan="20"><br></td>
+            </tr>
+            <tr>
+                <td colspan="6" class="bor-btm1" align="center">
+                    Marianne M. Vianña
+                </td>
+                <td></td>
+                <td colspan="6" align="center">
+                </td>
+                <td></td>
+                <td colspan="6" class="bor-btm1" align="center">
+                    Claro Bolarde
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" align="center" style="vertical-align:text-top;">Commercial Asst for Sales/Billing</td>
+                <td></td>
+                <td colspan="6" align="center" style="vertical-align:text-top;"></td>
+                <td></td>
+                <td colspan="6" align="center" style="vertical-align:text-top;">Quality Assurance (Q.A) Supervisor</td>
+            </tr>
+
+            <tr>
+                <td colspan="20"><br></td>
+            </tr>
+            <tr>
+                <td colspan="6"><b>Approved by:</b></td>
+                <td></td>
+                <td colspan="6"><b></b></td>
+                <td></td>
+                <td colspan="6"><b>Received the above items in good condition:</b></td>
+            </tr>
+            <tr>
+                <td colspan="20"><br></td>
+            </tr>
+            <tr>
+                <td colspan="6" class="bor-btm1" align="center">
+                    Raffy F. Ponce
+                </td>
+                <td></td>
+                <td colspan="6"></td>
+                <td></td>
+                <td colspan="6" class="bor-btm1" align="center">
+                    <input style="width:100%;border:0px solid #fff;-webkit-appearance: none;text-align: center;">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" align="center" style="vertical-align:text-top;">Technical Director</td>
+                <td></td>
+                <td colspan="6" align="center" style="vertical-align:text-top;"></td>
+                <td></td>
+                <td colspan="6" align="center" style="vertical-align:text-top;">Signature over Printed Name</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="6" align="center" style="vertical-align:text-top;"></td>
+                <td></td>
+                <td colspan="6" align="center" style="vertical-align:text-top;"></td>
+                <td></td>
+                <td colspan="2" align="left" style="vertical-align:text-top;">Date/Time:</td>
+                <td colspan="4" align="right" style="vertical-align:text-top;"><?php echo date('d F Y, h:i:s A'); ?></td>
+                <td></td>
+            </tr>
+        <?php } ?>
             <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
             <input type="hidden" name="sales_serv_head_id" id="sales_serv_head_id" value="<?php echo $sales_serv_head_id; ?>">
         </table>

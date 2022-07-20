@@ -175,9 +175,9 @@
                             <li class="nav-item"> 
                                 <a class="nav-link"  href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/rack_list')" >Rack</a>
                             </li>
-                            <li class="nav-item"> 
+                            <!-- <li class="nav-item"> 
                                 <a class="nav-link"  href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/signatory_list')">Signatories</a>
-                            </li>
+                            </li> -->
                             <li class="nav-item"> 
                                 <a class="nav-link"  href="javascript:void(0)" onclick="checkURL('<?php echo base_url(); ?>', 'masterfile/shipping_list')">Shipping Company</a>
                             </li>

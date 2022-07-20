@@ -124,12 +124,14 @@ function dateDifference($date_1 , $date_2)
                 //$usertype = $d->usertype_id;
                 $username = $d->username;
                 $fullname = $d->fullname;
+                $position = $d->position;
             }
             $newdata = array(
                'user_id'=> $userid,
                //'usertype'=> $usertype,
                'username'=> $username,
                'fullname'=> $fullname,
+               'position'=> $position,
                'logged_in'=> TRUE
             );
             $this->session->set_userdata($newdata);
@@ -1661,7 +1663,7 @@ function dateDifference($date_1 , $date_2)
         echo "<script>alert('Successfully uploaded!'); window.location = 'bulk_upload';</script>";
     }
 
-        public function insert_signatory(){
+/*        public function insert_signatory(){
         $count = $this->input->post('count');
         for($x=1;$x<$count;$x++){
             $employee_id = $this->input->post('employee_id'.$x);
@@ -1752,7 +1754,7 @@ function dateDifference($date_1 , $date_2)
         }
         $this->load->view('masterfile/signatory_add',$data);
         $this->load->view('template/footer');
-    }
+    }*/
 
 
     

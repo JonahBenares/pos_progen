@@ -431,10 +431,10 @@
             </tr>
             <tr>
                 <td colspan="4" align="center" class="bor-btm1">
-                    <!-- Mary Grace M. Bugna -->
-                    <select style="width:100%;border:0px solid #fff;-webkit-appearance: none;text-align: center;">
+                    <?php echo ($_SESSION['fullname']);?>
+                    <!-- <select style="width:100%;border:0px solid #fff;-webkit-appearance: none;text-align: center;">
                         <option>Mary Grace BUgna</option>
-                    </select>
+                    </select> -->
                 </td>
                 <td></td>
                 <td colspan="4" align="center" class="bor-btm1">
@@ -442,11 +442,11 @@
                 </td>
                 <td colspan="2"></td>
                 <td colspan="4" align="center" class="bor-btm1">
-                    Mary Grace M. Bugna
+                    
                 </td>
                 <td></td>
                 <td colspan="4" align="center" class="bor-btm1">
-                    Mary Grace M. Bugna
+                    Merry Michelle Dato
                 </td>
             </tr>
 
