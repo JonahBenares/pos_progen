@@ -415,36 +415,69 @@
                 <td colspan="8" class="bor-btm1"></td>
             </tr> -->
             <tr>
+                <td colspan="20"><br><br><br></td>
+            </tr>
+            <tr>
+                <td colspan="4"><b>Prepared by:</b></td>
+                <td></td>
+                <td colspan="4"><b>Check by:</b></td>
+                <td colspan="2"></td>
+                <td colspan="4"><b>Noted by:</b></td>
+                <td></td>
+                <td colspan="4"><b>Approved by:</b></td>
+            </tr>
+            <tr>
+                <td colspan="20"><br></td>
+            </tr>
+            <tr>
+                <td colspan="4" align="center" class="bor-btm1">
+                    <!-- Mary Grace M. Bugna -->
+                    <select style="width:100%;border:0px solid #fff;-webkit-appearance: none;text-align: center;">
+                        <option>Mary Grace BUgna</option>
+                    </select>
+                </td>
+                <td></td>
+                <td colspan="4" align="center" class="bor-btm1">
+                    Mary Grace M. Bugna
+                </td>
+                <td colspan="2"></td>
+                <td colspan="4" align="center" class="bor-btm1">
+                    Mary Grace M. Bugna
+                </td>
+                <td></td>
+                <td colspan="4" align="center" class="bor-btm1">
+                    Mary Grace M. Bugna
+                </td>
+            </tr>
+
+            <!-- <tr>
+                <td></td>
+                <td colspan="7"><b>Prepared by:</b></td>
+                <td></td>
+                <td colspan="3"><b></b></td>
+                <td></td>
+                <td colspan="7"><b>Approved by:</b></td>
+                <td></td>
+            </tr>
+            <tr>
                 <td colspan="20"><br></td>
             </tr>
             <tr>
                 <td></td>
-                <td colspan="5"><b>Prepared by:</b></td>
+                <td colspan="7" class="bor-btm1" align="center"></td>
                 <td></td>
-                <td colspan="5"><b>Released by:</b></td>
+                <td colspan="3" align="center"></td>
                 <td></td>
-                <td colspan="6"><b>Approved by:</b></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="20"><br></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td colspan="5" class="bor-btm1" align="center"></td>
-                <td></td>
-                <td colspan="5" class="bor-btm1" align="center"></td>
-                <td></td>
-                <td colspan="6" class="bor-btm1" align="center"></td>
+                <td colspan="7" class="bor-btm1" align="center"></td>
                 <td></td>
             </tr>
             <tr>
                 <td></td>
-                <td colspan="5" align="center" style="vertical-align:text-top;">Sales Officer</td>
+                <td colspan="7" align="center" style="vertical-align:text-top;">Sales Officer</td>
                 <td></td>
-                <td colspan="5" align="center" style="vertical-align:text-top;">Warehouse Assistant</td>
+                <td colspan="3" align="center" style="vertical-align:text-top;"></td>
                 <td></td>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Warehouse Supervisor</td>
+                <td colspan="7" align="center" style="vertical-align:text-top;">Warehouse Supervisor</td>
                 <td></td>
             </tr>
 
@@ -480,7 +513,7 @@
                 <td></td>
                 <td colspan="6" align="center" style="vertical-align:text-top;">Signature over Printed Name</td>
                 <td></td>
-            </tr>
+            </tr> -->
         </table>
     </div>
 </page>
