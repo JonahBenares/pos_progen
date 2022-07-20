@@ -127,67 +127,83 @@
             </tr>
             <?php } ?>
             <tr>
+                <td colspan="6"><b>Prepared and Released by:</b></td>
                 <td></td>
-                <td colspan="5"><b>Prepared and Released by:</b></td>
-                <td></td>
-                <td colspan="5"><b>Recommending Approval:</b></td>
+                <td colspan="6"><b>Recommending Approval: </b></td>
                 <td></td>
                 <td colspan="6"><b>Verified by:</b></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="20"><br></td>
             </tr>
             <tr>
+                <td colspan="6" class="bor-btm1" align="center">
+                   <select style="width:100%;border:0px solid #fff;-webkit-appearance: none;text-align: center;">
+                        <option>Mary Grace BUgna</option>
+                    </select> 
+                </td>
                 <td></td>
-                <td colspan="5" class="bor-btm1" align="center"></td>
+                <td colspan="6" class="bor-btm1" align="center">
+                    <select style="width:100%;border:0px solid #fff;-webkit-appearance: none;text-align: center;">
+                        <option>Mary Grace BUgna</option>
+                    </select>
+                </td>
                 <td></td>
-                <td colspan="5" class="bor-btm1" align="center"></td>
-                <td></td>
-                <td colspan="6" class="bor-btm1" align="center"></td>
-                <td></td>
+                <td colspan="6" class="bor-btm1" align="center">
+                    <select style="width:100%;border:0px solid #fff;-webkit-appearance: none;text-align: center;">
+                        <option>Mary Grace BUgna</option>
+                    </select>
+                </td>
             </tr>
             <tr>
+                <td colspan="6" align="center" style="vertical-align:text-top;">Sales Officer</td>
                 <td></td>
-                <td colspan="5" align="center" style="vertical-align:text-top;">Sales Officer</td>
-                <td></td>
-                <td colspan="5" align="center" style="vertical-align:text-top;">Warehouse Assistant</td>
+                <td colspan="6" align="center" style="vertical-align:text-top;">Warehouse Assistant</td>
                 <td></td>
                 <td colspan="6" align="center" style="vertical-align:text-top;">Warehouse Supervisor</td>
-                <td></td>
             </tr>
 
             <tr>
                 <td colspan="20"><br></td>
             </tr>
             <tr>
+                <td colspan="6"><b>Approved by:</b></td>
                 <td></td>
-                <td colspan="5"><b>Approved by:</b></td>
-                <td></td>
-                <td colspan="5"><b></b></td>
+                <td colspan="6"><b></b></td>
                 <td></td>
                 <td colspan="6"><b>Received the above items in good condition:</b></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="20"><br></td>
             </tr>
             <tr>
+                <td colspan="6" class="bor-btm1" align="center">
+                    <select style="width:100%;border:0px solid #fff;-webkit-appearance: none;text-align: center;">
+                        <option>Mary Grace BUgna</option>
+                    </select>
+                </td>
                 <td></td>
-                <td colspan="5" class="bor-btm1" align="center"></td>
+                <td colspan="6"></td>
                 <td></td>
-                <td colspan="5"></td>
+                <td colspan="6" class="bor-btm1" align="center">
+                    <input style="width:100%;border:0px solid #fff;-webkit-appearance: none;text-align: center;">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" align="center" style="vertical-align:text-top;">Projects and Assets Management</td>
                 <td></td>
-                <td colspan="6" class="bor-btm1" align="center"></td>
+                <td colspan="6" align="center" style="vertical-align:text-top;"></td>
+                <td></td>
+                <td colspan="6" align="center" style="vertical-align:text-top;">Signature over Printed Name</td>
                 <td></td>
             </tr>
             <tr>
+                <td colspan="6" align="center" style="vertical-align:text-top;"></td>
                 <td></td>
-                <td colspan="5" align="center" style="vertical-align:text-top;">Projects and Assets Management</td>
+                <td colspan="6" align="center" style="vertical-align:text-top;"></td>
                 <td></td>
-                <td colspan="5" align="center" style="vertical-align:text-top;"></td>
-                <td></td>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Signature over Printed Name</td>
+                <td colspan="2" align="left" style="vertical-align:text-top;">Date/Time:</td>
+                <td colspan="4" align="right" style="vertical-align:text-top;">10/10/22 - 16:10</td>
                 <td></td>
             </tr>
             <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
