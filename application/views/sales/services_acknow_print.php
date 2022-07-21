@@ -130,9 +130,9 @@
             <tr>
                 <td colspan="6"><b>Prepared and Released by:</b></td>
                 <td></td>
-                <td colspan="6"><b>Recommending Approval: </b></td>
+                <td colspan="6"><b>Verified by: </b></td>
                 <td></td>
-                <td colspan="6"><b>Verified by:</b></td>
+                <td colspan="6"><b>Recommending Approval:</b></td>
             </tr>
             <tr>
                 <td colspan="20"><br></td>
@@ -143,19 +143,19 @@
                 </td>
                 <td></td>
                 <td colspan="6" class="bor-btm1" align="center">
-                    Eric Jabiniar
+                    Roan Renz Liao
                 </td>
                 <td></td>
                 <td colspan="6" class="bor-btm1" align="center">
-                    Roan Renz Liao
+                    Eric Jabiniar
                 </td>
             </tr>
             <tr>
                 <td colspan="6" align="center" style="vertical-align:text-top;">Sales Commercial / Commercial & Parts Analyst</td>
                 <td></td>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Plant Director</td>
-                <td></td>
                 <td colspan="6" align="center" style="vertical-align:text-top;">Sr Parts Engineer</td>
+                <td></td>
+                <td colspan="6" align="center" style="vertical-align:text-top;">Plant Director</td>
             </tr>
 
             <tr>
