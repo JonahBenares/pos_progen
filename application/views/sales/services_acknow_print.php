@@ -196,7 +196,7 @@
                 <td colspan="6" align="center" style="vertical-align:text-top;"></td>
                 <td></td>
                 <td colspan="2" align="left" style="vertical-align:text-top;">Date/Time:</td>
-                <td colspan="4" align="right" style="vertical-align:text-top;"><?php echo date('d F Y, h:i:s A'); ?></td>
+                <td colspan="4" align="right" style="vertical-align:text-top;"></td>
                 <td></td>
             </tr>
         <?php }else{ ?>
@@ -268,7 +268,7 @@
                 <td colspan="6" align="center" style="vertical-align:text-top;"></td>
                 <td></td>
                 <td colspan="2" align="left" style="vertical-align:text-top;">Date/Time:</td>
-                <td colspan="4" align="right" style="vertical-align:text-top;"><?php echo date('d F Y, h:i:s A'); ?></td>
+                <td colspan="4" align="right" style="vertical-align:text-top;"></td>
                 <td></td>
             </tr>
         <?php } ?>
