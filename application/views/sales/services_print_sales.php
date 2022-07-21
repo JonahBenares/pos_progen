@@ -420,7 +420,7 @@
             <tr>
                 <td colspan="4"><b>Prepared by:</b></td>
                 <td></td>
-                <td colspan="4"><b>Check by:</b></td>
+                <td colspan="4"><b>Checked by:</b></td>
                 <td colspan="2"></td>
                 <td colspan="4"><b>Noted by:</b></td>
                 <td></td>
@@ -438,7 +438,7 @@
                 </td>
                 <td></td>
                 <td colspan="4" align="center" class="bor-btm1">
-                    Mary Grace M. Bugna
+                    Mary Grace Bugna
                 </td>
                 <td colspan="2"></td>
                 <td colspan="4" align="center" class="bor-btm1">
