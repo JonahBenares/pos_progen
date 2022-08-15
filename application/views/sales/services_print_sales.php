@@ -352,7 +352,8 @@
                                 $tax = '';
                             }
 
-                            $total = ($grand_total + $total_service_fee + $vat)-$tax
+                            $total = ($grand_total + $total_service_fee + $vat)-$tax;
+                            $administrative_fee=$service_fee * 0.10;
                     ?>
                     <table class="table-bordered" width="100%">
                         <tr>
@@ -377,6 +378,10 @@
                         <tr style="background:#fff700">
                             <td>TOTAL</td>
                             <td><b><?php echo number_format($grand_total,2); ?></b></td>
+                        </tr>
+                        <tr>
+                            <td>Add: Administrative Fee</td>
+                            <td><?php echo number_format($administrative_fee,2); ?></td>
                         </tr>
                         <tr>
                             <td>Add: Service Fee</td>
