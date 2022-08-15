@@ -296,6 +296,7 @@ function proceed_sales_service(){
                     document.getElementById('purpose').readOnly = true;
                     document.getElementById('ar_description').readOnly = true;
                     document.getElementById('remarks').readOnly = true;
+                    document.getElementById('administrative_fee').readOnly = true;
                     $('#shipped_via').attr("disabled", true); 
                     document.getElementById('waybill_no').readOnly = true;
                     $('#vat').attr("disabled", true); 
