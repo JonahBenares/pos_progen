@@ -158,10 +158,16 @@ $(document).ready(function() {
                                         </div>
                                     </div>      
                                     <div class="row">
-                                        <div class="col-lg-12">
+                                        <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Duration</label>
                                                 <textarea class="form-control" rows="1" placeholder="Duration" name="duration" id="duration"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Administrative Fee</label>
+                                                <input type="text" class="form-control" name="administrative_fee" id="administrative_fee" placeholder="Administrative Fee" onkeypress="return isNumberKey(this, event)">
                                             </div>
                                         </div>
                                     </div>                 

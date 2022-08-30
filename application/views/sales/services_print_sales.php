@@ -328,12 +328,12 @@
             </tr>
             <?php } ?>
             <tr>
-                <?php foreach($service_head AS $sh){ ?>
+                <?php $administrative_fee=0; foreach($service_head AS $sh){ ?>
                 <td colspan="5"></td>  
                 <td colspan="10">
                     <?php 
                             $service_fee = $mtotal + $mntotal + $eqtotal;
-
+                            $administrative_fee=$sh['administrative_fee'];
                             if($service_fee>100000){
                                 $total_service_fee = $service_fee * 0.20;
                             }else if($service_fee<100000){
@@ -341,18 +341,18 @@
                             }
 
                             if($sh['vat']==1){
-                                $vat = ($grand_total + $total_service_fee)*0.12;
+                                $vat = ($grand_total + $administrative_fee + $total_service_fee)*0.12;
                             }else{
-                                $vat = '';
+                                $vat = '0';
                             }
 
                             if($sh['wht']==1){
                                 $tax = $grand_total * 0.01;
                             }else{
-                                $tax = '';
+                                $tax = '0';
                             }
 
-                            $total = ($grand_total + $total_service_fee + $vat)-$tax
+                            $total = ($grand_total + $total_service_fee + $vat)-$tax;
                     ?>
                     <table class="table-bordered" width="100%">
                         <tr>
@@ -378,6 +378,12 @@
                             <td>TOTAL</td>
                             <td><b><?php echo number_format($grand_total,2); ?></b></td>
                         </tr>
+                        <?php if($administrative_fee!=0){ ?>
+                        <tr>
+                            <td>Add: Administrative Fee</td>
+                            <td><?php echo number_format($administrative_fee,2); ?></td>
+                        </tr>
+                        <?php } ?>
                         <tr>
                             <td>Add: Service Fee</td>
                             <td><?php echo number_format($total_service_fee,2); ?></td>

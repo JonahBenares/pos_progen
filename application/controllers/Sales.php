@@ -627,6 +627,7 @@ class Sales extends CI_Controller {
             "purpose"=>$this->input->post('purpose'),
             "create_date"=>date("Y-m-d H:i:s"),
             "user_id"=>$_SESSION['user_id'],
+            "administrative_fee"=>$this->input->post('administrative_fee'),
         );
         $id= $this->super_model->insert_return_id("sales_services_head", $data);
         $return = array('sales_serv_head_id'=>$id);
@@ -965,6 +966,7 @@ class Sales extends CI_Controller {
                 'dr_no'=>$sh->dr_no,
                 'remarks'=>$sh->remarks,
                 'overall_remarks'=>$sh->overall_remarks,
+                'administrative_fee'=>$sh->administrative_fee,
             );
 
             $count_itm = $this->super_model->count_rows_where("sales_serv_items","sales_serv_head_id",$sh->sales_serv_head_id);
