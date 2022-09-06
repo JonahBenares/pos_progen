@@ -506,6 +506,7 @@ class Sales extends CI_Controller {
             $contact_person = $this->super_model->select_column_where("client","contact_person","client_id",$sh->client_id);
             $contact_no = $this->super_model->select_column_where("client","contact_no","client_id",$sh->client_id);
             $tin = $this->super_model->select_column_where("client","tin","client_id",$sh->client_id);
+            $data['employee']=$this->super_model->select_all_order_by("employees","employee_name","ASC");
             $data['sales_head'][]=array(
                 'client'=>$client,
                 'address'=>$address,
@@ -544,6 +545,30 @@ class Sales extends CI_Controller {
         }
         $this->load->view('template/print_head');
         $this->load->view('sales/goods_print_sales',$data);
+    }
+
+    public function release_change(){
+        $released_by=$this->input->post('released_by');
+        foreach($this->super_model->select_row_where("employees","employee_id",$released_by) AS $emp){
+            $return = array('position'=>$emp->position);
+        }
+        echo json_encode($return);
+    }
+
+    public function approve_change(){
+        $approved_by=$this->input->post('approved_by');
+        foreach($this->super_model->select_row_where("employees","employee_id",$approved_by) AS $emp){
+            $return = array('position'=>$emp->position);
+        }
+        echo json_encode($return);
+    }
+
+    public function noted_change(){
+        $noted_by=$this->input->post('noted_by');
+        foreach($this->super_model->select_row_where("employees","employee_id",$noted_by) AS $emp){
+            $return = array('position'=>$emp->position);
+        }
+        echo json_encode($return);
     }
 
     public function get_serial($sales_details_id, $status){

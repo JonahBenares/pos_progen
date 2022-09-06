@@ -689,3 +689,48 @@ function saveServicenumber(){
         }); 
     }    
 }
+
+function releasedEmp(){
+    var released_by = document.getElementById("released_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/release_change";
+    $.ajax({
+        data: "released_by="+released_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('released_position').innerHTML=response.position; 
+        }
+    });
+}
+
+function approvedEmp(){
+    var approved_by = document.getElementById("approved_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/approve_change";
+    $.ajax({
+        data: "approved_by="+approved_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('approved_position').innerHTML=response.position; 
+        }
+    });
+}
+
+function notedEmp(){
+    var noted_by = document.getElementById("noted_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/noted_change";
+    $.ajax({
+        data: "noted_by="+noted_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('noted_position').innerHTML=response.position; 
+        }
+    });
+}
