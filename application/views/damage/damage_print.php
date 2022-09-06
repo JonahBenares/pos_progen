@@ -197,7 +197,7 @@
                 <tr>
                     <td colspan="6"><b>Prepared by:</b></td>
                     <td></td>
-                    <td colspan="6"><b>Checked/Verified by::</b></td>
+                    <td colspan="6"><b>Checked/Verified by:</b></td>
                     <td></td>
                     <td colspan="6"><b>Noted by:</b></td>
                 </tr>
