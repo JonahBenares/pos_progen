@@ -315,3 +315,88 @@ function exportReceive(){
     var loc= document.getElementById("baseurl").value;
     window.location = loc+'receive/export_receive/';
 }
+
+function printReceive(){
+    var sign = $("#receive_sign").serialize();
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+'receive/receive_print';
+     $.ajax({
+        type: "POST",
+        url: redirect,
+        data: sign,
+        success: function(output){
+            if(output=='success'){
+                document.getElementById('changeTextdel').innerHTML=$("#delivered_by option:selected").text();
+                $('#delivered_by').hide();
+                document.getElementById('changeTextrec').innerHTML=$("#received_by option:selected").text();
+                $('#received_by').hide();
+                document.getElementById('changeTextack').innerHTML=$("#acknowledged_by option:selected").text();
+                $('#acknowledged_by').hide();
+                document.getElementById('changeTextnote').innerHTML=$("#noted_by option:selected").text();
+                $('#noted_by').hide();
+                window.print();
+            }
+        }
+    });
+}
+
+
+function deliveredEmp(){
+    var delivered_by = document.getElementById("delivered_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"receive/delivered_change";
+    $.ajax({
+        data: "delivered_by="+delivered_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('delivered_position').innerHTML=response.position; 
+        }
+    });
+}
+
+function receivedEmp(){
+    var received_by = document.getElementById("received_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"receive/received_change";
+    $.ajax({
+        data: "received_by="+received_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('received_position').innerHTML=response.position; 
+        }
+    });
+}
+
+function acknowledgedEmp(){
+    var acknowledged_by = document.getElementById("acknowledged_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"receive/acknowledged_change";
+    $.ajax({
+        data: "acknowledged_by="+acknowledged_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('acknowledged_position').innerHTML=response.position; 
+        }
+    });
+}
+
+function notedEmp(){
+    var noted_by = document.getElementById("noted_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"receive/noted_change";
+    $.ajax({
+        data: "noted_by="+noted_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('noted_position').innerHTML=response.position; 
+        }
+    });
+}

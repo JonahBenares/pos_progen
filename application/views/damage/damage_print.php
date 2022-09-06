@@ -36,7 +36,7 @@
                 <td width="5%"></td>
             </tr>
 
-            <tr>
+            <tr style="padding:10px;border-top: 2px solid #000;border-bottom: 2px solid #000;border-left: 2px solid #000">
                 <td colspan="2">
                     <img class="logo-print" src="<?php echo base_url().LOGO;?>">   
                 </td>
@@ -47,13 +47,14 @@
                     <br>
                 </td>
                 <td colspan="1"></td>
-                <td colspan="5" align="right" >
+                <td colspan="5" align="right" style="padding:10px;border-top: 2px solid #000;border-bottom: 2px solid #000;border-left: 2px solid #000;border-right: 2px solid #000">
                     <span style="font-size: 15px;line-height: 10px;"><b>PARTS/ EQUIPMENT DAMAGE REPORT</b></span>
                 </td>
             </tr>
+            <td></td>
             <tr>
                 <td colspan="20">
-                    <hr style="margin-top: 0.4rem;margin-bottom: 1rem;border: 0;border-top: 2px solid #000">
+                    <hr style="margin-top: 0.4rem;margin-bottom: 1rem;border: 0;border-top: 2px">
                 </td>
             </tr>
            
@@ -215,9 +216,11 @@
             <tr>
                 <td colspan="6" align="center" style="vertical-align:text-top;">Sales Officer</td>
                 <td></td>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Toolkeeper/Technical Person</td>
+                <!-- <td colspan="6" align="center" style="vertical-align:text-top;">Toolkeeper/Technical Person</td> -->
+                <td colspan="6" align="center" style="vertical-align:text-top;"><?php echo $h['position_checked']; ?></td>
                 <td></td>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Assets & Projects Mgmt. Assist.</td>
+                <!-- <td colspan="6" align="center" style="vertical-align:text-top;">Assets & Projects Mgmt. Assist.</td> -->
+                <td colspan="6" align="center" style="vertical-align:text-top;"><?php echo $h['position_noted']; ?></td>
             </tr>
 
             <tr>

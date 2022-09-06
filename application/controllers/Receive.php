@@ -383,7 +383,33 @@ class Receive extends CI_Controller {
     public function print_receive()
     {
         $receive_id= $this->uri->segment(3);
-        $data["head"] = $this->super_model->select_row_where("receive_head", "receive_id",$receive_id);
+        $data['receive_id']=$receive_id;
+        // $data["head"] = $this->super_model->select_row_where("receive_head", "receive_id",$receive_id);
+        // $data['employee']=$this->super_model->select_all_order_by("employees","employee_name","ASC");
+        foreach($this->super_model->select_custom_where("receive_head","receive_id = '$receive_id'") AS $rec){
+            $data['employee']=$this->super_model->select_all_order_by("employees","employee_name","ASC");
+            $data['received_by']=$rec->received_by;
+            $data['received']=$this->super_model->select_column_where("employees","employee_name","employee_id",$rec->received_by);
+            $data['received_position']=$this->super_model->select_column_where("employees","position","employee_id",$rec->received_by);
+            $data['delivered_by']=$rec->delivered_by;
+            $data['delivered']=$this->super_model->select_column_where("employees","employee_name","employee_id",$rec->delivered_by);
+            $data['delivered_position']=$this->super_model->select_column_where("employees","position","employee_id",$rec->delivered_by);
+            $data['acknowledged_by']=$rec->acknowledged_by;
+            $data['acknowledged']=$this->super_model->select_column_where("employees","employee_name","employee_id",$rec->acknowledged_by);
+            $data['acknowledged_position']=$this->super_model->select_column_where("employees","position","employee_id",$rec->acknowledged_by);
+            $data['noted_by']=$rec->noted_by;
+            $data['noted']=$this->super_model->select_column_where("employees","employee_name","employee_id",$rec->noted_by);
+            $data['noted_position']=$this->super_model->select_column_where("employees","position","employee_id",$rec->noted_by);
+            $data['head'][]=array(
+                'pcf'=>$rec->pcf,
+                'receive_date'=>$rec->receive_date,
+                'mrecf_no'=>$rec->mrecf_no,
+                'dr_no'=>$rec->dr_no,
+                'po_no'=>$rec->po_no,
+                'si_no'=>$rec->si_no,
+                'overall_remarks'=>$rec->overall_remarks,
+            );
+        }
 
 
         foreach($this->super_model->select_row_where("receive_details", "receive_id", $receive_id) AS $det){
@@ -423,6 +449,51 @@ class Receive extends CI_Controller {
         }
         $this->load->view('template/print_head');
         $this->load->view('receive/print_receive',$data);
+    }
+
+    public function receive_print(){
+        $id=$this->input->post('receive_id');
+        $data = array(
+            "delivered_by"=>$this->input->post('delivered_by'),
+            "received_by"=>$this->input->post('received_by'),
+            "acknowledged_by"=>$this->input->post('acknowledged_by'),
+            "noted_by"=>$this->input->post('noted_by')
+        );
+
+        $this->super_model->update_where("receive_head", $data, "receive_id", $id);
+        echo "success";
+    }
+
+    public function delivered_change(){
+        $delivered_by=$this->input->post('delivered_by');
+        foreach($this->super_model->select_row_where("employees","employee_id",$delivered_by) AS $emp){
+            $return = array('position'=>$emp->position);
+        }
+        echo json_encode($return);
+    }
+
+    public function received_change(){
+        $received_by=$this->input->post('received_by');
+        foreach($this->super_model->select_row_where("employees","employee_id",$received_by) AS $emp){
+            $return = array('position'=>$emp->position);
+        }
+        echo json_encode($return);
+    }
+
+    public function acknowledged_change(){
+        $acknowledged_by=$this->input->post('acknowledged_by');
+        foreach($this->super_model->select_row_where("employees","employee_id",$acknowledged_by) AS $emp){
+            $return = array('position'=>$emp->position);
+        }
+        echo json_encode($return);
+    }
+
+    public function noted_change(){
+        $noted_by=$this->input->post('noted_by');
+        foreach($this->super_model->select_row_where("employees","employee_id",$noted_by) AS $emp){
+            $return = array('position'=>$emp->position);
+        }
+        echo json_encode($return);
     }
 
 }

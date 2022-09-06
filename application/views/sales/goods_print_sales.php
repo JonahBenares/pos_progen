@@ -5,7 +5,7 @@
 </script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/sales.js"></script>
-<form method="POST" action="<?php base_url(); ?>sales/save_signatories" id="delivery_sign">
+<form method="POST" id="delivery_sign">
     <div class="animated " id="printbutton" style="margin-top: 40px;">
         <center>
             <a href="<?php echo base_url(); ?>sales/goods_sales_list" class="btn btn-warning btn-sm btn-rounded"  ><b>Back</b></a>

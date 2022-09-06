@@ -451,10 +451,66 @@ class Sales_backorder extends CI_Controller {
 
     }
 
-    public function print_backorder(){
+/*    public function print_backorder(){
         $this->load->view('template/header');
         $this->load->view('template/navbar');
         $this->load->view('sales_backorder/print_backorder');
+        $this->load->view('template/footer');
+    }*/
+
+    public function print_backorder(){
+        $data['id']=$this->uri->segment(3);
+        $id=$this->uri->segment(3);
+        $this->load->model('super_model');
+        $data['heads'] = $this->super_model->select_row_where('receive_head', 'receive_id', $id);
+
+        foreach($this->super_model->select_row_where('receive_details', 'receive_id', $id) AS $d){
+            $purpose = $this->super_model->select_column_where('purpose', 'purpose_desc', 'purpose_id', $d->purpose_id);
+            $deparment = $this->super_model->select_column_where('department', 'department_name', 'department_id', $d->department_id);
+            $inspected = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $d->inspected_by);
+            $data['details'][] = array(
+                'rdid'=>$d->rd_id,
+                'prno'=>$d->pr_no,
+                'purpose'=>$purpose,
+                'department'=>$deparment,
+                'inspected'=>$inspected
+            );
+            foreach($this->super_model->select_row_where("receive_items", "rd_id", $d->rd_id) AS $items){
+                foreach($this->super_model->select_custom_where("items", "item_id = '$items->item_id'") AS $itema){
+                    $unit = $this->super_model->select_column_where('uom', 'unit_name', 'unit_id', $itema->unit_id);
+                }
+                $supplier = $this->super_model->select_column_where('supplier', 'supplier_name', 'supplier_id', $items->supplier_id);
+                $item = $this->super_model->select_column_where('items', 'item_name', 'item_id', $items->item_id);
+                $total=$items->received_qty*$items->item_cost;
+                $data['items'][] = array(
+                    'rdid'=>$items->rd_id,
+                    'supplier'=>$supplier,
+                    'item'=>$item,
+                    'unit'=>$unit,
+                    'expqty'=>$items->expected_qty,
+                    'recqty'=>$items->received_qty,
+                    'remarks'=>$items->remarks,
+                    'catno'=>$items->catalog_no,
+                    'serial'=>$items->serial_no,
+                    'shipping_fee'=>$items->shipping_fee,
+                    'brand'=>$items->brand,
+                    'unitcost'=>$items->item_cost,
+                    'total'=>$total
+                );
+            }
+            foreach($this->super_model->select_row_where("receive_items", "rd_id", $d->rd_id) AS $itm_rem){
+                $item = $this->super_model->select_column_where('items', 'item_name', 'item_id', $itm_rem->item_id);
+                $data['remarks_it'][] = array(
+                    'rdid'=>$items->rd_id,
+                    'item'=>$item,
+                    'remarks'=>$itm_rem->remarks
+                );
+            }
+        }
+        $data['printed']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $_SESSION['user_id']);
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('sales_backorder/print_backorder',$data);
         $this->load->view('template/footer');
     }
 

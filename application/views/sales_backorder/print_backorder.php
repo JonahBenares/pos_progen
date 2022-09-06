@@ -8,7 +8,7 @@
             </h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>back_order/backorder_form">Back Order</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>sales_backorder/backorder_form">Back Order</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Print Back Order</li>
                 </ol>
             </nav>
