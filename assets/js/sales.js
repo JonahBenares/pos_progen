@@ -734,3 +734,25 @@ function notedEmp(){
         }
     });
 }
+
+function printDeliverygoods(){
+    var sign = $("#delivery_sign").serialize();
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+'sales/print_deliver_goods';
+     $.ajax({
+        type: "POST",
+        url: redirect,
+        data: sign,
+        success: function(output){
+            if(output=='success'){
+                document.getElementById('changeTextrel').innerHTML=$("#released_by option:selected").text();
+                $('#released_by').hide();
+                document.getElementById('changeTextapp').innerHTML=$("#approved_by option:selected").text();
+                $('#approved_by').hide();
+                document.getElementById('changeTextnote').innerHTML=$("#noted_by option:selected").text();
+                $('#noted_by').hide();
+                window.print();
+            }
+        }
+    });
+}

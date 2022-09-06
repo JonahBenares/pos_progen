@@ -500,6 +500,7 @@ class Sales extends CI_Controller {
 
     public function goods_print_sales(){
         $sales_good_head_id = $this->uri->segment(3);
+        $data['sales_good_head_id']=$sales_good_head_id;
         foreach($this->super_model->select_custom_where("sales_good_head","sales_good_head_id = '$sales_good_head_id'") AS $sh){
             $client = $this->super_model->select_column_where("client","buyer_name","client_id",$sh->client_id);
             $address = $this->super_model->select_column_where("client","address","client_id",$sh->client_id);
@@ -507,6 +508,15 @@ class Sales extends CI_Controller {
             $contact_no = $this->super_model->select_column_where("client","contact_no","client_id",$sh->client_id);
             $tin = $this->super_model->select_column_where("client","tin","client_id",$sh->client_id);
             $data['employee']=$this->super_model->select_all_order_by("employees","employee_name","ASC");
+            $data['released_by']=$sh->released_by;
+            $data['released']=$this->super_model->select_column_where("employees","employee_name","employee_id",$sh->released_by);
+            $data['released_position']=$this->super_model->select_column_where("employees","position","employee_id",$sh->released_by);
+            $data['approved_by']=$sh->approved_by;
+            $data['approved']=$this->super_model->select_column_where("employees","employee_name","employee_id",$sh->approved_by);
+            $data['approved_position']=$this->super_model->select_column_where("employees","position","employee_id",$sh->approved_by);
+            $data['noted_by']=$sh->noted_by;
+            $data['noted']=$this->super_model->select_column_where("employees","employee_name","employee_id",$sh->noted_by);
+            $data['noted_position']=$this->super_model->select_column_where("employees","position","employee_id",$sh->noted_by);
             $data['sales_head'][]=array(
                 'client'=>$client,
                 'address'=>$address,
@@ -569,6 +579,18 @@ class Sales extends CI_Controller {
             $return = array('position'=>$emp->position);
         }
         echo json_encode($return);
+    }
+
+    public function print_deliver_goods(){
+        $id=$this->input->post('sales_good_head_id');
+        $data = array(
+            "released_by"=>$this->input->post('released_by'),
+            "approved_by"=>$this->input->post('approved_by'),
+            "noted_by"=>$this->input->post('noted_by')
+        );
+
+        $this->super_model->update_where("sales_good_head", $data, "sales_good_head_id", $id);
+        echo "success";
     }
 
     public function get_serial($sales_details_id, $status){
