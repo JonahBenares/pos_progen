@@ -377,8 +377,16 @@ class Returns extends CI_Controller {
             $department = $this->super_model->select_column_where("department","department_name","department_id",$department_id);
             $purpose_id = $this->super_model->select_column_where("receive_details","purpose_id","receive_id",$receive_id);
             $purpose = $this->super_model->select_column_where("purpose","purpose_desc","purpose_id",$purpose_id);
-
-
+            $data['employee']=$this->super_model->select_all_order_by("employees","employee_name","ASC");
+            $data['prepared_by']=$rh->user_id;
+            $data['prepared']=$this->super_model->select_column_where("users","fullname","user_id",$rh->user_id);
+            $data['position']=$this->super_model->select_column_where("users","position","user_id",$rh->user_id);
+            $data['checked_by']=$rh->checked_by;
+            $data['checked']=$this->super_model->select_column_where("employees","employee_name","employee_id",$rh->checked_by);
+            $data['checked_position']=$this->super_model->select_column_where("employees","position","employee_id",$rh->checked_by);
+            $data['approved_by']=$rh->approved_by;
+            $data['approved']=$this->super_model->select_column_where("employees","employee_name","employee_id",$rh->approved_by);
+            $data['approved_position']=$this->super_model->select_column_where("employees","position","employee_id",$rh->approved_by);
             if($rh->transaction_type=='Goods'){
                 $dr_no = $this->super_model->select_column_where("sales_good_head","dr_no","dr_no",$rh->dr_no);
                 $pr_no = $this->super_model->select_column_where("sales_good_head","pr_no","dr_no",$rh->dr_no);
@@ -437,6 +445,33 @@ class Returns extends CI_Controller {
         $data['adjustment_qty'] = $this->super_model->count_custom_where("billing_adjustment_history", "return_id='$return_id' AND status='0'");
         $this->load->view('template/print_head');
         $this->load->view('returns/print_return_goods_services',$data);
+    }
+
+    public function approve_change(){
+        $approved_by=$this->input->post('approved_by');
+        foreach($this->super_model->select_row_where("employees","employee_id",$approved_by) AS $emp){
+            $return = array('position'=>$emp->position);
+        }
+        echo json_encode($return);
+    }
+
+    public function checked_change(){
+        $checked_by=$this->input->post('checked_by');
+        foreach($this->super_model->select_row_where("employees","employee_id",$checked_by) AS $emp){
+            $return = array('position'=>$emp->position);
+        }
+        echo json_encode($return);
+    }
+
+    public function print_return_goods(){
+        $id=$this->input->post('return_id');
+        $data = array(
+            "checked_by"=>$this->input->post('checked_by'),
+            "approved_by"=>$this->input->post('approved_by'),
+        );
+
+        $this->super_model->update_where("return_head", $data, "return_id", $id);
+        echo "success";
     }
 
     public function return_damage(){

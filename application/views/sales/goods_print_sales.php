@@ -185,7 +185,7 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td colspan="5" class="bor-btm1" align="center"><?php echo $_SESSION['fullname'];?></td>
+                    <td colspan="5" class="bor-btm1" align="center"><?php echo $prepared; ?></td>
                     <td></td>
                     <td colspan="5" class="bor-btm1" align="center" id="changeTextrel">
                         <?php if($released_by==0){ ?>
@@ -212,7 +212,7 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td colspan="5" align="center" style="vertical-align:text-top;">Sales Officer</td>
+                    <td colspan="5" align="center" style="vertical-align:text-top;"><?php echo $position; ?></td>
                     <td></td>
                     <td colspan="5" align="center" style="vertical-align:text-top;" id="released_position"><?php echo $released_position; ?></td>
                     <td></td>
