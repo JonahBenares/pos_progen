@@ -3,6 +3,8 @@
       window.history.back();
     }
 </script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/sales.js"></script>
 <div class="animated " id="printbutton" style="margin-top: 40px;">
     <center>
         <a href="<?php echo base_url(); ?>sales/goods_sales_list" class="btn btn-warning btn-sm btn-rounded"  ><b>Back</b></a> 
@@ -178,20 +180,34 @@
             </tr>
             <tr>
                 <td></td>
-                <td colspan="5" class="bor-btm1" align="center"></td>
+                <td colspan="5" class="bor-btm1" align="center"><?php echo $_SESSION['fullname'];?></td>
                 <td></td>
-                <td colspan="5" class="bor-btm1" align="center"></td>
+                <td colspan="5" class="bor-btm1" align="center">
+                    <select name="released_by" id="released_by" class="form-control select2" style="border:transparent" onchange="releasedEmp()">
+                        <option value="">--Select Employees--</option>
+                        <?php foreach($employee AS $emp){ ?>
+                            <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+                        <?php } ?>
+                    </select>
+                </td>
                 <td></td>
-                <td colspan="6" class="bor-btm1" align="center"></td>
+                <td colspan="6" class="bor-btm1" align="center">
+                    <select name="approved_by" id="approved_by" class="form-control select2"  style="border:transparent" onchange="approvedEmp()">
+                        <option value="">--Select Employees--</option>
+                        <?php foreach($employee AS $emp){ ?>
+                            <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+                        <?php } ?>
+                    </select>
+                </td>
                 <td></td>
             </tr>
             <tr>
                 <td></td>
                 <td colspan="5" align="center" style="vertical-align:text-top;">Sales Officer</td>
                 <td></td>
-                <td colspan="5" align="center" style="vertical-align:text-top;">Warehouse Assistant</td>
+                <td colspan="5" align="center" style="vertical-align:text-top;" id="released_position"></td>
                 <td></td>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Warehouse Supervisor</td>
+                <td colspan="6" align="center" style="vertical-align:text-top;" id="approved_position"></td>
                 <td></td>
             </tr>
 
@@ -212,7 +228,14 @@
             </tr>
             <tr>
                 <td></td>
-                <td colspan="5" class="bor-btm1" align="center"></td>
+                <td colspan="5" class="bor-btm1" align="center">
+                    <select name="noted_by" id="noted_by" class="form-control select2"  style="border:transparent"  onchange="notedEmp()">
+                        <option value="">--Select Employees--</option>
+                        <?php foreach($employee AS $emp){ ?>
+                            <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+                        <?php } ?>
+                    </select>
+                </td>
                 <td></td>
                 <td colspan="5"></td>
                 <td></td>
@@ -221,7 +244,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td colspan="5" align="center" style="vertical-align:text-top;">Projects and Assets Management</td>
+                <td colspan="5" align="center" style="vertical-align:text-top;" id="noted_position"></td>
                 <td></td>
                 <td colspan="5" align="center" style="vertical-align:text-top;"></td>
                 <td></td>
@@ -230,7 +253,12 @@
             </tr>
             <?php } ?>
         </table>
+        <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
     </div>
 </page>
-
+<link href="<?php echo base_url(); ?>assets/css/select2.min.css" rel="stylesheet" />
+<script src="<?php echo base_url(); ?>assets/js/select2.min.js"></script>
+<script>
+    $('.select2').select2();
+</script>
 
