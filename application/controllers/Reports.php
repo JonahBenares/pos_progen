@@ -1260,8 +1260,18 @@ class Reports extends CI_Controller {
 
     public function print_billing(){
         $bsid = $this->uri->segment(3);
-
+        $data['billing_id']=$bsid;
         foreach($this->super_model->select_row_where("billing_head", "billing_id", $bsid) AS $bs){
+            $data['employee']=$this->super_model->select_all_order_by("employees","employee_name","ASC");
+            $data['prepared_by']=$bs->user_id;
+            $data['prepared']=$this->super_model->select_column_where("users","fullname","user_id",$bs->user_id);
+            $data['position']=$this->super_model->select_column_where("users","position","user_id",$bs->user_id);
+            $data['checked_by']=$bs->checked_by;
+            $data['checked']=$this->super_model->select_column_where("employees","employee_name","employee_id",$bs->checked_by);
+            $data['checked_position']=$this->super_model->select_column_where("employees","position","employee_id",$bs->checked_by);
+            $data['approved_by']=$bs->approved_by;
+            $data['approved']=$this->super_model->select_column_where("employees","employee_name","employee_id",$bs->approved_by);
+            $data['approved_position']=$this->super_model->select_column_where("employees","position","employee_id",$bs->approved_by);
             $data['head'][] = array(
                 "billing_no"=>$bs->billing_no,
                 "date"=>$bs->billing_date,
@@ -1276,6 +1286,33 @@ class Reports extends CI_Controller {
         $data['billing_id']=$bsid;
         $this->load->view('template/print_head');
         $this->load->view('reports/print_billing',$data);
+    }
+
+    public function approve_change(){
+        $approved_by=$this->input->post('approved_by');
+        foreach($this->super_model->select_row_where("employees","employee_id",$approved_by) AS $emp){
+            $return = array('position'=>$emp->position);
+        }
+        echo json_encode($return);
+    }
+
+    public function checked_change(){
+        $checked_by=$this->input->post('checked_by');
+        foreach($this->super_model->select_row_where("employees","employee_id",$checked_by) AS $emp){
+            $return = array('position'=>$emp->position);
+        }
+        echo json_encode($return);
+    }
+
+    public function print_billingstatement(){
+        $id=$this->input->post('billing_id');
+        $data = array(
+            "checked_by"=>$this->input->post('checked_by'),
+            "approved_by"=>$this->input->post('approved_by'),
+        );
+
+        $this->super_model->update_where("billing_head", $data, "billing_id", $id);
+        echo "success";
     }
 
     public function submit_payment(){

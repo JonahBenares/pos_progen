@@ -3,7 +3,9 @@
       window.history.back();
     }
 </script>
-
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/return.js"></script>
+<form method="POST" id="return_sign">
 <?php if($adjustment_qty>0){ ?>
     <div class="alert alert-warning" role="alert"> <span class="mdi mdi-alert-outline"></span> &nbsp; This transaction has affected a Billing Statement. Kindly process adjustment <a href="<?php echo base_url(); ?>reports/billed_list/<?php echo $client_id; ?>"  target='_blank'>here</a>.  </div>
     <?php } if($damage_qty>0){ ?>
@@ -13,7 +15,12 @@
 <div class="animated " id="printbutton" style="margin-top: 40px;">
     <center>
         <a class="btn btn-warning btn-sm btn-rounded" onclick="goBack()" ><b>Back</b></a> 
-        <a class="btn btn-success btn-sm btn-rounded" onclick="window.print()"><b>Print</b></a>
+        <!-- <a class="btn btn-success btn-sm btn-rounded" onclick="window.print()"><b>Print</b></a> -->
+        <?php if(($checked_by==0) || ($approved_by==0)){ ?> 
+            <a type="button" class="btn btn-success btn-sm btn-rounded" onclick="printReturn()"><b>Save & Print</b></a>
+        <?php }else{ ?>
+            <a class="btn btn-success btn-sm btn-rounded" onclick="window.print()"><b>Print</b></a>
+        <?php } ?>
     </center>
     <br>
 </div>
@@ -175,32 +182,62 @@
                 </td>
             </tr> -->
             <tr>
-                <td colspan="6"><b>Prepared by:</b></td>
                 <td></td>
-                <td colspan="6"><b>Checked by:</b></td>
+                <td colspan="5"><b>Prepared by:</b></td>
+                <td></td>
+                <td colspan="5"><b>Checked by:</b></td>
                 <td></td>
                 <td colspan="6"><b>Approved by:</b></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="20"><br></td>
             </tr>
             <tr>
-                <td colspan="6"></td>
+                <td colspan="5" class="bor-btm1" align="center">
+                    <?php echo $prepared; ?>
+                </td>
                 <td></td>
-                <td colspan="6"></td>
+                <td colspan="5" class="bor-btm1" align="center" id="changeTextchecked">
+                    <?php if($checked_by==0){ ?>
+                        <select name="checked_by" id="checked_by" class="form-control select2"  style="border:transparent" onchange="checkedEmp()">
+                            <option value="">--Select Employees--</option>
+                            <?php foreach($employee AS $emp){ ?>
+                                <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+                            <?php } ?>
+                        </select>
+                    <?php } else{ echo $checked; }?>
+                </td>
                 <td></td>
-                <td colspan="6"></td>
+                <td colspan="6" class="bor-btm1" align="center" id="changeTextapp">
+                    <?php if($approved_by==0){ ?>
+                        <select name="approved_by" id="approved_by" class="form-control select2"  style="border:transparent" onchange="approvedEmp()">
+                            <option value="">--Select Employees--</option>
+                            <?php foreach($employee AS $emp){ ?>
+                                <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+                            <?php } ?>
+                        </select>
+                    <?php } else{ echo $approved; }?>
+                </td>
             </tr>
             <tr>
-                <td colspan="6">Sales Officer</td>
+                <td colspan="5" align="center" style="vertical-align:text-top;"><?php echo $position; ?></td>
                 <td></td>
-                <td colspan="6">Internal Auditor</td>
+                <td colspan="5" align="center" id="checked_position" style="vertical-align:text-top;"><?php echo $checked_position; ?></td>
                 <td></td>
-                <td colspan="6">Assets & Projects Management Assistant</td>
+                <td colspan="6" align="center" id="approved_position" style="vertical-align:text-top;"><?php echo $approved_position; ?></td>
             </tr>
             <?php } ?>
         </table>
     </div>
 </page>
+<input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
+<input type="hidden" name="return_id" id="return_id" value="<?php echo $return_id; ?>">
+</form>
+<link href="<?php echo base_url(); ?>assets/css/select2.min.css" rel="stylesheet" />
+<script src="<?php echo base_url(); ?>assets/js/select2.min.js"></script>
+<script>
+    $('.select2').select2();
+</script>
 
 

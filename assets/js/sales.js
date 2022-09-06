@@ -735,6 +735,21 @@ function notedEmp(){
     });
 }
 
+function checkedEmp(){
+    var checked_by = document.getElementById("checked_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/checked_change";
+    $.ajax({
+        data: "checked_by="+checked_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('checked_position').innerHTML=response.position; 
+        }
+    });
+}
+
 function printDeliverygoods(){
     var sign = $("#delivery_sign").serialize();
     var loc= document.getElementById("baseurl").value;
@@ -747,6 +762,28 @@ function printDeliverygoods(){
             if(output=='success'){
                 document.getElementById('changeTextrel').innerHTML=$("#released_by option:selected").text();
                 $('#released_by').hide();
+                document.getElementById('changeTextapp').innerHTML=$("#approved_by option:selected").text();
+                $('#approved_by').hide();
+                document.getElementById('changeTextnote').innerHTML=$("#noted_by option:selected").text();
+                $('#noted_by').hide();
+                window.print();
+            }
+        }
+    });
+}
+
+function printDeliveryservices(){
+    var sign = $("#serviceSign").serialize();
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+'sales/print_deliver_services';
+     $.ajax({
+        type: "POST",
+        url: redirect,
+        data: sign,
+        success: function(output){
+            if(output=='success'){
+                document.getElementById('changeTextchk').innerHTML=$("#checked_by option:selected").text();
+                $('#checked_by').hide();
                 document.getElementById('changeTextapp').innerHTML=$("#approved_by option:selected").text();
                 $('#approved_by').hide();
                 document.getElementById('changeTextnote').innerHTML=$("#noted_by option:selected").text();

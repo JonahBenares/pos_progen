@@ -276,3 +276,53 @@ function generateAdjustment(){
         }); 
     }   
 }
+
+function approvedEmp(){
+    var approved_by = document.getElementById("approved_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"reports/approve_change";
+    $.ajax({
+        data: "approved_by="+approved_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('approved_position').innerHTML=response.position; 
+        }
+    });
+}
+
+function checkedEmp(){
+    var checked_by = document.getElementById("checked_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"reports/checked_change";
+    $.ajax({
+        data: "checked_by="+checked_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('checked_position').innerHTML=response.position; 
+        }
+    });
+}
+
+function printBS(){
+    var sign = $("#bs_sign").serialize();
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+'reports/print_billingstatement';
+     $.ajax({
+        type: "POST",
+        url: redirect,
+        data: sign,
+        success: function(output){
+            if(output=='success'){
+                document.getElementById('changeTextchecked').innerHTML=$("#checked_by option:selected").text();
+                $('#checked_by').hide();
+                document.getElementById('changeTextapp').innerHTML=$("#approved_by option:selected").text();
+                $('#approved_by').hide();
+                window.print();
+            }
+        }
+    });
+}

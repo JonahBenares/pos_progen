@@ -5,7 +5,7 @@
 </script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/sales.js"></script>
-<form method="POST" action="<?php base_url(); ?>sales/save_signatories" id="delivery_sign">
+<form method="POST" id="delivery_sign">
     <div class="animated " id="printbutton" style="margin-top: 40px;">
         <center>
             <a href="<?php echo base_url(); ?>sales/goods_sales_list" class="btn btn-warning btn-sm btn-rounded"  ><b>Back</b></a>
@@ -185,7 +185,7 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td colspan="5" class="bor-btm1" align="center"><?php echo $_SESSION['fullname'];?></td>
+                    <td colspan="5" class="bor-btm1" align="center"><?php echo $prepared; ?></td>
                     <td></td>
                     <td colspan="5" class="bor-btm1" align="center" id="changeTextrel">
                         <?php if($released_by==0){ ?>
@@ -212,7 +212,7 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td colspan="5" align="center" style="vertical-align:text-top;">Sales Officer</td>
+                    <td colspan="5" align="center" style="vertical-align:text-top;"><?php echo $position; ?></td>
                     <td></td>
                     <td colspan="5" align="center" style="vertical-align:text-top;" id="released_position"><?php echo $released_position; ?></td>
                     <td></td>

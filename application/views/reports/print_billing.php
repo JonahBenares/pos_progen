@@ -3,10 +3,18 @@
       window.history.back();
     }
 </script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/reports.js"></script>
+<form method="POST" id="bs_sign">
 <div class="animated " id="printbutton" style="margin-top: 40px;">
     <center>
         <a href="<?php echo base_url(); ?>reports/billed_list" class="btn btn-warning btn-sm btn-rounded"><b>Back</b></a> 
-        <a href="" class="btn btn-success btn-sm btn-rounded" onclick="window.print()"><b>Print</b></a>
+        <!-- <a href="" class="btn btn-success btn-sm btn-rounded" onclick="window.print()"><b>Print</b></a> -->
+        <?php if(($checked_by==0) || ($approved_by==0)){ ?> 
+            <a type="button" class="btn btn-success btn-sm btn-rounded" onclick="printBS()"><b>Save & Print</b></a>
+        <?php }else{ ?>
+            <a class="btn btn-success btn-sm btn-rounded" onclick="window.print()"><b>Print</b></a>
+        <?php } ?>
         <a href="<?php echo base_url(); ?>reports/bill_pay/<?php echo $billing_id; ?>" class="btn btn-gradient-info btn-sm btn-rounded"><b>Proceed Pay</b></b>
         </a>
     </center>
@@ -162,24 +170,50 @@
             </tr>
             <tr>
                 <td></td>
-                <td colspan="5">Mary Grace Bugna</td>
+                <td colspan="5" class="bor-btm1" align="center"><?php echo $prepared; ?></td>
                 <td></td>
-                <td colspan="5">Jordan T. Yap</td>
+                <td colspan="5" class="bor-btm1" align="center" id="changeTextchecked">
+                    <?php if($checked_by==0){ ?>
+                        <select name="checked_by" id="checked_by" class="form-control select2"  style="border:transparent" onchange="checkedEmp()">
+                            <option value="">--Select Employees--</option>
+                            <?php foreach($employee AS $emp){ ?>
+                                <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+                            <?php } ?>
+                        </select>
+                    <?php } else{ echo $checked; }?>
+                </td>
                 <td></td>
-                <td colspan="6">Merry Michelle D. Dato</td>
+                <td colspan="6" class="bor-btm1" align="center" id="changeTextapp">
+                    <?php if($approved_by==0){ ?>
+                        <select name="approved_by" id="approved_by" class="form-control select2"  style="border:transparent" onchange="approvedEmp()">
+                            <option value="">--Select Employees--</option>
+                            <?php foreach($employee AS $emp){ ?>
+                                <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+                            <?php } ?>
+                        </select>
+                    <?php } else{ echo $approved; }?>
+                </td>
                 <td></td>
             </tr>
             <tr>
                 <td></td>
-                <td colspan="5">Sales Officer</td>
+                <td colspan="5" align="center" style="vertical-align:text-top;"><?php echo $position; ?></td>
                 <td></td>
-                <td colspan="5">Internal Auditor</td>
+                <td colspan="5" align="center" id="checked_position" style="vertical-align:text-top;"><?php echo $checked_position; ?></td>
                 <td></td>
-                <td colspan="6">Assets & Projects Management Assistant</td>
+                <td colspan="6" align="center" id="approved_position" style="vertical-align:text-top;"><?php echo $approved_position; ?></td>
                 <td></td>
             </tr>
         </table>
     </div>
 </page>
+<input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
+<input type="hidden" name="billing_id" id="billing_id" value="<?php echo $billing_id; ?>">
+</form>
+<link href="<?php echo base_url(); ?>assets/css/select2.min.css" rel="stylesheet" />
+<script src="<?php echo base_url(); ?>assets/js/select2.min.js"></script>
+<script>
+    $('.select2').select2();
+</script>
 
 

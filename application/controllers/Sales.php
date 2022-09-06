@@ -508,6 +508,9 @@ class Sales extends CI_Controller {
             $contact_no = $this->super_model->select_column_where("client","contact_no","client_id",$sh->client_id);
             $tin = $this->super_model->select_column_where("client","tin","client_id",$sh->client_id);
             $data['employee']=$this->super_model->select_all_order_by("employees","employee_name","ASC");
+            $data['prepared_by']=$sh->user_id;
+            $data['prepared']=$this->super_model->select_column_where("users","fullname","user_id",$sh->user_id);
+            $data['position']=$this->super_model->select_column_where("users","position","user_id",$sh->user_id);
             $data['released_by']=$sh->released_by;
             $data['released']=$this->super_model->select_column_where("employees","employee_name","employee_id",$sh->released_by);
             $data['released_position']=$this->super_model->select_column_where("employees","position","employee_id",$sh->released_by);
@@ -986,6 +989,7 @@ class Sales extends CI_Controller {
 
     public function services_print_sales(){
         $sales_serv_head_id = $this->uri->segment(3);
+        $data['sales_serv_head_id']=$sales_serv_head_id;
         foreach($this->super_model->select_custom_where("sales_services_head","sales_serv_head_id = '$sales_serv_head_id'") AS $sh){
             $client = $this->super_model->select_column_where("client","buyer_name","client_id",$sh->client_id);
             $address = $this->super_model->select_column_where("client","address","client_id",$sh->client_id);
@@ -993,6 +997,15 @@ class Sales extends CI_Controller {
             $contact_no = $this->super_model->select_column_where("client","contact_no","client_id",$sh->client_id);
             $tin = $this->super_model->select_column_where("client","tin","client_id",$sh->client_id);
             $wht = $this->super_model->select_column_where("client","wht","client_id",$sh->client_id);
+            $data['employee']=$this->super_model->select_all_order_by("employees","employee_name","ASC");
+            $data['prepared_by']=$sh->user_id;
+            $data['prepared']=$this->super_model->select_column_where("users","fullname","user_id",$sh->user_id);
+            $data['checked_by']=$sh->checked_by;
+            $data['checked']=$this->super_model->select_column_where("employees","employee_name","employee_id",$sh->checked_by);
+            $data['approved_by']=$sh->approved_by;
+            $data['approved']=$this->super_model->select_column_where("employees","employee_name","employee_id",$sh->approved_by);
+            $data['noted_by']=$sh->noted_by;
+            $data['noted']=$this->super_model->select_column_where("employees","employee_name","employee_id",$sh->noted_by);
             $data['service_head'][]=array(
                 'sales_serv_head_id'=>$sh->sales_serv_head_id,
                 'client'=>$client,
@@ -1099,6 +1112,17 @@ class Sales extends CI_Controller {
         $this->load->view('sales/services_print_sales',$data);
     }
 
+    public function print_deliver_services(){
+        $id=$this->input->post('sales_serv_head_id');
+        $data = array(
+            "checked_by"=>$this->input->post('checked_by'),
+            "approved_by"=>$this->input->post('approved_by'),
+            "noted_by"=>$this->input->post('noted_by')
+        );
+
+        $this->super_model->update_where("sales_services_head", $data, "sales_serv_head_id", $id);
+        echo "success";
+    }
 
     public function services_acknow_print(){
         $sales_serv_head_id = $this->uri->segment(3);
