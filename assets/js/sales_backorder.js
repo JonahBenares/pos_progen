@@ -61,10 +61,13 @@ function saveSalesBO(){
                 $("#savebutton").hide(); 
             },
           success: function(output){
+            const myArray = output.split("-");
+            var sales = myArray[0];
+            var type = myArray[1];
             $('#savebutton').show();
             $('#alt').hide();
             window.location.href = loc+'index.php/sales_backorder/backorder_form/';
-          window.open( loc+'index.php/sales_backorder/print_backorder/'+output,'_blank');
+          window.open( loc+'index.php/sales_backorder/print_backorder/'+sales+'/'+type,'_blank');
           }
         });
       }

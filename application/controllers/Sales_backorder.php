@@ -334,7 +334,7 @@ class Sales_backorder extends CI_Controller {
             $this->super_model->update_where("fifo_in",$data_update, "in_id", $so->in_id);
 
             }
-    }
+        }
     } else if($type=='Services') {
         $rows=$this->super_model->count_custom_where("sales_services_head","create_date LIKE '$year_series%'");
         if($rows==0){
@@ -447,7 +447,7 @@ class Sales_backorder extends CI_Controller {
         }
     }
 
-        echo $salesid;
+        echo $salesid."-".$type;
 
     }
 
@@ -460,53 +460,131 @@ class Sales_backorder extends CI_Controller {
 
     public function print_backorder(){
         $data['id']=$this->uri->segment(3);
+        $data['type']=$this->uri->segment(4);
         $id=$this->uri->segment(3);
+        $type=$this->uri->segment(4);
         $this->load->model('super_model');
-        $data['heads'] = $this->super_model->select_row_where('receive_head', 'receive_id', $id);
+        if($type = 'Goods'){
+            //$data['heads'] = $this->super_model->select_row_where('sales_good_head', 'sales_good_head_id', $id);
+        foreach($this->super_model->select_row_where("sales_good_head","sales_good_head_id",$id) AS $h){
+            $in_id = $this->super_model->select_column_where("fifo_out", "in_id", "sales_id", $h->sales_good_head_id);
+            $receive_id = $this->super_model->select_column_where("fifo_in", "receive_id", "in_id", $in_id);
+            //$purpose_id = $this->super_model->select_column_where("receive_details", "purpose_id", "receive_id", $receive_id);
+            $mrecf_no = $this->super_model->select_column_where("receive_head", "mrecf_no", "receive_id", $receive_id);
+            $si_no = $this->super_model->select_column_where("receive_head", "si_no", "receive_id", $receive_id);
+            $pcf = $this->super_model->select_column_where("receive_head", "pcf", "receive_id", $receive_id);
+            $data['heads'][] = array(
+                'sales_date'=>$h->sales_date,
+                'dr_no'=>$h->dr_no,
+                'po_no'=>$h->po_no,
+                'remarks'=>$h->remarks,
+                'mrecf_no'=>$mrecf_no,
+                'si_no'=>$si_no,
+                'pcf'=>$pcf,
+                //"purpose"=>$this->super_model->select_column_where("purpose","purpose_desc","purpose_id",$purpose_id),
+            );
 
-        foreach($this->super_model->select_row_where('receive_details', 'receive_id', $id) AS $d){
+        foreach($this->super_model->select_row_where('receive_details', 'receive_id', $receive_id) AS $d){
             $purpose = $this->super_model->select_column_where('purpose', 'purpose_desc', 'purpose_id', $d->purpose_id);
             $deparment = $this->super_model->select_column_where('department', 'department_name', 'department_id', $d->department_id);
-            $inspected = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $d->inspected_by);
+            //$inspected = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $d->inspected_by);
             $data['details'][] = array(
-                'rdid'=>$d->rd_id,
-                'prno'=>$d->pr_no,
+                'sales_good_head_id'=>$h->sales_good_head_id,
+                'prno'=>$h->pr_no,
                 'purpose'=>$purpose,
                 'department'=>$deparment,
-                'inspected'=>$inspected
+                //'inspected'=>$inspected
             );
-            foreach($this->super_model->select_row_where("receive_items", "rd_id", $d->rd_id) AS $items){
+            foreach($this->super_model->select_row_where("sales_good_details", "sales_good_head_id", $id) AS $items){
+                foreach($this->super_model->select_custom_where("items", "item_id = '$items->item_id'") AS $itema){
+                    $unit = $this->super_model->select_column_where('uom', 'unit_name', 'unit_id', $itema->unit_id);
+                }
+                $supplier_id = $this->super_model->select_column_where('receive_items', 'supplier_id', 'receive_id', $receive_id);
+                $supplier = $this->super_model->select_column_where('supplier', 'supplier_name', 'supplier_id', $supplier_id);
+                $item = $this->super_model->select_column_where('items', 'item_name', 'item_id', $items->item_id);
+                $catalog_no = $this->super_model->select_column_where("fifo_in", "catalog_no", "in_id", $in_id);
+                $brand = $this->super_model->select_column_where("fifo_in", "brand", "in_id", $in_id);
+                $serial_no = $this->super_model->select_column_where("fifo_in", "serial_no", "in_id", $in_id);
+                //$total=$items->quantity*$items->unit_cost;
+                $data['items'][] = array(
+                    'sales_good_head_id'=>$items->sales_good_head_id,
+                    'supplier'=>$supplier,
+                    'item'=>$item,
+                    'unit'=>$unit,
+                    'expqty'=>$items->expected_qty,
+                    'recqty'=>$items->quantity,
+                    'remarks'=>$items->remarks,
+                    'catno'=>$catalog_no,
+                    'serial'=>$serial_no,
+                    'supplier'=>$supplier,
+                    //'shipping_fee'=>$items->shipping_fee,
+                    'brand'=>$brand,
+                    'unitcost'=>$items->unit_cost,
+                    'total'=>$items->total
+                );
+            }
+        }
+    }
+    }else if($type = 'Services'){
+        foreach($this->super_model->select_row_where("sales_services_head","sales_serv_head_id",$id) AS $h){
+            $in_id = $this->super_model->select_column_where("fifo_out", "in_id", "sales_id", $h->sales_serv_head_id);
+            $receive_id = $this->super_model->select_column_where("fifo_in", "receive_id", "in_id", $in_id);
+            //$purpose_id = $this->super_model->select_column_where("receive_details", "purpose_id", "receive_id", $receive_id);
+            $mrecf_no = $this->super_model->select_column_where("receive_head", "mrecf_no", "receive_id", $receive_id);
+            $si_no = $this->super_model->select_column_where("receive_head", "si_no", "receive_id", $receive_id);
+            $pcf = $this->super_model->select_column_where("receive_head", "pcf", "receive_id", $receive_id);
+            $data['heads'][] = array(
+                'sales_date'=>$h->sales_date,
+                'dr_no'=>$h->dr_no,
+                'po_no'=>$h->po_no,
+                'remarks'=>$h->remarks,
+                'mrecf_no'=>$mrecf_no,
+                'si_no'=>$si_no,
+                'pcf'=>$pcf,
+                //"purpose"=>$this->super_model->select_column_where("purpose","purpose_desc","purpose_id",$purpose_id),
+            );
+
+        foreach($this->super_model->select_row_where('receive_details', 'receive_id', $receive_id) AS $d){
+            $purpose = $this->super_model->select_column_where('purpose', 'purpose_desc', 'purpose_id', $d->purpose_id);
+            $deparment = $this->super_model->select_column_where('department', 'department_name', 'department_id', $d->department_id);
+            //$inspected = $this->super_model->select_column_where('employees', 'employee_name', 'employee_id', $d->inspected_by);
+            $data['details'][] = array(
+                'sales_serv_head_id'=>$h->sales_serv_head_id,
+                'prno'=>$h->pr_no,
+                'purpose'=>$purpose,
+                'department'=>$deparment,
+                //'inspected'=>$inspected
+            );
+            foreach($this->super_model->select_row_where("sales_serv_items_id", "sales_serv_head_id", $id) AS $items){
                 foreach($this->super_model->select_custom_where("items", "item_id = '$items->item_id'") AS $itema){
                     $unit = $this->super_model->select_column_where('uom', 'unit_name', 'unit_id', $itema->unit_id);
                 }
                 $supplier = $this->super_model->select_column_where('supplier', 'supplier_name', 'supplier_id', $items->supplier_id);
                 $item = $this->super_model->select_column_where('items', 'item_name', 'item_id', $items->item_id);
-                $total=$items->received_qty*$items->item_cost;
+                $catalog_no = $this->super_model->select_column_where("fifo_in", "catalog_no", "in_id", $in_id);
+                $brand = $this->super_model->select_column_where("fifo_in", "brand", "in_id", $in_id);
+                $serial_no = $this->super_model->select_column_where("fifo_in", "serial_no", "in_id", $in_id);
+                //$total=$items->quantity*$items->unit_cost;
                 $data['items'][] = array(
-                    'rdid'=>$items->rd_id,
+                    'sales_serv_head_id'=>$items->sales_serv_head_id,
                     'supplier'=>$supplier,
                     'item'=>$item,
                     'unit'=>$unit,
                     'expqty'=>$items->expected_qty,
-                    'recqty'=>$items->received_qty,
+                    'recqty'=>$items->quantity,
                     'remarks'=>$items->remarks,
-                    'catno'=>$items->catalog_no,
-                    'serial'=>$items->serial_no,
-                    'shipping_fee'=>$items->shipping_fee,
-                    'brand'=>$items->brand,
-                    'unitcost'=>$items->item_cost,
-                    'total'=>$total
-                );
-            }
-            foreach($this->super_model->select_row_where("receive_items", "rd_id", $d->rd_id) AS $itm_rem){
-                $item = $this->super_model->select_column_where('items', 'item_name', 'item_id', $itm_rem->item_id);
-                $data['remarks_it'][] = array(
-                    'rdid'=>$items->rd_id,
-                    'item'=>$item,
-                    'remarks'=>$itm_rem->remarks
+                    'catno'=>$catalog_no,
+                    'serial'=>$serial_no,
+                    //'shipping_fee'=>$items->shipping_fee,
+                    'brand'=>$brand,
+                    'unitcost'=>$items->unit_cost,
+                    'total'=>$items->total
                 );
             }
         }
+    }
+    }
+        
         $data['printed']=$this->super_model->select_column_where('users', 'fullname', 'user_id', $_SESSION['user_id']);
         $this->load->view('template/header');
         $this->load->view('template/navbar');

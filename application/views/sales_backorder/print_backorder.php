@@ -8,7 +8,7 @@
             </h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>sales_backorder/backorder_form">Back Order</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>sales_back_order/backorder_form">Back Order</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Print Back Order</li>
                 </ol>
             </nav>
@@ -28,18 +28,6 @@
         <page size="A4" id="printableArea">
             <?php 
                foreach($heads AS $hd){  
-                    $date=$hd->receive_date;
-                    $mrec=$hd->mrecf_no;
-                    $dr= $hd->dr_no;
-                    $po= $hd->po_no;
-                    $pcf= $hd->pcf;
-                    $si= $hd->si_no;
-                    $delivered= $hd->delivered_by;
-                    $received= $hd->received_by;
-                    $acknowledged= $hd->acknowledged_by;
-                    $noted= $hd->noted_by;
-                    $overall_remarks= $hd->overall_remarks;
-               }
             ?>
             <table class="page-A4 table-bsordered" width="100%">
                 <tr>
@@ -78,31 +66,31 @@
                 </tr>
                 <tr>
                     <td colspan="2">Date:</td>
-                    <td colspan="8" class="bor-btm1"><?php echo ($date!='') ? date("M j, Y",strtotime($date)) : '' ;?></td>
+                    <td colspan="8" class="bor-btm1"><?php echo ($hd['sales_date']!='') ? date("M j, Y",strtotime($hd['sales_date'])) : '' ;?></td>
                     <td colspan="2" align="right">MRF NO.:</td>
-                    <td colspan="8" class="bor-btm1"><?php echo $mrec; ?></td>
+                    <td colspan="8" class="bor-btm1"><?php echo $hd['mrecf_no']; ?></td>
                 </tr>
                 <tr>
                     <td colspan="2">DR NO.:</td>
-                    <td colspan="8" class="bor-btm1"><?php echo $dr; ?></td>
+                    <td colspan="8" class="bor-btm1"><?php echo $hd['dr_no']; ?></td>
                     <td colspan="2" align="right">PO:</td>
-                    <td colspan="8" class="bor-btm1"><?php echo $po; ?></td>
+                    <td colspan="8" class="bor-btm1"><?php echo $hd['po_no']; ?></td>
                 </tr>
                 <tr>
                     <td colspan="2">SI NO.:</td>
-                    <td colspan="8" class="bor-btm1"><?php echo $si; ?></td>
+                    <td colspan="8" class="bor-btm1"><?php echo $hd['si_no']; ?></td>
                     <td colspan="2" align="right">PCF:</td>
-                    <td colspan="8" class="bor-btm1"><?php if ($pcf == 1) {echo 'Yes';};?></td>
+                    <td colspan="8" class="bor-btm1"><?php if ($hd['pcf'] == 1) {echo 'Yes';};?></td>
                 </tr>
                
                 <tr>
                     <td colspan="3">Overall Remarks:</td>
-                    <td colspan="17" class="bor-btm1"><?php echo $overall_remarks; ?></td>
+                    <td colspan="17" class="bor-btm1"><?php echo $hd['remarks']; ?></td>
                 </tr>
                 <tr>
                     <td colspan="20" align="center"><br><br></td>
                 </tr>
-            
+            <?php } ?>
                 <tr>
                     <td colspan="20">
                         <fieldset>
@@ -122,11 +110,11 @@
                                     <td width="70%" class="bor-btm1"><?php echo $det['purpose'];?></td>
                                     <td width="5%"></td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td width="10%">Enduse:</td>
                                     <td width="70%" class="bor-btm1">Replacement Parts for Refurbishing / Reconditioning</td>
                                     <td width="5%"></td>
-                                </tr>
+                                </tr> -->
                             </table>
                             <br>
                             <table class="table-bordered" width="100%">
@@ -146,7 +134,7 @@
                              $x =1; 
                                 foreach($items AS $it){ 
                                     switch($it){
-                                        case($det['rdid'] == $it['rdid']):
+                                        case($det['sales_good_head_id'] == $it['sales_good_head_id']):
                                             if($it['recqty']!=0){
                             ?>
                             <tr>
@@ -158,7 +146,7 @@
                                 <td class="main-tab" align="center"><?php echo $it['catno'];?></td>
                                 <td class="main-tab" align="center"><?php echo $it['brand'];?></td>
                                 <td class="main-tab" align="center"><?php echo number_format($it['unitcost'],2);?></td>
-                                <td class="main-tab" align="center"><?php echo number_format($it['shipping_fee'],2);?></td>
+                                <td class="main-tab" align="center"><?php //echo number_format($it['shipping_fee'],2);?></td>
                                 <td class="main-tab" align="center"><?php echo number_format($it['total'],2);?></td>
                             </tr>
                             <?php  
