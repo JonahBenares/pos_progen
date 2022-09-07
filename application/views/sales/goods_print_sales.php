@@ -238,7 +238,7 @@
                 <tr>
                     <td></td>
                     <td colspan="5" class="bor-btm1" align="center" id="changeTextnote">
-                        <?php if($approved_by==0){ ?>
+                        <?php if($noted_by==0){ ?>
                         <select name="noted_by" id="noted_by" class="form-control select2"  style="border:transparent"  onchange="notedEmp()">
                             <option value="">--Select Employees--</option>
                             <?php foreach($employee AS $emp){ ?>

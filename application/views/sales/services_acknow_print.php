@@ -3,10 +3,18 @@
       window.history.back();
     }
 </script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/sales.js"></script>
+<form method="POST" id="ack_sign">
 <div class="animated " id="printbutton" style="margin-top: 40px;">
     <center>
         <a href="<?php echo base_url(); ?>sales/services_sales_list" class="btn btn-warning btn-sm btn-rounded"  ><b>Back</b></a> 
-        <a class="btn btn-success btn-sm btn-rounded" onclick="window.print()"><b>Print</b></a>
+        <?php if(($verified_by==0) || ($ack_approved_by==0) || ($recomm_approval==0)){ ?> 
+            <a type="button" class="btn btn-success btn-sm btn-rounded" onclick="printAcknowledge()"><b>Save & Print</b></a>
+        <?php }else{ ?>
+            <a class="btn btn-success btn-sm btn-rounded" onclick="window.print()"><b>Print</b></a>
+        <?php } ?>
+        <!-- <a class="btn btn-success btn-sm btn-rounded" onclick="window.print()"><b>Print</b></a> -->
     </center>
     <br>
 </div>
@@ -139,23 +147,37 @@
             </tr>
             <tr>
                 <td colspan="6" class="bor-btm1" align="center">
-                    Mary Grace Bugna
+                    <?php echo $prepared; ?>
                 </td>
                 <td></td>
-                <td colspan="6" class="bor-btm1" align="center">
-                    Roan Renz Liao
+                <td colspan="6" class="bor-btm1" align="center" id="changeTextverified">
+                    <?php if($verified_by==0){ ?>
+                        <select name="verified_by" id="verified_by" class="form-control select2"  style="border:transparent" onchange="verifiedEmp()">
+                            <option value="">--Select Employees--</option>
+                            <?php foreach($employee AS $emp){ ?>
+                                <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+                            <?php } ?>
+                        </select>
+                    <?php } else{ echo $verified; }?>
                 </td>
                 <td></td>
-                <td colspan="6" class="bor-btm1" align="center">
-                    Eric Jabiniar
+                <td colspan="6" class="bor-btm1" align="center" id="changeTextrecomm">
+                    <?php if($recomm_approval==0){ ?>
+                        <select name="recomm_approval" id="recomm_approval" class="form-control select2"  style="border:transparent" onchange="recommEmp()">
+                            <option value="">--Select Employees--</option>
+                            <?php foreach($employee AS $emp){ ?>
+                                <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+                            <?php } ?>
+                        </select>
+                    <?php } else{ echo $recomm; }?>
                 </td>
             </tr>
             <tr>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Sales Commercial / Commercial & Parts Analyst</td>
+                <td colspan="6" align="center" style="vertical-align:text-top;"><?php echo $position; ?></td>
                 <td></td>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Sr Parts Engineer</td>
+                <td colspan="6" align="center" style="vertical-align:text-top;" id="verified_position"><?php echo $verified_position; ?></td>
                 <td></td>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Plant Director</td>
+                <td colspan="6" align="center" style="vertical-align:text-top;" id="recomm_position"><?php echo $recomm_position; ?></td>
             </tr>
 
             <tr>
@@ -172,8 +194,15 @@
                 <td colspan="20"><br></td>
             </tr>
             <tr>
-                <td colspan="6" class="bor-btm1" align="center">
-                    Merry Michelle Dato
+                <td colspan="6" class="bor-btm1" align="center" id="changeTextackapp">
+                    <?php if($ack_approved_by==0){ ?>
+                        <select name="ack_approved_by" id="ack_approved_by" class="form-control select2"  style="border:transparent" onchange="ackapprovedEmp()">
+                            <option value="">--Select Employees--</option>
+                            <?php foreach($employee AS $emp){ ?>
+                                <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+                            <?php } ?>
+                        </select>
+                    <?php } else{ echo $ack_approved; }?>
                 </td>
                 <td></td>
                 <td colspan="6"></td>
@@ -183,7 +212,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Assets and Projects Management Assistant</td>
+                <td colspan="6" align="center" style="vertical-align:text-top;" id="ack_position"><?php echo $ack_approved_position; ?></td>
                 <td></td>
                 <td colspan="6" align="center" style="vertical-align:text-top;"></td>
                 <td></td>
@@ -277,5 +306,10 @@
         </table>
     </div>
 </page>
-
+</form>
+<link href="<?php echo base_url(); ?>assets/css/select2.min.css" rel="stylesheet" />
+<script src="<?php echo base_url(); ?>assets/js/select2.min.js"></script>
+<script>
+    $('.select2').select2();
+</script>
 

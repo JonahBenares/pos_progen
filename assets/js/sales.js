@@ -750,6 +750,51 @@ function checkedEmp(){
     });
 }
 
+function verifiedEmp(){
+    var verified_by = document.getElementById("verified_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/verified_change";
+    $.ajax({
+        data: "verified_by="+verified_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('verified_position').innerHTML=response.position; 
+        }
+    });
+}
+
+function recommEmp(){
+    var recomm_approval = document.getElementById("recomm_approval").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/recomm_change";
+    $.ajax({
+        data: "recomm_approval="+recomm_approval,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('recomm_position').innerHTML=response.position; 
+        }
+    });
+}
+
+function ackapprovedEmp(){
+    var ack_approved_by = document.getElementById("ack_approved_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/ack_approved_change";
+    $.ajax({
+        data: "ack_approved_by="+ack_approved_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('ack_position').innerHTML=response.position; 
+        }
+    });
+}
+
 function printDeliverygoods(){
     var sign = $("#delivery_sign").serialize();
     var loc= document.getElementById("baseurl").value;
@@ -788,6 +833,28 @@ function printDeliveryservices(){
                 $('#approved_by').hide();
                 document.getElementById('changeTextnote').innerHTML=$("#noted_by option:selected").text();
                 $('#noted_by').hide();
+                window.print();
+            }
+        }
+    });
+}
+
+function printAcknowledge(){
+    var sign = $("#ack_sign").serialize();
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+'sales/print_acknow';
+     $.ajax({
+        type: "POST",
+        url: redirect,
+        data: sign,
+        success: function(output){
+            if(output=='success'){
+                document.getElementById('changeTextverified').innerHTML=$("#verified_by option:selected").text();
+                $('#verified_by').hide();
+                document.getElementById('changeTextackapp').innerHTML=$("#ack_approved_by option:selected").text();
+                $('#ack_approved_by').hide();
+                document.getElementById('changeTextrecomm').innerHTML=$("#recomm_approval option:selected").text();
+                $('#recomm_approval').hide();
                 window.print();
             }
         }

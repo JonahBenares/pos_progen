@@ -1137,6 +1137,19 @@ class Sales extends CI_Controller {
             $contact_no = $this->super_model->select_column_where("client","contact_no","client_id",$sh->client_id);
             $tin = $this->super_model->select_column_where("client","tin","client_id",$sh->client_id);
             $wht = $this->super_model->select_column_where("client","wht","client_id",$sh->client_id);
+            $data['employee']=$this->super_model->select_all_order_by("employees","employee_name","ASC");
+            $data['prepared_by']=$sh->user_id;
+            $data['prepared']=$this->super_model->select_column_where("users","fullname","user_id",$sh->user_id);
+            $data['position']=$this->super_model->select_column_where("users","position","user_id",$sh->user_id);
+            $data['verified_by']=$sh->verified_by;
+            $data['verified']=$this->super_model->select_column_where("employees","employee_name","employee_id",$sh->verified_by);
+            $data['verified_position']=$this->super_model->select_column_where("employees","position","employee_id",$sh->verified_by);
+            $data['recomm_approval']=$sh->recomm_approval;
+            $data['recomm']=$this->super_model->select_column_where("employees","employee_name","employee_id",$sh->recomm_approval);
+            $data['recomm_position']=$this->super_model->select_column_where("employees","position","employee_id",$sh->recomm_approval);
+            $data['ack_approved_by']=$sh->ack_approved_by;
+            $data['ack_approved']=$this->super_model->select_column_where("employees","employee_name","employee_id",$sh->ack_approved_by);
+            $data['ack_approved_position']=$this->super_model->select_column_where("employees","position","employee_id",$sh->ack_approved_by);
             $data['service_head'][]=array(
                 'client'=>$client,
                 'address'=>$address,
@@ -1233,6 +1246,42 @@ class Sales extends CI_Controller {
         }
         $this->load->view('template/print_head');
         $this->load->view('sales/services_acknow_print', $data);
+    }
+
+    public function verified_change(){
+        $verified_by=$this->input->post('verified_by');
+        foreach($this->super_model->select_row_where("employees","employee_id",$verified_by) AS $emp){
+            $return = array('position'=>$emp->position);
+        }
+        echo json_encode($return);
+    }
+
+    public function recomm_change(){
+        $recomm_approval=$this->input->post('recomm_approval');
+        foreach($this->super_model->select_row_where("employees","employee_id",$recomm_approval) AS $emp){
+            $return = array('position'=>$emp->position);
+        }
+        echo json_encode($return);
+    }
+
+    public function ack_approved_change(){
+        $ack_approved_by=$this->input->post('ack_approved_by');
+        foreach($this->super_model->select_row_where("employees","employee_id",$ack_approved_by) AS $emp){
+            $return = array('position'=>$emp->position);
+        }
+        echo json_encode($return);
+    }
+
+    public function print_acknow(){
+        $id=$this->input->post('sales_serv_head_id');
+        $data = array(
+            "verified_by"=>$this->input->post('verified_by'),
+            "recomm_approval"=>$this->input->post('recomm_approval'),
+            "ack_approved_by"=>$this->input->post('ack_approved_by')
+        );
+
+        $this->super_model->update_where("sales_services_head", $data, "sales_serv_head_id", $id);
+        echo "success";
     }
 
     public function save_ar(){
