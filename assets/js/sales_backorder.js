@@ -66,9 +66,119 @@ function saveSalesBO(){
             var type = myArray[1];
             $('#savebutton').show();
             $('#alt').hide();
-            window.location.href = loc+'index.php/sales_backorder/backorder_form/';
-          window.open( loc+'index.php/sales_backorder/print_backorder/'+sales+'/'+type,'_blank');
+            if(type=='Goods'){
+                 window.location.href = loc+'index.php/sales_backorder/backorder_form/';
+                window.open( loc+'index.php/sales_backorder/print_backorder_goods/'+sales+'/'+type,'_blank');
+            }else if(type=='Services'){
+                window.location.href = loc+'index.php/sales_backorder/backorder_form/';
+                window.open( loc+'index.php/sales_backorder/print_backorder_services/'+sales+'/'+type,'_blank');
+            }
+           
           }
         });
       }
-    }   
+    }  
+
+function releasedEmp(){
+    var released_by = document.getElementById("released_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales_backorder/release_change";
+    $.ajax({
+        data: "released_by="+released_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('released_position').innerHTML=response.position; 
+        }
+    });
+}
+
+function approvedEmp(){
+    var approved_by = document.getElementById("approved_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales_backorder/approve_change";
+    $.ajax({
+        data: "approved_by="+approved_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('approved_position').innerHTML=response.position; 
+        }
+    });
+}
+
+function notedEmp(){
+    var noted_by = document.getElementById("noted_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales_backorder/noted_change";
+    $.ajax({
+        data: "noted_by="+noted_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('noted_position').innerHTML=response.position; 
+        }
+    });
+}
+
+function checkedEmp(){
+    var checked_by = document.getElementById("checked_by").value; 
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales_backorder/checked_change";
+    $.ajax({
+        data: "checked_by="+checked_by,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+            document.getElementById('checked_position').innerHTML=response.position; 
+        }
+    });
+}
+
+function printBackorderGoods(){
+    var sign = $("#goods_sign").serialize();
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+'sales_backorder/save_backorder_goods';
+     $.ajax({
+        type: "POST",
+        url: redirect,
+        data: sign,
+        success: function(output){
+            if(output=='success'){
+                document.getElementById('changeTextrel').innerHTML=$("#released_by option:selected").text();
+                $('#released_by').hide();
+                document.getElementById('changeTextapp').innerHTML=$("#approved_by option:selected").text();
+                $('#approved_by').hide();
+                document.getElementById('changeTextnote').innerHTML=$("#noted_by option:selected").text();
+                $('#noted_by').hide();
+                window.print();
+            }
+        }
+    });
+}
+
+function printBackorderServices(){
+    var sign = $("#service_sign").serialize();
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+'sales_backorder/save_backorder_services';
+     $.ajax({
+        type: "POST",
+        url: redirect,
+        data: sign,
+        success: function(output){
+            if(output=='success'){
+                document.getElementById('changeTextchk').innerHTML=$("#checked_by option:selected").text();
+                $('#checked_by').hide();
+                document.getElementById('changeTextapp').innerHTML=$("#approved_by option:selected").text();
+                $('#approved_by').hide();
+                document.getElementById('changeTextnote').innerHTML=$("#noted_by option:selected").text();
+                $('#noted_by').hide();
+                window.print();
+            }
+        }
+    });
+} 
