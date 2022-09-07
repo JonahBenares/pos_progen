@@ -142,8 +142,8 @@
                                 <td><?php echo $sd['original_pn'];?></td>
                                 <td><?php echo $sd['item'];?></td>
                                 <td><?php echo $sd['serial_no'];?></td>
-                                <td><?php echo $sd['quantity'];?></td>
-                                <td><?php echo $sd['expected_qty'];?></td>
+                                <td><?php echo number_format($sd['quantity'],2);?></td>
+                                <td><?php echo number_format($sd['expected_qty'],2);?></td>
                                 <td><?php echo $sd['uom'];?></td>
                                 <td align="center"><?php echo number_format($sd['selling_price'],2);?></td>
                                 <td align="center"><?php echo number_format($sd['discount'],2);?></td>

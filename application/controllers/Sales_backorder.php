@@ -172,7 +172,7 @@ class Sales_backorder extends CI_Controller {
         foreach($this->super_model->select_custom_where("sales_services_head","sales_serv_head_id = '$sales_id' AND saved='1'") AS $bos){
             $sales_qty = $this->super_model->select_column_where("sales_serv_items", "quantity", "sales_serv_head_id", $bos->sales_serv_head_id);
             $expected_qty = $this->super_model->select_column_where("sales_serv_items", "expected_qty", "sales_serv_head_id", $bos->sales_serv_head_id);
-            $sales_serv_head_id = $this->super_model->select_column_where("sales_serv_items", "sales_serv_head_id", "sales_serv_head_id", $bos->sales_serv_head_id);
+            $sales_serv_items_id = $this->super_model->select_column_where("sales_serv_items", "sales_serv_items_id", "sales_serv_head_id", $bos->sales_serv_head_id);
             $item_id = $this->super_model->select_column_where("sales_serv_items", "item_id", "sales_serv_head_id", $bos->sales_serv_head_id);
             $receive_id = $this->super_model->select_column_where("fifo_in", "receive_id", "in_id", $in_id);
             $supplier_id = $this->super_model->select_column_where("receive_items", "supplier_id", "receive_id", $receive_id);
@@ -189,7 +189,7 @@ class Sales_backorder extends CI_Controller {
                         "catalog_no"=>$this->super_model->select_column_where("receive_items", "catalog_no", "receive_id", $receive_id),
                         "brand"=>$this->super_model->select_column_where("receive_items", "brand", "receive_id", $receive_id),
                         "dr_no"=>$bos->dr_no,
-                        "sales_item_id"=>$sales_serv_head_id,
+                        "sales_item_id"=>$sales_serv_items_id,
                         "po_no"=>$bos->joi_no,
                         "pr_no"=>$bos->jor_no,
                         "item_cost"=>$item_cost,
@@ -209,12 +209,14 @@ class Sales_backorder extends CI_Controller {
         $transaction_type = $this->input->post('transaction_type');
         if($transaction_type='Goods'){
             foreach($this->super_model->custom_query("SELECT sales_good_head_id FROM sales_good_head WHERE sales_good_head_id = '$sales_id' AND saved = '1'") AS $mr){ 
-                $return = array('sales_id' => $mr->sales_good_head_id); 
+                $return = array('sales_id' => $mr->sales_good_head_id, 'transaction_type' => "Goods"); 
                 echo json_encode($return);   
             }
-        }else if($transaction_type='Services'){
+        }
+
+        if($transaction_type='Services'){
             foreach($this->super_model->custom_query("SELECT sales_serv_head_id FROM sales_services_head WHERE sales_serv_head_id = '$sales_id' AND saved = '1'") AS $mr){ 
-                $return = array('sales_id' => $mr->sales_serv_head_id); 
+                $return = array('sales_id' => $mr->sales_serv_head_id, 'transaction_type' => "Services"); 
                 echo json_encode($return);   
             }
         }
@@ -394,7 +396,7 @@ class Sales_backorder extends CI_Controller {
             //$total=$quantity*$unit_cost;
              foreach($this->super_model->select_row_where("sales_serv_items", "sales_serv_items_id", $this->input->post('sales_item_id['.$a.']')) AS $sd){
            
-                $items = array(
+            $items = array(
                 'sales_serv_head_id'=> $salesid,
                 'item_id'=> $sd->item_id,
                 'selling_price'=> $sd->selling_price,
@@ -467,6 +469,23 @@ class Sales_backorder extends CI_Controller {
         } else if($status =='temp') {
             
            foreach($this->super_model->select_row_where("temp_sales_out", "sales_details_id", $sales_details_id) AS $out){
+                $serial.=$this->super_model->select_column_where("fifo_in", "serial_no", "in_id", $out->in_id) . ", ";
+            }
+        }
+        //return $table;
+      
+       return substr($serial,0,-2);
+    }
+
+    public function get_serial_services($sales_serv_items_id, $status){
+        $serial="";
+        if($status=='final') {
+            foreach($this->super_model->select_row_where("fifo_out", "sales_serv_items_id", $sales_serv_items_id) AS $out){
+                $serial.=$this->super_model->select_column_where("fifo_in", "serial_no", "in_id", $out->in_id) . ", ";
+             }
+        } else if($status =='temp') {
+            
+           foreach($this->super_model->select_row_where("temp_sales_out", "sales_serv_items_id", $sales_serv_items_id) AS $out){
                 $serial.=$this->super_model->select_column_where("fifo_in", "serial_no", "in_id", $out->in_id) . ", ";
             }
         }
@@ -581,7 +600,7 @@ class Sales_backorder extends CI_Controller {
             );
 
             foreach($this->super_model->select_custom_where("sales_serv_items","sales_serv_head_id='$h->sales_serv_head_id'") AS $sd){
-                $serial_no = $this->get_serial_goods($sd->sales_serv_items_id, 'final');
+                $serial_no = $this->get_serial_services($sd->sales_serv_items_id, 'final');
                 $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$sd->item_id);
                 $item_name = $this->super_model->select_column_where("items","item_name","item_id",$sd->item_id);
                 $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$sd->item_id);

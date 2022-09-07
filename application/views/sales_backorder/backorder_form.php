@@ -141,6 +141,13 @@
                                             <td class="p-0"><textarea class="form-control" name='remarks[]' id='remarks[]'></textarea></td>
                                         </tr>
                                         <input type='hidden' name='expqty[]' value="<?php echo $sb['quantity']; ?>" style='width:50px' max="<?php echo $sb['quantity']; ?>">
+                                        <input type='hidden' name='sales_item_id[]' value="<?php echo $sb['sales_item_id']; ?>">
+                                       <!--  <input type='hidden' name='item_id[]' value="<?php echo $sb['item_id']; ?>">
+                                        <input type='hidden' name='selling_price[]' value="<?php echo $sb['selling_price']; ?>">
+                                        <input type='hidden' name='discount_percent[]' value="<?php echo $sb['discount_percent']; ?>">
+                                        <input type='hidden' name='discount_amount[]' value="<?php echo $sb['discount_amount']; ?>">
+                                        <input type='hidden' name='group_id[]' value="<?php echo $sb['group_id']; ?>">
+                                        <input type='hidden' name='sales_serv_items_id[]' value="<?php echo $sb['sales_serv_items_id']; ?>"> -->
                                         <!-- <input type='hidden' name='total_cost[]' value="<?php echo $sb['quantity']; ?>" style='width:50px'""> -->
                                     <?php 
                                         $ct++;
@@ -154,7 +161,7 @@
                                 <input type="hidden" name="userid" id="userid" value="<?php echo $_SESSION['user_id']; ?>">
                                 <input type='hidden' name='sales_id' value="<?php echo $id; ?>">
                                 <input type='hidden' name='transaction_type' value="<?php echo $type; ?>">
-                                <input type='hidden' name='sales_item_id' value="<?php echo $sb['sales_item_id']; ?>">
+                                
                             </div>
                         </div>
                         <br>

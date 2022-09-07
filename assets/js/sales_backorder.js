@@ -2,7 +2,7 @@ function dr_append(){
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+'sales_backorder/dr_append';
     var sales_id = document.getElementById("dr_no").value;
-    var transaction_type = $('select#dr_no option:selected').attr('mytag');
+    var transaction_type = $("#dr_no option:selected").attr('myTag');
     $.ajax({
         type: 'POST',
         url: redirect,
@@ -10,7 +10,7 @@ function dr_append(){
         dataType: 'json',
         success: function(response){
             $("#sales_id").val(response.sales_id);
-            $("#transaction_type").val(transaction_type);
+            $("#transaction_type").val(response.transaction_type);
         }
     }); 
 }
@@ -68,10 +68,10 @@ function saveSalesBO(){
             $('#alt').hide();
             if(type=='Goods'){
                  window.location.href = loc+'index.php/sales_backorder/backorder_form/';
-                window.open( loc+'index.php/sales_backorder/print_backorder_goods/'+sales+'/'+type,'_blank');
+                window.open( loc+'index.php/sales_backorder/print_backorder_goods/'+output,'_blank');
             }else if(type=='Services'){
                 window.location.href = loc+'index.php/sales_backorder/backorder_form/';
-                window.open( loc+'index.php/sales_backorder/print_backorder_services/'+sales+'/'+type,'_blank');
+                window.open( loc+'index.php/sales_backorder/print_backorder_services/'+output,'_blank');
             }
            
           }
@@ -162,7 +162,7 @@ function printBackorderGoods(){
 }
 
 function printBackorderServices(){
-    var sign = $("#service_sign").serialize();
+    var sign = $("#services_sign").serialize();
     var loc= document.getElementById("baseurl").value;
     var redirect = loc+'sales_backorder/save_backorder_services';
      $.ajax({
