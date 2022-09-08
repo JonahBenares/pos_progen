@@ -43,26 +43,26 @@
                 <td width="5%"></td>
                 <td width="5%"></td>
             </tr>
-            <tr>
+            <tr style="padding:10px;border-top: 2px solid #000;border-bottom: 2px solid #000;border-left: 2px solid #000">
                 <td colspan="2">
                     <img class="logo-print" src="<?php echo base_url().LOGO;?>">   
                 </td>
-                <td colspan="12" style="padding-left:10px">
+                <td colspan="9" style="padding-left:10px">
                     <b><?php echo COMPANY_NAME;?></b><br>
                     <?php echo ADDRESS;?> <br>
                     <?php echo TIN;?>
                     <br>
                 </td>
                 <td colspan="1"></td>
-                <td colspan="5" align="right" >
+                <td colspan="8" align="center" style="padding:10px;border-top: 2px solid #000;border-bottom: 2px solid #000;border-left: 2px solid #000;border-right: 2px solid #000">
                     <span style="font-size: 15px;line-height: 10px;"><b>ACKNOWLEDGMENT RECEIPT</b></span>
                 </td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td colspan="20">
                     <hr style="margin-top: 0.4rem;margin-bottom: 1rem;border: 0;border-top: 2px solid #000">
                 </td>
-            </tr>
+            </tr> -->
             <?php foreach($service_head AS $sh){ ?>
             <tr>
                 <td colspan="20" align="center"><br></td>
