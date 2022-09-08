@@ -1274,11 +1274,19 @@ class Sales extends CI_Controller {
 
     public function print_acknow(){
         $id=$this->input->post('sales_serv_head_id');
-        $data = array(
-            "verified_by"=>$this->input->post('verified_by'),
-            "recomm_approval"=>$this->input->post('recomm_approval'),
-            "ack_approved_by"=>$this->input->post('ack_approved_by')
-        );
+        $client_id=$this->input->post('client_id');
+        if($client_id==1){
+            $data = array(
+                "verified_by"=>$this->input->post('verified_by'),
+                "recomm_approval"=>$this->input->post('recomm_approval'),
+                "ack_approved_by"=>$this->input->post('ack_approved_by')
+            );
+        }else{
+            $data = array(
+                "verified_by"=>$this->input->post('verified_by'),
+                "ack_approved_by"=>$this->input->post('ack_approved_by')
+            );
+        }
 
         $this->super_model->update_where("sales_services_head", $data, "sales_serv_head_id", $id);
         echo "success";

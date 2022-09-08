@@ -158,7 +158,7 @@
                                 <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
                             <?php } ?>
                         </select>
-                    <?php } else{ echo $verified; }?>
+                    <?php } else{ echo $verified; } ?>
                 </td>
                 <td></td>
                 <td colspan="6" class="bor-btm1" align="center" id="changeTextrecomm">
@@ -241,22 +241,31 @@
             </tr>
             <tr>
                 <td colspan="6" class="bor-btm1" align="center">
-                    Marianne M. Vianña
+                    <!-- Marianne M. Vianña -->
+                    <?php echo $prepared; ?>
                 </td>
                 <td></td>
                 <td colspan="6" align="center">
                 </td>
                 <td></td>
-                <td colspan="6" class="bor-btm1" align="center">
-                    Claro Bolarde
+                <td colspan="6" class="bor-btm1" align="center" id="changeTextverified">
+                    <!-- Claro Bolarde -->
+                    <?php if($verified_by==0){ ?>
+                        <select name="verified_by" id="verified_by" class="form-control select2"  style="border:transparent" onchange="verifiedEmp()">
+                            <option value="">--Select Employees--</option>
+                            <?php foreach($employee AS $emp){ ?>
+                                <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+                            <?php } ?>
+                        </select>
+                    <?php } else{ echo $verified; } ?>
                 </td>
             </tr>
             <tr>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Commercial Asst for Sales/Billing</td>
+                <td colspan="6" align="center" style="vertical-align:text-top;"><?php echo $position; ?></td>
                 <td></td>
                 <td colspan="6" align="center" style="vertical-align:text-top;"></td>
                 <td></td>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Quality Assurance (Q.A) Supervisor</td>
+                <td colspan="6" align="center" style="vertical-align:text-top;" id="verified_position"><?php echo $verified_position; ?></td>
             </tr>
 
             <tr>
@@ -273,8 +282,16 @@
                 <td colspan="20"><br></td>
             </tr>
             <tr>
-                <td colspan="6" class="bor-btm1" align="center">
-                    Raffy F. Ponce
+                <td colspan="6" class="bor-btm1" align="center" id="changeTextackapp">
+                    <!-- Raffy F. Ponce -->
+                    <?php if($ack_approved_by==0){ ?>
+                        <select name="ack_approved_by" id="ack_approved_by" class="form-control select2"  style="border:transparent" onchange="ackapprovedEmp()">
+                            <option value="">--Select Employees--</option>
+                            <?php foreach($employee AS $emp){ ?>
+                                <option value="<?php echo $emp->employee_id; ?>"><?php echo $emp->employee_name; ?></option>
+                            <?php } ?>
+                        </select>
+                    <?php } else{ echo $ack_approved; }?>
                 </td>
                 <td></td>
                 <td colspan="6"></td>
@@ -284,7 +301,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="6" align="center" style="vertical-align:text-top;">Technical Director</td>
+                <td colspan="6" align="center" style="vertical-align:text-top;" id="ack_position"><?php echo $ack_approved_position; ?></td>
                 <td></td>
                 <td colspan="6" align="center" style="vertical-align:text-top;"></td>
                 <td></td>
@@ -303,6 +320,7 @@
         <?php } ?>
             <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
             <input type="hidden" name="sales_serv_head_id" id="sales_serv_head_id" value="<?php echo $sales_serv_head_id; ?>">
+            <input type="hidden" name="client_id" id="client_id" value="<?php echo $client_id; ?>">
         </table>
     </div>
 </page>

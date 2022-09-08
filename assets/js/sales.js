@@ -842,6 +842,7 @@ function printDeliveryservices(){
 function printAcknowledge(){
     var sign = $("#ack_sign").serialize();
     var loc= document.getElementById("baseurl").value;
+    var client_id= document.getElementById("client_id").value;
     var redirect = loc+'sales/print_acknow';
      $.ajax({
         type: "POST",
@@ -853,8 +854,10 @@ function printAcknowledge(){
                 $('#verified_by').hide();
                 document.getElementById('changeTextackapp').innerHTML=$("#ack_approved_by option:selected").text();
                 $('#ack_approved_by').hide();
-                document.getElementById('changeTextrecomm').innerHTML=$("#recomm_approval option:selected").text();
-                $('#recomm_approval').hide();
+                if(client_id==1){
+                    document.getElementById('changeTextrecomm').innerHTML=$("#recomm_approval option:selected").text();
+                    $('#recomm_approval').hide();
+                }
                 window.print();
             }
         }
