@@ -56,7 +56,7 @@
                     <br>
                 </td>
                 <td colspan="1"></td>
-                <td colspan="5" align="right" style="padding:10px;border-top: 2px solid #000;border-bottom: 2px solid #000;border-left: 2px solid #000;border-right: 2px solid #000">
+                <td colspan="5" align="center" style="padding:10px;border-top: 2px solid #000;border-bottom: 2px solid #000;border-left: 2px solid #000;border-right: 2px solid #000">
                     <span style="font-size: 15px;line-height: 10px;"><b>MATERIAL RECEIVING & INSPECTION FORM</b></span>
                 </td>
             </tr>

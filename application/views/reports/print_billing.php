@@ -47,7 +47,7 @@
                 <td width="5%"></td>
             </tr>
             <?php foreach($head AS $h){ ?>
-            <tr>
+            <tr style="padding:10px;border-top: 2px solid #000;border-bottom: 2px solid #000;border-left: 2px solid #000">
                 <td colspan="2">
                     <img class="logo-print" src="<?php echo base_url().LOGO;?>">   
                 </td>
@@ -58,7 +58,7 @@
                     <br>
                 </td>
                 <td colspan="1"></td>
-                <td colspan="5" align="right" >
+                <td colspan="5" align="center" style="padding:10px;border-top: 2px solid #000;border-bottom: 2px solid #000;border-left: 2px solid #000;border-right: 2px solid #000">
                     <span style="font-size: 15px;line-height: 10px;">
                         <?php if ($h['adjustment_counter'] == 0) { ?>
                             <b>BILLING STATEMENT</b>
@@ -70,7 +70,8 @@
             </tr>
             <tr>
                 <td colspan="20">
-                    <hr style="margin-top: 0.4rem;margin-bottom: 1rem;border: 0;border-top: 2px solid #000">
+                    <br>
+                    <!-- <hr style="margin-top: 0.4rem;margin-bottom: 1rem;border: 0;border-top: 2px solid #000"> -->
                 </td>
             </tr>
             <tr>

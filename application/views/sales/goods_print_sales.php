@@ -57,11 +57,12 @@
                         <span style="font-size: 15px;line-height: 10px;"><b>DELIVERY RECEIPT <br> GOODS</b></span>
                     </td>
                 </tr>
-                <!-- <tr>
+                <tr>
                     <td colspan="20">
-                        <hr style="margin-top: 0.4rem;margin-bottom: 1rem;border: 0;border-top: 2px solid #000">
+                        <!-- <hr style="margin-top: 0.4rem;margin-bottom: 1rem;border: 0;border-top: 2px solid #000"> -->
+                        <br>
                     </td>
-                </tr> -->
+                </tr>
                 <?php foreach($sales_head AS $sh){ ?>
                 <tr>
                     <td colspan="3"></td>
@@ -73,48 +74,48 @@
                     <td colspan="10"></td>
                     <td colspan="1"></td>
                     <td colspan="2" align="right">Date:</td>
-                    <td colspan="4" class="bor-btm1">&nbsp; <?php echo date("Y-m-d", strtotime($sh['sales_date']));?></td>
+                    <td colspan="4" class="bor-btm1 bor-color bor-color">&nbsp; <?php echo date("Y-m-d", strtotime($sh['sales_date']));?></td>
                 </tr> 
                 <tr>
                     <td colspan="3">Client:</td>
-                    <td colspan="10" class="bor-btm1"><?php echo $sh['client'];?></td>
+                    <td colspan="10" class="bor-btm1 bor-color"><?php echo $sh['client'];?></td>
                     <td colspan="1"></td>
                     <td colspan="2" align="right">TIN:</td>
-                    <td colspan="4" class="bor-btm1">&nbsp; <?php echo $sh['tin'];?></td>
+                    <td colspan="4" class="bor-btm1 bor-color">&nbsp; <?php echo $sh['tin'];?></td>
                 </tr>               
                 <tr>
                     <td colspan="3"  style="vertical-align:top">Address:</td>
-                    <td colspan="10" class="bor-btm1" style="vertical-align:top"><?php echo $sh['address'];?></td>
+                    <td colspan="10" class="bor-btm1 bor-color" style="vertical-align:top"><?php echo $sh['address'];?></td>
                     <td colspan="1"></td>
                     <td colspan="2" align="right"  style="vertical-align:top">VAT:</td>
-                    <td colspan="4" class="bor-btm1"  style="vertical-align:top">&nbsp; <?php echo ($sh['vat']==1) ? 'Vatable' : 'Non-Vatable';?></td>
+                    <td colspan="4" class="bor-btm1 bor-color"  style="vertical-align:top">&nbsp; <?php echo ($sh['vat']==1) ? 'Vatable' : 'Non-Vatable';?></td>
                 </tr>
                 <tr>
                     <td colspan="3">Contact Person:</td>
-                    <td colspan="10" class="bor-btm1"><?php echo $sh['contact_person'];?></td>
+                    <td colspan="10" class="bor-btm1 bor-color"><?php echo $sh['contact_person'];?></td>
                     <td colspan="1"></td>
                     <td colspan="2" align="right">Contact No:</td>
-                    <td colspan="4" class="bor-btm1">&nbsp; <?php echo $sh['contact_no'];?></td>
+                    <td colspan="4" class="bor-btm1 bor-color">&nbsp; <?php echo $sh['contact_no'];?></td>
                 </tr>
                 <tr>
                     <td colspan="3">PGC <b>PR </b>No:</td>
-                    <td colspan="10" class="bor-btm1"><?php echo $sh['pr_no'];?></td>
+                    <td colspan="10" class="bor-btm1 bor-color"><?php echo $sh['pr_no'];?></td>
                     <td colspan="1"></td>
                     <td colspan="2" align="right">PR Date:</td>
-                    <td colspan="4" class="bor-btm1">&nbsp; <?php echo $sh['pr_date'];?></td>
+                    <td colspan="4" class="bor-btm1 bor-color">&nbsp; <?php echo $sh['pr_date'];?></td>
                 </tr>
                 <tr>
                     <td colspan="3">PGC <b>PO </b>No:</td>
-                    <td colspan="10" class="bor-btm1"><?php echo $sh['po_no'];?></td>
+                    <td colspan="10" class="bor-btm1 bor-color"><?php echo $sh['po_no'];?></td>
                     <td colspan="1"></td>
                     <td colspan="2" align="right">PO Date: </td>
-                    <td colspan="4" class="bor-btm1">&nbsp;<?php echo $sh['po_date'];?></td>
+                    <td colspan="4" class="bor-btm1 bor-color">&nbsp;<?php echo $sh['po_date'];?></td>
                 </tr>
             <!--  <tr>
                     <td colspan="3"></td>
-                    <td colspan="11" class="bor-btm1"></td>
+                    <td colspan="11" class="bor-btm1 bor-color"></td>
                     <td colspan="2" align="right"></td>
-                    <td colspan="4" class="bor-btm1"></td>
+                    <td colspan="4" class="bor-btm1 bor-color"></td>
                 </tr> -->
                 <tr>
                     <td colspan="20" align="center"><br><br></td>
@@ -159,14 +160,14 @@
                 </tr>
                 <tr>
                     <td colspan="2">Remarks:</td>
-                    <td colspan="18" class="bor-btm1"><?php echo nl2br($sh['remarks']);?></td>
+                    <td colspan="18" class="bor-btm1 bor-color"><?php echo nl2br($sh['remarks']);?></td>
                 </tr>
                 <!-- <tr>
                     <td colspan="2">Shipped via:</td>
-                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="8" class="bor-btm1 bor-color"></td>
 
                     <td colspan="2" align="center">Waybill No.:</td>
-                    <td colspan="8" class="bor-btm1"></td>
+                    <td colspan="8" class="bor-btm1 bor-color"></td>
                 </tr> -->
                 <tr>
                     <td colspan="20"><br></td>
@@ -177,7 +178,7 @@
                     <td></td>
                     <td colspan="5"><b>Released by:</b></td>
                     <td></td>
-                    <td colspan="6"><b>Approved by:</b></td>
+                    <td colspan="6"><b>Verified by:</b></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -185,9 +186,9 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td colspan="5" class="bor-btm1" align="center"><?php echo $prepared; ?></td>
+                    <td colspan="5" class="bor-btm1 bor-color" align="center"><?php echo $prepared; ?></td>
                     <td></td>
-                    <td colspan="5" class="bor-btm1" align="center" id="changeTextrel">
+                    <td colspan="5" class="bor-btm1 bor-color" align="center" id="changeTextrel">
                         <?php if($released_by==0){ ?>
                         <select name="released_by" id="released_by" class="form-control select2" style="border:transparent" onchange="releasedEmp()">
                             <option value="">--Select Employees--</option>
@@ -198,7 +199,7 @@
                         <?php }else{ echo $released; } ?>
                     </td>
                     <td></td>
-                    <td colspan="6" class="bor-btm1" align="center" id="changeTextapp">
+                    <td colspan="6" class="bor-btm1 bor-color" align="center" id="changeTextapp">
                         <?php if($approved_by==0){ ?>
                         <select name="approved_by" id="approved_by" class="form-control select2"  style="border:transparent" onchange="approvedEmp()">
                             <option value="">--Select Employees--</option>
@@ -237,7 +238,7 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td colspan="5" class="bor-btm1" align="center" id="changeTextnote">
+                    <td colspan="5" class="bor-btm1 bor-color" align="center" id="changeTextnote">
                         <?php if($noted_by==0){ ?>
                         <select name="noted_by" id="noted_by" class="form-control select2"  style="border:transparent"  onchange="notedEmp()">
                             <option value="">--Select Employees--</option>
@@ -250,7 +251,7 @@
                     <td></td>
                     <td colspan="5"></td>
                     <td></td>
-                    <td colspan="6" class="bor-btm1" align="center"></td>
+                    <td colspan="6" class="bor-btm1 bor-color" align="center"></td>
                     <td></td>
                 </tr>
                 <tr>

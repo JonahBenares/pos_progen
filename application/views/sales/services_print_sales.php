@@ -62,11 +62,11 @@
                         <span style="font-size: 15px;line-height: 10px;"><b>JOB ORDER SUMMARY REPORT</b></span>
                     </td>
                 </tr>
-                <!-- <tr>
+                <tr>
                     <td colspan="20">
-                        <hr style="margin-top: 0.4rem;margin-bottom: 1rem;border: 0;border-top: 2px solid #000">
+                        <br>
                     </td>
-                </tr> -->
+                </tr>
                 <tr>
                     <td colspan="3"></td>
                     <td colspan="11" class=""></td>

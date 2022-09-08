@@ -15,4 +15,9 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['user_id'] == '')) {
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendors/mdi/css/materialdesignicons.min.css">
         <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/images/favicon.ico" />
     </head>
+    <style>
+        .bor-color,th,td,tr{
+            border-color:#000!important;
+        }
+    </style>
   <body>

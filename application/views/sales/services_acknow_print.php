@@ -58,11 +58,12 @@
                     <span style="font-size: 15px;line-height: 10px;"><b>ACKNOWLEDGMENT RECEIPT</b></span>
                 </td>
             </tr>
-            <!-- <tr>
+            <tr>
                 <td colspan="20">
-                    <hr style="margin-top: 0.4rem;margin-bottom: 1rem;border: 0;border-top: 2px solid #000">
+                    <!-- <hr style="margin-top: 0.4rem;margin-bottom: 1rem;border: 0;border-top: 2px solid #000"> -->
+                    <br>
                 </td>
-            </tr> -->
+            </tr>
             <?php foreach($service_head AS $sh){ ?>
             <tr>
                 <td colspan="20" align="center"><br></td>
