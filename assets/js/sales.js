@@ -54,10 +54,14 @@ function proceed_sales(){
                 var x = document.getElementById("myDIV");
                 var proc = document.getElementById("proc");
                 var cancel = document.getElementById("cancel");
+                var open = document.getElementById("open");
+                var submitdata = document.getElementById("submitdata");
                 if (x.style.display === "none") {
                     x.style.display = "block";
                     proc.style.display = "none";
                     cancel.style.display = "block";
+                    open.style.display = "block";
+                    submitdata.style.display = "block";
                     $('#client').attr("disabled", true); 
                     document.getElementById('sales_date').readOnly = true;
                     document.getElementById('remarks').readOnly = true;
@@ -66,10 +70,13 @@ function proceed_sales(){
                     document.getElementById('pr_date').readOnly = true;
                     document.getElementById('po_date').readOnly = true;
                     $('#vat').attr("disabled", true); 
+
                 } else {
                     x.style.display = "none";
                     proc.style.display = "block";
                     cancel.style.display = "none";
+                    open.style.display = "none";
+                    submitdata.style.display = "none";
                 }
                 document.getElementById("sales_good_head_id").value  = response.sales_good_head_id;
                 $("#myButton").append('<button class="btn btn-gradient-primary btn-xs pull-right " onclick="goods_add_sales_items(\''+loc+'\','+response.sales_good_head_id+')" name=""><span class="mdi mdi-plus"></span> Add Item</button>'); 
@@ -79,7 +86,54 @@ function proceed_sales(){
     }
 }
 
+function open_fields(){
+    var open = document.getElementById("open");
+    var save = document.getElementById("save");
+    open.style.display = "none";
+    save.style.display = "block";
+    $('#client').attr("disabled", false); 
+    document.getElementById('sales_date').readOnly = false;
+    document.getElementById('remarks').readOnly = false;
+    document.getElementById('pr_no').readOnly = false;
+    document.getElementById('po_no').readOnly = false;
+    document.getElementById('pr_date').readOnly = false;
+    document.getElementById('po_date').readOnly = false;
+    $('#vat').attr("disabled", false); 
+}
 
+function update_sales(){
+    var data = $("#salesHead").serialize();
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/update_sales";
+    var conf = confirm('Are you sure you want to save this?');
+    if(conf){
+          $.ajax({
+            data: data,
+            type: "POST",
+            url: redirect,
+            dataType: "json",
+            success: function(response){ 
+                var open = document.getElementById("open");
+                var save = document.getElementById("save");
+                if(response.status=='success'){
+                    open.style.display = "block";
+                    save.style.display = "none";
+                    $('#client').attr("disabled", true); 
+                    document.getElementById('sales_date').readOnly = true;
+                    document.getElementById('remarks').readOnly = true;
+                    document.getElementById('pr_no').readOnly = true;
+                    document.getElementById('po_no').readOnly = true;
+                    document.getElementById('pr_date').readOnly = true;
+                    document.getElementById('po_date').readOnly = true;
+                    $('#vat').attr("disabled", true); 
+                    alert("Successfully Updated!");
+                }else{
+                    alert("Error! Please Try Again!");
+                }
+            }
+        });  
+    }
+}
 
 function cancel_sale(){
     var id = document.getElementById("sales_good_head_id").value; 

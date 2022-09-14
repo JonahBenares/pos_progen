@@ -176,6 +176,56 @@ class Sales extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function goods_sales_update(){
+        $sales_good_head_id = $this->uri->segment(3);
+        $data['sales_good_head_id'] = $this->uri->segment(3);
+        $data['buyer']=$this->super_model->select_all_order_by("client","buyer_name","ASC");
+        foreach($this->super_model->select_custom_where("sales_good_head","saved='1' AND sales_good_head_id='$sales_good_head_id'") AS $sgh){
+            $address=$this->super_model->select_column_where("client","address","client_id",$sgh->client_id);
+            $tin=$this->super_model->select_column_where("client","tin","client_id",$sgh->client_id);
+            $contact_person=$this->super_model->select_column_where("client","contact_person","client_id",$sgh->client_id);
+            $contact_no=$this->super_model->select_column_where("client","contact_no","client_id",$sgh->client_id);
+            $data['head'][]=array(
+                "sales_good_head_id"=>$sgh->sales_good_head_id,
+                "client_id"=>$sgh->client_id,
+                "address"=>$address,
+                "tin"=>$tin,
+                "contact_person"=>$contact_person,
+                "contact_no"=>$contact_no,
+                "sales_date"=>$sgh->sales_date,
+                "pr_no"=>$sgh->pr_no,
+                "po_no"=>$sgh->po_no,
+                "pr_date"=>$sgh->pr_date,
+                "po_date"=>$sgh->po_date,
+                "dr_no"=>$sgh->dr_no,
+                "vat"=>$sgh->vat,
+                "remarks"=>$sgh->remarks,
+            );
+            foreach($this->super_model->select_row_where("sales_good_details","sales_good_head_id",$sgh->sales_good_head_id) AS $sd){
+                $serial_no = $this->get_serial($sd->sales_good_det_id, 'final');
+                $original_pn = $this->super_model->select_column_where("items","original_pn","item_id",$sd->item_id);
+                $item_name = $this->super_model->select_column_where("items","item_name","item_id",$sd->item_id);
+                $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$sd->item_id);
+                $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
+                $data['sales_det'][]=array(
+                    "original_pn"=>$original_pn,
+                    "item_name"=>$item_name,
+                    "serial_no"=>$serial_no,
+                    "unit"=>$unit,
+                    "qty"=>$sd->quantity,
+                    "expected_qty"=>$sd->expected_qty,
+                    "selling_price"=>$sd->selling_price,
+                    "discount"=>$sd->discount_amount,
+                    "total"=>$sd->total,
+                );
+            }
+        }
+        $this->load->view('template/header');
+        $this->load->view('template/navbar');
+        $this->load->view('sales/goods_sales_update',$data);
+        $this->load->view('template/footer');
+    }
+
     public function add_sales_head_process(){
         $data=array(
             "client_id"=>$this->input->post('client'),
@@ -193,6 +243,25 @@ class Sales extends CI_Controller {
         $id= $this->super_model->insert_return_id("sales_good_head", $data);
         $return = array('sales_good_head_id'=>$id);
         echo json_encode($return);
+    }
+
+    public function update_sales(){
+        $sales_good_head_id=$this->input->post('sales_good_head_id');
+        $data=array(
+            "client_id"=>$this->input->post('client'),
+            "sales_date"=>$this->input->post('sales_date')." ".date("H:i:s"),
+            "pr_no"=>$this->input->post('pr_no'),
+            "pr_date"=>$this->input->post('pr_date'),
+            "po_no"=>$this->input->post('po_no'),
+            "po_date"=>$this->input->post('po_date'),
+            "dr_no"=>$this->input->post('dr_no'),
+            "vat"=>$this->input->post('vat'),
+            "remarks"=>$this->input->post('remarks'),
+        );
+        if($this->super_model->update_where("sales_good_head", $data, "sales_good_head_id", $sales_good_head_id)){
+            $return = array('status'=>'success');
+            echo json_encode($return);
+        }
     }
 
     public function cancel_sales(){

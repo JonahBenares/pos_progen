@@ -61,6 +61,7 @@
                                     <td><?php echo $l->pr_no; ?></td>
                                     <td><?php echo $l->po_no; ?></td>
                                     <td align="center">
+                                        <a href="<?php echo base_url(); ?>sales/goods_sales_update/<?php echo $l->sales_good_head_id; ?>" class="btn btn-xs btn-gradient-info btn-rounded"><span class="mdi mdi-pencil"></span></a>
                                         <a href="<?php echo base_url(); ?>sales/goods_print_sales/<?php echo $l->sales_good_head_id; ?>" class="btn btn-xs btn-gradient-warning btn-rounded"><span class="mdi mdi-eye"></span></a>
                                     </td>
                                 </tr>
