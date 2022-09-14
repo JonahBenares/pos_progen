@@ -69,7 +69,7 @@
                 if($h['pcf'] == '1') {
                     $pcf = 'Yes';
                 } else {
-                    $h['pcf'] = 'No';
+                    $pcf= 'No';
                 }?>
                 <tr>
                     <td colspan="2">Date:</td>
