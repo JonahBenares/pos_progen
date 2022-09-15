@@ -167,7 +167,7 @@ $(document).ready(function() {
                                 </div>
                             </div> 
                             <?php } ?>
-                        </form>
+                        
                         <hr> 
                         <div class="row" id='myDIV'>
                             <div class="col-lg-12">
@@ -182,6 +182,7 @@ $(document).ready(function() {
                                     <br>                        
                                     <table id="table-alt" class="table-bordered table-alt" width="100%">
                                         <tr>
+                                            <td class="td-head" width="1%" hidden></td>
                                             <td class="td-head" width="1%">#</td>
                                             <td class="td-head" width="">Part No.</td>
                                             <td class="td-head" width="">Item Description</td>
@@ -199,7 +200,8 @@ $(document).ready(function() {
                                                     $x=1; 
                                                     foreach($sales_det AS $sd){ 
                                             ?>
-                                            <tr>
+                                            <tr id="load_data<?php echo $x; ?>">
+                                                <td hidden><input type="text"><input type="text" name="sales_good_det_id[]" id="sales_good_det_id" value='<?php echo $sd['sales_good_det_id'];?>'></td>
                                                 <td><?php echo $x++;?></td>
                                                 <td><?php echo $sd['original_pn'];?></td>
                                                 <td><?php echo $sd['item_name'];?></td>
@@ -207,8 +209,8 @@ $(document).ready(function() {
                                                 <td><?php echo $sd['qty'];?></td>
                                                 <td><?php echo $sd['expected_qty'];?></td>
                                                 <td><?php echo $sd['unit'];?></td>
-                                                <td><?php echo number_format($sd['selling_price'],2);?></td>
-                                                <td><?php echo number_format($sd['discount'],2);?></td>  
+                                                <td><input type="text" onkeypress="return isNumberKey(this, event)" name="selling_price[]" class="update_selling" style="width:100%" value='<?php echo $sd['selling_price'];?>'></td>
+                                                <td><input type="text" onkeypress="return isNumberKey(this, event)" name="discount[]" class="update_discount" style="width:100%" value='<?php echo $sd['discount'];?>'></td>  
                                                 <td><?php echo number_format($sd['total'],2);?></td>           
                                             </tr>
                                             <?php } } ?>
@@ -217,6 +219,7 @@ $(document).ready(function() {
                                 </div>  
                             </div>     
                         </div>
+                    </form>
                     </div>
                 </div>
             </div>

@@ -208,6 +208,7 @@ class Sales extends CI_Controller {
                 $unit_id = $this->super_model->select_column_where("items","unit_id","item_id",$sd->item_id);
                 $unit = $this->super_model->select_column_where("uom","unit_name","unit_id",$unit_id);
                 $data['sales_det'][]=array(
+                    "sales_good_det_id"=>$sd->sales_good_det_id,
                     "original_pn"=>$original_pn,
                     "item_name"=>$item_name,
                     "serial_no"=>$serial_no,
@@ -262,6 +263,32 @@ class Sales extends CI_Controller {
             $return = array('status'=>'success');
             echo json_encode($return);
         }
+    }
+
+    public function update_selling(){
+        $sales_good_head_id=$this->input->post('sales_good_head_id');
+        $counter=count($this->input->post('selling_price'));
+        for($x=0;$x<$counter;$x++){
+            $sales_good_det_id=$this->input->post('sales_good_det_id['.$x.']');
+            $data=array(
+                "selling_price"=>$this->input->post('selling_price['.$x.']'),
+            );
+            $save=$this->super_model->update_where("sales_good_details", $data, "sales_good_det_id", $sales_good_det_id);
+        }
+        echo $sales_good_head_id;
+    }
+
+    public function update_discount(){
+        $sales_good_head_id=$this->input->post('sales_good_head_id');
+        $counter=count($this->input->post('discount'));
+        for($x=0;$x<$counter;$x++){
+            $sales_good_det_id=$this->input->post('sales_good_det_id['.$x.']');
+            $data=array(
+                "discount_amount"=>$this->input->post('discount['.$x.']'),
+            );
+            $save=$this->super_model->update_where("sales_good_details", $data, "sales_good_det_id", $sales_good_det_id);
+        }
+        echo $sales_good_head_id;
     }
 
     public function cancel_sales(){

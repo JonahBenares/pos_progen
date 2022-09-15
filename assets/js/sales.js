@@ -135,6 +135,38 @@ function update_sales(){
     }
 }
 
+$(document).ready(function() {
+    $('.update_selling').blur(function() {
+        var data = $("#salesHead").serialize();
+        var loc= document.getElementById("baseurl").value;
+        var redirect = loc+"sales/update_selling";
+        $.ajax({
+            data: data,
+            type: "POST",
+            url: redirect,
+            success: function(output){
+                location.reload();
+            }
+        });  
+
+    });
+
+    $('.update_discount').blur(function() {
+        var data = $("#salesHead").serialize();
+        var loc= document.getElementById("baseurl").value;
+        var redirect = loc+"sales/update_discount";
+        $.ajax({
+            data: data,
+            type: "POST",
+            url: redirect,
+            success: function(output){
+                location.reload();
+            }
+        });  
+
+    });
+});
+
 function cancel_sale(){
     var id = document.getElementById("sales_good_head_id").value; 
     var loc= document.getElementById("baseurl").value;
