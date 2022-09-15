@@ -270,8 +270,10 @@ class Sales extends CI_Controller {
         $counter=count($this->input->post('selling_price'));
         for($x=0;$x<$counter;$x++){
             $sales_good_det_id=$this->input->post('sales_good_det_id['.$x.']');
+            $total=$this->input->post('selling_price['.$x.']') - $this->input->post('discount['.$x.']');
             $data=array(
                 "selling_price"=>$this->input->post('selling_price['.$x.']'),
+                "total"=>$total,
             );
             $save=$this->super_model->update_where("sales_good_details", $data, "sales_good_det_id", $sales_good_det_id);
         }
@@ -283,8 +285,10 @@ class Sales extends CI_Controller {
         $counter=count($this->input->post('discount'));
         for($x=0;$x<$counter;$x++){
             $sales_good_det_id=$this->input->post('sales_good_det_id['.$x.']');
+            $total=$this->input->post('selling_price['.$x.']') - $this->input->post('discount['.$x.']');
             $data=array(
                 "discount_amount"=>$this->input->post('discount['.$x.']'),
+                "total"=>$total,
             );
             $save=$this->super_model->update_where("sales_good_details", $data, "sales_good_det_id", $sales_good_det_id);
         }
