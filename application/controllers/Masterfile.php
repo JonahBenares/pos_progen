@@ -1638,7 +1638,7 @@ function dateDifference($date_1 , $date_2)
             $catalog = trim($objPHPExcel->getActiveSheet()->getCell('C'.$x)->getValue());
             $qty = trim($objPHPExcel->getActiveSheet()->getCell('D'.$x)->getValue());
             $begbal_date = trim($objPHPExcel->getActiveSheet()->getCell('E'.$x)->getValue());
-            
+        if($qty!=''){    
             $data_begbal = array(
                 'item_id'=>$itemid,
                 'catalog_no'=>$catalog,
@@ -1660,6 +1660,7 @@ function dateDifference($date_1 , $date_2)
             );
             $this->super_model->insert_into("fifo_in", $data_items);
         }
+    }
         echo "<script>alert('Successfully uploaded!'); window.location = 'bulk_upload';</script>";
     }
 
