@@ -37,16 +37,17 @@ $(document).ready(function() {
                         <h4 class="m-0">Add New Sales (<b>Goods</b>)</h4>
                     </div>
                     <div class="card-body"> 
-                        <form id="salesHead" >       
+                        <form id="salesHead" >    
+                            <?php foreach($head AS $h){ ?>   
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Client</label>
                                         <!-- <input type="text" class="form-control" id="client" name = "client" placeholder="Client Name"> -->
-                                        <select class="form-control" id="client" name = "client" onclick="client_append();">
+                                        <select class="form-control" id="client" name = "client" onclick="client_append();" disabled>
                                             <option value="">--Select Client--</option>
                                             <?php foreach($buyer AS $b){ ?>
-                                                <option value="<?php echo $b->client_id; ?>"><?php echo $b->buyer_name; ?></option>
+                                                <option value="<?php echo $b->client_id; ?>" <?php echo ($b->client_id==$h['client_id']) ? 'selected' : ''; ?>><?php echo $b->buyer_name; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -54,7 +55,7 @@ $(document).ready(function() {
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Date</label>
-                                        <input type="date" class="form-control" id="sales_date" name = "sales_date" placeholder="Date">
+                                        <input type="date" class="form-control" id="sales_date" name = "sales_date" placeholder="Date" value="<?php echo date("Y-m-d",strtotime($h['sales_date'])); ?>" readonly>
                                     </div>
                                 </div>                                    
                             </div>                  
@@ -64,13 +65,13 @@ $(document).ready(function() {
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Address</label>
-                                                <input type="text" class="form-control" id="address" placeholder="Address" readonly>
+                                                <input type="text" class="form-control" id="address" placeholder="Address" value="<?php echo $h['address'];?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>TIN</label>
-                                                <input type="text" class="form-control"  id="tin" placeholder="TIN" readonly>
+                                                <input type="text" class="form-control"  id="tin" placeholder="TIN" value="<?php echo $h['tin'];?>" readonly>
                                             </div>
                                         </div>
                                     </div>                               
@@ -80,19 +81,19 @@ $(document).ready(function() {
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Contact Person</label>
-                                                <input type="text" class="form-control"  id="contact_person" placeholder="Contact Person" readonly>
+                                                <input type="text" class="form-control"  id="contact_person" placeholder="Contact Person" value="<?php echo $h['contact_person'];?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Contact Number</label>
-                                                <input type="text" class="form-control"  id="contact_no" placeholder="Contact Number" readonly>
+                                                <input type="text" class="form-control"  id="contact_no" placeholder="Contact Number" value="<?php echo $h['contact_no'];?>" readonly>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Remarks</label>
-                                        <textarea class="form-control" name="remarks" id="remarks" rows="1"></textarea>
+                                        <textarea class="form-control" name="remarks" id="remarks" rows="1" readonly><?php echo $h['remarks'];?></textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -100,13 +101,13 @@ $(document).ready(function() {
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>PGC <b>PR </b>No.</label>
-                                                <input type="text" class="form-control" name="pr_no" id="pr_no" placeholder="PGC PR No.">
+                                                <input type="text" class="form-control" name="pr_no" id="pr_no" placeholder="PGC PR No." value="<?php echo $h['pr_no'];?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>PGC <b>PO </b>No.</label>
-                                                <input type="text" class="form-control" name="po_no" id="po_no" placeholder="PGC PO No.">
+                                                <input type="text" class="form-control" name="po_no" id="po_no" placeholder="PGC PO No." value="<?php echo $h['po_no'];?>" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -114,13 +115,13 @@ $(document).ready(function() {
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>PR Date</label>
-                                                <input type="date" class="form-control" name="pr_date" id="pr_date" placeholder="PR Date">
+                                                <input type="date" class="form-control" name="pr_date" id="pr_date" placeholder="PR Date" value="<?php echo $h['pr_date'];?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>PO Date</label>
-                                                <input type="date" class="form-control" name="po_date" id="po_date" placeholder="PO Date">
+                                                <input type="date" class="form-control" name="po_date" id="po_date" placeholder="PO Date" value="<?php echo $h['po_date'];?>" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -129,15 +130,15 @@ $(document).ready(function() {
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>DR No.</label>
-                                                <input type="text" class="form-control" name = "dr_no" placeholder="DR No" value="<?php echo $dr_no; ?>" readonly>
+                                                <input type="text" class="form-control" name = "dr_no" placeholder="DR No" value="<?php echo $h['dr_no'];?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <label>VAT</label>
-                                                <select class="form-control" id="vat" name = "vat">
-                                                    <option value="1">Vatable</option>
-                                                    <option value="2">Non-Vatable</option>
+                                                <select class="form-control" id="vat" name = "vat" disabled>
+                                                    <option value="1" <?php echo ($h['vat']==1) ? 'selected' : ''; ?>>Vatable</option>
+                                                    <option value="2" <?php echo ($h['vat']==2) ? 'selected' : ''; ?>>Non-Vatable</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -145,20 +146,30 @@ $(document).ready(function() {
                                             <div class="form-group">
                                                 <label><br></label>
                                                 <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
-                                                <input type="hidden" name="sales_good_head_id" id="sales_id" form="salesHead">
+                                                <input type="hidden" name="sales_good_head_id" id="sales_good_head_id" form="salesHead" value="<?php echo $sales_good_head_id; ?>">
+                                                <?php if(!isset($sales_good_head_id)){ ?>
                                                 <input type='button' class="btn btn-gradient-primary btn-sm btn-block btn-rounded" id="proc" onclick="proceed_sales()" value="Proceed">
-                                                <input type='button' class="btn btn-gradient-primary btn-sm btn-block btn-rounded" id="open" onclick="open_fields()" value="Update Transaction" style='display: none;font-size: 10px;'>
-                                                <input type='button' class="btn btn-gradient-primary btn-sm btn-block btn-rounded" id="save" onclick="update_sales()" value="Save" style='display: none;font-size: 10px;'>
-                                                <input type='button' class="btn btn-gradient-danger btn-sm btn-block btn-rounded" id="cancel" onclick="cancel_sale()" value="Cancel Transaction" style='display: none;font-size: 10px;'>
-                                                <input type="hidden" name="sales_good_head_id" id="sales_good_head_id" form="saveAll">
+                                                <?php } ?>
+
+                                                <?php if(!isset($sales_good_head_id)){ ?>
+                                                    <input type='button' class="btn btn-gradient-primary btn-sm btn-block btn-rounded" id="open" onclick="open_fields()" value="Update Transaction" style='display: none;font-size: 10px;'>
+                                                    <input type='button' class="btn btn-gradient-primary btn-sm btn-block btn-rounded" id="save" onclick="update_sales()" value="Save" style='display: none;font-size: 10px;'>
+                                                    <input type='button' class="btn btn-gradient-danger btn-sm btn-block btn-rounded" id="cancel" onclick="cancel_sale()" value="Cancel Transaction" style='display: none;font-size: 10px;'>
+                                                <?php } else{ ?>
+                                                    <input type='button' class="btn btn-gradient-primary btn-sm btn-block btn-rounded" id="open" onclick="open_fields()" value="Update Transaction" style='font-size: 10px;'>
+                                                    <input type='button' class="btn btn-gradient-primary btn-sm btn-block btn-rounded" id="save" onclick="update_sales()" value="Save" style='display: none;font-size: 10px;'>
+                                                    <input type='hidden' class="btn btn-gradient-danger btn-sm btn-block btn-rounded" id="cancel" onclick="cancel_sale()" value="Cancel Transaction" style='font-size: 10px;'>
+                                                <?php } ?>
+                                                <input type="hidden" name="sales_good_head_id" id="sales_good_head_id" form="saveAll" value="<?php echo $sales_good_head_id; ?>">
                                             </div>
                                         </div>
                                     </div>                                
                                 </div>
                             </div> 
-                        </form>
+                            <?php } ?>
+                        
                         <hr> 
-                        <div class="row" id='myDIV' style='display: none;'>
+                        <div class="row" id='myDIV'>
                             <div class="col-lg-12">
                                 <div > <!-- style="width:100%;overflow-x: scroll;" -->
                                     <div class="col-lg-12">
@@ -171,6 +182,7 @@ $(document).ready(function() {
                                     <br>                        
                                     <table id="table-alt" class="table-bordered table-alt" width="100%">
                                         <tr>
+                                            <td class="td-head" width="1%" hidden></td>
                                             <td class="td-head" width="1%">#</td>
                                             <td class="td-head" width="">Part No.</td>
                                             <td class="td-head" width="">Item Description</td>
@@ -181,30 +193,33 @@ $(document).ready(function() {
                                             <td class="td-head" width="8%">Selling Price</td>
                                             <td class="td-head" width="8%">Discount</td>
                                             <td class="td-head" width="8%">Total Cost</td>
-                                            <td class="td-head" width="2%">
-                                                <span class="mdi mdi-menu"></span>
-                                            </td>
                                         </tr>
                                         <tbody id="append_data">
-                                           <!--  <?php if(!empty($sales_det)){ $x=1; foreach($sales_det AS $sd){ ?>
-                                            <tr>
+                                            <?php 
+                                                if(!empty($sales_det)){ 
+                                                    $x=1; 
+                                                    foreach($sales_det AS $sd){ 
+                                            ?>
+                                            <tr id="load_data<?php echo $x; ?>">
+                                                <td hidden><input type="text"><input type="text" name="sales_good_det_id[]" id="sales_good_det_id" value='<?php echo $sd['sales_good_det_id'];?>'></td>
                                                 <td><?php echo $x++;?></td>
-                                                <td><?php echo $sd[''];?></td>
-                                                <td><?php echo $sd[''];?></td>
-                                                <td><?php echo $sd[''];?></td>
-                                                <td><?php echo $sd[''];?></td>
-                                                <td><?php echo $sd[''];?></td>
-                                                <td><?php echo $sd[''];?></td>
-                                                <td><?php echo $sd[''];?></td>
-                                                <td><?php echo $sd[''];?></td>  
-                                                <td><a href="" class="btn btn-danger btn-xs btn-rounded"><span class="mdi mdi-window-close"></span></a></td>           
+                                                <td><?php echo $sd['original_pn'];?></td>
+                                                <td><?php echo $sd['item_name'];?></td>
+                                                <td><?php echo $sd['serial_no'];?></td>
+                                                <td><?php echo $sd['qty'];?></td>
+                                                <td><?php echo $sd['expected_qty'];?></td>
+                                                <td><?php echo $sd['unit'];?></td>
+                                                <td><input type="text" onkeypress="return isNumberKey(this, event)" name="selling_price[]" class="update_selling" style="width:100%" value='<?php echo $sd['selling_price'];?>'></td>
+                                                <td><input type="text" onkeypress="return isNumberKey(this, event)" name="discount[]" class="update_discount" style="width:100%" value='<?php echo $sd['discount'];?>'></td>  
+                                                <td><?php echo number_format($sd['total'],2);?></td>           
                                             </tr>
-                                            <?php } } ?> -->
+                                            <?php } } ?>
                                         </tbody>
                                     </table>
                                 </div>  
                             </div>     
                         </div>
+                    </form>
                     </div>
                 </div>
             </div>
