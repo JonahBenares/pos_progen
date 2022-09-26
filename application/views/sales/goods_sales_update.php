@@ -201,7 +201,9 @@ $(document).ready(function() {
                                                     foreach($sales_det AS $sd){ 
                                             ?>
                                             <tr id="load_data<?php echo $x; ?>">
-                                                <td hidden><input type="text"><input type="text" name="sales_good_det_id[]" id="sales_good_det_id" value='<?php echo $sd['sales_good_det_id'];?>'></td>
+                                                <td hidden>
+                                                    <input type="text" name="quantity[]" value="<?php echo $sd['qty']; ?>"><input type="text" name="sales_good_det_id[]" id="sales_good_det_id" value='<?php echo $sd['sales_good_det_id'];?>'>
+                                                </td>
                                                 <td><?php echo $x++;?></td>
                                                 <td><?php echo $sd['original_pn'];?></td>
                                                 <td><?php echo $sd['item_name'];?></td>
