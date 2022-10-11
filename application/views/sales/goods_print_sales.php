@@ -137,21 +137,28 @@
                             </tr>
                             <?php 
                                 $x = 1;
-                                foreach($sales_details AS $sd){ ?>
+                                foreach($sales_details AS $sd){ 
+                                    $total_amount_due[]=$sd['total'];?>
                             <tr>
                                 <td><?php echo $x;?></td>
                                 <td><?php echo $sd['original_pn'];?></td>
                                 <td><?php echo $sd['item'];?></td>
                                 <td><?php echo $sd['serial_no'];?></td>
-                                <td><?php echo $sd['quantity'];?></td>
-                                <td><?php echo $sd['expected_qty'];?></td>
-                                <td><?php echo $sd['uom'];?></td>
-                                <td align="center"><?php echo number_format($sd['selling_price'],2);?></td>
-                                <td align="center"><?php echo number_format($sd['discount'],2);?></td>
+                                <td align="center"><?php echo $sd['quantity'];?></td>
+                                <td align="center"><?php echo $sd['expected_qty'];?></td>
+                                <td align="center"><?php echo $sd['uom'];?></td>
+                                <td align="right"><?php echo number_format($sd['selling_price'],2);?></td>
+                                <td align="right"><?php echo number_format($sd['discount'],2);?></td>
                                 <!-- <td align="center"><?php echo number_format($sd['discount'],0)."%";?></td> -->
-                                <td><?php echo number_format($sd['total'],2);?></td>
+                                <td align="right"><?php echo number_format($sd['total'],2);?></td>
                             </tr>
                             <?php $x++; } ?>
+                            <tfoot class="header">
+                                        <tr>
+                                            <td align="right" colspan="9">TOTAL AMOUNT DUE&nbsp;</td>
+                                            <td align="right"><?php echo number_format(array_sum($total_amount_due),2); ?></td>
+                                        </tr>
+                            </tfoot>
                         </table>
                     </td>
                 </tr>
