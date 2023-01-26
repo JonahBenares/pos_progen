@@ -54,7 +54,7 @@ $(document).ready(function() {
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Date</label>
-                                        <input type="date" class="form-control" id="sales_date" name = "sales_date" placeholder="Date">
+                                        <input type="date" class="form-control" id="sales_date" onblur='changeDRNoGoods()' name = "sales_date" placeholder="Date">
                                     </div>
                                 </div>                                    
                             </div>                  
@@ -129,7 +129,7 @@ $(document).ready(function() {
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>DR No.</label>
-                                                <input type="text" class="form-control" name = "dr_no" placeholder="DR No" value="<?php echo $dr_no; ?>" readonly>
+                                                <input type="text" class="form-control" name = "dr_no" id = 'dr_no' placeholder="DR No" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">

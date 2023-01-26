@@ -104,16 +104,17 @@ $(document).ready(function() {
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>DR No.</label>
-                                                <input type="text" class="form-control" placeholder="DR No" name="dr_no" id="dr_no" value="<?php echo $dr_no; ?>" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
                                                 <label>Date</label>
-                                                <input type="date" class="form-control" placeholder="Date" name="sales_date" id="sales_date">
+                                                <input type="date" class="form-control" placeholder="Date" onblur='changeDRNoServices()'name="sales_date" id="sales_date">
                                             </div>
                                         </div>   
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>DR No.</label>
+                                                <!-- <input type="text" class="form-control" placeholder="DR No" name="dr_no" id="dr_no" value="<?php echo $dr_no; ?>" readonly> -->
+                                                <input type="text" class="form-control" placeholder="DR No" name="dr_no" id="dr_no" readonly>
+                                            </div>
+                                        </div>
                                     </div>  
                                     <div class="row">                                    
                                         <div class="col-lg-6">

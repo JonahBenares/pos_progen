@@ -949,3 +949,33 @@ function printAcknowledge(){
         }
     });
 }
+
+function changeDRNoGoods(){
+    var sales_date = document.getElementById("sales_date").value;
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/goods_dr_series";
+    $.ajax({
+        data: 'sales_date='+sales_date,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+                document.getElementById("dr_no").value = response.dr_no;
+        }
+    });
+}
+
+function changeDRNoServices(){
+    var sales_date = document.getElementById("sales_date").value;
+    var loc= document.getElementById("baseurl").value;
+    var redirect = loc+"sales/services_dr_series";
+    $.ajax({
+        data: 'sales_date='+sales_date,
+        type: "POST",
+        url: redirect,
+        dataType: "json",
+        success: function(response){
+                document.getElementById("dr_no").value = response.dr_no;
+        }
+    });
+}
