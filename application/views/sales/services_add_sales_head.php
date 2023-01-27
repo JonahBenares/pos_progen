@@ -105,7 +105,7 @@ $(document).ready(function() {
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Date</label>
-                                                <input type="date" class="form-control" placeholder="Date" onblur='changeDRNoServices()'name="sales_date" id="sales_date">
+                                                <input type="date" class="form-control" placeholder="Date" onkeyup='changeDRNoServices()'name="sales_date" id="sales_date">
                                             </div>
                                         </div>   
                                         <div class="col-lg-6">

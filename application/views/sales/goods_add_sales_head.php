@@ -54,7 +54,7 @@ $(document).ready(function() {
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Date</label>
-                                        <input type="date" class="form-control" id="sales_date" onblur='changeDRNoGoods()' name = "sales_date" placeholder="Date">
+                                        <input type="date" class="form-control" id="sales_date" onkeyup='changeDRNoGoods()' name = "sales_date" placeholder="Date">
                                     </div>
                                 </div>                                    
                             </div>                  

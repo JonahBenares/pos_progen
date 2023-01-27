@@ -92,7 +92,7 @@ function open_fields(){
     open.style.display = "none";
     save.style.display = "block";
     $('#client').attr("disabled", false); 
-    document.getElementById('sales_date').readOnly = false;
+    document.getElementById('sales_date').readOnly = true;
     document.getElementById('remarks').readOnly = false;
     document.getElementById('pr_no').readOnly = false;
     document.getElementById('po_no').readOnly = false;
