@@ -1575,6 +1575,7 @@ function dateDifference($date_1 , $date_2)
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', "Remarks");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', "Quantity");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1', "Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', "Part No");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1', "Instructions:");
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I2', "Just fill out quantity column. Do not edit other columns.");
         $num=2;
@@ -1584,6 +1585,7 @@ function dateDifference($date_1 , $date_2)
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, 'begbal');
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$num, '');
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$num, $date);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $items->original_pn);
             $num++;
         }
         $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFont()->setBold(true);
