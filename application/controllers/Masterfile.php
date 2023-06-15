@@ -1588,7 +1588,7 @@ function dateDifference($date_1 , $date_2)
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$num, $items->original_pn);
             $num++;
         }
-        $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('I1')->getFont()->setBold(true);
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         if (file_exists($exportfilename))
