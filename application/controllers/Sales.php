@@ -406,11 +406,13 @@ class Sales extends CI_Controller {
     public function goods_dr_series(){
         $sales_date=$this->input->post('sales_date');
         $year_series=date('Y', strtotime($sales_date));
-        $rows=$this->super_model->count_custom_where("sales_good_head","sales_date LIKE '$year_series%'");
+        $rows=$this->super_model->count_custom_where("sales_good_head","YEAR(sales_date)='$year_series'");
+        //$rows=$this->super_model->count_custom_where("sales_good_head","sales_date LIKE '$year_series%'");
         if($rows==0){
              $dr_no = "PROBCD-".$year_series."-DR-0001";
         } else {
-            $maxdr_no=$this->super_model->get_max_where("sales_good_head", "dr_no","sales_date LIKE '$year_series%'");
+            $maxdr_no=$this->super_model->get_max_where("sales_good_head", "dr_no","YEAR(sales_date)='$year_series'");
+            //$maxdr_no=$this->super_model->get_max_where("sales_good_head", "dr_no","sales_date LIKE '$year_series%'");
             $drno = explode('-',$maxdr_no);
             $series = $drno[3]+1;
             if(strlen($series)==1){
