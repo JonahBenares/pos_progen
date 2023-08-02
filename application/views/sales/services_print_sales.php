@@ -360,7 +360,7 @@
                                     $tax = '0';
                                 }
 
-                                $total = ($grand_total + $total_service_fee + $vat)-$tax;
+                                $total = ($grand_total + $administrative_fee + $total_service_fee + $vat)-$tax;
                         ?>
                         <table class="table-bordered" width="100%">
                             <tr>
