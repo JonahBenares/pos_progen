@@ -140,17 +140,16 @@
                         <div class="col-lg-6 col-sm-6 col-md-6" >
                             <div class="form-group">
                                 <label>Date From</label>
-                                <input type="date" class="form-control" name="service_date" id="service_date">
+                                <input type="date" class="form-control" name="date_from" id="date_from">
                             </div>
                         </div>
                         <div class="col-lg-6 col-sm-6 col-md-6" >
                             <div class="form-group">
                                 <label>Date To</label>
-                                <input type="date" class="form-control" name="service_date" id="service_date">
+                                <input type="date" class="form-control" name="date_to" id="date_to">
                             </div>
                         </div>
                     </div>
-                    
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" id="sales_serv_head_id" name="sales_serv_head_id">

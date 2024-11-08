@@ -84,7 +84,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" id="saveServicenumber">
+            <form id="saveServicenumber">
                 <div class="modal-body">
                     <!-- <div class="form-group">
                         <label>Date To</label>
@@ -94,13 +94,13 @@
                         <div class="col-lg-6 col-sm-6 col-md-6" >
                             <div class="form-group">
                                 <label>Date From</label>
-                                <input type="date" class="form-control" name="service_date" id="service_date">
+                                <input type="date" class="form-control" name="date_from" id="date_from">
                             </div>
                         </div>
                         <div class="col-lg-6 col-sm-6 col-md-6" >
                             <div class="form-group">
                                 <label>Date To</label>
-                                <input type="date" class="form-control" name="service_date" id="service_date">
+                                <input type="date" class="form-control" name="date_to" id="date_to">
                             </div>
                         </div>
                     </div>

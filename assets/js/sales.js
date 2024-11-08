@@ -744,13 +744,19 @@ function saveAR(){
 }
 
 function exportSalesgood(){
-    var loc= document.getElementById("baseurl").value;
-    window.location = loc+'sales/export_salesgood/';
+    var date_from= document.getElementById("date_from").value;
+    var date_to= document.getElementById("date_to").value;
+
+     var loc= document.getElementById("baseurl").value;
+     //alert( loc+'sales/export_salesgood/'+date_from+'/'+date_to);
+   window.location = loc+'sales/export_salesgood/'+date_from+'/'+date_to;
 }
 
 function exportSalesserv(){
+     var date_from= document.getElementById("date_from").value;
+    var date_to= document.getElementById("date_to").value;
     var loc= document.getElementById("baseurl").value;
-    window.location = loc+'sales/export_salesserv/';
+    window.location = loc+'sales/export_salesserv/'+date_from+'/'+date_to;;
 }
 
 $(document).on("click", "#serviceno", function () {

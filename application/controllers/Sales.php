@@ -40,12 +40,19 @@ class Sales extends CI_Controller {
     }
 
     public function export_salesgood(){
+        $df= $this->uri->segment(3);
+        $dt= $this->uri->segment(4);
+        
+        
+        $date_from =$df. " 00:00:00";
+
+        $date_to = $dt . " 00:00:00";
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
         $objPHPExcel = new PHPExcel();
         $exportfilename="Sales Good.xlsx";
         $objPHPExcel = new PHPExcel();
         $gdImage = imagecreatefrompng('assets/images/progen_logow.png');
-        // Add a drawing to the worksheetecho date('H:i:s') . " Add a drawing to the worksheet\n";
+       
         $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
         $objDrawing->setName('Sample image');
         $objDrawing->setDescription('Sample image');
@@ -70,15 +77,21 @@ class Sales extends CI_Controller {
                 )
             )
         );
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A6', "Sales Date");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C6', "Client");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G6', "DR No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I6', "PGC PR No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K6', "PR Date");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M6', "PGC PO No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O6', "PO Date");
-        $num=7;
-         foreach($this->super_model->select_custom_where("sales_good_head","saved='1' ORDER BY sales_date ASC") AS $re){
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A5', "Date From:");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B5', $df);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', "Date To:");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', $dt);
+
+
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A7', "Sales Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C7', "Client");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G7', "DR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I7', "PGC PR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K7', "PR Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M7', "PGC PO No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O7', "PO Date");
+        $num=8;
+         foreach($this->super_model->select_custom_where("sales_good_head","saved='1' AND sales_date between '$date_from' AND '$date_to' ORDER BY sales_date ASC") AS $re){
             $client=$this->super_model->select_column_where('client','buyer_name',"client_id",$re->client_id);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $re->sales_date);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $client);
@@ -1502,6 +1515,13 @@ class Sales extends CI_Controller {
     }
 
     public function export_salesserv(){
+         $df= $this->uri->segment(3);
+        $dt= $this->uri->segment(4);
+        
+        
+        $date_from =$df. " 00:00:00";
+
+        $date_to = $dt . " 00:00:00";
         require_once(APPPATH.'../assets/js/phpexcel/Classes/PHPExcel/IOFactory.php');
         $objPHPExcel = new PHPExcel();
         $exportfilename="Sales Service.xlsx";
@@ -1532,15 +1552,21 @@ class Sales extends CI_Controller {
                 )
             )
         );
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A6', "Sales Date");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C6', "Client");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G6', "DR No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I6', "PGC JOR No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K6', "JOR Date");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M6', "PGC JOI No.");
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O6', "JOI Date");
-        $num=7;
-         foreach($this->super_model->select_custom_where("sales_services_head","saved='1' ORDER BY sales_date ASC") AS $re){
+
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A5', "Date From:");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B5', $df);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', "Date To:");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', $dt);
+
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A7', "Sales Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C7', "Client");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G7', "DR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I7', "PGC JOR No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K7', "JOR Date");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M7', "PGC JOI No.");
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O7', "JOI Date");
+        $num=8;
+         foreach($this->super_model->select_custom_where("sales_services_head","saved='1' and sales_date between '$date_from' AND '$date_to' ORDER BY sales_date ASC") AS $re){
             $client=$this->super_model->select_column_where('client','buyer_name',"client_id",$re->client_id);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$num, $re->sales_date);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$num, $client);
