@@ -30,10 +30,10 @@
                                     <a href="<?php echo base_url(); ?>sales/services_add_sales_head" class="btn btn-gradient-primary btn-sm btn-rounded">
                                         <b><span class="mdi mdi-plus"></span> Add</b>
                                     </a>
-                                    <!-- <button type="button" class="btn btn-gradient-success btn-sm btn-rounded" data-toggle="modal" data-target="#filterSales">
+                                    <!-- <button type="button" class="btn btn-gradient-success btn-sm btn-rounded">
                                         <b><span class="mdi mdi-filter"></span> Filter</b>
-                                    </button>   -->                          
-                                    <button type="button" class="btn btn-gradient-warning btn-sm btn-rounded" onclick="exportSalesserv();">
+                                    </button>                             -->
+                                    <button type="button" class="btn btn-gradient-warning btn-sm btn-rounded"  data-toggle="modal" data-target="#exportSalesFilter">
                                         <b><span class="mdi mdi-export"></span> Export</b>
                                     </button>
                                     <input type="hidden" name="baseurl" id="baseurl" value="<?php echo base_url(); ?>">
@@ -114,6 +114,49 @@
                     <input type="hidden" id="baseurl" name="baseurl" value="<?php echo base_url();?>">
                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-success" onclick="saveServicenumber();">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exportSalesFilter" tabindex="-1" role="dialog" aria-labelledby="exportSalesFilter" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" id="saveServicenumber">
+                <div class="modal-body">
+                    <!-- <div class="form-group">
+                        <label>Date To</label>
+                        <input type="date" class="form-control" name="service_date" id="service_date">
+                    </div> -->
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-6 col-md-6" >
+                            <div class="form-group">
+                                <label>Date From</label>
+                                <input type="date" class="form-control" name="service_date" id="service_date">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6 col-md-6" >
+                            <div class="form-group">
+                                <label>Date To</label>
+                                <input type="date" class="form-control" name="service_date" id="service_date">
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="sales_serv_head_id" name="sales_serv_head_id">
+                    <input type="hidden" id="baseurl" name="baseurl" value="<?php echo base_url();?>">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-warning"  onclick="exportSalesserv();">Export</button>
                 </div>
             </form>
         </div>
